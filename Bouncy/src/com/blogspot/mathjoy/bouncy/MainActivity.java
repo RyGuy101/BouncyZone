@@ -10,19 +10,20 @@ import android.widget.Button;
 
 // OLD MAINACTIVITY
 
-public class MainActivity extends Activity implements OnClickListener{
+public class MainActivity extends Activity{
 
+	Button ball;
+	Button grab;
+	Button platform;
+	Button delete;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Button ball = (Button) this.findViewById(R.id.Ball);
-		ball.setOnClickListener(this);
-		Button grab = (Button) this.findViewById(R.id.Grab);
-		grab.setOnClickListener(this);
-		Button platform = (Button) this.findViewById(R.id.Platform);
-		ball.setOnClickListener(this);
-		Button delete = (Button) this.findViewById(R.id.Delete);
-		delete.setOnClickListener(this);
+		ball = (Button) this.findViewById(R.id.Ball);
+		grab = (Button) this.findViewById(R.id.Grab);
+		platform = (Button) this.findViewById(R.id.Platform);
+		delete = (Button) this.findViewById(R.id.Delete);
 		setContentView(R.layout.activity_main);
 	}
 
@@ -33,9 +34,4 @@ public class MainActivity extends Activity implements OnClickListener{
 		return true;
 	}
 
-	@Override
-	public void onClick(View v)
-	{
-		// TODO Auto-generated method stub
-	}
 }
