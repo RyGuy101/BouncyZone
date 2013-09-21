@@ -1,29 +1,30 @@
 package com.blogspot.mathjoy.bouncy;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-
 // OLD MAINACTIVITY
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity
+{
 
-	Button ball;
-	Button grab;
-	Button platform;
-	Button delete;
-	
+	// Button ball;
+	// Button grab;
+	// Button platform;
+	// Button delete;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ball = (Button) this.findViewById(R.id.Ball);
-		grab = (Button) this.findViewById(R.id.Grab);
-		platform = (Button) this.findViewById(R.id.Platform);
-		delete = (Button) this.findViewById(R.id.Delete);
+		// ball = (Button) this.findViewById(R.id.Ball);
+		// grab = (Button) this.findViewById(R.id.Grab);
+		// platform = (Button) this.findViewById(R.id.Platform);
+		// delete = (Button) this.findViewById(R.id.Delete);
 		setContentView(R.layout.activity_main);
 	}
 
@@ -32,6 +33,11 @@ public class MainActivity extends Activity{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	public void goToMenu(View v) {
+		Intent intent = new Intent(this, MyMenu.class);
+		startActivity(intent);
 	}
 
 }

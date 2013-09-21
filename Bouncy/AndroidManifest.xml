@@ -22,7 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity
+            android:name="com.blogspot.mathjoy.bouncy.MyMenu"
+            android:label="Menu" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MyMenu" >
+
+    <Button
+        android:id="@+id/done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goToGame"
+        android:text="Done" />
+
+    <Button
+        android:id="@+id/restoreToDefault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restore to default" />
+
+    <TextView
+        android:id="@+id/textBallColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ball Color" />
+
+    <Spinner
+        android:id="@+id/ballColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textGravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gravity" />
+
+    <SeekBar
+        android:id="@+id/gravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

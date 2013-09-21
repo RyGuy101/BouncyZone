@@ -2,6 +2,7 @@ package com.blogspot.mathjoy.bouncy;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -10,13 +11,16 @@ public class MyView extends View
 {
 
 	Paint paint = new Paint();
-	float radius = 25;
-	float x = 0;
-	float y = 0;
-	float acceleration = 0;//pixels per 1/50 sec per 1/50 sec
-	float xSpeed = 0;//pixels per 1/50 sec
-	float ySpeed = 0;//pixels per 1/50 sec
-	boolean start = true;
+	static float radius;
+	static float x;
+	static float y;
+	static float acceleration;
+	static float xSpeed;
+	static float ySpeed;
+	static boolean notStart;
+	// these might be used later
+	float angle = 90;// Math.atan(xSpeed/ySpeed)
+	float speed = 0;// xSpeed * Math.cos(angle) + ySpeed * Math.sin(angle)
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
@@ -48,16 +52,28 @@ public class MyView extends View
 			e.printStackTrace();
 		}
 		super.onDraw(c);
-		if (start)
+		radius = (float) (c.getWidth() / 50.0);
+		if (notStart == false)
 		{
-			x = (float) (c.getWidth()/2.0);
+			x = (float) (c.getWidth() / 2.0);
 			y = radius;
-			acceleration = (float) (c.getWidth()/100.0);
+			acceleration = (float) (c.getWidth() / 500.0);
+			notStart = true;
 		}
-		ySpeed += acceleration;
+		if (y >= this.getHeight() - radius)
+		{
+			ySpeed *= -1;
+		} else
+		{
+			ySpeed += acceleration;
+		}
 		x += xSpeed;
 		y += ySpeed;
+		c.drawColor(Color.BLACK);
+		paint.setColor(Color.RED);
 		c.drawCircle(x, y, radius, paint);
+		// c.drawLine(0, this.getHeight() - 1, 100, this.getHeight() - 1,
+		// paint);
 		invalidate();
 	}
 
