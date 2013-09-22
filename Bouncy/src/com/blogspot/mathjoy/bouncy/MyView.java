@@ -18,6 +18,7 @@ public class MyView extends View
 	static float xSpeed;
 	static float ySpeed;
 	static boolean notStart;
+	public static int color;
 	// these might be used later
 	float angle = 90;// Math.atan(xSpeed/ySpeed)
 	float speed = 0;// xSpeed * Math.cos(angle) + ySpeed * Math.sin(angle)
@@ -25,6 +26,7 @@ public class MyView extends View
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
 		super(context, attrs, defStyle);
+
 		// TODO Auto-generated constructor stub
 	}
 
@@ -38,6 +40,10 @@ public class MyView extends View
 	{
 		super(context);
 		// TODO Auto-generated constructor stub
+	}
+
+	public void setColor() {
+		// colorString = thatColor;
 	}
 
 	@Override
@@ -70,7 +76,8 @@ public class MyView extends View
 		x += xSpeed;
 		y += ySpeed;
 		c.drawColor(Color.BLACK);
-		paint.setColor(Color.RED);
+		getTag();
+		paint.setColor(color);
 		c.drawCircle(x, y, radius, paint);
 		// c.drawLine(0, this.getHeight() - 1, 100, this.getHeight() - 1,
 		// paint);

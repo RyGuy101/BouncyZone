@@ -1,7 +1,9 @@
 package com.blogspot.mathjoy.bouncy;
 
+import android.R.color;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -12,8 +14,10 @@ import android.widget.Button;
 
 public class MainActivity extends Activity
 {
+	MyView v;
+	int theRealColor = Color.RED;
+	Button ball;
 
-	// Button ball;
 	// Button grab;
 	// Button platform;
 	// Button delete;
@@ -21,11 +25,22 @@ public class MainActivity extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// ball = (Button) this.findViewById(R.id.Ball);
+		v = (MyView) findViewById(R.id.myView);
+		ball = (Button) this.findViewById(R.id.Ball);
 		// grab = (Button) this.findViewById(R.id.Grab);
 		// platform = (Button) this.findViewById(R.id.Platform);
 		// delete = (Button) this.findViewById(R.id.Delete);
 		setContentView(R.layout.activity_main);
+		Intent intent = getIntent();
+		String thisPickedColor = intent.getStringExtra(MyMenu.NAME);
+		if (thisPickedColor == "blue")
+		{
+			theRealColor = Color.BLUE;
+		} else
+		{
+			theRealColor = Color.MAGENTA;
+		}
+		v.color = theRealColor;
 	}
 
 	@Override
@@ -39,5 +54,9 @@ public class MainActivity extends Activity
 		Intent intent = new Intent(this, MyMenu.class);
 		startActivity(intent);
 	}
+	// public void setTheTag()
+	// {
+	// v.setTag(new Object());
+	// }
 
 }

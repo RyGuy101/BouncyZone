@@ -17,6 +17,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener
 	String[] colors =
 	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static String pickedColor;
+	public static final String NAME = "com.blogspot.mathjoy.bouncy";
 
 	// TextView textBallColor;
 
@@ -47,6 +48,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener
 
 	public void goToGame(View v) {
 		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra(NAME, pickedColor);
 		startActivity(intent);
 	}
 
