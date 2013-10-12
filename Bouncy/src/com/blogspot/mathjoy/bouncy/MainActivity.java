@@ -17,7 +17,7 @@ public class MainActivity extends Activity// implements OnTouchListener
 	String thisPickedColor;
 	MyView v;
 	static int theRealColor = Color.RED;
-	static boolean cameFromMenu;
+	static boolean justOpened = true;
 	// Button ball;
 	// Button grab;
 	// Button platform;
@@ -33,7 +33,12 @@ public class MainActivity extends Activity// implements OnTouchListener
 		// grab = (Button) this.findViewById(R.id.Grab);
 		// platform = (Button) this.findViewById(R.id.Platform);
 		// delete = (Button) this.findViewById(R.id.Delete);
-		if (cameFromMenu)
+		if (justOpened)
+		{
+			justOpened = false;
+			v.color = Color.RED;
+			v.gravity = 1;
+		} else
 		{
 			intent = getIntent();
 			thisPickedColor = intent.getExtras().getString("selectedColor");
@@ -70,11 +75,6 @@ public class MainActivity extends Activity// implements OnTouchListener
 			}
 			v.color = theRealColor;
 			v.gravity = intent.getExtras().getDouble("gravityValue");
-		} else
-		{
-			cameFromMenu = true;
-			v.color = Color.RED;
-			v.gravity = 1;
 		}
 		setContentView(R.layout.activity_main);
 	}

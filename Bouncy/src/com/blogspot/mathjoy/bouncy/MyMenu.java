@@ -21,7 +21,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	String[] colors =
 	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static String pickedColor;
-	static double gravity;
+	static double gravity = 1;
 
 	// public static final String NAME = "com.blogspot.mathjoy.bouncy";
 	// TextView textBallColor;
@@ -37,6 +37,10 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		seekGravity = (SeekBar) findViewById(R.id.gravity);
 		seekGravity.setOnSeekBarChangeListener(this);
 		displayGravity = (TextView) findViewById(R.id.valueOfGravity);
+		// if (gravity == 0)
+		{
+			seekGravity.setProgress((int) (gravity * 100));
+		}
 		// textBallColor = (TextView) findViewById(R.id.textBallColor);
 		for (int i = 0; i <= colors.length - 1; i++)
 		{
