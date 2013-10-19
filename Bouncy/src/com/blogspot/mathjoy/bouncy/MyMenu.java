@@ -39,7 +39,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		displayGravity = (TextView) findViewById(R.id.valueOfGravity);
 		// if (gravity == 0)
 		{
-			seekGravity.setProgress((int) (gravity * 100));
+			seekGravity.setProgress((int) (gravity * 100.0));
 		}
 		// textBallColor = (TextView) findViewById(R.id.textBallColor);
 		for (int i = 0; i <= colors.length - 1; i++)

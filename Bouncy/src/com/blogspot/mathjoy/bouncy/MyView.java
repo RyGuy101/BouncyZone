@@ -88,6 +88,7 @@ public class MyView extends View implements OnTouchListener
 		super.onDraw(c);
 		c.drawColor(Color.BLACK);
 		radius = (float) (this.getHeight() / 75.0);
+		acceleration = (float) ((this.getHeight() / 1000.0) * gravity);
 		if (alreadyStarted == false)
 		{
 			x = (float) (this.getWidth() / 2.0);
@@ -95,7 +96,6 @@ public class MyView extends View implements OnTouchListener
 			acceleration = (float) ((this.getHeight() / 1000.0) * gravity);
 			alreadyStarted = true;
 		}
-		acceleration = (float) ((this.getHeight() / 1000.0) * gravity);
 		if (mode == MODE_BALL && touching == true)
 		{
 			x = touchX;
@@ -108,12 +108,12 @@ public class MyView extends View implements OnTouchListener
 			// ySpeed *= -1;
 			// } else
 			// {
-			// ySpeed += acceleration;
+			ySpeed += acceleration;
 			// }
-			//if ()
+			// if ()
 			{
 			}
-			getTag();
+			//getTag();
 		}
 		x += xSpeed;
 		y += ySpeed;
