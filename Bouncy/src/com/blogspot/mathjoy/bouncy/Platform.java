@@ -6,7 +6,6 @@ public class Platform
 	private int myStartY;
 	private int myEndX;
 	private int myEndY;
-	private double angle;
 
 	public Platform(int startX, int startY, int endX, int endY)
 	{
@@ -14,7 +13,6 @@ public class Platform
 		myStartY = startY;
 		myEndX = endX;
 		myEndY = endY;
-		angle = Math.atan((endY - startY) / (endX - startX));
 	}
 
 	public int getStartX()
@@ -59,6 +57,7 @@ public class Platform
 
 	public double getAngle()
 	{
+		double angle = Math.atan((myEndY - myStartY) / (myEndX - myStartX));// / (Math.sqrt(((myEndY - myStartY) * (myEndY - myStartY)) + ((myEndX - myStartX) * (myEndX - myStartX)))));
 		return angle;
 	}
 }

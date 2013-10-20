@@ -1,18 +1,10 @@
 package com.blogspot.mathjoy.bouncy;
 
-import java.security.spec.EllipticCurve;
 import java.util.ArrayList;
-import org.apache.http.client.CircularRedirectException;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.shapes.ArcShape;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,10 +19,16 @@ public class MyView extends View implements OnTouchListener
 	static float acceleration;
 	static float xSpeed;
 	static float ySpeed;
+	double relativeX1;
+	double relativeX2;
+	double relativeY1;
+	double relativeY2;
 	double dx;
 	double dy;
 	double dr;
 	double D;
+	double intersectX;
+	double intersecty;
 	static boolean alreadyStarted;
 	public static int color;
 	public static double gravity;
@@ -108,12 +106,59 @@ public class MyView extends View implements OnTouchListener
 			// ySpeed *= -1;
 			// } else
 			// {
+			for (int i = 0; i < platforms.size(); i++)
+			{
+				relativeX1 = platforms.get(i).getStartX() - x;
+				relativeX2 = platforms.get(i).getEndX() - x;
+				relativeY1 = platforms.get(i).getStartY() - y;
+				relativeY2 = platforms.get(i).getEndY() - y;
+				dx = relativeX2 - relativeX1;
+				dy = relativeY2 - relativeY1;
+				dr = Math.sqrt((dy * dy) + (dx * dx));
+				D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
+				// && (x >= platforms.get(i).getStartX() && x <=
+				// platforms.get(i).getEndX() && platforms.get(i).getEndX() >=
+				// platforms.get(i).getStartX())
+				double underTheRadical = ((radius * radius) * (dr * dr)) - (D * D);
+				double highX;
+				double lowX;
+				double highY;
+				double lowY;
+				if (platforms.get(i).getEndX() > platforms.get(i).getStartX())
+				{
+					highX = platforms.get(i).getEndX();
+					lowX = platforms.get(i).getStartX();
+				} else
+				{
+					highX = platforms.get(i).getStartX();
+					lowX = platforms.get(i).getEndX();
+				}
+				if (platforms.get(i).getEndY() > platforms.get(i).getStartY())
+				{
+					highY = platforms.get(i).getEndY();
+					lowY = platforms.get(i).getStartY();
+				} else
+				{
+					highY = platforms.get(i).getStartY();
+					lowY = platforms.get(i).getEndY();
+				}
+				if (underTheRadical >= 0 && x >= lowX && x <= highX && y >= lowY && y < highY)
+				{
+					angle = (float) Math.atan(xSpeed / ySpeed);
+					speed = (float) (xSpeed * Math.cos(angle) + ySpeed * Math.sin(angle));
+					angle = (float) ((platforms.get(i).getAngle() * 2) - angle);
+					xSpeed = (float) (Math.cos(angle) * speed);
+					ySpeed = (float) (Math.sin(angle) * speed);
+				} else
+				{
+				}
+			}
 			ySpeed += acceleration;
 			// }
 			// if ()
 			{
 			}
-			//getTag();
+			// getTag();
 		}
 		x += xSpeed;
 		y += ySpeed;
