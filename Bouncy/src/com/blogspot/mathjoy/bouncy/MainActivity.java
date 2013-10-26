@@ -8,7 +8,9 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 // OLD MAINACTIVITY
 public class MainActivity extends Activity// implements OnTouchListener
@@ -18,7 +20,7 @@ public class MainActivity extends Activity// implements OnTouchListener
 	MyView v;
 	static int theRealColor = Color.RED;
 	static boolean justOpened = true;
-	// Button ball;
+	Button ball;
 	// Button grab;
 	// Button platform;
 	// Button delete;
@@ -29,7 +31,7 @@ public class MainActivity extends Activity// implements OnTouchListener
 	{
 		super.onCreate(savedInstanceState);
 		v = (MyView) findViewById(R.id.myView);
-		// ball = (Button) findViewById(R.id.Ball);
+		ball = (Button) findViewById(R.id.Ball);
 		// grab = (Button) this.findViewById(R.id.Grab);
 		// platform = (Button) this.findViewById(R.id.Platform);
 		// delete = (Button) this.findViewById(R.id.Delete);

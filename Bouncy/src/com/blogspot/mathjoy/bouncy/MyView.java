@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 public class MyView extends View implements OnTouchListener
 {
@@ -41,15 +42,14 @@ public class MyView extends View implements OnTouchListener
 	public static final int MODE_DELETE_PLATFORM = 3;
 	public static int mode = 0;
 	ArrayList<Platform> platforms = new ArrayList<Platform>();
-	// these might be used later
 	float angle = 90;// Math.atan(xSpeed/ySpeed)
-	float speed = 0;// xSpeed * Math.cos(angle) + ySpeed * Math.sin(angle)
+	float speed = 0;//
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
-		Platform testLine = new Platform(10, 10, 100, 100);
+		Platform testLine = new Platform(10, 100, 100, 100);
 		platforms.add(testLine);
 	}
 
@@ -57,14 +57,14 @@ public class MyView extends View implements OnTouchListener
 	{
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
-		Platform testLine = new Platform(10, 10, 100, 100);
+		Platform testLine = new Platform(10, 100, 100, 100);
 		platforms.add(testLine);
 	}
 
 	public MyView(Context context)
 	{
 		super(context);
-		Platform testLine = new Platform(10, 10, 100, 100);
+		Platform testLine = new Platform(10, 100, 100, 100);
 		platforms.add(testLine);
 	}
 
@@ -98,6 +98,8 @@ public class MyView extends View implements OnTouchListener
 		{
 			x = touchX;
 			y = touchY;
+			xSpeed = 0;
+			ySpeed = 0;
 			c.drawCircle(x, y, radius, paint);
 		} else
 		{
@@ -144,21 +146,38 @@ public class MyView extends View implements OnTouchListener
 				}
 				if (underTheRadical >= 0 && x >= lowX && x <= highX && y >= lowY && y < highY)
 				{
-					angle = (float) Math.atan(xSpeed / ySpeed);
-					speed = (float) (xSpeed * Math.cos(angle) + ySpeed * Math.sin(angle));
-					angle = (float) ((platforms.get(i).getAngle() * 2) - angle);
-					xSpeed = (float) (Math.cos(angle) * speed);
-					ySpeed = (float) (Math.sin(angle) * speed);
+					if (platforms.get(i).getJustWasHit() == false)
+					{
+						platforms.get(i).setJustWasHit(true);
+						if (xSpeed == 0)
+						{
+							if (ySpeed > 0)
+							{
+								angle = 90;
+							}
+							if (ySpeed < 0)
+							{
+								angle = -90;
+							}
+						} else
+						{
+							angle = (float) Math.toDegrees(Math.atan(ySpeed / xSpeed));
+						}
+						speed = (float) (Math.sqrt((ySpeed * ySpeed) + (xSpeed * xSpeed)));
+						angle = (float) ((platforms.get(i).getAngle() * 2) - angle);
+						xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
+						ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
+						break;
+					}
 				} else
 				{
+					platforms.get(i).setJustWasHit(false);
+					if (i == platforms.size() - 1)
+					{
+						ySpeed += acceleration;
+					}
 				}
 			}
-			ySpeed += acceleration;
-			// }
-			// if ()
-			{
-			}
-			// getTag();
 		}
 		x += xSpeed;
 		y += ySpeed;
@@ -192,7 +211,6 @@ public class MyView extends View implements OnTouchListener
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			touching = true;
-			xSpeed = 0;// make finger speed
 			ySpeed = 0;
 		} else if (event.getAction() == MotionEvent.ACTION_UP)
 		{

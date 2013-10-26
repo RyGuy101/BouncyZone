@@ -6,6 +6,7 @@ public class Platform
 	private int myStartY;
 	private int myEndX;
 	private int myEndY;
+	private boolean myJustWasHit;
 
 	public Platform(int startX, int startY, int endX, int endY)
 	{
@@ -57,7 +58,29 @@ public class Platform
 
 	public double getAngle()
 	{
-		double angle = Math.atan((myEndY - myStartY) / (myEndX - myStartX));// / (Math.sqrt(((myEndY - myStartY) * (myEndY - myStartY)) + ((myEndX - myStartX) * (myEndX - myStartX)))));
+		double angle;
+		if (myEndX - myStartX == 0)
+		{
+			if (myEndY - myStartY > 0)
+			{
+				angle = 90;
+			}
+			if (myEndY - myStartY < 0)
+			{
+				angle = -90;
+			}
+		}
+		angle = Math.toDegrees(Math.atan((myEndY - myStartY) / (myEndX - myStartX)));
 		return angle;
+	}
+
+	public boolean getJustWasHit()
+	{
+		return myJustWasHit;
+	}
+
+	public void setJustWasHit(boolean justWasHit)
+	{
+		myJustWasHit = justWasHit;
 	}
 }
