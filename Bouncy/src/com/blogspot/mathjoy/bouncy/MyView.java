@@ -36,6 +36,10 @@ public class MyView extends View implements OnTouchListener
 	public static boolean touching = false;
 	public static float touchX;
 	public static float touchY;
+	float startPlatX;
+	float endPlatX;
+	float startPlatY;
+	float endPlatY;
 	public static final int MODE_BALL = 0;
 	public static final int MODE_CREATE_PLATFORM = 1;
 	public static final int MODE_MOVE_PLATFORM = 2;
@@ -94,90 +98,95 @@ public class MyView extends View implements OnTouchListener
 			acceleration = (float) ((this.getHeight() / 1000.0) * gravity);
 			alreadyStarted = true;
 		}
-		if (mode == MODE_BALL && touching == true)
+		if (mode == MODE_BALL)
 		{
-			x = touchX;
-			y = touchY;
-			xSpeed = 0;
-			ySpeed = 0;
-			c.drawCircle(x, y, radius, paint);
-		} else
-		{
-			// if (y >= this.getHeight() - radius)
-			// {
-			// ySpeed *= -1;
-			// } else
-			// {
-			for (int i = 0; i < platforms.size(); i++)
+			if (touching == true)
 			{
-				relativeX1 = platforms.get(i).getStartX() - x;
-				relativeX2 = platforms.get(i).getEndX() - x;
-				relativeY1 = platforms.get(i).getStartY() - y;
-				relativeY2 = platforms.get(i).getEndY() - y;
-				dx = relativeX2 - relativeX1;
-				dy = relativeY2 - relativeY1;
-				dr = Math.sqrt((dy * dy) + (dx * dx));
-				D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-				// && (x >= platforms.get(i).getStartX() && x <=
-				// platforms.get(i).getEndX() && platforms.get(i).getEndX() >=
-				// platforms.get(i).getStartX())
-				double underTheRadical = ((radius * radius) * (dr * dr)) - (D * D);
-				double highX;
-				double lowX;
-				double highY;
-				double lowY;
-				if (platforms.get(i).getEndX() > platforms.get(i).getStartX())
+				x = touchX;
+				y = touchY;
+				xSpeed = 0;
+				ySpeed = 0;
+			} else
+			{
+				// if (y >= this.getHeight() - radius)
+				// {
+				// ySpeed *= -1;
+				// } else
+				// {
+				for (int i = 0; i < platforms.size(); i++)
 				{
-					highX = platforms.get(i).getEndX();
-					lowX = platforms.get(i).getStartX();
-				} else
-				{
-					highX = platforms.get(i).getStartX();
-					lowX = platforms.get(i).getEndX();
-				}
-				if (platforms.get(i).getEndY() > platforms.get(i).getStartY())
-				{
-					highY = platforms.get(i).getEndY();
-					lowY = platforms.get(i).getStartY();
-				} else
-				{
-					highY = platforms.get(i).getStartY();
-					lowY = platforms.get(i).getEndY();
-				}
-				if (underTheRadical >= 0 && x >= lowX && x <= highX && y >= lowY && y < highY)
-				{
-					if (platforms.get(i).getJustWasHit() == false)
+					relativeX1 = platforms.get(i).getStartX() - x;
+					relativeX2 = platforms.get(i).getEndX() - x;
+					relativeY1 = platforms.get(i).getStartY() - y;
+					relativeY2 = platforms.get(i).getEndY() - y;
+					dx = relativeX2 - relativeX1;
+					dy = relativeY2 - relativeY1;
+					dr = Math.sqrt((dy * dy) + (dx * dx));
+					D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
+					// && (x >= platforms.get(i).getStartX() && x <=
+					// platforms.get(i).getEndX() && platforms.get(i).getEndX()
+					// >=
+					// platforms.get(i).getStartX())
+					double underTheRadical = ((radius * radius) * (dr * dr)) - (D * D);
+					double highX;
+					double lowX;
+					double highY;
+					double lowY;
+					if (platforms.get(i).getEndX() > platforms.get(i).getStartX())
 					{
-						platforms.get(i).setJustWasHit(true);
-						if (xSpeed == 0)
-						{
-							if (ySpeed > 0)
-							{
-								angle = 90;
-							}
-							if (ySpeed < 0)
-							{
-								angle = -90;
-							}
-						} else
-						{
-							angle = (float) Math.toDegrees(Math.atan(ySpeed / xSpeed));
-						}
-						speed = (float) (Math.sqrt((ySpeed * ySpeed) + (xSpeed * xSpeed)));
-						angle = (float) ((platforms.get(i).getAngle() * 2) - angle);
-						xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
-						ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
-						break;
+						highX = platforms.get(i).getEndX();
+						lowX = platforms.get(i).getStartX();
+					} else
+					{
+						highX = platforms.get(i).getStartX();
+						lowX = platforms.get(i).getEndX();
 					}
-				} else
-				{
-					platforms.get(i).setJustWasHit(false);
-					if (i == platforms.size() - 1)
+					if (platforms.get(i).getEndY() > platforms.get(i).getStartY())
 					{
-						ySpeed += acceleration;
+						highY = platforms.get(i).getEndY();
+						lowY = platforms.get(i).getStartY();
+					} else
+					{
+						highY = platforms.get(i).getStartY();
+						lowY = platforms.get(i).getEndY();
+					}
+					if (underTheRadical >= 0 && (x >= lowX && x <= highX) || (y >= lowY && y < highY))
+					{
+						if (platforms.get(i).getJustWasHit() == false)
+						{
+							platforms.get(i).setJustWasHit(true);
+							if (xSpeed == 0)
+							{
+								if (ySpeed > 0)
+								{
+									angle = 90;
+								}
+								if (ySpeed < 0)
+								{
+									angle = -90;
+								}
+							} else
+							{
+								angle = (float) Math.toDegrees(Math.atan(ySpeed / xSpeed));
+							}
+							speed = (float) (Math.sqrt((ySpeed * ySpeed) + (xSpeed * xSpeed)));
+							angle = (float) ((platforms.get(i).getAngle() * 2) - angle);
+							xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
+							ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
+							break;
+						}
+					} else
+					{
+						platforms.get(i).setJustWasHit(false);
+						if (i == platforms.size() - 1)
+						{
+							ySpeed += acceleration;
+						}
 					}
 				}
 			}
+		} else if (mode == MODE_CREATE_PLATFORM)
+		{
 		}
 		x += xSpeed;
 		y += ySpeed;
@@ -211,7 +220,6 @@ public class MyView extends View implements OnTouchListener
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			touching = true;
-			ySpeed = 0;
 		} else if (event.getAction() == MotionEvent.ACTION_UP)
 		{
 			touching = false;

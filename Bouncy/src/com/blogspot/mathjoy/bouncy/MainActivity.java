@@ -99,6 +99,11 @@ public class MainActivity extends Activity// implements OnTouchListener
 	{
 		v.mode = MyView.MODE_BALL;
 	}
+
+	public void modePlatform(View view)
+	{
+		v.mode = MyView.MODE_CREATE_PLATFORM;
+	}
 	// @Override
 	// public boolean onTouch(View view, MotionEvent event)
 	// {

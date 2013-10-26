@@ -36,7 +36,8 @@
             android:id="@+id/Platform"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="modePlatform" />
 
         <Button
             android:id="@+id/Grab"
