@@ -2,13 +2,13 @@ package com.blogspot.mathjoy.bouncy;
 
 public class Platform
 {
-	private int myStartX;
-	private int myStartY;
-	private int myEndX;
-	private int myEndY;
+	private float myStartX;
+	private float myStartY;
+	private float myEndX;
+	private float myEndY;
 	private boolean myJustWasHit;
 
-	public Platform(int startX, int startY, int endX, int endY)
+	public Platform(float startX, float startY, float endX, float endY)
 	{
 		myStartX = startX;
 		myStartY = startY;
@@ -16,42 +16,42 @@ public class Platform
 		myEndY = endY;
 	}
 
-	public int getStartX()
+	public float getStartX()
 	{
 		return myStartX;
 	}
 
-	public int getStartY()
+	public float getStartY()
 	{
 		return myStartY;
 	}
 
-	public int getEndX()
+	public float getEndX()
 	{
 		return myEndX;
 	}
 
-	public int getEndY()
+	public float getEndY()
 	{
 		return myEndY;
 	}
 
-	public void setStartX(int startX)
+	public void setStartX(float startX)
 	{
 		myStartX = startX;
 	}
 
-	public void setStartY(int startY)
+	public void setStartY(float startY)
 	{
 		myStartY = startY;
 	}
 
-	public void setEndX(int endX)
+	public void setEndX(float endX)
 	{
 		myEndX = endX;
 	}
 
-	public void setEndY(int endY)
+	public void setEndY(float endY)
 	{
 		myEndY = endY;
 	}
@@ -71,6 +71,10 @@ public class Platform
 			}
 		}
 		angle = Math.toDegrees(Math.atan((myEndY - myStartY) / (myEndX - myStartX)));
+//		if (angle < 0)
+//		{
+//			angle += 360;
+//		}
 		return angle;
 	}
 

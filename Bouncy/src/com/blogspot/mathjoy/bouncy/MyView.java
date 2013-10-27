@@ -45,7 +45,7 @@ public class MyView extends View implements OnTouchListener
 	public static final int MODE_MOVE_PLATFORM = 2;
 	public static final int MODE_DELETE_PLATFORM = 3;
 	public static int mode = 0;
-	ArrayList<Platform> platforms = new ArrayList<Platform>();
+	static ArrayList<Platform> platforms = new ArrayList<Platform>();
 	float angle = 90;// Math.atan(xSpeed/ySpeed)
 	float speed = 0;//
 
@@ -53,23 +53,23 @@ public class MyView extends View implements OnTouchListener
 	{
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
-		Platform testLine = new Platform(10, 100, 100, 100);
-		platforms.add(testLine);
+		// Platform testLine = new Platform(10, 10, 100, 100);
+		// platforms.add(testLine);
 	}
 
 	public MyView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
-		Platform testLine = new Platform(10, 100, 100, 100);
-		platforms.add(testLine);
+		// Platform testLine = new Platform(10, 10, 100, 100);
+		// platforms.add(testLine);
 	}
 
 	public MyView(Context context)
 	{
 		super(context);
-		Platform testLine = new Platform(10, 100, 100, 100);
-		platforms.add(testLine);
+		// Platform testLine = new Platform(10, 10, 100, 100);
+		// platforms.add(testLine);
 	}
 
 	public void setColor()
@@ -113,6 +113,10 @@ public class MyView extends View implements OnTouchListener
 				// ySpeed *= -1;
 				// } else
 				// {
+				if (platforms.size() == 0)
+				{
+					ySpeed += acceleration;
+				}
 				for (int i = 0; i < platforms.size(); i++)
 				{
 					relativeX1 = platforms.get(i).getStartX() - x;
@@ -150,7 +154,7 @@ public class MyView extends View implements OnTouchListener
 						highY = platforms.get(i).getStartY();
 						lowY = platforms.get(i).getEndY();
 					}
-					if (underTheRadical >= 0 && (x >= lowX && x <= highX) || (y >= lowY && y < highY))
+					if (underTheRadical >= 0 && ((x >= lowX && x <= highX) || (y >= lowY && y <= highY)))
 					{
 						if (platforms.get(i).getJustWasHit() == false)
 						{
@@ -170,11 +174,19 @@ public class MyView extends View implements OnTouchListener
 								angle = (float) Math.toDegrees(Math.atan(ySpeed / xSpeed));
 							}
 							speed = (float) (Math.sqrt((ySpeed * ySpeed) + (xSpeed * xSpeed)));
+							if ((xSpeed < 0 && ySpeed < 0) || (xSpeed < 0 && ySpeed > 0))
+							{
+								speed *= -1;
+							}
 							angle = (float) ((platforms.get(i).getAngle() * 2) - angle);
+							// if (angle < 0)
+							// {
+							// angle += 360;
+							// }
 							xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
 							ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
-							break;
 						}
+						break;
 					} else
 					{
 						platforms.get(i).setJustWasHit(false);
@@ -193,6 +205,10 @@ public class MyView extends View implements OnTouchListener
 			{
 				paint.setColor(Color.WHITE);
 				c.drawLine(startTouchX, startTouchY, currentTouchX, currentTouchY, paint);
+			}
+			if (currentTouchX == endTouchX && currentTouchY == endTouchY)
+			{
+				platforms.add(new Platform(startTouchX, startTouchY, endTouchX, endTouchY));
 			}
 		}
 		paint.setColor(color);
@@ -225,13 +241,19 @@ public class MyView extends View implements OnTouchListener
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			touching = true;
-			startTouchX = event.getX();
-			startTouchY = event.getY();
+			if (mode == MODE_CREATE_PLATFORM)
+			{
+				startTouchX = event.getX();
+				startTouchY = event.getY();
+			}
 		} else if (event.getAction() == MotionEvent.ACTION_UP)
 		{
 			touching = false;
-			endTouchX = event.getX();
-			endTouchY = event.getY();
+			if (mode == MODE_CREATE_PLATFORM)
+			{
+				endTouchX = event.getX();
+				endTouchY = event.getY();
+			}
 		}
 		return true;
 	}
