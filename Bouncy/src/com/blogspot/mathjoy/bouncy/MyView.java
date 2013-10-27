@@ -34,12 +34,12 @@ public class MyView extends View implements OnTouchListener
 	public static int color;
 	public static double gravity;
 	public static boolean touching = false;
-	public static float touchX;
-	public static float touchY;
-	float startPlatX;
-	float endPlatX;
-	float startPlatY;
-	float endPlatY;
+	public static float currentTouchX;
+	public static float currentTouchY;
+	float startTouchX;
+	float endTouchX;
+	float startTouchY;
+	float endTouchY;
 	public static final int MODE_BALL = 0;
 	public static final int MODE_CREATE_PLATFORM = 1;
 	public static final int MODE_MOVE_PLATFORM = 2;
@@ -102,8 +102,8 @@ public class MyView extends View implements OnTouchListener
 		{
 			if (touching == true)
 			{
-				x = touchX;
-				y = touchY;
+				x = currentTouchX;
+				y = currentTouchY;
 				xSpeed = 0;
 				ySpeed = 0;
 			} else
@@ -185,11 +185,16 @@ public class MyView extends View implements OnTouchListener
 					}
 				}
 			}
+			x += xSpeed;
+			y += ySpeed;
 		} else if (mode == MODE_CREATE_PLATFORM)
 		{
+			if (touching == true)
+			{
+				paint.setColor(Color.WHITE);
+				c.drawLine(startTouchX, startTouchY, currentTouchX, currentTouchY, paint);
+			}
 		}
-		x += xSpeed;
-		y += ySpeed;
 		paint.setColor(color);
 		c.drawCircle(x, y, radius, paint);
 		// int test = platforms.size();
@@ -215,14 +220,18 @@ public class MyView extends View implements OnTouchListener
 	public boolean onTouchEvent(MotionEvent event)
 	{
 		// TODO Auto-generated method stub
-		touchX = event.getX();
-		touchY = event.getY();
+		currentTouchX = event.getX();
+		currentTouchY = event.getY();
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			touching = true;
+			startTouchX = event.getX();
+			startTouchY = event.getY();
 		} else if (event.getAction() == MotionEvent.ACTION_UP)
 		{
 			touching = false;
+			endTouchX = event.getX();
+			endTouchY = event.getY();
 		}
 		return true;
 	}
