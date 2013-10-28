@@ -185,8 +185,8 @@ public class MyView extends View implements OnTouchListener
 							// }
 							xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
 							ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
+							break;
 						}
-						break;
 					} else
 					{
 						platforms.get(i).setJustWasHit(false);

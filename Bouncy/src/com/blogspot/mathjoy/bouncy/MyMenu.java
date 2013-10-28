@@ -22,6 +22,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static String pickedColor;
 	static double gravity = 1;
+	boolean gameReset = false;
 
 	// public static final String NAME = "com.blogspot.mathjoy.bouncy";
 	// TextView textBallColor;
@@ -65,6 +66,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("selectedColor", pickedColor);
 		intent.putExtra("gravityValue", gravity);
+		intent.putExtra("isGameReset", gameReset);
 		startActivity(intent);
 	}
 
@@ -92,6 +94,11 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			Double temp = gravity;
 			displayGravity.setText(temp.toString());
 		}
+	}
+
+	public void gameReset(View v)
+	{
+		gameReset = true;
 	}
 
 	@Override

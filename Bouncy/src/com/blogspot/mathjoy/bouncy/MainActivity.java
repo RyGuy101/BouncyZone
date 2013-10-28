@@ -77,6 +77,11 @@ public class MainActivity extends Activity// implements OnTouchListener
 			}
 			v.color = theRealColor;
 			v.gravity = intent.getExtras().getDouble("gravityValue");
+			if (intent.getExtras().getBoolean("isGameReset") == true)
+			{
+				v.platforms.clear();
+				v.mode = MyView.MODE_BALL;
+			}
 		}
 		setContentView(R.layout.activity_main);
 	}

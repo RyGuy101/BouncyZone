@@ -16,7 +16,14 @@
         android:id="@+id/restoreToDefault"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Restore to default" />
+        android:text="Restore to Default" />
+
+    <Button
+        android:id="@+id/gameReset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="gameReset"
+        android:text="Clear Game" />
 
     <TextView
         android:id="@+id/textBallColor"
