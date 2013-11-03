@@ -181,15 +181,15 @@ public class MyView extends View implements OnTouchListener
 							// }
 							xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
 							ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
-							// break;
+							break;
 						}
 					} else
 					{
 						platforms.get(i).setJustWasHit(false);
-						if (i == platforms.size() - 1)
-						{
-							ySpeed += acceleration;
-						}
+					}
+					if (i == platforms.size() - 1)
+					{
+						ySpeed += acceleration;
 					}
 				}
 			}
@@ -204,9 +204,9 @@ public class MyView extends View implements OnTouchListener
 			}
 			if (currentTouchX == endTouchX && currentTouchY == endTouchY)
 			{
+				platforms.add(new Platform(startTouchX, startTouchY, endTouchX, endTouchY));
 				currentTouchX = -1000;
 				currentTouchY = -1000;
-				platforms.add(new Platform(startTouchX, startTouchY, endTouchX, endTouchY));
 			}
 		}
 		paint.setColor(color);
