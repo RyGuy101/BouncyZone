@@ -20,6 +20,7 @@ public class MyView extends View implements OnTouchListener
 	static float acceleration;
 	static float xSpeed;
 	static float ySpeed;
+	float potentialAngle;
 	double relativeX1;
 	double relativeX2;
 	double relativeY1;
@@ -30,6 +31,7 @@ public class MyView extends View implements OnTouchListener
 	double D;
 	double intersectX;
 	double intersecty;
+	int numPrevHitPlat = 0;
 	static boolean alreadyStarted;
 	public static int color;
 	public static double gravity;
@@ -113,12 +115,9 @@ public class MyView extends View implements OnTouchListener
 				// ySpeed *= -1;
 				// } else
 				// {
-				if (platforms.size() == 0)
-				{
-					ySpeed += acceleration;
-				}
 				for (int i = 0; i < platforms.size(); i++)
 				{
+					potentialAngle = 0;
 					relativeX1 = platforms.get(i).getStartX() - x;
 					relativeX2 = platforms.get(i).getEndX() - x;
 					relativeY1 = platforms.get(i).getStartY() - y;
@@ -155,6 +154,7 @@ public class MyView extends View implements OnTouchListener
 						if (platforms.get(i).getJustWasHit() == false)
 						{
 							platforms.get(i).setJustWasHit(true);
+							numPrevHitPlat++;
 							if (xSpeed == 0)
 							{
 								if (ySpeed > 0)
@@ -174,24 +174,29 @@ public class MyView extends View implements OnTouchListener
 							{
 								speed *= -1;
 							}
-							angle = (float) ((platforms.get(i).getAngle() * 2) - angle);
-							// if (angle < 0)
-							// {
-							// angle += 360;
-							// }
+//							if (angle < 0)
+//							{
+//								angle += 360;
+//							}
+							potentialAngle += (float) ((platforms.get(i).getAngle() * 2) - angle);
+							angle = potentialAngle / numPrevHitPlat;
 							xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
 							ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
-							break;
+							// break;
 						}
 					} else
 					{
 						platforms.get(i).setJustWasHit(false);
 					}
-					if (i == platforms.size() - 1)
-					{
-						ySpeed += acceleration;
-					}
 				}
+				if (numPrevHitPlat != 0)
+				{
+					
+				} else
+				{
+					ySpeed += acceleration;
+				}
+				numPrevHitPlat = 0;
 			}
 			x += xSpeed;
 			y += ySpeed;
