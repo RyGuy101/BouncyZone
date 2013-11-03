@@ -127,10 +127,6 @@ public class MyView extends View implements OnTouchListener
 					dy = relativeY2 - relativeY1;
 					dr = Math.sqrt((dy * dy) + (dx * dx));
 					D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-					// && (x >= platforms.get(i).getStartX() && x <=
-					// platforms.get(i).getEndX() && platforms.get(i).getEndX()
-					// >=
-					// platforms.get(i).getStartX())
 					double underTheRadical = ((radius * radius) * (dr * dr)) - (D * D);
 					double highX;
 					double lowX;
@@ -174,7 +170,7 @@ public class MyView extends View implements OnTouchListener
 								angle = (float) Math.toDegrees(Math.atan(ySpeed / xSpeed));
 							}
 							speed = (float) (Math.sqrt((ySpeed * ySpeed) + (xSpeed * xSpeed)));
-							if ((xSpeed < 0 && ySpeed < 0) || (xSpeed < 0 && ySpeed > 0))
+							if (xSpeed < 0)
 							{
 								speed *= -1;
 							}
@@ -185,7 +181,7 @@ public class MyView extends View implements OnTouchListener
 							// }
 							xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
 							ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
-							break;
+							// break;
 						}
 					} else
 					{
@@ -208,6 +204,8 @@ public class MyView extends View implements OnTouchListener
 			}
 			if (currentTouchX == endTouchX && currentTouchY == endTouchY)
 			{
+				currentTouchX = -1000;
+				currentTouchY = -1000;
 				platforms.add(new Platform(startTouchX, startTouchY, endTouchX, endTouchY));
 			}
 		}
