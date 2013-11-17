@@ -20,7 +20,7 @@ public class MyView extends View implements OnTouchListener
 	static float acceleration;
 	static float xSpeed;
 	static float ySpeed;
-	float potentialAngle;
+	float sumOfAngles;
 	double relativeX1;
 	double relativeX2;
 	double relativeY1;
@@ -32,6 +32,7 @@ public class MyView extends View implements OnTouchListener
 	double intersectX;
 	double intersecty;
 	int numPrevHitPlat = 0;
+	ArrayList<Double> HitPlatAngles;
 	static boolean alreadyStarted;
 	public static int color;
 	public static double gravity;
@@ -48,7 +49,7 @@ public class MyView extends View implements OnTouchListener
 	public static final int MODE_DELETE_PLATFORM = 3;
 	public static int mode = 0;
 	static ArrayList<Platform> platforms = new ArrayList<Platform>();
-	float angle = 90;// Math.atan(xSpeed/ySpeed)
+	float ballAngle = 90;// Math.atan(xSpeed/ySpeed)
 	float speed = 0;//
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
@@ -117,7 +118,7 @@ public class MyView extends View implements OnTouchListener
 				// {
 				for (int i = 0; i < platforms.size(); i++)
 				{
-					potentialAngle = 0;
+					sumOfAngles = 0;
 					relativeX1 = platforms.get(i).getStartX() - x;
 					relativeX2 = platforms.get(i).getEndX() - x;
 					relativeY1 = platforms.get(i).getStartY() - y;
@@ -155,33 +156,15 @@ public class MyView extends View implements OnTouchListener
 						{
 							platforms.get(i).setJustWasHit(true);
 							numPrevHitPlat++;
-							if (xSpeed == 0)
-							{
-								if (ySpeed > 0)
-								{
-									angle = 90;
-								}
-								if (ySpeed < 0)
-								{
-									angle = -90;
-								}
-							} else
-							{
-								angle = (float) Math.toDegrees(Math.atan(ySpeed / xSpeed));
-							}
-							speed = (float) (Math.sqrt((ySpeed * ySpeed) + (xSpeed * xSpeed)));
-							if (xSpeed < 0)
-							{
-								speed *= -1;
-							}
-//							if (angle < 0)
-//							{
-//								angle += 360;
-//							}
-							potentialAngle += (float) ((platforms.get(i).getAngle() * 2) - angle);
-							angle = potentialAngle / numPrevHitPlat;
-							xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
-							ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
+							HitPlatAngles.add(platforms.get(i).getAngle());
+							// if (angle < 0)
+							// {
+							// angle += 360;
+							// }
+							// sumOfAngles += (float) ((platforms.get(i).getAngle() * 2) - angle);
+							// angle = sumOfAngles / numPrevHitPlat;
+							// xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
+							// ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
 							// break;
 						}
 					} else
@@ -189,14 +172,124 @@ public class MyView extends View implements OnTouchListener
 						platforms.get(i).setJustWasHit(false);
 					}
 				}
-				if (numPrevHitPlat != 0)
+				if (numPrevHitPlat > 0)
 				{
-					
+					if (xSpeed == 0)
+					{
+						if (ySpeed > 0)
+						{
+							ballAngle = 90;
+						}
+						if (ySpeed < 0)
+						{
+							ballAngle = -90;
+						}
+					} else
+					{
+						ballAngle = (float) Math.toDegrees(Math.atan(ySpeed / xSpeed));
+					}
+					speed = (float) (Math.sqrt((ySpeed * ySpeed) + (xSpeed * xSpeed)));
+					if (xSpeed < 0)
+					{
+						speed *= -1;
+					}
+					if (numPrevHitPlat > 1)
+					{
+						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
+						{
+							if (HitPlatAngles.get(jj) < 0)
+							{
+								HitPlatAngles.set(jj, HitPlatAngles.get(jj) + 360);
+							}
+						}
+						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
+						{
+							if (ballAngle < 180)
+							{
+								if (HitPlatAngles.get(jj) > 180)
+								{
+									HitPlatAngles.set(jj, HitPlatAngles.get(jj) - 180);
+								}
+							} else if (ballAngle > 180)
+							{
+								if (HitPlatAngles.get(jj) < 180)
+								{
+									HitPlatAngles.set(jj, HitPlatAngles.get(jj) + 180);
+								}
+							}
+						}
+						ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
+						ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
+						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
+						{
+							if (ballAngle < 180)
+							{
+								if (HitPlatAngles.get(jj) < ballAngle)
+								{
+									anglesRightOfBall.add(HitPlatAngles.get(jj));
+								} else if (HitPlatAngles.get(jj) > ballAngle)
+								{
+									anglesLeftOfBall.add(HitPlatAngles.get(jj));
+								}
+							} else if (ballAngle > 180)
+							{
+								if (HitPlatAngles.get(jj) > ballAngle)
+								{
+									anglesRightOfBall.add(HitPlatAngles.get(jj));
+								} else if (HitPlatAngles.get(jj) < ballAngle)
+								{
+									anglesLeftOfBall.add(HitPlatAngles.get(jj));
+								}
+							}
+						}
+						double leftMinDiff = 360;
+						double closestLeftAngle = 0;
+						for (int ll = 0; ll < anglesLeftOfBall.size(); ll++)
+						{
+							if (ballAngle < 180)
+							{
+								if (anglesLeftOfBall.get(ll) - ballAngle < leftMinDiff)
+								{
+									leftMinDiff = anglesLeftOfBall.get(ll) - ballAngle;
+									closestLeftAngle = anglesLeftOfBall.get(ll);
+								}
+							} else if (ballAngle > 180)
+							{
+								if (ballAngle - anglesLeftOfBall.get(ll) < leftMinDiff)
+								{
+									leftMinDiff = ballAngle - anglesLeftOfBall.get(ll);
+									closestLeftAngle = anglesLeftOfBall.get(ll);
+								}
+							}
+						}
+						double RightMinDiff = 360;
+						double closestRightAngle = 0;
+						for (int rr = 0; rr < anglesRightOfBall.size(); rr++)
+						{
+							if (ballAngle < 180)
+							{
+								if (anglesRightOfBall.get(rr) - ballAngle < RightMinDiff)
+								{
+									RightMinDiff = anglesRightOfBall.get(rr) - ballAngle;
+									closestRightAngle = anglesRightOfBall.get(rr);
+								}
+							} else if (ballAngle > 180)
+							{
+								if (ballAngle - anglesRightOfBall.get(rr) < RightMinDiff)
+								{
+									RightMinDiff = ballAngle - anglesRightOfBall.get(rr);
+									closestRightAngle = anglesRightOfBall.get(rr);
+								}
+							}
+						}
+						//Now take the average of the two angles.
+					}
 				} else
 				{
 					ySpeed += acceleration;
 				}
 				numPrevHitPlat = 0;
+				// sd.rkgj
 			}
 			x += xSpeed;
 			y += ySpeed;
