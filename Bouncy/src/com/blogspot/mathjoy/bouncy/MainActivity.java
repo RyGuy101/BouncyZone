@@ -109,6 +109,14 @@ public class MainActivity extends Activity// implements OnTouchListener
 	{
 		v.mode = MyView.MODE_CREATE_PLATFORM;
 	}
+	public void modeGrab(View view)
+	{
+		v.timeBetweenFrames = 20;
+	}
+	public void modeDelete(View view)
+	{
+		v.timeBetweenFrames = 1000;
+	}
 	// @Override
 	// public boolean onTouch(View view, MotionEvent event)
 	// {

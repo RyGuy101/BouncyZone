@@ -43,13 +43,15 @@
             android:id="@+id/Grab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="modeGrab" />
 
         <Button
             android:id="@+id/Delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="modeDelete" />
     </LinearLayout>
 
     <com.blogspot.mathjoy.bouncy.MyView

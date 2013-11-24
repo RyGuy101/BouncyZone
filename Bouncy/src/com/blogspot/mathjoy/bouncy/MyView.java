@@ -13,12 +13,13 @@ import android.view.View.OnTouchListener;
 public class MyView extends View implements OnTouchListener
 {
 	Paint paint = new Paint();
-	static float radius;
-	static float x;
-	static float y;
-	static float acceleration;
-	static float xSpeed;
-	static float ySpeed;
+	public static int timeBetweenFrames = 20;
+	static float ballRadius;
+	static float ballX;
+	static float ballY;
+	static float gravitationalAcceleration;
+	static float ballXSpeed;
+	static float ballYSpeed;
 	float sumOfAngles;
 	double relativeX1;
 	double relativeX2;
@@ -39,10 +40,12 @@ public class MyView extends View implements OnTouchListener
 	public static boolean touching = false;
 	public static float currentTouchX;
 	public static float currentTouchY;
-	float startTouchX;
-	float endTouchX;
-	float startTouchY;
-	float endTouchY;
+	float endTouchX0;;
+	float endTouchY0;
+	float startTouchX1;
+	float endTouchX1;
+	float startTouchY1;
+	float endTouchY1;
 	public static final int MODE_BALL = 0;
 	public static final int MODE_CREATE_PLATFORM = 1;
 	public static final int MODE_MOVE_PLATFORM = 2;
@@ -85,51 +88,59 @@ public class MyView extends View implements OnTouchListener
 	{
 		try
 		{
-			Thread.sleep(20);
+			Thread.sleep(timeBetweenFrames);
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}
 		super.onDraw(c);
 		c.drawColor(Color.BLACK);
-		radius = (float) (this.getHeight() / 75.0);
-		acceleration = (float) ((this.getHeight() / 1000.0) * gravity);
+		ballRadius = (float) (this.getHeight() / 75.0);
+		gravitationalAcceleration = (float) ((this.getHeight() / 1000.0) * gravity);
 		if (alreadyStarted == false)
 		{
-			x = (float) (this.getWidth() / 2.0);
-			y = radius;
-			acceleration = (float) ((this.getHeight() / 1000.0) * gravity);
+			ballX = (float) (this.getWidth() / 2.0);
+			ballY = ballRadius;
+			gravitationalAcceleration = (float) ((this.getHeight() / 1000.0) * gravity);
 			alreadyStarted = true;
 		}
 		if (mode == MODE_BALL)
 		{
 			if (touching == true)
 			{
-				x = currentTouchX;
-				y = currentTouchY;
-				xSpeed = 0;
-				ySpeed = 0;
+				ballX = currentTouchX;
+				ballY = currentTouchY;
+				ballXSpeed = 0;
+				ballYSpeed = 0;
 			} else
 			{
-				if (xSpeed == 0)
+				if (ballXSpeed == 0)
 				{
-					if (ySpeed > 0)
+					if (ballYSpeed > 0)
 					{
 						ballAngle = 90;
 					}
-					if (ySpeed < 0)
+					if (ballYSpeed < 0)
 					{
 						ballAngle = -90;
 					}
 				} else
 				{
-					ballAngle = (float) Math.toDegrees(Math.atan(ySpeed / xSpeed));
+					ballAngle = (float) Math.toDegrees(Math.atan(ballYSpeed / ballXSpeed));
 				}
-				speed = (float) (Math.sqrt((ySpeed * ySpeed) + (xSpeed * xSpeed)));
-				if (xSpeed < 0)
+				if (ballXSpeed < 0)
 				{
-					speed *= -1;
+					ballAngle += 180;
 				}
+				speed = (float) (Math.sqrt((ballYSpeed * ballYSpeed) + (ballXSpeed * ballXSpeed)));
+				if (speed > ballRadius * 2)
+				{
+					speed = ballRadius * 2;
+					ballXSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * speed);
+					ballYSpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * speed);
+				}
+				ballX += ballXSpeed;
+				ballY += ballYSpeed;
 				for (int i = 0; i < platforms.size(); i++)
 				{
 					double thisPlatAngle = platforms.get(i).getAngle();
@@ -145,15 +156,15 @@ public class MyView extends View implements OnTouchListener
 					{
 						thisPlatAngle -= 180;
 					}
-					relativeX1 = platforms.get(i).getStartX() - x;
-					relativeX2 = platforms.get(i).getEndX() - x;
-					relativeY1 = platforms.get(i).getStartY() - y;
-					relativeY2 = platforms.get(i).getEndY() - y;
+					relativeX1 = platforms.get(i).getStartX() - ballX;
+					relativeX2 = platforms.get(i).getEndX() - ballX;
+					relativeY1 = platforms.get(i).getStartY() - ballY;
+					relativeY2 = platforms.get(i).getEndY() - ballY;
 					dx = relativeX2 - relativeX1;
 					dy = relativeY2 - relativeY1;
 					dr = Math.sqrt((dy * dy) + (dx * dx));
 					D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-					double underTheRadical = ((radius * radius) * (dr * dr)) - (D * D);
+					double underTheRadical = ((ballRadius * ballRadius) * (dr * dr)) - (D * D);
 					double highX;
 					double lowX;
 					double highY;
@@ -176,7 +187,7 @@ public class MyView extends View implements OnTouchListener
 						highY = platforms.get(i).getStartY();
 						lowY = platforms.get(i).getEndY();
 					}
-					if (underTheRadical >= 0 && ((x >= lowX && x <= highX) || (y >= lowY && y <= highY)))// ((underTheRadical >= 0 && (thisPlatAngle <= 45 || thisPlatAngle >= 135) && x >= lowX && x <= highX) || (underTheRadical >= 0 && (thisPlatAngle >= 45 || thisPlatAngle <= 135) && y >= lowY && y <= highY))
+					if (underTheRadical >= 0 && ((ballX >= lowX && ballX <= highX) || (ballY >= lowY && ballY <= highY)))// ((underTheRadical >= 0 && (thisPlatAngle <= 45 || thisPlatAngle >= 135) && x >= lowX && x <= highX) || (underTheRadical >= 0 && (thisPlatAngle >= 45 || thisPlatAngle <= 135) && y >= lowY && y <= highY))
 					{
 						if (platforms.get(i).getJustWasHit() == false)
 						{
@@ -277,76 +288,67 @@ public class MyView extends View implements OnTouchListener
 								}
 							}
 						}
-						double RightMinDiff = 360;
+						double rightMinDiff = 360;
 						double closestRightAngle = 0;
 						for (int rr = 0; rr < anglesRightOfBall.size(); rr++)
 						{
 							if (oppoBallAngle < 180)
 							{
-								if (oppoBallAngle - anglesRightOfBall.get(rr) < RightMinDiff)
+								if (oppoBallAngle - anglesRightOfBall.get(rr) < rightMinDiff)
 								{
-									RightMinDiff = oppoBallAngle - anglesRightOfBall.get(rr);
+									rightMinDiff = oppoBallAngle - anglesRightOfBall.get(rr);
 									closestRightAngle = anglesRightOfBall.get(rr);
 								}
 							} else if (oppoBallAngle > 180)
 							{
-								if (anglesRightOfBall.get(rr) - oppoBallAngle < RightMinDiff)
+								if (anglesRightOfBall.get(rr) - oppoBallAngle < rightMinDiff)
 								{
-									RightMinDiff = anglesRightOfBall.get(rr) - oppoBallAngle;
+									rightMinDiff = anglesRightOfBall.get(rr) - oppoBallAngle;
 									closestRightAngle = anglesRightOfBall.get(rr);
 								}
 							}
 						}
-						ballAngle = (float) (((closestLeftAngle + closestRightAngle) / 2.0) * 2.0) - ballAngle;
-						xSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * speed) * -1;
-						ySpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * speed) * -1;
+						if (anglesLeftOfBall.size() == 0)
+						{
+							ballAngle = (float) ((closestRightAngle * 2) - ballAngle);
+						}
+						if (anglesRightOfBall.size() == 0)
+						{
+							ballAngle = (float) ((closestLeftAngle * 2) - ballAngle);
+						} else
+						{
+							ballAngle = (float) ((((closestLeftAngle + closestRightAngle) / 2.0) * 2) - oppoBallAngle);
+						}
+						ballXSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * speed);
+						ballYSpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * speed);
 					} else if (HitPlatAngles.size() == 1)
 					{
 						ballAngle = (float) ((HitPlatAngles.get(0) * 2) - ballAngle);
-						xSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * speed);
-						ySpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * speed);
+						ballXSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * speed);
+						ballYSpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * speed);
 					}
 				} else
 				{
-					ySpeed += acceleration;
+					ballYSpeed += gravitationalAcceleration;
 				}
 				HitPlatAngles.clear();
-				/*
-				 * This commented stuff restricts the ball speed, but it makes it go buggy.
-				 * \|/
-				 * ( ): - bug
-				 * /|\
-				 */
-//				if (speed > radius * 2)
-//				{
-//					speed = radius * 2;
-//					xSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * speed);
-//					ySpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * speed);
-//				} else if (speed < radius * -2)
-//				{
-//					speed = radius * -2;
-//					xSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * speed);
-//					ySpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * speed);
-//				}
-				x += xSpeed;
-				y += ySpeed;
 			}
 		} else if (mode == MODE_CREATE_PLATFORM)
 		{
 			if (touching == true)
 			{
 				paint.setColor(Color.WHITE);
-				c.drawLine(startTouchX, startTouchY, currentTouchX, currentTouchY, paint);
+				c.drawLine(startTouchX1, startTouchY1, currentTouchX, currentTouchY, paint);
 			}
-			if (currentTouchX == endTouchX && currentTouchY == endTouchY && (endTouchX != startTouchX || endTouchY != startTouchY))
+			if (currentTouchX == endTouchX1 && currentTouchY == endTouchY1 && (endTouchX1 != startTouchX1 || endTouchY1 != startTouchY1))
 			{
-				platforms.add(new Platform(startTouchX, startTouchY, endTouchX, endTouchY));
+				platforms.add(new Platform(startTouchX1, startTouchY1, endTouchX1, endTouchY1));
 				currentTouchX = -1000;
 				currentTouchY = -1000;
 			}
 		}
 		paint.setColor(color);
-		c.drawCircle(x, y, radius, paint);
+		c.drawCircle(ballX, ballY, ballRadius, paint);
 		// int test = platforms.size();
 		for (int i = 0; i < platforms.size(); i++)
 		{
@@ -377,16 +379,21 @@ public class MyView extends View implements OnTouchListener
 			touching = true;
 			if (mode == MODE_CREATE_PLATFORM)
 			{
-				startTouchX = event.getX();
-				startTouchY = event.getY();
+				startTouchX1 = event.getX();
+				startTouchY1 = event.getY();
 			}
 		} else if (event.getAction() == MotionEvent.ACTION_UP)
 		{
 			touching = false;
+			if (mode == MODE_BALL)
+			{
+				endTouchX0 = event.getX();
+				endTouchY0 = event.getY();
+			}
 			if (mode == MODE_CREATE_PLATFORM)
 			{
-				endTouchX = event.getX();
-				endTouchY = event.getY();
+				endTouchX1 = event.getX();
+				endTouchY1 = event.getY();
 			}
 		}
 		return true;
