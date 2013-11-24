@@ -20,27 +20,13 @@ public class MyView extends View implements OnTouchListener
 	static float gravitationalAcceleration;
 	static float ballXSpeed;
 	static float ballYSpeed;
-	float sumOfAngles;
-	double relativeX1;
-	double relativeX2;
-	double relativeY1;
-	double relativeY2;
-	double dx;
-	double dy;
-	double dr;
-	double D;
-	double intersectX;
-	double intersecty;
-	ArrayList<Double> HitPlatAngles = new ArrayList<Double>();
-	ArrayList<Double> anglesLeftOfBall;
-	ArrayList<Double> anglesRightOfBall;
 	static boolean alreadyStarted;
 	public static int color;
 	public static double gravity;
 	public static boolean touching = false;
 	public static float currentTouchX;
 	public static float currentTouchY;
-	float endTouchX0;;
+	float endTouchX0;
 	float endTouchY0;
 	float startTouchX1;
 	float endTouchX1;
@@ -141,8 +127,19 @@ public class MyView extends View implements OnTouchListener
 				}
 				ballX += ballXSpeed;
 				ballY += ballYSpeed;
+				// double intersectX;
+				// double intersecty;
+				ArrayList<Double> HitPlatAngles = new ArrayList<Double>();
 				for (int i = 0; i < platforms.size(); i++)
 				{
+					double relativeX1;
+					double relativeX2;
+					double relativeY1;
+					double relativeY2;
+					double dx;
+					double dy;
+					double dr;
+					double D;
 					double thisPlatAngle = platforms.get(i).getAngle();
 					if (thisPlatAngle < 0)
 					{
@@ -193,15 +190,6 @@ public class MyView extends View implements OnTouchListener
 						{
 							platforms.get(i).setJustWasHit(true);
 							HitPlatAngles.add(thisPlatAngle);
-							// if (angle < 0)
-							// {
-							// angle += 360;
-							// }
-							// sumOfAngles += (float) ((thisPlatAngle * 2) - angle);
-							// angle = sumOfAngles / numPrevHitPlat;
-							// xSpeed = (float) (Math.cos(Math.toRadians(angle)) * speed);
-							// ySpeed = (float) (Math.sin(Math.toRadians(angle)) * speed);
-							// break;
 						}
 					} else
 					{
