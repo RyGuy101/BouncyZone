@@ -38,8 +38,8 @@ public class MainActivity extends Activity// implements OnTouchListener
 		if (justOpened)
 		{
 			justOpened = false;
-			v.color = Color.RED;
-			v.gravity = 1;
+			v.ballColor = Color.RED;
+			v.gAccelerationMultiplier = 1;
 		} else
 		{
 			intent = getIntent();
@@ -75,8 +75,8 @@ public class MainActivity extends Activity// implements OnTouchListener
 			{
 				theRealColor = Color.GRAY;
 			}
-			v.color = theRealColor;
-			v.gravity = intent.getExtras().getDouble("gravityValue");
+			v.ballColor = theRealColor;
+			v.gAccelerationMultiplier = intent.getExtras().getDouble("gravityValue");
 			if (intent.getExtras().getBoolean("isGameReset") == true)
 			{
 				v.platforms.clear();
