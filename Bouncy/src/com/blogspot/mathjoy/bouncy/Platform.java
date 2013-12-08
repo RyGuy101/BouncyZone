@@ -6,6 +6,10 @@ public class Platform
 	private float myStartY;
 	private float myEndX;
 	private float myEndY;
+	private float myLowX;
+	private float myLowY;
+	private float myHighX;
+	private float myHighY;
 	private boolean myJustWasHit;
 
 	public Platform(float startX, float startY, float endX, float endY)
@@ -14,6 +18,20 @@ public class Platform
 		myStartY = startY;
 		myEndX = endX;
 		myEndY = endY;
+		myLowX = startX;
+		myLowY = startY;
+		myHighX = endX;
+		myHighY = endY;
+		if (endX < startX)
+		{
+			myHighX = startX;
+			myLowX = endX;
+		}
+		if (endY < startY)
+		{
+			myHighY = startY;
+			myLowY = endY;
+		}
 	}
 
 	public float getStartX()
@@ -34,6 +52,26 @@ public class Platform
 	public float getEndY()
 	{
 		return myEndY;
+	}
+
+	public float getLowX()
+	{
+		return myLowX;
+	}
+
+	public float getHighX()
+	{
+		return myHighX;
+	}
+
+	public float getLowY()
+	{
+		return myLowY;
+	}
+
+	public float getHighY()
+	{
+		return myHighY;
 	}
 
 	public void setStartX(float startX)
@@ -71,10 +109,18 @@ public class Platform
 			}
 		}
 		angle = Math.toDegrees(Math.atan((myEndY - myStartY) / (myEndX - myStartX)));
-//		if (angle < 0)
-//		{
-//			angle += 360;
-//		}
+		if (angle < 0)
+		{
+			angle += 360;
+		}
+		if (angle >= 360)
+		{
+			angle -= 360;
+		}
+		if (angle > 180)
+		{
+			angle -= 180;
+		}
 		return angle;
 	}
 

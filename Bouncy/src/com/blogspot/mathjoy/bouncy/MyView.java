@@ -43,20 +43,7 @@ public class MyView extends View implements OnTouchListener
 	ArrayList<Double> HitPlatAngles = new ArrayList<Double>();
 	ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
 	ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
-	
-	double relativeX1;
-	double relativeX2;
-	double relativeY1;
-	double relativeY2;
-	double dx;
-	double dy;
-	double dr;
-	double D;
 	double underTheRadical;
-	double highX;
-	double lowX;
-	double highY;
-	double lowY;
 	double thisPlatAngle;
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
@@ -110,34 +97,16 @@ public class MyView extends View implements OnTouchListener
 				// double intersecty;
 				for (int i = 0; i < platforms.size(); i++)
 				{
-					thisPlatAngle = getThisPlatAngle(i);
-					doIntersectionCalculations(i);
-					establishHighAndLowValuePlatformPositions(i);
-					checkForHitPlatformsAndAddThemToHitPlatList(i);
+					Platform thisPlat = platforms.get(i);
+					thisPlatAngle = thisPlat.getAngle();
+					doIntersectionCalculations(thisPlat);
+					checkIfPlatformIsHitAndAddItToHitPlatList(thisPlat);
 				}
 				if (HitPlatAngles.size() > 0)
 				{
 					if (HitPlatAngles.size() > 1)
 					{
-						
-						double oppoBallAngle = 0;
-						if (ballAngle > 180)
-						{
-							oppoBallAngle = ballAngle - 180;
-						} else if (ballAngle < 180)
-						{
-							oppoBallAngle = ballAngle + 180;
-						}
-						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
-						{
-							if (HitPlatAngles.get(jj) < 0)
-							{
-								HitPlatAngles.set(jj, HitPlatAngles.get(jj) + 360);
-							} else if (HitPlatAngles.get(jj) >= 360)
-							{
-								HitPlatAngles.set(jj, HitPlatAngles.get(jj) - 360);
-							}
-						}
+						double oppoBallAngle = oppositeBallAngle();
 						if (oppoBallAngle > 180)
 						{
 							for (int jj = 0; jj < HitPlatAngles.size(); jj++) // this points the angles toward where the ball came from.
@@ -147,77 +116,11 @@ public class MyView extends View implements OnTouchListener
 						}
 						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
 						{
-							if (oppoBallAngle < 180)
-							{
-								if (HitPlatAngles.get(jj) < oppoBallAngle)
-								{
-									anglesRightOfBall.add(HitPlatAngles.get(jj));
-								} else if (HitPlatAngles.get(jj) > oppoBallAngle)
-								{
-									anglesLeftOfBall.add(HitPlatAngles.get(jj));
-								}
-							} else if (oppoBallAngle > 180)
-							{
-								if (HitPlatAngles.get(jj) > oppoBallAngle)
-								{
-									anglesRightOfBall.add(HitPlatAngles.get(jj));
-								} else if (HitPlatAngles.get(jj) < oppoBallAngle)
-								{
-									anglesLeftOfBall.add(HitPlatAngles.get(jj));
-								}
-							}
+							sortAngleToRightOrLeftOfBall(oppoBallAngle, HitPlatAngles.get(jj));
 						}
-						double leftMinDiff = 360;
-						double closestLeftAngle = 0;
-						for (int ll = 0; ll < anglesLeftOfBall.size(); ll++)
-						{
-							if (oppoBallAngle < 180)
-							{
-								if (anglesLeftOfBall.get(ll) - oppoBallAngle < leftMinDiff)
-								{
-									leftMinDiff = anglesLeftOfBall.get(ll) - oppoBallAngle;
-									closestLeftAngle = anglesLeftOfBall.get(ll);
-								}
-							} else if (oppoBallAngle > 180)
-							{
-								if (oppoBallAngle - anglesLeftOfBall.get(ll) < leftMinDiff)
-								{
-									leftMinDiff = oppoBallAngle - anglesLeftOfBall.get(ll);
-									closestLeftAngle = anglesLeftOfBall.get(ll);
-								}
-							}
-						}
-						double rightMinDiff = 360;
-						double closestRightAngle = 0;
-						for (int rr = 0; rr < anglesRightOfBall.size(); rr++)
-						{
-							if (oppoBallAngle < 180)
-							{
-								if (oppoBallAngle - anglesRightOfBall.get(rr) < rightMinDiff)
-								{
-									rightMinDiff = oppoBallAngle - anglesRightOfBall.get(rr);
-									closestRightAngle = anglesRightOfBall.get(rr);
-								}
-							} else if (oppoBallAngle > 180)
-							{
-								if (anglesRightOfBall.get(rr) - oppoBallAngle < rightMinDiff)
-								{
-									rightMinDiff = anglesRightOfBall.get(rr) - oppoBallAngle;
-									closestRightAngle = anglesRightOfBall.get(rr);
-								}
-							}
-						}
-						if (anglesLeftOfBall.size() == 0)
-						{
-							ballAngle = (float) ((closestRightAngle * 2) - ballAngle);
-						}
-						if (anglesRightOfBall.size() == 0)
-						{
-							ballAngle = (float) ((closestLeftAngle * 2) - ballAngle);
-						} else
-						{
-							ballAngle = (float) ((((closestLeftAngle + closestRightAngle) / 2.0) * 2) - oppoBallAngle);
-						}
+						double closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
+						double closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
+						updateBallAngleBasedOnTwoPlatforms(oppoBallAngle, closestLeftAngle, closestRightAngle);
 						ballXSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * ballSpeed);
 						ballYSpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * ballSpeed);
 					} else if (HitPlatAngles.size() == 1)
@@ -261,72 +164,140 @@ public class MyView extends View implements OnTouchListener
 		invalidate();
 	}
 
-	private void checkForHitPlatformsAndAddThemToHitPlatList(int index)
+	private void updateBallAngleBasedOnTwoPlatforms(double oppoBallAngle, double leftAngle, double rightAngle)
 	{
-		if (underTheRadical >= 0 && ((ballX >= lowX && ballX <= highX) || (ballY >= lowY && ballY <= highY)))// ((underTheRadical >= 0 && (thisPlatAngle <= 45 || thisPlatAngle >= 135) && x >= lowX && x <= highX) || (underTheRadical >= 0 && (thisPlatAngle >= 45 || thisPlatAngle <= 135) && y >= lowY && y <= highY))
+		if (leftAngle == -1)
 		{
-			if (platforms.get(index).getJustWasHit() == false)
+			ballAngle = (float) ((rightAngle * 2) - ballAngle);
+		} else if (rightAngle == -1)
+		{
+			ballAngle = (float) ((leftAngle * 2) - ballAngle);
+		} else
+		{
+			ballAngle = (float) ((((leftAngle + rightAngle) / 2.0) * 2) - oppoBallAngle);
+		}
+	}
+
+	private double closestRightAngle(double compareAngle, ArrayList<Double> angles)
+	{
+		double closestRightAngle = -1;
+		double rightMinDiff = 360;
+		for (int rr = 0; rr < angles.size(); rr++)
+		{
+			if (compareAngle < 180)
 			{
-				platforms.get(index).setJustWasHit(true);
-				HitPlatAngles.add(thisPlatAngle);
+				if (compareAngle - angles.get(rr) < rightMinDiff)
+				{
+					rightMinDiff = compareAngle - angles.get(rr);
+					closestRightAngle = angles.get(rr);
+				}
+			} else if (compareAngle > 180)
+			{
+				if (angles.get(rr) - compareAngle < rightMinDiff)
+				{
+					rightMinDiff = angles.get(rr) - compareAngle;
+					closestRightAngle = angles.get(rr);
+				}
+			}
+		}
+		return closestRightAngle;
+	}
+
+	private double closestLeftAngle(double compareAngle, ArrayList<Double> angles)
+	{
+		double closestLeftAngle = -1;
+		double leftMinDiff = 360;
+		for (int ll = 0; ll < angles.size(); ll++)
+		{
+			if (compareAngle < 180)
+			{
+				if (angles.get(ll) - compareAngle < leftMinDiff)
+				{
+					leftMinDiff = angles.get(ll) - compareAngle;
+					closestLeftAngle = angles.get(ll);
+				}
+			} else if (compareAngle > 180)
+			{
+				if (compareAngle - angles.get(ll) < leftMinDiff)
+				{
+					leftMinDiff = compareAngle - angles.get(ll);
+					closestLeftAngle = angles.get(ll);
+				}
+			}
+		}
+		return closestLeftAngle;
+	}
+
+	private void sortAngleToRightOrLeftOfBall(double compareAngle, Double platAngle)
+	{
+		if (compareAngle < 180)
+		{
+			if (platAngle < compareAngle)
+			{
+				anglesRightOfBall.add(platAngle);
+			} else if (platAngle > compareAngle)
+			{
+				anglesLeftOfBall.add(platAngle);
+			}
+		} else if (compareAngle > 180)
+		{
+			if (platAngle > compareAngle)
+			{
+				anglesRightOfBall.add(platAngle);
+			} else if (platAngle < compareAngle)
+			{
+				anglesLeftOfBall.add(platAngle);
+			}
+		}
+	}
+
+	private double oppositeBallAngle()
+	{
+		double oppoBallAngle = 0;
+		if (ballAngle > 180)
+		{
+			oppoBallAngle = ballAngle - 180;
+		} else if (ballAngle < 180)
+		{
+			oppoBallAngle = ballAngle + 180;
+		}
+		return oppoBallAngle;
+	}
+
+	private void checkIfPlatformIsHitAndAddItToHitPlatList(Platform platform)
+	{
+		if (underTheRadical >= 0 && ((ballX >= platform.getLowX() && ballX <= platform.getHighX()) || (ballY >= platform.getLowY() && ballY <= platform.getHighY())))// ((underTheRadical >= 0 && (thisPlatAngle <= 45 || thisPlatAngle >= 135) && x >= lowX && x <= highX) || (underTheRadical >= 0 && (thisPlatAngle >= 45 || thisPlatAngle <= 135) && y >= lowY && y <= highY))
+		{
+			if (platform.getJustWasHit() == false)
+			{
+				platform.setJustWasHit(true);
+				HitPlatAngles.add(platform.getAngle());
 			}
 		} else
 		{
-			platforms.get(index).setJustWasHit(false);
+			platform.setJustWasHit(false);
 		}
 	}
 
-	private void establishHighAndLowValuePlatformPositions(int index)
+	private void doIntersectionCalculations(Platform platform)
 	{
-		if (platforms.get(index).getEndX() > platforms.get(index).getStartX())
-		{
-			highX = platforms.get(index).getEndX();
-			lowX = platforms.get(index).getStartX();
-		} else
-		{
-			highX = platforms.get(index).getStartX();
-			lowX = platforms.get(index).getEndX();
-		}
-		if (platforms.get(index).getEndY() > platforms.get(index).getStartY())
-		{
-			highY = platforms.get(index).getEndY();
-			lowY = platforms.get(index).getStartY();
-		} else
-		{
-			highY = platforms.get(index).getStartY();
-			lowY = platforms.get(index).getEndY();
-		}
-	}
-
-	private void doIntersectionCalculations(int index)
-	{
-		relativeX1 = platforms.get(index).getStartX() - ballX;
-		relativeX2 = platforms.get(index).getEndX() - ballX;
-		relativeY1 = platforms.get(index).getStartY() - ballY;
-		relativeY2 = platforms.get(index).getEndY() - ballY;
+		double relativeX1;
+		double relativeX2;
+		double relativeY1;
+		double relativeY2;
+		double dx;
+		double dy;
+		double dr;
+		double D;
+		relativeX1 = platform.getStartX() - ballX;
+		relativeX2 = platform.getEndX() - ballX;
+		relativeY1 = platform.getStartY() - ballY;
+		relativeY2 = platform.getEndY() - ballY;
 		dx = relativeX2 - relativeX1;
 		dy = relativeY2 - relativeY1;
 		dr = Math.sqrt((dy * dy) + (dx * dx));
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
 		underTheRadical = ((ballRadius * ballRadius) * (dr * dr)) - (D * D);
-	}
-
-	private double getThisPlatAngle(int index)
-	{
-		double thisPlatAngle = platforms.get(index).getAngle();
-		if (thisPlatAngle < 0)
-		{
-			thisPlatAngle += 360;
-		}
-		if (thisPlatAngle >= 360)
-		{
-			thisPlatAngle -= 360;
-		}
-		if (thisPlatAngle > 180)
-		{
-			thisPlatAngle -= 180;
-		}
-		return thisPlatAngle;
 	}
 
 	private void checkIfBallIsTooFast()
