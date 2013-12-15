@@ -12,7 +12,8 @@ import android.view.View.OnTouchListener;
 
 public class MyView extends View implements OnTouchListener
 {
-	Paint paint = new Paint();
+	Paint platformPaint = new Paint();
+	Paint ballPaint = new Paint();
 	public static int timeBetweenFrames = 20;
 	static float ballRadius;
 	static float ballX;
@@ -38,30 +39,24 @@ public class MyView extends View implements OnTouchListener
 	public static final int MODE_DELETE_PLATFORM = 3;
 	public static int mode = 0;
 	static ArrayList<Platform> platforms = new ArrayList<Platform>();
-	static float ballAngle;// Math.atan(xSpeed/ySpeed)
-	static float ballSpeed;//
+	static float ballAngle;
+	static float ballSpeed;
 	ArrayList<Double> HitPlatAngles = new ArrayList<Double>();
 	double underTheRadical;
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
 		super(context, attrs, defStyle);
-		// Platform testLine = new Platform(10, 10, 100, 100);
-		// platforms.add(testLine);
 	}
 
 	public MyView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		// Platform testLine = new Platform(10, 10, 100, 100);
-		// platforms.add(testLine);
 	}
 
 	public MyView(Context context)
 	{
 		super(context);
-		// Platform testLine = new Platform(10, 10, 100, 100);
-		// platforms.add(testLine);
 	}
 
 	@Override
@@ -69,8 +64,9 @@ public class MyView extends View implements OnTouchListener
 	{
 		sleep();
 		super.onDraw(c);
-		c.drawColor(Color.BLACK);
-		gravitationalAcceleration = (float) ((this.getHeight() / 1000.0) * gAccelerationMultiplier);
+		drawBackground(c);
+		updateGravity();
+		updateColors();
 		if (alreadyStarted == false)
 		{
 			setUpEssentials();
@@ -104,7 +100,7 @@ public class MyView extends View implements OnTouchListener
 						double oppoBallAngle = oppositeOfBallAngle();
 						if (oppoBallAngle > 180)
 						{
-							for (int jj = 0; jj < HitPlatAngles.size(); jj++) // this points the angles toward where the ball came from.
+							for (int jj = 0; jj < HitPlatAngles.size(); jj++)
 							{
 								HitPlatAngles.set(jj, flipAngle(HitPlatAngles.get(jj)));
 							}
@@ -113,8 +109,13 @@ public class MyView extends View implements OnTouchListener
 						ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
 						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
 						{
-							anglesRightOfBall = makeListOfAnglesRightOfBall(oppoBallAngle, HitPlatAngles.get(jj));
-							anglesLeftOfBall = makeListOfAnglesLeftOfBall(oppoBallAngle, HitPlatAngles.get(jj));
+							if (angleIsRightOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj)))
+							{
+								anglesRightOfBall.add(HitPlatAngles.get(jj));
+							} else if (angleIsLeftOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj)))
+							{
+								anglesLeftOfBall.add(HitPlatAngles.get(jj));
+							}
 						}
 						double closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
 						double closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
@@ -135,65 +136,110 @@ public class MyView extends View implements OnTouchListener
 		{
 			if (touchingScreen == true)
 			{
-				paint.setColor(Color.WHITE);
-				c.drawLine(startTouchXMode1, startTouchYMode1, currentTouchX, currentTouchY, paint);
+				drawLineToFinger(c);
 			}
-			if (currentTouchX == endTouchXMode1 && currentTouchY == endTouchYMode1 && (endTouchXMode1 != startTouchXMode1 || endTouchYMode1 != startTouchYMode1))
+			if (stoppedTouching() && platformIsLongEnough())
 			{
-				platforms.add(new Platform(startTouchXMode1, startTouchYMode1, endTouchXMode1, endTouchYMode1));
-				currentTouchX = -1000;
-				currentTouchY = -1000;
+				addPlatformWhereFingerWasTouching();
+				makeCurrentTouchXAndYAbstract();
 			}
 		}
-		paint.setColor(ballColor);
-		c.drawCircle(ballX, ballY, ballRadius, paint);
-		// int test = platforms.size();
-		for (int i = 0; i < platforms.size(); i++)
-		{
-			paint.setColor(Color.WHITE);
-			c.drawLine(platforms.get(i).getStartX(), platforms.get(i).getStartY(), platforms.get(i).getEndX(), platforms.get(i).getEndY(), paint);
-		}
-		// c.drawLine(0, this.getHeight() - 1, 100, this.getHeight() - 1,
-		// paint);
+		drawBall(c);
+		drawAllPlatforms(c);
 		invalidate();
 	}
 
-	private ArrayList<Double> makeListOfAnglesLeftOfBall(double compareAngle, double platAngle)
+	private void updateColors()
 	{
-		ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
-		if (compareAngle < 180)
-		{
-			if (platAngle > compareAngle)
-			{
-				anglesLeftOfBall.add(platAngle);
-			} 
-		} else if (compareAngle > 180)
-		{
-			if (platAngle < compareAngle)
-			{
-				anglesLeftOfBall.add(platAngle);
-			} 
-		}
-		return anglesLeftOfBall;
+		platformPaint.setColor(Color.WHITE);
+		ballPaint.setColor(ballColor);
 	}
 
-	private ArrayList<Double> makeListOfAnglesRightOfBall(double compareAngle, double platAngle)
+	private void drawBackground(Canvas c)
 	{
-		ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
+		c.drawColor(Color.BLACK);
+	}
+
+	private void updateGravity()
+	{
+		gravitationalAcceleration = (float) ((this.getHeight() / 1000.0) * gAccelerationMultiplier);
+	}
+
+	private void drawBall(Canvas c)
+	{
+		c.drawCircle(ballX, ballY, ballRadius, ballPaint);
+	}
+
+	private void drawAllPlatforms(Canvas c)
+	{
+		for (int i = 0; i < platforms.size(); i++)
+		{
+			c.drawLine(platforms.get(i).getStartX(), platforms.get(i).getStartY(), platforms.get(i).getEndX(), platforms.get(i).getEndY(), platformPaint);
+		}
+	}
+
+	private void makeCurrentTouchXAndYAbstract()
+	{
+		currentTouchX = -1000;
+		currentTouchY = -1000;
+	}
+
+	private void addPlatformWhereFingerWasTouching()
+	{
+		platforms.add(new Platform(startTouchXMode1, startTouchYMode1, endTouchXMode1, endTouchYMode1));
+	}
+
+	private boolean platformIsLongEnough()
+	{
+		return endTouchXMode1 != startTouchXMode1 || endTouchYMode1 != startTouchYMode1;
+	}
+
+	private boolean stoppedTouching()
+	{
+		return currentTouchX == endTouchXMode1 && currentTouchY == endTouchYMode1;
+	}
+
+	private void drawLineToFinger(Canvas c)
+	{
+		c.drawLine(startTouchXMode1, startTouchYMode1, currentTouchX, currentTouchY, platformPaint);
+	}
+
+	private boolean angleIsRightOfAnotherAngle(double compareAngle, double angleThatMayBeRight)
+	{
+		boolean isRight = false;
 		if (compareAngle < 180)
 		{
-			if (platAngle < compareAngle)
+			if (angleThatMayBeRight < compareAngle)
 			{
-				anglesRightOfBall.add(platAngle);
+				isRight = true;
 			}
 		} else if (compareAngle > 180)
 		{
-			if (platAngle > compareAngle)
+			if (angleThatMayBeRight > compareAngle)
 			{
-				anglesRightOfBall.add(platAngle);
-			} 
+				isRight = true;
+			}
 		}
-		return anglesRightOfBall;
+		return isRight;
+	}
+
+	private boolean angleIsLeftOfAnotherAngle(double compareAngle, double angleThatMayBeLeft)
+	{
+		boolean isLeft = false;
+		if (compareAngle < 180)
+		{
+			if (angleThatMayBeLeft > compareAngle)
+			{
+				isLeft = true;
+			}
+		} else if (compareAngle > 180)
+		{
+			if (angleThatMayBeLeft < compareAngle)
+			{
+				isLeft = true;
+			}
+		}
+		return isLeft;
 	}
 
 	private void updateBallYSpeedBasedOnGravity()
@@ -391,7 +437,7 @@ public class MyView extends View implements OnTouchListener
 		ballRadius = (float) (this.getHeight() / 75.0);
 		ballX = (float) (this.getWidth() / 2.0);
 		ballY = ballRadius;
-		gravitationalAcceleration = (float) ((this.getHeight() / 1000.0) * gAccelerationMultiplier);
+		updateGravity();
 	}
 
 	private void sleep()
@@ -408,7 +454,6 @@ public class MyView extends View implements OnTouchListener
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		// Junk
 		return false;
 	}
 
