@@ -41,10 +41,7 @@ public class MyView extends View implements OnTouchListener
 	static float ballAngle;// Math.atan(xSpeed/ySpeed)
 	static float ballSpeed;//
 	ArrayList<Double> HitPlatAngles = new ArrayList<Double>();
-	ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
-	ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
 	double underTheRadical;
-	double thisPlatAngle;
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
@@ -91,14 +88,12 @@ public class MyView extends View implements OnTouchListener
 				updateBallAngle();
 				updateBallSpeed();
 				checkIfBallIsTooFast();
-				ballX += ballXSpeed;
-				ballY += ballYSpeed;
+				updateBallPosition();
 				// double intersectX;
 				// double intersecty;
 				for (int i = 0; i < platforms.size(); i++)
 				{
 					Platform thisPlat = platforms.get(i);
-					thisPlatAngle = thisPlat.getAngle();
 					doIntersectionCalculations(thisPlat);
 					checkIfPlatformIsHitAndAddItToHitPlatList(thisPlat);
 				}
@@ -106,36 +101,35 @@ public class MyView extends View implements OnTouchListener
 				{
 					if (HitPlatAngles.size() > 1)
 					{
-						double oppoBallAngle = oppositeBallAngle();
+						double oppoBallAngle = oppositeOfBallAngle();
 						if (oppoBallAngle > 180)
 						{
 							for (int jj = 0; jj < HitPlatAngles.size(); jj++) // this points the angles toward where the ball came from.
 							{
-								HitPlatAngles.set(jj, HitPlatAngles.get(jj) + 180);
+								HitPlatAngles.set(jj, flipAngle(HitPlatAngles.get(jj)));
 							}
 						}
+						ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
+						ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
 						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
 						{
-							sortAngleToRightOrLeftOfBall(oppoBallAngle, HitPlatAngles.get(jj));
+							anglesRightOfBall = makeListOfAnglesRightOfBall(oppoBallAngle, HitPlatAngles.get(jj));
+							anglesLeftOfBall = makeListOfAnglesLeftOfBall(oppoBallAngle, HitPlatAngles.get(jj));
 						}
 						double closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
 						double closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
-						updateBallAngleBasedOnTwoPlatforms(oppoBallAngle, closestLeftAngle, closestRightAngle);
-						ballXSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * ballSpeed);
-						ballYSpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * ballSpeed);
+						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle, closestRightAngle);
+						updateBallXAndYSpeed();
 					} else if (HitPlatAngles.size() == 1)
 					{
-						ballAngle = (float) ((HitPlatAngles.get(0) * 2) - ballAngle);
-						ballXSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * ballSpeed);
-						ballYSpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * ballSpeed);
+						updateBallAngleBasedOnOnePlatform(HitPlatAngles.get(0));
+						updateBallXAndYSpeed();
 					}
 				} else
 				{
-					ballYSpeed += gravitationalAcceleration;
+					updateBallYSpeedBasedOnGravity();
 				}
 				HitPlatAngles.clear();
-				anglesLeftOfBall.clear();
-				anglesRightOfBall.clear();
 			}
 		} else if (mode == MODE_CREATE_PLATFORM)
 		{
@@ -164,8 +158,74 @@ public class MyView extends View implements OnTouchListener
 		invalidate();
 	}
 
-	private void updateBallAngleBasedOnTwoPlatforms(double oppoBallAngle, double leftAngle, double rightAngle)
+	private ArrayList<Double> makeListOfAnglesLeftOfBall(double compareAngle, double platAngle)
 	{
+		ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
+		if (compareAngle < 180)
+		{
+			if (platAngle > compareAngle)
+			{
+				anglesLeftOfBall.add(platAngle);
+			} 
+		} else if (compareAngle > 180)
+		{
+			if (platAngle < compareAngle)
+			{
+				anglesLeftOfBall.add(platAngle);
+			} 
+		}
+		return anglesLeftOfBall;
+	}
+
+	private ArrayList<Double> makeListOfAnglesRightOfBall(double compareAngle, double platAngle)
+	{
+		ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
+		if (compareAngle < 180)
+		{
+			if (platAngle < compareAngle)
+			{
+				anglesRightOfBall.add(platAngle);
+			}
+		} else if (compareAngle > 180)
+		{
+			if (platAngle > compareAngle)
+			{
+				anglesRightOfBall.add(platAngle);
+			} 
+		}
+		return anglesRightOfBall;
+	}
+
+	private void updateBallYSpeedBasedOnGravity()
+	{
+		ballYSpeed += gravitationalAcceleration;
+	}
+
+	private void updateBallAngleBasedOnOnePlatform(double angle)
+	{
+		ballAngle = (float) ((angle * 2) - ballAngle);
+	}
+
+	private void updateBallXAndYSpeed()
+	{
+		ballXSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * ballSpeed);
+		ballYSpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * ballSpeed);
+	}
+
+	private double flipAngle(double angle)
+	{
+		return angle + 180;
+	}
+
+	private void updateBallPosition()
+	{
+		ballX += ballXSpeed;
+		ballY += ballYSpeed;
+	}
+
+	private void updateBallAngleBasedOnTwoPlatforms(double leftAngle, double rightAngle)
+	{
+		double oppoBallAngle = oppositeOfBallAngle();
 		if (leftAngle == -1)
 		{
 			ballAngle = (float) ((rightAngle * 2) - ballAngle);
@@ -228,30 +288,7 @@ public class MyView extends View implements OnTouchListener
 		return closestLeftAngle;
 	}
 
-	private void sortAngleToRightOrLeftOfBall(double compareAngle, Double platAngle)
-	{
-		if (compareAngle < 180)
-		{
-			if (platAngle < compareAngle)
-			{
-				anglesRightOfBall.add(platAngle);
-			} else if (platAngle > compareAngle)
-			{
-				anglesLeftOfBall.add(platAngle);
-			}
-		} else if (compareAngle > 180)
-		{
-			if (platAngle > compareAngle)
-			{
-				anglesRightOfBall.add(platAngle);
-			} else if (platAngle < compareAngle)
-			{
-				anglesLeftOfBall.add(platAngle);
-			}
-		}
-	}
-
-	private double oppositeBallAngle()
+	private double oppositeOfBallAngle()
 	{
 		double oppoBallAngle = 0;
 		if (ballAngle > 180)
@@ -305,8 +342,7 @@ public class MyView extends View implements OnTouchListener
 		if (ballSpeed > ballRadius * 2)
 		{
 			ballSpeed = ballRadius * 2;
-			ballXSpeed = (float) (Math.cos(Math.toRadians(ballAngle)) * ballSpeed);
-			ballYSpeed = (float) (Math.sin(Math.toRadians(ballAngle)) * ballSpeed);
+			updateBallXAndYSpeed();
 		}
 	}
 
