@@ -24,7 +24,9 @@ public class MyView extends View implements OnTouchListener
 	static boolean alreadyStarted;
 	public static int ballColor;
 	public static double gAccelerationMultiplier;
+	public static double bounceFactor;
 	public static boolean touchingScreen = false;
+	public static boolean wasJustTouchingScreen = false;
 	public static float currentTouchX;
 	public static float currentTouchY;
 	float endTouchXMode0;
@@ -79,6 +81,7 @@ public class MyView extends View implements OnTouchListener
 				ballX = currentTouchX;
 				ballY = currentTouchY;
 				updateBallXAndYSpeedBasedOnTouch();
+				wasJustTouchingScreen = true;
 			} else
 			{
 				updateBallAngle();
@@ -124,6 +127,7 @@ public class MyView extends View implements OnTouchListener
 					} else if (HitPlatAngles.size() == 1)
 					{
 						updateBallAngleBasedOnOnePlatform(HitPlatAngles.get(0));
+						updateSpeedWithBounceFactor();
 						updateBallXAndYSpeed();
 					}
 				} else
@@ -131,6 +135,7 @@ public class MyView extends View implements OnTouchListener
 					updateBallYSpeedBasedOnGravity();
 				}
 				HitPlatAngles.clear();
+				wasJustTouchingScreen = false;
 			}
 		} else if (mode == MODE_CREATE_PLATFORM)
 		{
@@ -147,6 +152,11 @@ public class MyView extends View implements OnTouchListener
 		drawBall(c);
 		drawAllPlatforms(c);
 		invalidate();
+	}
+
+	private void updateSpeedWithBounceFactor()
+	{
+		ballSpeed *= bounceFactor;
 	}
 
 	private void updateColors()
@@ -352,6 +362,10 @@ public class MyView extends View implements OnTouchListener
 		if (underTheRadical >= 0 && ((ballX >= platform.getLowX() && ballX <= platform.getHighX()) || (ballY >= platform.getLowY() && ballY <= platform.getHighY())))// ((underTheRadical >= 0 && (thisPlatAngle <= 45 || thisPlatAngle >= 135) && x >= lowX && x <= highX) || (underTheRadical >= 0 && (thisPlatAngle >= 45 || thisPlatAngle <= 135) && y >= lowY && y <= highY))
 		{
 			if (platform.getJustWasHit() == false)
+			{
+				platform.setJustWasHit(true);
+				HitPlatAngles.add(platform.getAngle());
+			} else if (ballSpeed == 0 && wasJustTouchingScreen == false)
 			{
 				platform.setJustWasHit(true);
 				HitPlatAngles.add(platform.getAngle());

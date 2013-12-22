@@ -17,11 +17,14 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 {
 	Spinner ballColor;
 	SeekBar seekGravity;
+	SeekBar seekBounceLevel;
 	TextView displayGravity;
+	TextView displayBounceLevel;
 	String[] colors =
 	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static String pickedColor;
 	static double gravity = 1;
+	static double bounceLevel = 1;
 	boolean gameReset = false;
 
 	// public static final String NAME = "com.blogspot.mathjoy.bouncy";
@@ -36,13 +39,15 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		ballColor.setAdapter(colorAd);
 		ballColor.setOnItemSelectedListener(this);
 		seekGravity = (SeekBar) findViewById(R.id.gravity);
+		seekBounceLevel = (SeekBar) findViewById(R.id.bouceLevel);
 		seekGravity.setOnSeekBarChangeListener(this);
+		seekBounceLevel.setOnSeekBarChangeListener(this);
 		displayGravity = (TextView) findViewById(R.id.valueOfGravity);
-		// if (gravity == 0)
+		displayBounceLevel = (TextView) findViewById(R.id.valueOfBounceLevel);
 		{
 			seekGravity.setProgress((int) (gravity * 100.0));
+			seekBounceLevel.setProgress((int) (bounceLevel * 100.0));
 		}
-		// textBallColor = (TextView) findViewById(R.id.textBallColor);
 		for (int i = 0; i <= colors.length - 1; i++)
 		{
 			if (colors[i] == pickedColor)
@@ -63,9 +68,11 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	public void goToGame(View v)
 	{
 		gravity = seekGravity.getProgress() / 100.0;
+		bounceLevel = seekBounceLevel.getProgress() / 100.0;
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("selectedColor", pickedColor);
 		intent.putExtra("gravityValue", gravity);
+		intent.putExtra("bounceLevelValue", bounceLevel);
 		intent.putExtra("isGameReset", gameReset);
 		startActivity(intent);
 	}
@@ -94,11 +101,24 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			Double temp = gravity;
 			displayGravity.setText(temp.toString());
 		}
+		if (seekBar.equals(seekBounceLevel))
+		{
+			bounceLevel = seekBar.getProgress() / 100.0;
+			Double temp = bounceLevel;
+			displayBounceLevel.setText(temp.toString());
+		}
 	}
 
 	public void gameReset(View v)
 	{
 		gameReset = true;
+	}
+
+	public void settingsReset(View v)
+	{
+		seekGravity.setProgress(100);
+		seekBounceLevel.setProgress(100);
+		ballColor.setSelection(0);
 	}
 
 	@Override

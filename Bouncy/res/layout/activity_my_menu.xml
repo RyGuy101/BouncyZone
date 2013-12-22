@@ -16,6 +16,7 @@
         android:id="@+id/restoreToDefault"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="settingsReset"
         android:text="Restore to Default" />
 
     <Button
@@ -50,6 +51,18 @@
 
     <SeekBar
         android:id="@+id/gravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="200" />
+
+    <TextView
+        android:id="@+id/valueOfBounceLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0.0" />
+
+    <SeekBar
+        android:id="@+id/bouceLevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="200" />

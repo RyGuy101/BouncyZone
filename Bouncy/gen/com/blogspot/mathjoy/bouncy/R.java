@@ -29,8 +29,9 @@ public final class R {
         public static final int Grab=0x7f080003;
         public static final int Menu=0x7f080000;
         public static final int Platform=0x7f080002;
-        public static final int action_settings=0x7f08000e;
+        public static final int action_settings=0x7f080010;
         public static final int ballColor=0x7f08000a;
+        public static final int bouceLevel=0x7f08000f;
         public static final int done=0x7f080006;
         public static final int gameReset=0x7f080008;
         public static final int gravity=0x7f08000d;
@@ -38,6 +39,7 @@ public final class R {
         public static final int restoreToDefault=0x7f080007;
         public static final int textBallColor=0x7f080009;
         public static final int textGravity=0x7f08000b;
+        public static final int valueOfBounceLevel=0x7f08000e;
         public static final int valueOfGravity=0x7f08000c;
     }
     public static final class layout {

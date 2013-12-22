@@ -40,6 +40,7 @@ public class MainActivity extends Activity// implements OnTouchListener
 			justOpened = false;
 			v.ballColor = Color.RED;
 			v.gAccelerationMultiplier = 1;
+			v.bounceFactor = 1;
 		} else
 		{
 			intent = getIntent();
@@ -77,6 +78,7 @@ public class MainActivity extends Activity// implements OnTouchListener
 			}
 			v.ballColor = theRealColor;
 			v.gAccelerationMultiplier = intent.getExtras().getDouble("gravityValue");
+			v.bounceFactor = intent.getExtras().getDouble("bounceLevelValue");
 			if (intent.getExtras().getBoolean("isGameReset") == true)
 			{
 				v.platforms.clear();
@@ -109,10 +111,12 @@ public class MainActivity extends Activity// implements OnTouchListener
 	{
 		v.mode = MyView.MODE_CREATE_PLATFORM;
 	}
+
 	public void modeGrab(View view)
 	{
 		v.timeBetweenFrames = 20;
 	}
+
 	public void modeDelete(View view)
 	{
 		v.timeBetweenFrames = 1000;
