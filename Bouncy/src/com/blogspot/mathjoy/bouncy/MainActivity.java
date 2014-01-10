@@ -1,5 +1,6 @@
 package com.blogspot.mathjoy.bouncy;
 
+import android.R.color;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +20,10 @@ public class MainActivity extends Activity// implements OnTouchListener
 	String thisPickedColor;
 	MyView v;
 	static int theRealColor = Color.RED;
+	int[] possibleColors =
+	{ Color.RED, Color.rgb(225, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
+	String[] possibleColorNames =
+	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static boolean justOpened = true;
 	Button ball;
 	// Button grab;
@@ -45,36 +50,12 @@ public class MainActivity extends Activity// implements OnTouchListener
 		{
 			intent = getIntent();
 			thisPickedColor = intent.getExtras().getString("selectedColor");
-			if (thisPickedColor.equals("red"))
+			for (int i = 0; i < possibleColors.length; i++)
 			{
-				theRealColor = Color.RED;
-			} else if (thisPickedColor.equals("orange"))
-			{
-				theRealColor = Color.rgb(225, 127, 0);
-			} else if (thisPickedColor.equals("yellow"))
-			{
-				theRealColor = Color.YELLOW;
-			} else if (thisPickedColor.equals("green"))
-			{
-				theRealColor = Color.GREEN;
-			} else if (thisPickedColor.equals("blue"))
-			{
-				theRealColor = Color.BLUE;
-			} else if (thisPickedColor.equals("purple"))
-			{
-				theRealColor = Color.rgb(191, 63, 255);
-			} else if (thisPickedColor.equals("pink"))
-			{
-				theRealColor = Color.rgb(225, 63, 255);
-			} else if (thisPickedColor.equals("brown"))
-			{
-				theRealColor = Color.rgb(127, 63, 15);
-			} else if (thisPickedColor.equals("white"))
-			{
-				theRealColor = Color.WHITE;
-			} else if (thisPickedColor.equals("gray"))
-			{
-				theRealColor = Color.GRAY;
+				if (thisPickedColor.equals(possibleColorNames[i]))
+				{
+					theRealColor = possibleColors[i];
+				}
 			}
 			v.ballColor = theRealColor;
 			v.gAccelerationMultiplier = intent.getExtras().getDouble("gravityValue");

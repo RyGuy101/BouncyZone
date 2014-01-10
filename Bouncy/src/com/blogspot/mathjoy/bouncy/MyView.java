@@ -45,6 +45,7 @@ public class MyView extends View implements OnTouchListener
 	static float ballSpeed;
 	ArrayList<Double> HitPlatAngles = new ArrayList<Double>();
 	double underTheRadical;
+	double minimumBallSpeed = 1;
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
@@ -98,37 +99,40 @@ public class MyView extends View implements OnTouchListener
 				}
 				if (HitPlatAngles.size() > 0)
 				{
-					if (HitPlatAngles.size() > 1)
+					if (ballSpeed > minimumBallSpeed)
 					{
-						double oppoBallAngle = oppositeOfBallAngle();
-						if (oppoBallAngle > 180)
+						if (HitPlatAngles.size() > 1)
 						{
+							double oppoBallAngle = oppositeOfBallAngle();
+							if (oppoBallAngle > 180)
+							{
+								for (int jj = 0; jj < HitPlatAngles.size(); jj++)
+								{
+									HitPlatAngles.set(jj, flipAngle(HitPlatAngles.get(jj)));
+								}
+							}
+							ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
+							ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
 							for (int jj = 0; jj < HitPlatAngles.size(); jj++)
 							{
-								HitPlatAngles.set(jj, flipAngle(HitPlatAngles.get(jj)));
+								if (angleIsRightOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj)))
+								{
+									anglesRightOfBall.add(HitPlatAngles.get(jj));
+								} else if (angleIsLeftOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj)))
+								{
+									anglesLeftOfBall.add(HitPlatAngles.get(jj));
+								}
 							}
-						}
-						ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
-						ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
-						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
+							double closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
+							double closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
+							updateBallAngleBasedOnTwoPlatforms(closestLeftAngle, closestRightAngle);
+							updateBallXAndYSpeed();
+						} else if (HitPlatAngles.size() == 1)
 						{
-							if (angleIsRightOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj)))
-							{
-								anglesRightOfBall.add(HitPlatAngles.get(jj));
-							} else if (angleIsLeftOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj)))
-							{
-								anglesLeftOfBall.add(HitPlatAngles.get(jj));
-							}
+							updateBallAngleBasedOnOnePlatform(HitPlatAngles.get(0));
+							updateSpeedWithBounceFactor();
+							updateBallXAndYSpeed();
 						}
-						double closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
-						double closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
-						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle, closestRightAngle);
-						updateBallXAndYSpeed();
-					} else if (HitPlatAngles.size() == 1)
-					{
-						updateBallAngleBasedOnOnePlatform(HitPlatAngles.get(0));
-						updateSpeedWithBounceFactor();
-						updateBallXAndYSpeed();
 					}
 				} else
 				{
@@ -365,10 +369,11 @@ public class MyView extends View implements OnTouchListener
 			{
 				platform.setJustWasHit(true);
 				HitPlatAngles.add(platform.getAngle());
-			} else if (ballSpeed == 0 && wasJustTouchingScreen == false)
+			} else if (ballSpeed <= minimumBallSpeed)// && wasJustTouchingScreen == false)
 			{
-				platform.setJustWasHit(true);
 				HitPlatAngles.add(platform.getAngle());
+				ballSpeed = 0;
+				updateBallXAndYSpeed();
 			}
 		} else
 		{
@@ -401,7 +406,7 @@ public class MyView extends View implements OnTouchListener
 	{
 		if (ballSpeed > ballRadius * 2)
 		{
-			ballSpeed = ballRadius * 2;
+			ballSpeed = (float) (ballRadius * 2);
 			updateBallXAndYSpeed();
 		}
 	}
