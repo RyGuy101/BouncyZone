@@ -383,7 +383,7 @@ public class MyView extends View implements OnTouchListener
 
 	private boolean isWithinBoundsOfPlatform(Platform platform)
 	{
-		return (intersectX(platform) >= platform.getLowX() && intersectX(platform) <= platform.getHighX()) && (intersectY(platform) >= platform.getLowY() && intersectY(platform) <= platform.getHighY());
+		return ((plusIntersectX(platform) >= platform.getLowX() || minusIntersectX(platform) >= platform.getLowX()) && (plusIntersectX(platform) <= platform.getHighX() || minusIntersectX(platform) <= platform.getHighX())) && ((plusIntersectY(platform) >= platform.getLowY() || minusIntersectY(platform) >= platform.getLowY()) && (plusIntersectY(platform) <= platform.getHighY() || minusIntersectY(platform) <= platform.getHighY()));
 	}
 
 	private void doIntersectionCalculations(Platform platform)
@@ -517,11 +517,11 @@ public class MyView extends View implements OnTouchListener
 		return true;
 	}
 
-	public double intersectX(Platform platform)
+	public double plusIntersectX(Platform platform)
 	{
-		double intersectX = 0;
-		double highInterX = 0;
-		double lowInterX = 0;
+		double plusIntersectX = 0;
+//		double highInterX = 0;
+//		double lowInterX = 0;
 		double relativeX1;
 		double relativeX2;
 		double relativeY1;
@@ -538,17 +538,43 @@ public class MyView extends View implements OnTouchListener
 		dy = relativeY2 - relativeY1;
 		dr = Math.sqrt((dy * dy) + (dx * dx));
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-		highInterX = ((D * dy + dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-		lowInterX = ((D * dy - dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-		intersectX = (highInterX + lowInterX) / 2;
-		return intersectX;
+		plusIntersectX = ((D * dy + dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+//		lowInterX = ((D * dy - dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+//		plusIntersectX = (highInterX + lowInterX) / 2;
+		return plusIntersectX + ballX;
+	}
+	public double minusIntersectX(Platform platform)
+	{
+		double minusIntersectX = 0;
+//		double highInterX = 0;
+//		double lowInterX = 0;
+		double relativeX1;
+		double relativeX2;
+		double relativeY1;
+		double relativeY2;
+		double dx;
+		double dy;
+		double dr;
+		double D;
+		relativeX1 = platform.getStartX() - ballX;
+		relativeX2 = platform.getEndX() - ballX;
+		relativeY1 = platform.getStartY() - ballY;
+		relativeY2 = platform.getEndY() - ballY;
+		dx = relativeX2 - relativeX1;
+		dy = relativeY2 - relativeY1;
+		dr = Math.sqrt((dy * dy) + (dx * dx));
+		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
+//		highInterX = ((D * dy + dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		minusIntersectX = ((D * dy - dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+//		minusIntersectX = (highInterX + lowInterX) / 2;
+		return minusIntersectX + ballX;
 	}
 
-	public double intersectY(Platform platform)
+	public double plusIntersectY(Platform platform)
 	{
-		double intersectY = 0;
-		double highInterY = 0;
-		double lowInterY = 0;
+		double plusIntersectY = 0;
+//		double highInterY = 0;
+//		double lowInterY = 0;
 		double relativeX1;
 		double relativeX2;
 		double relativeY1;
@@ -565,9 +591,35 @@ public class MyView extends View implements OnTouchListener
 		dy = relativeY2 - relativeY1;
 		dr = Math.sqrt((dy * dy) + (dx * dx));
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-		highInterY = ((-D * dx + Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-		highInterY = ((-D * dx - Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-		intersectY = (highInterY + lowInterY) / 2;
-		return intersectY;
+		plusIntersectY = ((-D * dx + Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+//		lowInterY = ((-D * dx - Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+//		plusIntersectY = (highInterY + lowInterY) / 2;
+		return plusIntersectY + ballY;
+	}
+	public double minusIntersectY(Platform platform)
+	{
+		double minusIntersectY = 0;
+//		double highInterY = 0;
+//		double lowInterY = 0;
+		double relativeX1;
+		double relativeX2;
+		double relativeY1;
+		double relativeY2;
+		double dx;
+		double dy;
+		double dr;
+		double D;
+		relativeX1 = platform.getStartX() - ballX;
+		relativeX2 = platform.getEndX() - ballX;
+		relativeY1 = platform.getStartY() - ballY;
+		relativeY2 = platform.getEndY() - ballY;
+		dx = relativeX2 - relativeX1;
+		dy = relativeY2 - relativeY1;
+		dr = Math.sqrt((dy * dy) + (dx * dx));
+		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
+//		highInterY = ((-D * dx + Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		minusIntersectY = ((-D * dx - Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+//		minusIntersectY = (highInterY + lowInterY) / 2;
+		return minusIntersectY + ballY;
 	}
 }
