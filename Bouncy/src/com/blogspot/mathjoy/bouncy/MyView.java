@@ -383,7 +383,7 @@ public class MyView extends View implements OnTouchListener
 
 	private boolean isWithinBoundsOfPlatform(Platform platform)
 	{
-		return (ballX >= platform.getLowX() && ballX <= platform.getHighX()) || (ballY >= platform.getLowY() && ballY <= platform.getHighY());
+		return (intersectX(platform) >= platform.getLowX() && intersectX(platform) <= platform.getHighX()) && (intersectY(platform) >= platform.getLowY() && intersectY(platform) <= platform.getHighY());
 	}
 
 	private void doIntersectionCalculations(Platform platform)
@@ -515,5 +515,59 @@ public class MyView extends View implements OnTouchListener
 			}
 		}
 		return true;
+	}
+
+	public double intersectX(Platform platform)
+	{
+		double intersectX = 0;
+		double highInterX = 0;
+		double lowInterX = 0;
+		double relativeX1;
+		double relativeX2;
+		double relativeY1;
+		double relativeY2;
+		double dx;
+		double dy;
+		double dr;
+		double D;
+		relativeX1 = platform.getStartX() - ballX;
+		relativeX2 = platform.getEndX() - ballX;
+		relativeY1 = platform.getStartY() - ballY;
+		relativeY2 = platform.getEndY() - ballY;
+		dx = relativeX2 - relativeX1;
+		dy = relativeY2 - relativeY1;
+		dr = Math.sqrt((dy * dy) + (dx * dx));
+		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
+		highInterX = ((D * dy + dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		lowInterX = ((D * dy - dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		intersectX = (highInterX + lowInterX) / 2;
+		return intersectX;
+	}
+
+	public double intersectY(Platform platform)
+	{
+		double intersectY = 0;
+		double highInterY = 0;
+		double lowInterY = 0;
+		double relativeX1;
+		double relativeX2;
+		double relativeY1;
+		double relativeY2;
+		double dx;
+		double dy;
+		double dr;
+		double D;
+		relativeX1 = platform.getStartX() - ballX;
+		relativeX2 = platform.getEndX() - ballX;
+		relativeY1 = platform.getStartY() - ballY;
+		relativeY2 = platform.getEndY() - ballY;
+		dx = relativeX2 - relativeX1;
+		dy = relativeY2 - relativeY1;
+		dr = Math.sqrt((dy * dy) + (dx * dx));
+		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
+		highInterY = ((-D * dx + Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		highInterY = ((-D * dx - Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		intersectY = (highInterY + lowInterY) / 2;
+		return intersectY;
 	}
 }
