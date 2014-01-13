@@ -16,6 +16,7 @@ public class MyView extends View implements OnTouchListener
 	Paint ballPaint = new Paint();
 	public static int timeBetweenFrames = 20;
 	static float ballRadius;
+	static float theoreticalRadius;
 	static float ballX;
 	static float ballY;
 	static float gravitationalAcceleration;
@@ -26,7 +27,7 @@ public class MyView extends View implements OnTouchListener
 	public static double gAccelerationMultiplier;
 	public static double bounceFactor;
 	public static boolean touchingScreen = false;
-	public static boolean wasJustTouchingScreen = false;
+	public static boolean wasJustTouchingScreen = false;// doesn't affect anything right now
 	public static float currentTouchX;
 	public static float currentTouchY;
 	float endTouchXMode0;
@@ -43,9 +44,10 @@ public class MyView extends View implements OnTouchListener
 	static ArrayList<Platform> platforms = new ArrayList<Platform>();
 	static float ballAngle;
 	static float ballSpeed;
-	ArrayList<Double> HitPlatAngles = new ArrayList<Double>();
-	double underTheRadical;
-	double minimumBallSpeed = 5;
+	static float ballSpeedBeforeBounce;
+	static ArrayList<Platform> HitPlatAngles = new ArrayList<Platform>();
+	double minimumBounceSpeed = 1;
+	static boolean rolling;
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
@@ -85,22 +87,28 @@ public class MyView extends View implements OnTouchListener
 				wasJustTouchingScreen = true;
 			} else
 			{
+				boolean updateTheoRadius = true;
+				if (theoreticalRadius != theoreticalRadius())
+				{
+					updateTheoRadius = false;
+				}
 				updateBallAngle();
 				updateBallSpeed();
-				checkIfBallIsTooFast();
+				// checkIfBallIsTooFast();
 				updateBallPosition();
+				if (updateTheoRadius)
+				{
+					theoreticalRadius = theoreticalRadius();
+				}
 				// double intersectX;
 				// double intersecty;
 				for (int i = 0; i < platforms.size(); i++)
 				{
 					Platform thisPlat = platforms.get(i);
-					doIntersectionCalculations(thisPlat);
 					checkIfPlatformIsHitAndAddItToHitPlatList(thisPlat);
 				}
 				if (HitPlatAngles.size() > 0)
 				{
-					// if (ballSpeed > minimumBallSpeed)
-					// {
 					if (HitPlatAngles.size() > 1)
 					{
 						double oppoBallAngle = oppositeOfBallAngle();
@@ -108,32 +116,45 @@ public class MyView extends View implements OnTouchListener
 						{
 							for (int jj = 0; jj < HitPlatAngles.size(); jj++)
 							{
-								HitPlatAngles.set(jj, flipAngle(HitPlatAngles.get(jj)));
+								HitPlatAngles.get(jj).setAngle(flipAngle(HitPlatAngles.get(jj).getAngle()));
 							}
 						}
-						ArrayList<Double> anglesLeftOfBall = new ArrayList<Double>();
-						ArrayList<Double> anglesRightOfBall = new ArrayList<Double>();
+						ArrayList<Platform> anglesLeftOfBall = new ArrayList<Platform>();
+						ArrayList<Platform> anglesRightOfBall = new ArrayList<Platform>();
 						for (int jj = 0; jj < HitPlatAngles.size(); jj++)
 						{
-							if (angleIsRightOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj)))
+							if (angleIsRightOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj).getAngle()))
 							{
 								anglesRightOfBall.add(HitPlatAngles.get(jj));
-							} else if (angleIsLeftOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj)))
+							} else if (angleIsLeftOfAnotherAngle(oppoBallAngle, HitPlatAngles.get(jj).getAngle()))
 							{
 								anglesLeftOfBall.add(HitPlatAngles.get(jj));
 							}
 						}
-						double closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
-						double closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
-						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle, closestRightAngle);
-						updateBallXAndYSpeed();
-					} else if (HitPlatAngles.size() == 1)
-					{
-						updateBallAngleBasedOnOnePlatform(HitPlatAngles.get(0));
+						Platform closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
+						Platform closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
+						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle.getAngle(), closestRightAngle.getAngle());
 						updateSpeedWithBounceFactor();
 						updateBallXAndYSpeed();
+						//WORK IN PROGRESS
+//						if ((isOnInfintiteLine(closestLeftAngle) && isWithinBoundsOfPlatform(closestLeftAngle)) || (isOnInfintiteLine(closestRightAngle) && isWithinBoundsOfPlatform(closestRightAngle)) && bounceFactor < 1)
+//						{
+//						}
+					} else if (HitPlatAngles.size() == 1)
+					{
+						updateBallAngleBasedOnOnePlatform(HitPlatAngles.get(0).getAngle());
+						updateSpeedWithBounceFactor();
+						updateBallXAndYSpeed();
+						//WORK IN PROGRESSs
+//						if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)) && bounceFactor < 1)
+//						{
+//							while (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
+//							{
+//								ballX += Math.cos(Math.toDegrees(HitPlatAngles.get(0).getAngle() + 90));
+//								ballY += Math.sin(Math.toDegrees(HitPlatAngles.get(0).getAngle() + 90));
+//							}
+//						}
 					}
-					// }
 				} else
 				{
 					updateBallYSpeedBasedOnGravity();
@@ -156,6 +177,22 @@ public class MyView extends View implements OnTouchListener
 		drawBall(c);
 		drawAllPlatforms(c);
 		invalidate();
+	}
+
+	private void backtrackBallPosition()
+	{
+		ballX -= ballXSpeed;
+		ballY -= ballYSpeed;
+	}
+
+	private float theoreticalRadius()
+	{
+		float theoreticalRadius = ballSpeed / 2;
+		if (theoreticalRadius < ballRadius)
+		{
+			theoreticalRadius = ballRadius;
+		}
+		return theoreticalRadius;
 	}
 
 	private void updateSpeedWithBounceFactor()
@@ -181,7 +218,10 @@ public class MyView extends View implements OnTouchListener
 
 	private void drawBall(Canvas c)
 	{
-		c.drawCircle(ballX, ballY, ballRadius, ballPaint);
+		// Paint temp = new Paint();
+		// temp.setColor(Color.DKGRAY);
+		// c.drawCircle(ballX, ballY, theoreticalRadius, temp);
+		c.drawCircle(ballX, ballY, theoreticalRadius, ballPaint);
 	}
 
 	private void drawAllPlatforms(Canvas c)
@@ -298,24 +338,24 @@ public class MyView extends View implements OnTouchListener
 		}
 	}
 
-	private double closestRightAngle(double compareAngle, ArrayList<Double> angles)
+	private Platform closestRightAngle(double compareAngle, ArrayList<Platform> angles)
 	{
-		double closestRightAngle = -1;
+		Platform closestRightAngle = new Platform(-1000, -1000, -1000, -1000);
 		double rightMinDiff = 360;
 		for (int rr = 0; rr < angles.size(); rr++)
 		{
 			if (compareAngle < 180)
 			{
-				if (compareAngle - angles.get(rr) < rightMinDiff)
+				if (compareAngle - angles.get(rr).getAngle() < rightMinDiff)
 				{
-					rightMinDiff = compareAngle - angles.get(rr);
+					rightMinDiff = compareAngle - angles.get(rr).getAngle();
 					closestRightAngle = angles.get(rr);
 				}
 			} else if (compareAngle > 180)
 			{
-				if (angles.get(rr) - compareAngle < rightMinDiff)
+				if (angles.get(rr).getAngle() - compareAngle < rightMinDiff)
 				{
-					rightMinDiff = angles.get(rr) - compareAngle;
+					rightMinDiff = angles.get(rr).getAngle() - compareAngle;
 					closestRightAngle = angles.get(rr);
 				}
 			}
@@ -323,24 +363,24 @@ public class MyView extends View implements OnTouchListener
 		return closestRightAngle;
 	}
 
-	private double closestLeftAngle(double compareAngle, ArrayList<Double> angles)
+	private Platform closestLeftAngle(double compareAngle, ArrayList<Platform> angles)
 	{
-		double closestLeftAngle = -1;
+		Platform closestLeftAngle = new Platform(-1000, -1000, -1000, -1000);
 		double leftMinDiff = 360;
 		for (int ll = 0; ll < angles.size(); ll++)
 		{
 			if (compareAngle < 180)
 			{
-				if (angles.get(ll) - compareAngle < leftMinDiff)
+				if (angles.get(ll).getAngle() - compareAngle < leftMinDiff)
 				{
-					leftMinDiff = angles.get(ll) - compareAngle;
+					leftMinDiff = angles.get(ll).getAngle() - compareAngle;
 					closestLeftAngle = angles.get(ll);
 				}
 			} else if (compareAngle > 180)
 			{
-				if (compareAngle - angles.get(ll) < leftMinDiff)
+				if (compareAngle - angles.get(ll).getAngle() < leftMinDiff)
 				{
-					leftMinDiff = compareAngle - angles.get(ll);
+					leftMinDiff = compareAngle - angles.get(ll).getAngle();
 					closestLeftAngle = angles.get(ll);
 				}
 			}
@@ -368,15 +408,25 @@ public class MyView extends View implements OnTouchListener
 			if (platform.getJustWasHit() == false)
 			{
 				platform.setJustWasHit(true);
-				HitPlatAngles.add(platform.getAngle());
-			} else if (ballSpeed < minimumBallSpeed)// && wasJustTouchingScreen == false)
+				HitPlatAngles.add(platform);
+			} else
 			{
-				HitPlatAngles.add(platform.getAngle());
-				ballSpeed = (float) minimumBallSpeed;
-				updateBallXAndYSpeed();
+				// while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && theoreticalRadius > 1)
+				// {
+				// theoreticalRadius--;
+				// rolling = true;
+				// }
 			}
 		} else
 		{
+			// if (theoreticalRadius < ballRadius)
+			// {
+			// while (!(isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform)) && theoreticalRadius <= ballRadius)
+			// {
+			// theoreticalRadius++;
+			// }
+			// theoreticalRadius--;
+			// }
 			platform.setJustWasHit(false);
 		}
 	}
@@ -386,7 +436,27 @@ public class MyView extends View implements OnTouchListener
 		return ((plusIntersectX(platform) >= platform.getLowX() || minusIntersectX(platform) >= platform.getLowX()) && (plusIntersectX(platform) <= platform.getHighX() || minusIntersectX(platform) <= platform.getHighX())) && ((plusIntersectY(platform) >= platform.getLowY() || minusIntersectY(platform) >= platform.getLowY()) && (plusIntersectY(platform) <= platform.getHighY() || minusIntersectY(platform) <= platform.getHighY()));
 	}
 
-	private void doIntersectionCalculations(Platform platform)
+	// private void doIntersectionCalculations(Platform platform)
+	// {
+	// double relativeX1;
+	// double relativeX2;
+	// double relativeY1;
+	// double relativeY2;
+	// double dx;
+	// double dy;
+	// double dr;
+	// double D;
+	// relativeX1 = platform.getStartX() - ballX;
+	// relativeX2 = platform.getEndX() - ballX;
+	// relativeY1 = platform.getStartY() - ballY;
+	// relativeY2 = platform.getEndY() - ballY;
+	// dx = relativeX2 - relativeX1;
+	// dy = relativeY2 - relativeY1;
+	// dr = Math.sqrt((dy * dy) + (dx * dx));
+	// D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
+	// underTheRadical = ((theoreticalRadius * theoreticalRadius) * (dr * dr)) - (D * D);
+	// }
+	private boolean isOnInfintiteLine(Platform platform)
 	{
 		double relativeX1;
 		double relativeX2;
@@ -404,24 +474,18 @@ public class MyView extends View implements OnTouchListener
 		dy = relativeY2 - relativeY1;
 		dr = Math.sqrt((dy * dy) + (dx * dx));
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-		underTheRadical = ((ballRadius * ballRadius) * (dr * dr)) - (D * D);
-	}
-
-	private boolean isOnInfintiteLine(Platform platform)
-	{
-		doIntersectionCalculations(platform);
+		double underTheRadical = ((theoreticalRadius * theoreticalRadius) * (dr * dr)) - (D * D);
 		return underTheRadical >= 0;
 	}
 
-	private void checkIfBallIsTooFast()
-	{
-		if (ballSpeed > ballRadius * 2)
-		{
-			ballSpeed = (float) (ballRadius * 2);
-			updateBallXAndYSpeed();
-		}
-	}
-
+	// private void checkIfBallIsTooFast()
+	// {
+	// if (ballSpeed > ballRadius * 2)
+	// {
+	// ballSpeed = (float) (ballRadius * 2);
+	// updateBallXAndYSpeed();
+	// }
+	// }
 	private void updateBallSpeed()
 	{
 		ballSpeed = (float) (Math.sqrt((ballYSpeed * ballYSpeed) + (ballXSpeed * ballXSpeed)));
@@ -468,6 +532,7 @@ public class MyView extends View implements OnTouchListener
 		ballX = (float) (this.getWidth() / 2.0);
 		ballY = ballRadius;
 		updateGravity();
+		theoreticalRadius = ballRadius;
 	}
 
 	private void sleep()
@@ -520,8 +585,8 @@ public class MyView extends View implements OnTouchListener
 	public double plusIntersectX(Platform platform)
 	{
 		double plusIntersectX = 0;
-//		double highInterX = 0;
-//		double lowInterX = 0;
+		// double highInterX = 0;
+		// double lowInterX = 0;
 		double relativeX1;
 		double relativeX2;
 		double relativeY1;
@@ -538,16 +603,17 @@ public class MyView extends View implements OnTouchListener
 		dy = relativeY2 - relativeY1;
 		dr = Math.sqrt((dy * dy) + (dx * dx));
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-		plusIntersectX = ((D * dy + dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-//		lowInterX = ((D * dy - dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-//		plusIntersectX = (highInterX + lowInterX) / 2;
+		plusIntersectX = ((D * dy + dx * Math.sqrt(theoreticalRadius * theoreticalRadius * dr * dr - D * D)) / (dr * dr));
+		// lowInterX = ((D * dy - dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		// plusIntersectX = (highInterX + lowInterX) / 2;
 		return plusIntersectX + ballX;
 	}
+
 	public double minusIntersectX(Platform platform)
 	{
 		double minusIntersectX = 0;
-//		double highInterX = 0;
-//		double lowInterX = 0;
+		// double highInterX = 0;
+		// double lowInterX = 0;
 		double relativeX1;
 		double relativeX2;
 		double relativeY1;
@@ -564,17 +630,17 @@ public class MyView extends View implements OnTouchListener
 		dy = relativeY2 - relativeY1;
 		dr = Math.sqrt((dy * dy) + (dx * dx));
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-//		highInterX = ((D * dy + dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-		minusIntersectX = ((D * dy - dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-//		minusIntersectX = (highInterX + lowInterX) / 2;
+		// highInterX = ((D * dy + dx * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		minusIntersectX = ((D * dy - dx * Math.sqrt(theoreticalRadius * theoreticalRadius * dr * dr - D * D)) / (dr * dr));
+		// minusIntersectX = (highInterX + lowInterX) / 2;
 		return minusIntersectX + ballX;
 	}
 
 	public double plusIntersectY(Platform platform)
 	{
 		double plusIntersectY = 0;
-//		double highInterY = 0;
-//		double lowInterY = 0;
+		// double highInterY = 0;
+		// double lowInterY = 0;
 		double relativeX1;
 		double relativeX2;
 		double relativeY1;
@@ -591,16 +657,17 @@ public class MyView extends View implements OnTouchListener
 		dy = relativeY2 - relativeY1;
 		dr = Math.sqrt((dy * dy) + (dx * dx));
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-		plusIntersectY = ((-D * dx + Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-//		lowInterY = ((-D * dx - Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-//		plusIntersectY = (highInterY + lowInterY) / 2;
+		plusIntersectY = ((-D * dx + Math.abs(dy) * Math.sqrt(theoreticalRadius * theoreticalRadius * dr * dr - D * D)) / (dr * dr));
+		// lowInterY = ((-D * dx - Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		// plusIntersectY = (highInterY + lowInterY) / 2;
 		return plusIntersectY + ballY;
 	}
+
 	public double minusIntersectY(Platform platform)
 	{
 		double minusIntersectY = 0;
-//		double highInterY = 0;
-//		double lowInterY = 0;
+		// double highInterY = 0;
+		// double lowInterY = 0;
 		double relativeX1;
 		double relativeX2;
 		double relativeY1;
@@ -617,9 +684,9 @@ public class MyView extends View implements OnTouchListener
 		dy = relativeY2 - relativeY1;
 		dr = Math.sqrt((dy * dy) + (dx * dx));
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
-//		highInterY = ((-D * dx + Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-		minusIntersectY = ((-D * dx - Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
-//		minusIntersectY = (highInterY + lowInterY) / 2;
+		// highInterY = ((-D * dx + Math.abs(dy) * Math.sqrt(ballRadius * ballRadius * dr * dr - D * D)) / (dr * dr));
+		minusIntersectY = ((-D * dx - Math.abs(dy) * Math.sqrt(theoreticalRadius * theoreticalRadius * dr * dr - D * D)) / (dr * dr));
+		// minusIntersectY = (highInterY + lowInterY) / 2;
 		return minusIntersectY + ballY;
 	}
 }

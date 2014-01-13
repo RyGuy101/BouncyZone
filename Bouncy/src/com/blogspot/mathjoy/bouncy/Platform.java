@@ -11,6 +11,7 @@ public class Platform
 	private float myHighX;
 	private float myHighY;
 	private boolean myJustWasHit;
+	private double myAngle;
 
 	public Platform(float startX, float startY, float endX, float endY)
 	{
@@ -31,6 +32,30 @@ public class Platform
 		{
 			myHighY = startY;
 			myLowY = endY;
+		}
+		if (myEndX - myStartX == 0)
+		{
+			if (myEndY - myStartY > 0)
+			{
+				myAngle = 90;
+			}
+			if (myEndY - myStartY < 0)
+			{
+				myAngle = -90;
+			}
+		}
+		myAngle = Math.toDegrees(Math.atan((myEndY - myStartY) / (myEndX - myStartX)));
+		if (myAngle < 0)
+		{
+			myAngle += 360;
+		}
+		if (myAngle >= 360)
+		{
+			myAngle -= 360;
+		}
+		if (myAngle > 180)
+		{
+			myAngle -= 180;
 		}
 	}
 
@@ -96,32 +121,12 @@ public class Platform
 
 	public double getAngle()
 	{
-		double angle;
-		if (myEndX - myStartX == 0)
-		{
-			if (myEndY - myStartY > 0)
-			{
-				angle = 90;
-			}
-			if (myEndY - myStartY < 0)
-			{
-				angle = -90;
-			}
-		}
-		angle = Math.toDegrees(Math.atan((myEndY - myStartY) / (myEndX - myStartX)));
-		if (angle < 0)
-		{
-			angle += 360;
-		}
-		if (angle >= 360)
-		{
-			angle -= 360;
-		}
-		if (angle > 180)
-		{
-			angle -= 180;
-		}
-		return angle;
+		return myAngle;
+	}
+
+	public void setAngle(double angle)
+	{
+		myAngle = angle;
 	}
 
 	public boolean getJustWasHit()
