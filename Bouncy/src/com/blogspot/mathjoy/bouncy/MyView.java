@@ -42,7 +42,7 @@ public class MyView extends View implements OnTouchListener
 	public static final int MODE_DELETE_PLATFORM = 3;
 	public static int mode = 0;
 	static ArrayList<Platform> platforms = new ArrayList<Platform>();
-	static float ballAngle;
+	static double ballAngle;
 	static float ballSpeed;
 	static float ballSpeedBeforeBounce;
 	static ArrayList<Platform> HitPlatAngles = new ArrayList<Platform>();
@@ -136,24 +136,44 @@ public class MyView extends View implements OnTouchListener
 						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle.getAngle(), closestRightAngle.getAngle());
 						updateSpeedWithBounceFactor();
 						updateBallXAndYSpeed();
-						//WORK IN PROGRESS
-//						if ((isOnInfintiteLine(closestLeftAngle) && isWithinBoundsOfPlatform(closestLeftAngle)) || (isOnInfintiteLine(closestRightAngle) && isWithinBoundsOfPlatform(closestRightAngle)) && bounceFactor < 1)
-//						{
-//						}
+						// WORK IN PROGRESS
+						// if ((isOnInfintiteLine(closestLeftAngle) && isWithinBoundsOfPlatform(closestLeftAngle)) || (isOnInfintiteLine(closestRightAngle) && isWithinBoundsOfPlatform(closestRightAngle)) && bounceFactor < 1)
+						// {
+						// }
 					} else if (HitPlatAngles.size() == 1)
 					{
+						double oldBallAngle = ballAngle;
+						float oldBallSpeed = ballSpeed;
 						updateBallAngleBasedOnOnePlatform(HitPlatAngles.get(0).getAngle());
-						updateSpeedWithBounceFactor();
+						if (!rolling)
+						{
+							updateSpeedWithBounceFactor();
+						}
 						updateBallXAndYSpeed();
-						//WORK IN PROGRESSs
-//						if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)) && bounceFactor < 1)
-//						{
-//							while (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
-//							{
-//								ballX += Math.cos(Math.toDegrees(HitPlatAngles.get(0).getAngle() + 90));
-//								ballY += Math.sin(Math.toDegrees(HitPlatAngles.get(0).getAngle() + 90));
-//							}
-//						}
+						updateBallPosition();
+						// WORK IN PROGRESS
+						// float newYSpeed;
+						// float newXSpeed;
+						if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
+						{
+							if (!rolling)
+							{
+								rolling = true;
+								ballAngle = oldBallAngle;
+								ballSpeed = oldBallSpeed;
+								double relativeAngle = ballAngle - HitPlatAngles.get(0).getAngle();
+								ballSpeed = (float) (Math.cos(Math.toRadians(relativeAngle)) * ballSpeed);
+								ballAngle = HitPlatAngles.get(0).getAngle();
+							} else if (rolling)
+							{
+								ballSpeed += Math.sin(Math.toRadians(HitPlatAngles.get(0).getAngle()));
+							}
+						} else
+						{
+							rolling = false;
+						}
+						backtrackBallPosition();
+						updateBallXAndYSpeed();
 					}
 				} else
 				{
@@ -303,7 +323,7 @@ public class MyView extends View implements OnTouchListener
 
 	private void updateBallAngleBasedOnOnePlatform(double angle)
 	{
-		ballAngle = (float) ((angle * 2) - ballAngle);
+		ballAngle = (angle * 2) - ballAngle;
 	}
 
 	private void updateBallXAndYSpeed()
@@ -328,13 +348,13 @@ public class MyView extends View implements OnTouchListener
 		double oppoBallAngle = oppositeOfBallAngle();
 		if (leftAngle == -1)
 		{
-			ballAngle = (float) ((rightAngle * 2) - ballAngle);
+			ballAngle = (rightAngle * 2) - ballAngle;
 		} else if (rightAngle == -1)
 		{
-			ballAngle = (float) ((leftAngle * 2) - ballAngle);
+			ballAngle = (leftAngle * 2) - ballAngle;
 		} else
 		{
-			ballAngle = (float) ((((leftAngle + rightAngle) / 2.0) * 2) - oppoBallAngle);
+			ballAngle = (((leftAngle + rightAngle) / 2.0) * 2) - oppoBallAngle;
 		}
 	}
 
@@ -409,7 +429,10 @@ public class MyView extends View implements OnTouchListener
 			{
 				platform.setJustWasHit(true);
 				HitPlatAngles.add(platform);
-			} else
+			} else if (rolling)
+			{
+				HitPlatAngles.add(platform);
+			}
 			{
 				// while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && theoreticalRadius > 1)
 				// {
@@ -505,7 +528,7 @@ public class MyView extends View implements OnTouchListener
 			}
 		} else
 		{
-			ballAngle = (float) Math.toDegrees(Math.atan(ballYSpeed / ballXSpeed));
+			ballAngle = Math.toDegrees(Math.atan(ballYSpeed / ballXSpeed));
 		}
 		if (ballXSpeed < 0)
 		{
