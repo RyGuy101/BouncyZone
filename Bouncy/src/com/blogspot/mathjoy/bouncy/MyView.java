@@ -133,7 +133,7 @@ public class MyView extends View implements OnTouchListener
 						}
 						Platform closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
 						Platform closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
-						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle.getAngle(), closestRightAngle.getAngle());
+						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle, closestRightAngle);
 						updateSpeedWithBounceFactor();
 						updateBallXAndYSpeed();
 						// WORK IN PROGRESS
@@ -151,9 +151,6 @@ public class MyView extends View implements OnTouchListener
 						}
 						updateBallXAndYSpeed();
 						updateBallPosition();
-						// WORK IN PROGRESS
-						// float newYSpeed;
-						// float newXSpeed;
 						if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
 						{
 							if (!rolling)
@@ -343,24 +340,24 @@ public class MyView extends View implements OnTouchListener
 		ballY += ballYSpeed;
 	}
 
-	private void updateBallAngleBasedOnTwoPlatforms(double leftAngle, double rightAngle)
+	private void updateBallAngleBasedOnTwoPlatforms(Platform leftAngle, Platform rightAngle)
 	{
 		double oppoBallAngle = oppositeOfBallAngle();
-		if (leftAngle == -1)
+		if (leftAngle == null)
 		{
-			ballAngle = (rightAngle * 2) - ballAngle;
-		} else if (rightAngle == -1)
+			ballAngle = (rightAngle.getAngle() * 2) - ballAngle;
+		} else if (rightAngle == null)
 		{
-			ballAngle = (leftAngle * 2) - ballAngle;
+			ballAngle = (leftAngle.getAngle() * 2) - ballAngle;
 		} else
 		{
-			ballAngle = (((leftAngle + rightAngle) / 2.0) * 2) - oppoBallAngle;
+			ballAngle = (((leftAngle.getAngle() + rightAngle.getAngle()) / 2.0) * 2) - oppoBallAngle;
 		}
 	}
 
 	private Platform closestRightAngle(double compareAngle, ArrayList<Platform> angles)
 	{
-		Platform closestRightAngle = new Platform(-1000, -1000, -1000, -1000);
+		Platform closestRightAngle = null;
 		double rightMinDiff = 360;
 		for (int rr = 0; rr < angles.size(); rr++)
 		{
@@ -385,7 +382,7 @@ public class MyView extends View implements OnTouchListener
 
 	private Platform closestLeftAngle(double compareAngle, ArrayList<Platform> angles)
 	{
-		Platform closestLeftAngle = new Platform(-1000, -1000, -1000, -1000);
+		Platform closestLeftAngle = null;
 		double leftMinDiff = 360;
 		for (int ll = 0; ll < angles.size(); ll++)
 		{

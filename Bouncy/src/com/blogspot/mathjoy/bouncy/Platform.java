@@ -35,27 +35,22 @@ public class Platform
 		}
 		if (myEndX - myStartX == 0)
 		{
-			if (myEndY - myStartY > 0)
+			myAngle = 90;
+		} else
+		{
+			myAngle = Math.toDegrees(Math.atan((myEndY - myStartY) / (myEndX - myStartX)));
+			if (myAngle < 0)
 			{
-				myAngle = 90;
+				myAngle += 360;
 			}
-			if (myEndY - myStartY < 0)
+			if (myAngle >= 360)
 			{
-				myAngle = -90;
+				myAngle -= 360;
 			}
-		}
-		myAngle = Math.toDegrees(Math.atan((myEndY - myStartY) / (myEndX - myStartX)));
-		if (myAngle < 0)
-		{
-			myAngle += 360;
-		}
-		if (myAngle >= 360)
-		{
-			myAngle -= 360;
-		}
-		if (myAngle > 180)
-		{
-			myAngle -= 180;
+			if (myAngle > 180)
+			{
+				myAngle -= 180;
+			}
 		}
 	}
 
