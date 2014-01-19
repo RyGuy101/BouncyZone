@@ -88,18 +88,11 @@ public class MyView extends View implements OnTouchListener
 			} else
 			{
 				boolean updateTheoRadius = true;
-				if (theoreticalRadius != theoreticalRadius())
-				{
-					updateTheoRadius = false;
-				}
 				updateBallAngle();
 				updateBallSpeed();
 				// checkIfBallIsTooFast();
 				updateBallPosition();
-				if (updateTheoRadius)
-				{
-					theoreticalRadius = theoreticalRadius();
-				}
+				theoreticalRadius = theoreticalRadius();
 				// double intersectX;
 				// double intersecty;
 				for (int i = 0; i < platforms.size(); i++)
@@ -116,7 +109,7 @@ public class MyView extends View implements OnTouchListener
 						{
 							for (int jj = 0; jj < HitPlatAngles.size(); jj++)
 							{
-								HitPlatAngles.get(jj).setAngle(flipAngle(HitPlatAngles.get(jj).getAngle()));
+								HitPlatAngles.get(jj).setAngle(flipAngle(HitPlatAngles.get(jj).getAngle()));//Fix this part
 							}
 						}
 						ArrayList<Platform> anglesLeftOfBall = new ArrayList<Platform>();
