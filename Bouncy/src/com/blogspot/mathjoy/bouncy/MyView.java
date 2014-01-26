@@ -43,7 +43,7 @@ public class MyView extends View implements OnTouchListener
 	public static int mode = 0;
 	static ArrayList<Platform> platforms = new ArrayList<Platform>();
 	static double ballAngle;
-	static double prevBallAngle;
+	// static double prevBallAngle;
 	static float ballSpeed;
 	static float ballSpeedBeforeBounce;
 	static ArrayList<Platform> HitPlatAngles = new ArrayList<Platform>();
@@ -136,47 +136,63 @@ public class MyView extends View implements OnTouchListener
 						// }
 					} else if (HitPlatAngles.size() == 1)
 					{
-						prevBallAngle = ballAngle;
 						updateBallAngleBasedOnOnePlatform(HitPlatAngles.get(0).getAngle());
-						// double backupBallAngle = ballAngle;
-						// float oldBallSpeed = ballSpeed;
+						double backupBallAngle = ballAngle;
+						float oldBallSpeed = ballSpeed;
 						// if (!rolling)
 						// {
 						updateSpeedWithBounceFactor();
 						// }
 						updateBallXAndYSpeed();
-//						float oldBallX = ballX;
-//						float oldBallY = ballY;
-//						updateBallPosition();
+						float oldBallX = ballX;
+						float oldBallY = ballY;
+						// updateBallPosition();
 						// updateBallPosition();
 						// if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
 						// {
-						// if (ballAngle > HitPlatAngles.get(0).getAngle())
-						// {
-						// while (ballAngle - HitPlatAngles.get(0).getAngle() > 0)
-						// {
-						// updateBallPosition();
-						// updateBallYSpeedBasedOnGravity();
-						// updateBallAngle();
-						// }
-						// } else
-						// {
+						if (ballAngle > HitPlatAngles.get(0).getAngle())
+						{
+							while (ballAngle - HitPlatAngles.get(0).getAngle() > 0)
+							{
+								updateBallPosition();
+								updateBallYSpeedBasedOnGravity();
+								updateBallAngle();
+							}
+						} else if (ballAngle < HitPlatAngles.get(0).getAngle())
+						{
+							while (ballAngle - HitPlatAngles.get(0).getAngle() < 0)
+							{
+								updateBallPosition();
+								updateBallYSpeedBasedOnGravity();
+								updateBallAngle();
+							}
+						}
+						if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
+						{
+							ballX = oldBallX;
+							ballY = oldBallY;
+							ballAngle = backupBallAngle;
+							updateBallXAndYSpeed();
+							while (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
+							{
+								ballSpeed++;
+								//Put stuff here for increasing the ballSpeed just enough.	
+							}
+						}
+						ballX = oldBallX;
+						ballY = oldBallY;
+						ballAngle = backupBallAngle;
+						updateBallXAndYSpeed();
+					} else
+					{
 						// while (ballAngle - HitPlatAngles.get(0).getAngle() < 0)
 						// {
 						// updateBallPosition();
 						// updateBallYSpeedBasedOnGravity();
 						// updateBallAngle();
 						// }
-						// }
+						// // }
 						// theoreticalRadius = theoreticalRadius();
-						// if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
-						// {
-						// ballSpeed = oldBallSpeed;
-						// }
-//						ballX = oldBallX;
-//						ballY = oldBallY;
-						// ballAngle = backupBallAngle;
-//						updateBallXAndYSpeed();
 						// if (!rolling)
 						// {
 						// rolling = true;
@@ -449,17 +465,25 @@ public class MyView extends View implements OnTouchListener
 			{
 				platform.setJustWasHit(true);
 				HitPlatAngles.add(new Platform(platform.getStartX(), platform.getStartY(), platform.getEndX(), platform.getEndY()));
-			} // else if (rolling)
+			} else
+			{
+				// if ((ballAngle > prevBallAngle && ballAngle > platform.getAngle()) || (ballAngle < prevBallAngle && ballAngle < platform.getAngle()))
 				// {
+				//
+				// }
 				// HitPlatAngles.add(new Platform(platform.getStartX(), platform.getStartY(), platform.getEndX(), platform.getEndY()));
-				// }
-				// {
-				// while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && theoreticalRadius > 1)
-				// {
-				// theoreticalRadius--;
-				// rolling = true;
-				// }
-				// }
+			}
+			// else if (rolling)
+			// {
+			// HitPlatAngles.add(new Platform(platform.getStartX(), platform.getStartY(), platform.getEndX(), platform.getEndY()));
+			// }
+			// {
+			// while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && theoreticalRadius > 1)
+			// {
+			// theoreticalRadius--;
+			// rolling = true;
+			// }
+			// }
 		} else
 		{
 			// if (theoreticalRadius < ballRadius)
@@ -544,7 +568,7 @@ public class MyView extends View implements OnTouchListener
 			}
 			if (ballYSpeed < 0)
 			{
-				ballAngle = -90;
+				ballAngle = 270;
 			}
 		} else
 		{
