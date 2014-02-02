@@ -49,6 +49,9 @@ public class MyView extends View implements OnTouchListener
 	static ArrayList<Platform> HitPlatAngles = new ArrayList<Platform>();
 	double minimumBounceSpeed = 1;
 	static boolean rolling;
+	static boolean problem1a = false;
+	static boolean problem2a = false;
+	static boolean problem1b = false;
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
@@ -150,13 +153,23 @@ public class MyView extends View implements OnTouchListener
 						// updateBallPosition();
 						// if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
 						// {
+						boolean checkForIntersection = true;
 						if (ballAngle > HitPlatAngles.get(0).getAngle())
 						{
 							while (ballAngle - HitPlatAngles.get(0).getAngle() > 0)
 							{
 								updateBallPosition();
 								updateBallYSpeedBasedOnGravity();
+								double prevBallAngle = ballAngle;
 								updateBallAngle();
+								if (prevBallAngle >= ballAngle && ballAngle - HitPlatAngles.get(0).getAngle() > 0)
+								{
+									checkForIntersection = false;
+									problem1a = true;
+									break;
+								}
+								updateBallSpeed();
+								theoreticalRadius = theoreticalRadius();
 							}
 						} else if (ballAngle < HitPlatAngles.get(0).getAngle())
 						{
@@ -164,23 +177,39 @@ public class MyView extends View implements OnTouchListener
 							{
 								updateBallPosition();
 								updateBallYSpeedBasedOnGravity();
+								double prevBallAngle = ballAngle;
 								updateBallAngle();
+								if (prevBallAngle <= ballAngle && ballAngle - HitPlatAngles.get(0).getAngle() < 0)
+								{
+									checkForIntersection = false;
+									problem1b = true;
+									break;
+								}
+								updateBallSpeed();
+								theoreticalRadius = theoreticalRadius();
 							}
 						}
-						if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
+						if (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)) && checkForIntersection == true)
 						{
 							ballX = oldBallX;
 							ballY = oldBallY;
-							ballAngle = backupBallAngle;
-							updateBallXAndYSpeed();
 							while (isOnInfintiteLine(HitPlatAngles.get(0)) && isWithinBoundsOfPlatform(HitPlatAngles.get(0)))
 							{
-								ballSpeed++;
-								//Put stuff here for increasing the ballSpeed just enough.	
+								if (HitPlatAngles.get(0).getAngle() > 90)
+								{
+									ballX += Math.cos(Math.toRadians(HitPlatAngles.get(0).getAngle() + 90)) / 10.0;
+									ballY += Math.sin(Math.toRadians(HitPlatAngles.get(0).getAngle() + 90)) / 10.0;
+								} else
+								{
+									ballX += Math.cos(Math.toRadians(HitPlatAngles.get(0).getAngle() - 90));
+									ballY += Math.sin(Math.toRadians(HitPlatAngles.get(0).getAngle() - 90));
+								}
 							}
+						} else
+						{
+							ballX = oldBallX;
+							ballY = oldBallY;
 						}
-						ballX = oldBallX;
-						ballY = oldBallY;
 						ballAngle = backupBallAngle;
 						updateBallXAndYSpeed();
 					} else
@@ -243,7 +272,7 @@ public class MyView extends View implements OnTouchListener
 
 	private float theoreticalRadius()
 	{
-		float theoreticalRadius = ballSpeed / 2;
+		float theoreticalRadius = ballSpeed / 2 + 1;
 		if (theoreticalRadius < ballRadius)
 		{
 			theoreticalRadius = ballRadius;
@@ -461,39 +490,13 @@ public class MyView extends View implements OnTouchListener
 	{
 		if (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))// ((underTheRadical >= 0 && (thisPlatAngle <= 45 || thisPlatAngle >= 135) && x >= lowX && x <= highX) || (underTheRadical >= 0 && (thisPlatAngle >= 45 || thisPlatAngle <= 135) && y >= lowY && y <= highY))
 		{
-			if (platform.getJustWasHit() == false)
+//			if (platform.getJustWasHit() == false)
 			{
 				platform.setJustWasHit(true);
 				HitPlatAngles.add(new Platform(platform.getStartX(), platform.getStartY(), platform.getEndX(), platform.getEndY()));
-			} else
-			{
-				// if ((ballAngle > prevBallAngle && ballAngle > platform.getAngle()) || (ballAngle < prevBallAngle && ballAngle < platform.getAngle()))
-				// {
-				//
-				// }
-				// HitPlatAngles.add(new Platform(platform.getStartX(), platform.getStartY(), platform.getEndX(), platform.getEndY()));
 			}
-			// else if (rolling)
-			// {
-			// HitPlatAngles.add(new Platform(platform.getStartX(), platform.getStartY(), platform.getEndX(), platform.getEndY()));
-			// }
-			// {
-			// while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && theoreticalRadius > 1)
-			// {
-			// theoreticalRadius--;
-			// rolling = true;
-			// }
-			// }
 		} else
 		{
-			// if (theoreticalRadius < ballRadius)
-			// {
-			// while (!(isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform)) && theoreticalRadius <= ballRadius)
-			// {
-			// theoreticalRadius++;
-			// }
-			// theoreticalRadius--;
-			// }
 			platform.setJustWasHit(false);
 		}
 	}
