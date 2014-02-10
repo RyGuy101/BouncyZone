@@ -88,14 +88,10 @@ public class MyView extends View implements OnTouchListener
 				wasJustTouchingScreen = true;
 			} else
 			{
-				boolean updateTheoRadius = true;
 				updateBallAngle();
 				updateBallSpeed();
-				// checkIfBallIsTooFast();
 				updateBallPosition();
 				updateTheoreticalRadius();
-				// double intersectX;
-				// double intersecty;
 				for (int i = 0; i < platforms.size(); i++)
 				{
 					Platform thisPlat = platforms.get(i);
@@ -130,21 +126,18 @@ public class MyView extends View implements OnTouchListener
 						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle, closestRightAngle);
 						updateSpeedWithBounceFactor();
 						updateBallXAndYSpeed();
-						// WORK IN PROGRESS
-						// if ((isOnInfintiteLine(closestLeftAngle) && isWithinBoundsOfPlatform(closestLeftAngle)) || (isOnInfintiteLine(closestRightAngle) && isWithinBoundsOfPlatform(closestRightAngle)) && bounceFactor < 1)
-						// {
-						// }
+						// DO STUFF FOR "ROLLING" HERE.
 					} else if (HitPlats.size() == 1)
 					{
 						Platform platform = HitPlats.get(0);
 						updateBallAngleBasedOnOnePlatform(platform.getAngle());
 						double backupBallAngle = ballAngle;
-						float oldBallSpeed = ballSpeed;
+						// float oldBallSpeed = ballSpeed;
 						updateSpeedWithBounceFactor();
 						float backupBallSpeed = ballSpeed;
 						updateBallXAndYSpeed();
-						float oldBallX = ballX;
-						float oldBallY = ballY;
+						float backupBallX = ballX;
+						float backupBallY = ballY;
 						boolean checkForIntersection = true;
 						if (ballAngle > platform.getAngle())
 						{
@@ -172,11 +165,14 @@ public class MyView extends View implements OnTouchListener
 						if (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && checkForIntersection == true)
 						{
 							// ballPaint.setColor(Color.GREEN);
-							ballX = oldBallX;
-							ballY = oldBallY;
+							float ballXDiff = ballX - backupBallX;
+							float ballYDiff = ballY - backupBallY;
 							while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))
 							{
-								if (platform.getAngle() > 90)
+								if (platform.getAngle() > 180)
+								{
+									ballPaint.setColor(Color.MAGENTA);
+								} else if (platform.getAngle() > 90)
 								{
 									ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
 									ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
@@ -186,25 +182,24 @@ public class MyView extends View implements OnTouchListener
 									ballY += Math.sin(Math.toRadians(platform.getAngle() - 90)) / 100.0;
 								}
 							}
-							ballAngle = backupBallAngle;
-							ballSpeed = oldBallSpeed;
-							updateBallXAndYSpeed();
-//							if (!rolling)
-//							{
-//								ballYSpeed = 0;
-//							}
-							updateBallYSpeedBasedOnGravity();
-							updateBallAngle();
-							updateBallSpeed();
-							rolling = true;
-						} else
-						{
-							rolling = false;
-							ballX = oldBallX;
-							ballY = oldBallY;
+							ballX -= ballXDiff;
+							ballY -= ballYDiff;
 							ballAngle = backupBallAngle;
 							ballSpeed = backupBallSpeed;
 							updateBallXAndYSpeed();
+							// updateBallYSpeedBasedOnGravity();
+							// updateBallAngle();
+							// updateBallSpeed();
+							// updateBallXAndYSpeed();
+							rolling = true;
+						} else
+						{
+							ballX = backupBallX;
+							ballY = backupBallY;
+							ballAngle = backupBallAngle;
+							ballSpeed = backupBallSpeed;
+							updateBallXAndYSpeed();
+							rolling = false;
 						}
 					}
 				} else
