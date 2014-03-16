@@ -25,7 +25,7 @@
         </activity>
         <activity
             android:name="com.blogspot.mathjoy.bouncy.MyMenu"
-            android:label="Menu"
+            android:label="Settings"
             android:screenOrientation="portrait" >
         </activity>
     </application>

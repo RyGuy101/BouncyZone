@@ -47,7 +47,7 @@ public class MyView extends View implements OnTouchListener
 	static float ballSpeed;
 	static float ballSpeedBeforeBounce;
 	static ArrayList<Platform> HitPlats = new ArrayList<Platform>();
-//	double minimumBounceSpeed = 1;
+	// double minimumBounceSpeed = 1;
 	static boolean rolling;
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)
@@ -171,15 +171,15 @@ public class MyView extends View implements OnTouchListener
 							{
 								if (platform.getAngle() > 180)
 								{
-									ballPaint.setColor(Color.MAGENTA);
+									// ERROR
 								} else if (platform.getAngle() > 90)
 								{
 									ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
 									ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
 								} else
 								{
-									ballX += Math.cos(Math.toRadians(platform.getAngle() - 90)) / 100.0;
-									ballY += Math.sin(Math.toRadians(platform.getAngle() - 90)) / 100.0;
+									ballX += Math.cos(Math.toRadians(platform.getAngle() + 270)) / 100.0;
+									ballY += Math.sin(Math.toRadians(platform.getAngle() + 270)) / 100.0;
 								}
 							}
 							ballX -= ballXDiff;
@@ -273,10 +273,8 @@ public class MyView extends View implements OnTouchListener
 
 	private void drawBall(Canvas c)
 	{
-		// Paint temp = new Paint();
-		// temp.setColor(Color.DKGRAY);
-		// c.drawCircle(ballX, ballY, theoreticalRadius, temp);
-		c.drawCircle(ballX, ballY, theoreticalRadius, ballPaint);
+		// c.drawCircle(ballX, ballY, theoreticalRadius, ballPaint);
+		c.drawCircle(ballX, ballY, ballRadius, ballPaint);
 	}
 
 	private void drawAllPlatforms(Canvas c)

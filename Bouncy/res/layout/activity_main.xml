@@ -17,13 +17,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <Button
+        <ImageButton
             android:id="@+id/Menu"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="goToMenu"
-            android:text="Menu" />
+            android:src="@drawable/gear" />
 
         <ImageButton
             android:id="@+id/Ball"
@@ -58,6 +58,7 @@
         -->
     </LinearLayout>
 
+    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -68,6 +69,7 @@
             android:layout_height="wrap_content"
             tools:context=".MainActivity" />
     </LinearLayout>
+    -->
 
     <com.blogspot.mathjoy.bouncy.MyView
         android:id="@+id/myView"

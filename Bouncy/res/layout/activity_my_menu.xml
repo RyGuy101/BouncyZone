@@ -13,13 +13,6 @@
         android:text="Done" />
 
     <Button
-        android:id="@+id/restoreToDefault"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="settingsReset"
-        android:text="Restore to Default" />
-
-    <Button
         android:id="@+id/gameReset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,5 +65,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="200" />
+
+    <Button
+        android:id="@+id/restoreToDefault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="settingsReset"
+        android:text="Back To Default Settings" />
 
 </LinearLayout>
