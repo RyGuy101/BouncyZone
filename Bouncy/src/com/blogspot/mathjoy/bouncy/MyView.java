@@ -47,7 +47,7 @@ public class MyView extends View implements OnTouchListener
 	static float ballSpeed;
 	static float ballSpeedBeforeBounce;
 	static ArrayList<Platform> HitPlats = new ArrayList<Platform>();
-	double minimumBounceSpeed = 1;
+//	double minimumBounceSpeed = 1;
 	static boolean rolling;
 
 	public MyView(Context context, AttributeSet attrs, int defStyle)

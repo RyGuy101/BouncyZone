@@ -56,6 +56,12 @@
         android:max="200" />
 
     <TextView
+        android:id="@+id/textBounce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bounce" />
+
+    <TextView
         android:id="@+id/valueOfBounceLevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
