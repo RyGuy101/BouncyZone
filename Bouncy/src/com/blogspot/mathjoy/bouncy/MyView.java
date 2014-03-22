@@ -28,10 +28,11 @@ public class MyView extends View implements OnTouchListener
 	public static double bounceFactor;
 	public static boolean touchingScreen = false;
 	public static boolean wasJustTouchingScreen = false;// doesn't affect anything right now
+	int touchMemory = 2;
 	public static float currentTouchX;
 	public static float currentTouchY;
-	float endTouchXMode0;
-	float endTouchYMode0;
+	ArrayList<Float> TouchXMode0 = new ArrayList<Float>();
+	ArrayList<Float> TouchYMode0 = new ArrayList<Float>();
 	float startTouchXMode1;
 	float endTouchXMode1;
 	float startTouchYMode1;
@@ -51,16 +52,31 @@ public class MyView extends View implements OnTouchListener
 	public MyView(Context context, AttributeSet attrs, int defStyle)
 	{
 		super(context, attrs, defStyle);
+		for (int i = 0; i < touchMemory; i++)
+		{
+			TouchXMode0.add(null);
+			TouchYMode0.add(null);
+		}
 	}
 
 	public MyView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
+		for (int i = 0; i < touchMemory; i++)
+		{
+			TouchXMode0.add(null);
+			TouchYMode0.add(null);
+		}
 	}
 
 	public MyView(Context context)
 	{
 		super(context);
+		for (int i = 0; i < touchMemory; i++)
+		{
+			TouchXMode0.add(null);
+			TouchYMode0.add(null);
+		}
 	}
 
 	@Override
@@ -84,7 +100,7 @@ public class MyView extends View implements OnTouchListener
 				ballY = currentTouchY;
 				updateBallXAndYSpeedBasedOnTouch();
 				wasJustTouchingScreen = true;
-			} else
+			} // else
 			{
 				updateBallAngle();
 				updateBallSpeed();
@@ -97,6 +113,7 @@ public class MyView extends View implements OnTouchListener
 				}
 				if (HitPlats.size() > 0)
 				{
+					touchingScreen = false;
 					if (HitPlats.size() > 1)
 					{
 						double oppoBallAngle = oppositeOfBallAngle();
@@ -270,8 +287,8 @@ public class MyView extends View implements OnTouchListener
 
 	private void drawBall(Canvas c)
 	{
-		// c.drawCircle(ballX, ballY, theoreticalRadius, ballPaint);
-		c.drawCircle(ballX, ballY, ballRadius, ballPaint);
+		c.drawCircle(ballX, ballY, theoreticalRadius, ballPaint);
+//		 c.drawCircle(ballX, ballY, ballRadius, ballPaint);
 	}
 
 	private void drawAllPlatforms(Canvas c)
@@ -558,8 +575,20 @@ public class MyView extends View implements OnTouchListener
 
 	private void updateBallXAndYSpeedBasedOnTouch()
 	{
-		ballXSpeed = 0;
-		ballYSpeed = 0;
+		if (TouchXMode0.get(1) == null || TouchXMode0.get(0) == null)
+		{
+			ballXSpeed = 0;
+		} else
+		{
+			ballXSpeed = (float) ((TouchXMode0.get(0) - TouchXMode0.get(1)));
+		}
+		if (TouchYMode0.get(1) == null || TouchYMode0.get(0) == null)
+		{
+			ballYSpeed = 0;
+		} else
+		{
+			ballYSpeed = (float) ((TouchYMode0.get(0) - TouchYMode0.get(1)));
+		}
 	}
 
 	private void setUpEssentials()
@@ -593,6 +622,13 @@ public class MyView extends View implements OnTouchListener
 	{
 		currentTouchX = event.getX();
 		currentTouchY = event.getY();
+		for (int i = touchMemory - 1; i > 0; i--)
+		{
+			TouchXMode0.set(i, TouchXMode0.get(i - 1));
+			TouchYMode0.set(i, TouchYMode0.get(i - 1));
+		}
+		TouchXMode0.set(0, event.getX());
+		TouchYMode0.set(0, event.getY());
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			touchingScreen = true;
@@ -604,10 +640,10 @@ public class MyView extends View implements OnTouchListener
 		} else if (event.getAction() == MotionEvent.ACTION_UP)
 		{
 			touchingScreen = false;
-			if (mode == MODE_BALL)
+			for (int i = 0; i < touchMemory; i++)
 			{
-				endTouchXMode0 = event.getX();
-				endTouchYMode0 = event.getY();
+				TouchXMode0.set(i, null);
+				TouchYMode0.set(i, null);
 			}
 			if (mode == MODE_CREATE_PLATFORM)
 			{
