@@ -98,13 +98,23 @@ public class MyView extends View implements OnTouchListener
 			{
 				ballX = currentTouchX;
 				ballY = currentTouchY;
+				for (int i = touchMemory - 1; i > 0; i--)
+				{
+					TouchXMode0.set(i, TouchXMode0.get(i - 1));
+					TouchYMode0.set(i, TouchYMode0.get(i - 1));
+				}
+				TouchXMode0.set(0, currentTouchX);
+				TouchYMode0.set(0, currentTouchY);
 				updateBallXAndYSpeedBasedOnTouch();
 				wasJustTouchingScreen = true;
 			} // else
 			{
 				updateBallAngle();
 				updateBallSpeed();
-				updateBallPosition();
+				if (!touchingScreen)
+				{
+					updateBallPosition();
+				}
 				updateTheoreticalRadius();
 				for (int i = 0; i < platforms.size(); i++)
 				{
@@ -116,31 +126,46 @@ public class MyView extends View implements OnTouchListener
 					touchingScreen = false;
 					if (HitPlats.size() > 1)
 					{
+						// if (HitPlats.size() > 2)
+						// {
 						double oppoBallAngle = oppositeOfBallAngle();
 						if (oppoBallAngle > 180)
 						{
 							for (int jj = 0; jj < HitPlats.size(); jj++)
 							{
-								HitPlats.get(jj).setAngle(flipAngle(HitPlats.get(jj).getAngle()));// Fix this part
+								HitPlats.get(jj).setAngle(flipAngle(HitPlats.get(jj).getAngle()));
 							}
 						}
-						ArrayList<Platform> anglesLeftOfBall = new ArrayList<Platform>();
-						ArrayList<Platform> anglesRightOfBall = new ArrayList<Platform>();
+						for (int jj = 0; jj < HitPlats.size(); jj++)
+						{
+							if (Math.abs(oppoBallAngle - HitPlats.get(jj).getAngle()) > 90)
+							{
+								HitPlats.get(jj).setAngle(HitPlats.get(jj).getAngle() + 180);
+							}
+						}
+						ArrayList<Platform> platformsLeftOfBall = new ArrayList<Platform>();
+						ArrayList<Platform> platformsRightOfBall = new ArrayList<Platform>();
 						for (int jj = 0; jj < HitPlats.size(); jj++)
 						{
 							if (angleIsRightOfAnotherAngle(oppoBallAngle, HitPlats.get(jj).getAngle()))
 							{
-								anglesRightOfBall.add(HitPlats.get(jj));
+								platformsRightOfBall.add(HitPlats.get(jj));
 							} else if (angleIsLeftOfAnotherAngle(oppoBallAngle, HitPlats.get(jj).getAngle()))
 							{
-								anglesLeftOfBall.add(HitPlats.get(jj));
+								platformsLeftOfBall.add(HitPlats.get(jj));
 							}
 						}
-						Platform closestLeftAngle = closestLeftAngle(oppoBallAngle, anglesLeftOfBall);
-						Platform closestRightAngle = closestRightAngle(oppoBallAngle, anglesRightOfBall);
-						updateBallAngleBasedOnTwoPlatforms(closestLeftAngle, closestRightAngle);
+						Platform closestLeftPlatform = closestLeftAngle(oppoBallAngle, platformsLeftOfBall);
+						Platform closestRightPlatform = closestRightAngle(oppoBallAngle, platformsRightOfBall);
+						updateBallAngleBasedOnTwoPlatforms(closestLeftPlatform, closestRightPlatform);
 						updateSpeedWithBounceFactor();
 						updateBallXAndYSpeed();
+						// } else if (HitPlats.size() == 2)
+						// {
+						// updateBallAngleBasedOnTwoPlatforms(HitPlats.get(0), HitPlats.get(1));
+						// updateSpeedWithBounceFactor();
+						// updateBallXAndYSpeed();
+						// }
 						// DO STUFF FOR "ROLLING" HERE.
 					} else if (HitPlats.size() == 1)
 					{
@@ -287,8 +312,8 @@ public class MyView extends View implements OnTouchListener
 
 	private void drawBall(Canvas c)
 	{
-		c.drawCircle(ballX, ballY, theoreticalRadius, ballPaint);
-//		 c.drawCircle(ballX, ballY, ballRadius, ballPaint);
+		// c.drawCircle(ballX, ballY, theoreticalRadius, ballPaint);
+		c.drawCircle(ballX, ballY, ballRadius, ballPaint);
 	}
 
 	private void drawAllPlatforms(Canvas c)
@@ -382,7 +407,12 @@ public class MyView extends View implements OnTouchListener
 
 	private double flipAngle(double angle)
 	{
-		return angle + 180;
+		double newAngle = angle + 180;
+		if (newAngle > 360)
+		{
+			newAngle -= 360;
+		}
+		return newAngle;
 	}
 
 	private void updateBallPosition()
@@ -622,13 +652,6 @@ public class MyView extends View implements OnTouchListener
 	{
 		currentTouchX = event.getX();
 		currentTouchY = event.getY();
-		for (int i = touchMemory - 1; i > 0; i--)
-		{
-			TouchXMode0.set(i, TouchXMode0.get(i - 1));
-			TouchYMode0.set(i, TouchYMode0.get(i - 1));
-		}
-		TouchXMode0.set(0, event.getX());
-		TouchYMode0.set(0, event.getY());
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			touchingScreen = true;
