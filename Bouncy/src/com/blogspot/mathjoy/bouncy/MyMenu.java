@@ -28,8 +28,8 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	String[] colors =
 	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static String pickedColor;
-	static float gravity = 1;
-	static float bounceLevel = 1;
+	static int gravity = 100;
+	static int bounceLevel = 100;
 	boolean gameReset = false;
 
 	@Override
@@ -48,8 +48,8 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		displayGravity = (TextView) findViewById(R.id.valueOfGravity);
 		displayBounceLevel = (TextView) findViewById(R.id.valueOfBounceLevel);
 		LoadPrefs();
-		seekGravity.setProgress((int) (gravity * 100.0));
-		seekBounceLevel.setProgress((int) (bounceLevel * 100.0));
+		seekGravity.setProgress(gravity);
+		seekBounceLevel.setProgress(bounceLevel);
 		for (int i = 0; i <= colors.length - 1; i++)
 		{
 			if (colors[i].equals(pickedColor))
@@ -69,8 +69,8 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	public void goToGame(View v)
 	{
 		pickedColor = (String) ballColor.getSelectedItem();
-		gravity = (float) (seekGravity.getProgress() / 100.0);
-		bounceLevel = (float) (seekBounceLevel.getProgress() / 100.0);
+		gravity = (seekGravity.getProgress());
+		bounceLevel = (seekBounceLevel.getProgress());
 		SavePrefs("selectedColor", pickedColor);
 		SavePrefs("gravityValue", gravity);
 		SavePrefs("bounceLevelValue", bounceLevel);
@@ -94,14 +94,16 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	{
 		if (seekBar.equals(seekGravity))
 		{
-			gravity = (float) (seekBar.getProgress() / 100.0);
-			Float temp = gravity;
+			gravity = seekBar.getProgress();
+			Float temp = (float) (gravity / 100.0);
+			// gravity = temp;
 			displayGravity.setText(temp.toString());
 		}
 		if (seekBar.equals(seekBounceLevel))
 		{
-			bounceLevel = (float) (seekBar.getProgress() / 100.0);
-			Float temp = bounceLevel;
+			bounceLevel = seekBar.getProgress();
+			Float temp = (float) (bounceLevel / 100.0);
+			// bounceLevel = temp;
 			displayBounceLevel.setText(temp.toString());
 		}
 	}
@@ -124,9 +126,24 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	{
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "red");
-		gravity = sp.getFloat("gravityValue", 1);
-		bounceLevel = sp.getFloat("bounceLevelValue", 1);
+		gravity = (int) sp.getFloat("gravityValue", 100);
+		bounceLevel = (int) sp.getFloat("bounceLevelValue", 100);
 	}
+
+	private void SavePrefs(String key, double value)
+	{
+		SharedPreferences sp = getSharedPreferences("settings", 0);
+		Editor edit = sp.edit();
+		edit.putFloat(key, (float) value);
+		edit.commit();
+	}
+//	private void SavePrefs(String key, int value)
+//	{
+//		SharedPreferences sp = getSharedPreferences("settings", 0);
+//		Editor edit = sp.edit();
+//		edit.putInt(key, value);
+//		edit.commit();
+//	}
 
 	private void SavePrefs(String key, float value)
 	{

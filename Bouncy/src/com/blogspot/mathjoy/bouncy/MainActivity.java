@@ -21,7 +21,7 @@ public class MainActivity extends Activity
 {
 	Intent intent;
 	String pickedColor;
-	MyView v;
+	// MyView v;
 	int[] possibleColors =
 	{ Color.RED, Color.rgb(225, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames =
@@ -34,17 +34,17 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		v = (MyView) findViewById(R.id.myView);
+		// v = (MyView) findViewById(R.id.myView);
 		ball = (Button) findViewById(R.id.Ball);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "red");
-		v.gAccelerationMultiplier = sp.getFloat("gravityValue", 1);
-		v.bounceFactor = sp.getFloat("bounceLevelValue", 1);
+		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
+		MyView.bounceFactor = sp.getFloat("bounceLevelValue", 100) / 100.0;
 		for (int i = 0; i < possibleColors.length; i++)
 		{
 			if (pickedColor.equals(possibleColorNames[i]))
 			{
-				v.ballColor = possibleColors[i];
+				MyView.ballColor = possibleColors[i];
 			}
 		}
 		if (justOpened)
@@ -55,10 +55,10 @@ public class MainActivity extends Activity
 			intent = getIntent();
 			if (intent.getExtras().getBoolean("isGameReset") == true)
 			{
-				v.platforms.clear();
+				MyView.platforms.clear();
 			}
 		}
-		v.mode = MyView.MODE_BALL;
+		MyView.mode = MyView.MODE_BALL;
 		setContentView(R.layout.activity_main);
 	}
 
@@ -77,21 +77,21 @@ public class MainActivity extends Activity
 
 	public void modeBall(View view)
 	{
-		v.mode = MyView.MODE_BALL;
+		MyView.mode = MyView.MODE_BALL;
 	}
 
 	public void modePlatform(View view)
 	{
-		v.mode = MyView.MODE_CREATE_PLATFORM;
+		MyView.mode = MyView.MODE_CREATE_PLATFORM;
 	}
 
 	public void modeGrab(View view)
 	{
-		v.timeBetweenFrames = 20;
+		MyView.timeBetweenFrames = 20;
 	}
 
 	public void modeDelete(View view)
 	{
-		v.timeBetweenFrames = 1000;
+		MyView.timeBetweenFrames = 1000;
 	}
 }

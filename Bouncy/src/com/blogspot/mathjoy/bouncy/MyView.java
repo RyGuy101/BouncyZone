@@ -19,6 +19,8 @@ public class MyView extends View implements OnTouchListener
 	static float theoreticalRadius;
 	static float ballX;
 	static float ballY;
+	static float drawBallX = -1000;
+	static float drawBallY = -1000;
 	static float gravitationalAcceleration;
 	static float ballXSpeed;
 	static float ballYSpeed;
@@ -240,6 +242,19 @@ public class MyView extends View implements OnTouchListener
 							updateBallXAndYSpeed();
 							rolling = false;
 						}
+			 			if (ballSpeed > ballRadius * 2)
+						{
+							drawBallX = (float) ((minusIntersectX(platform) + plusIntersectX(platform))/2.0);// + Math.cos(Math.toRadians(platform.getAngle() + 90) * ballRadius * Math.signum(ballXSpeed)));
+							drawBallY = (float) ((minusIntersectY(platform) + plusIntersectY(platform))/2.0);// + Math.sin(Math.toRadians(platform.getAngle() + 90) * ballRadius * Math.signum(ballYSpeed)));
+//							try
+//							{
+//								Thread.sleep(250);
+//							} catch (InterruptedException e)
+//							{
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+						}
 					}
 				} else
 				{
@@ -262,6 +277,8 @@ public class MyView extends View implements OnTouchListener
 		}
 		drawBall(c);
 		drawAllPlatforms(c);
+		drawBallX = -1000;
+		drawBallY = -1000;
 		invalidate();
 	}
 
@@ -313,7 +330,15 @@ public class MyView extends View implements OnTouchListener
 	private void drawBall(Canvas c)
 	{
 		// c.drawCircle(ballX, ballY, theoreticalRadius, ballPaint);
-		c.drawCircle(ballX, ballY, ballRadius, ballPaint);
+		if (drawBallX == -1000)
+		{
+			drawBallX = ballX;
+		}
+		if (drawBallY == -1000)
+		{
+			drawBallY = ballY;
+		}
+		c.drawCircle(drawBallX, drawBallY, ballRadius, ballPaint);
 	}
 
 	private void drawAllPlatforms(Canvas c)
