@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.ListView.FixedViewInfo;
 
 public class MyView extends View implements OnTouchListener
 {
@@ -128,46 +129,56 @@ public class MyView extends View implements OnTouchListener
 					touchingScreen = false;
 					if (HitPlats.size() > 1)
 					{
-						// if (HitPlats.size() > 2)
-						// {
 						double oppoBallAngle = oppositeOfBallAngle();
-						if (oppoBallAngle > 180)
+						int initialSize = HitPlats.size();
+						for (int jj = 0; jj < initialSize; jj++)
 						{
-							for (int jj = 0; jj < HitPlats.size(); jj++)
-							{
-								HitPlats.get(jj).setAngle(flipAngle(HitPlats.get(jj).getAngle()));
-							}
+							HitPlats.add(new Platform(HitPlats.get(jj).getStartX(), HitPlats.get(jj).getStartY(), HitPlats.get(jj).getEndX(), HitPlats.get(jj).getEndY()));
+							HitPlats.get(HitPlats.size() - 1).setAngle(HitPlats.get(HitPlats.size() - 1).getAngle() + 180);
 						}
 						for (int jj = 0; jj < HitPlats.size(); jj++)
 						{
-							if (Math.abs(oppoBallAngle - HitPlats.get(jj).getAngle()) > 90)
-							{
-								HitPlats.get(jj).setAngle(HitPlats.get(jj).getAngle() + 180);
-							}
+							HitPlats.get(jj).setAngle(HitPlats.get(jj).getAngle() - oppoBallAngle);
 						}
 						ArrayList<Platform> platformsLeftOfBall = new ArrayList<Platform>();
 						ArrayList<Platform> platformsRightOfBall = new ArrayList<Platform>();
 						for (int jj = 0; jj < HitPlats.size(); jj++)
 						{
-							if (angleIsRightOfAnotherAngle(oppoBallAngle, HitPlats.get(jj).getAngle()))
-							{
-								platformsRightOfBall.add(HitPlats.get(jj));
-							} else if (angleIsLeftOfAnotherAngle(oppoBallAngle, HitPlats.get(jj).getAngle()))
+							if (HitPlats.get(jj).getAngle() < 0)
 							{
 								platformsLeftOfBall.add(HitPlats.get(jj));
+							} else
+							{
+								platformsRightOfBall.add(HitPlats.get(jj));
 							}
 						}
-						Platform closestLeftPlatform = closestLeftAngle(oppoBallAngle, platformsLeftOfBall);
-						Platform closestRightPlatform = closestRightAngle(oppoBallAngle, platformsRightOfBall);
+						Platform closestLeftPlatform = null;
+						if (!platformsLeftOfBall.isEmpty())
+						{
+							closestLeftPlatform = platformsLeftOfBall.get(0);
+							for (int jj = 1; jj < platformsLeftOfBall.size(); jj++)
+							{
+								if (platformsLeftOfBall.get(jj).getAngle() > closestLeftPlatform.getAngle())
+								{
+									closestLeftPlatform = platformsLeftOfBall.get(jj);
+								}
+							}
+						}
+						Platform closestRightPlatform = null;
+						if (!platformsRightOfBall.isEmpty())
+						{
+							closestRightPlatform = platformsRightOfBall.get(0);
+							for (int jj = 1; jj < platformsRightOfBall.size(); jj++)
+							{
+								if (platformsRightOfBall.get(jj).getAngle() < closestRightPlatform.getAngle())
+								{
+									closestRightPlatform = platformsRightOfBall.get(jj);
+								}
+							}
+						}
 						updateBallAngleBasedOnTwoPlatforms(closestLeftPlatform, closestRightPlatform);
 						updateSpeedWithBounceFactor();
 						updateBallXAndYSpeed();
-						// } else if (HitPlats.size() == 2)
-						// {
-						// updateBallAngleBasedOnTwoPlatforms(HitPlats.get(0), HitPlats.get(1));
-						// updateSpeedWithBounceFactor();
-						// updateBallXAndYSpeed();
-						// }
 						// DO STUFF FOR "ROLLING" HERE.
 					} else if (HitPlats.size() == 1)
 					{
@@ -242,18 +253,18 @@ public class MyView extends View implements OnTouchListener
 							updateBallXAndYSpeed();
 							rolling = false;
 						}
-			 			if (ballSpeed > ballRadius * 2)
+						if (ballSpeed > ballRadius * 2)
 						{
-							drawBallX = (float) ((minusIntersectX(platform) + plusIntersectX(platform))/2.0);// + Math.cos(Math.toRadians(platform.getAngle() + 90) * ballRadius * Math.signum(ballXSpeed)));
-							drawBallY = (float) ((minusIntersectY(platform) + plusIntersectY(platform))/2.0);// + Math.sin(Math.toRadians(platform.getAngle() + 90) * ballRadius * Math.signum(ballYSpeed)));
-//							try
-//							{
-//								Thread.sleep(250);
-//							} catch (InterruptedException e)
-//							{
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
+							drawBallX = (float) ((minusIntersectX(platform) + plusIntersectX(platform)) / 2.0);// + Math.cos(Math.toRadians(platform.getAngle() + 90) * ballRadius * Math.signum(ballXSpeed)));
+							drawBallY = (float) ((minusIntersectY(platform) + plusIntersectY(platform)) / 2.0);// + Math.sin(Math.toRadians(platform.getAngle() + 90) * ballRadius * Math.signum(ballYSpeed)));
+							// try
+							// {
+							// Thread.sleep(250);
+							// } catch (InterruptedException e)
+							// {
+							// // TODO Auto-generated catch block
+							// e.printStackTrace();
+							// }
 						}
 					}
 				} else
@@ -451,13 +462,13 @@ public class MyView extends View implements OnTouchListener
 		double oppoBallAngle = oppositeOfBallAngle();
 		if (leftAngle == null)
 		{
-			ballAngle = (rightAngle.getAngle() * 2) - ballAngle;
+			ballAngle = (rightAngle.getAngle() * 2) + ballAngle;
 		} else if (rightAngle == null)
 		{
-			ballAngle = (leftAngle.getAngle() * 2) - ballAngle;
+			ballAngle = (leftAngle.getAngle() * 2) + ballAngle;
 		} else
 		{
-			ballAngle = (((leftAngle.getAngle() + rightAngle.getAngle()) / 2.0) * 2) - oppoBallAngle;
+			ballAngle = (((leftAngle.getAngle() + rightAngle.getAngle()) / 2.0) * 2) + oppoBallAngle;
 		}
 	}
 
