@@ -133,8 +133,16 @@ public class MyView extends View implements OnTouchListener
 						int initialSize = HitPlats.size();
 						for (int jj = 0; jj < initialSize; jj++)
 						{
-							HitPlats.add(new Platform(HitPlats.get(jj).getStartX(), HitPlats.get(jj).getStartY(), HitPlats.get(jj).getEndX(), HitPlats.get(jj).getEndY()));
-							HitPlats.get(HitPlats.size() - 1).setAngle(HitPlats.get(HitPlats.size() - 1).getAngle() + 180);
+							if (HitPlats.get(jj).getAngle() >= 90)
+							{
+								HitPlats.add(new Platform(HitPlats.get(jj).getStartX(), HitPlats.get(jj).getStartY(), HitPlats.get(jj).getEndX(), HitPlats.get(jj).getEndY()));
+								HitPlats.get(HitPlats.size() - 1).setAngle(HitPlats.get(HitPlats.size() - 1).getAngle() + 180);
+							} else
+							{
+								HitPlats.add(new Platform(HitPlats.get(jj).getStartX(), HitPlats.get(jj).getStartY(), HitPlats.get(jj).getEndX(), HitPlats.get(jj).getEndY()));
+								HitPlats.get(HitPlats.size() - 1).setAngle(HitPlats.get(HitPlats.size() - 1).getAngle() + 360);
+								HitPlats.get(jj).setAngle(HitPlats.get(jj).getAngle() + 180);
+							}
 						}
 						for (int jj = 0; jj < HitPlats.size(); jj++)
 						{
@@ -262,7 +270,6 @@ public class MyView extends View implements OnTouchListener
 							// Thread.sleep(250);
 							// } catch (InterruptedException e)
 							// {
-							// // TODO Auto-generated catch block
 							// e.printStackTrace();
 							// }
 						}
