@@ -133,15 +133,19 @@ public class MyView extends View implements OnTouchListener
 						int initialSize = HitPlats.size();
 						for (int jj = 0; jj < initialSize; jj++)
 						{
-							if (HitPlats.get(jj).getAngle() >= 90)
+							if (oppoBallAngle - HitPlats.get(jj).getAngle() <= 180 && oppoBallAngle - HitPlats.get(jj).getAngle() >= 0)
 							{
 								HitPlats.add(new Platform(HitPlats.get(jj).getStartX(), HitPlats.get(jj).getStartY(), HitPlats.get(jj).getEndX(), HitPlats.get(jj).getEndY()));
 								HitPlats.get(HitPlats.size() - 1).setAngle(HitPlats.get(HitPlats.size() - 1).getAngle() + 180);
-							} else
+							} else if (oppoBallAngle - HitPlats.get(jj).getAngle() > 180)
 							{
 								HitPlats.add(new Platform(HitPlats.get(jj).getStartX(), HitPlats.get(jj).getStartY(), HitPlats.get(jj).getEndX(), HitPlats.get(jj).getEndY()));
 								HitPlats.get(HitPlats.size() - 1).setAngle(HitPlats.get(HitPlats.size() - 1).getAngle() + 360);
 								HitPlats.get(jj).setAngle(HitPlats.get(jj).getAngle() + 180);
+							} else if (oppoBallAngle - HitPlats.get(jj).getAngle() < 0)
+							{
+								HitPlats.add(new Platform(HitPlats.get(jj).getStartX(), HitPlats.get(jj).getStartY(), HitPlats.get(jj).getEndX(), HitPlats.get(jj).getEndY()));
+								HitPlats.get(HitPlats.size() - 1).setAngle(HitPlats.get(HitPlats.size() - 1).getAngle() - 180);
 							}
 						}
 						for (int jj = 0; jj < HitPlats.size(); jj++)
@@ -184,10 +188,26 @@ public class MyView extends View implements OnTouchListener
 								}
 							}
 						}
+						closestLeftPlatform.setAngle(fixAngleToLessThan180(closestLeftPlatform.getAngle()));
+						closestRightPlatform.setAngle(fixAngleToLessThan180(closestRightPlatform.getAngle()));
 						updateBallAngleBasedOnTwoPlatforms(closestLeftPlatform, closestRightPlatform);
+						double backupBallAngle = ballAngle;
+						// float oldBallSpeed = ballSpeed;
 						updateSpeedWithBounceFactor();
+						float backupBallSpeed = ballSpeed;
 						updateBallXAndYSpeed();
-						// DO STUFF FOR "ROLLING" HERE.
+						float backupBallX = ballX;
+						float backupBallY = ballY;
+						boolean checkForIntersection = true;
+//						while (Math.abs(ballAngle - ((closestLeftPlatform.getAngle() + closestRightPlatform.getAngle()) / 2.0)) > 0)
+//						{
+//							simulateBall();
+//							if (ballY > closestLeftPlatform.getHighY() && ballY > closestRightPlatform.getHighY())
+//							{
+//								checkForIntersection = false;
+//								break;
+//							}
+//						}
 					} else if (HitPlats.size() == 1)
 					{
 						Platform platform = HitPlats.get(0);
@@ -475,7 +495,10 @@ public class MyView extends View implements OnTouchListener
 			ballAngle = (leftAngle.getAngle() * 2) + ballAngle;
 		} else
 		{
-			ballAngle = (((leftAngle.getAngle() + rightAngle.getAngle()) / 2.0) * 2) + oppoBallAngle;
+			double resultAngle = ((leftAngle.getAngle() + rightAngle.getAngle()) / 2.0);
+			resultAngle = fixAngleToLessThan180(resultAngle);
+			// ballAngle = (((leftAngle.getAngle() + rightAngle.getAngle()) / 2.0) * 2) + oppoBallAngle;
+			ballAngle = (resultAngle * 2) + ballAngle;
 		}
 	}
 
@@ -810,5 +833,18 @@ public class MyView extends View implements OnTouchListener
 		D = (relativeX1 * relativeY2) - (relativeX2 * relativeY1);
 		minusIntersectY = ((-D * dx - Math.abs(dy) * Math.sqrt(theoreticalRadius * theoreticalRadius * dr * dr - D * D)) / (dr * dr));
 		return minusIntersectY + ballY;
+	}
+
+	private double fixAngleToLessThan180(double angle)
+	{
+		while (angle > 180)
+		{
+			angle -= 180;
+		}
+		while (angle < 0)
+		{
+			angle += 180;
+		}
+		return angle;
 	}
 }
