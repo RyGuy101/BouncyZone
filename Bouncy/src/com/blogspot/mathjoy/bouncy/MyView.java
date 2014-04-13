@@ -188,8 +188,8 @@ public class MyView extends View implements OnTouchListener
 								}
 							}
 						}
-						closestLeftPlatform.setAngle(fixAngleToLessThan180(closestLeftPlatform.getAngle()));
-						closestRightPlatform.setAngle(fixAngleToLessThan180(closestRightPlatform.getAngle()));
+						// closestLeftPlatform.setAngle(fixAngleToLessThan180(closestLeftPlatform.getAngle()));
+						// closestRightPlatform.setAngle(fixAngleToLessThan180(closestRightPlatform.getAngle()));
 						updateBallAngleBasedOnTwoPlatforms(closestLeftPlatform, closestRightPlatform);
 						double backupBallAngle = ballAngle;
 						// float oldBallSpeed = ballSpeed;
@@ -198,16 +198,84 @@ public class MyView extends View implements OnTouchListener
 						updateBallXAndYSpeed();
 						float backupBallX = ballX;
 						float backupBallY = ballY;
-						boolean checkForIntersection = true;
-//						while (Math.abs(ballAngle - ((closestLeftPlatform.getAngle() + closestRightPlatform.getAngle()) / 2.0)) > 0)
-//						{
-//							simulateBall();
-//							if (ballY > closestLeftPlatform.getHighY() && ballY > closestRightPlatform.getHighY())
-//							{
-//								checkForIntersection = false;
-//								break;
-//							}
-//						}
+						// boolean checkForIntersection = true;
+						// double averageAngle = ((closestLeftPlatform.getAngle() + closestRightPlatform.getAngle()) / 2.0);
+						// averageAngle = fixAngleToLessThan180(averageAngle);
+						// if (ballAngle > averageAngle)
+						// {
+						// while (ballAngle - averageAngle > 0)
+						// {
+						// simulateBall();
+						// if (ballY > closestLeftPlatform.getHighY() && ballY > closestRightPlatform.getHighY())
+						// {
+						// checkForIntersection = false;
+						// break;
+						// }
+						// }
+						// } else if (ballAngle < averageAngle)
+						// {
+						// while (ballAngle - averageAngle < 0)
+						// {
+						// simulateBall();
+						// if (ballY > closestLeftPlatform.getHighY() && ballY > closestRightPlatform.getHighY())
+						// {
+						// checkForIntersection = false;
+						// break;
+						// }
+						// }
+						// }
+						// if (((isOnInfintiteLine(closestLeftPlatform) && isWithinBoundsOfPlatform(closestLeftPlatform)) || (isOnInfintiteLine(closestRightPlatform) && isWithinBoundsOfPlatform(closestRightPlatform))) && checkForIntersection == true)
+						// {
+						// float ballXDiff = ballX - backupBallX;
+						// float ballYDiff = ballY - backupBallY;
+						// if (oppoBallAngle > 180)
+						// {
+						/*
+						 * WORK IN PROGRESS
+						 * closestLeftPlatform.setAngle(closestLeftPlatform.getAngle() + oppoBallAngle);
+						 * closestRightPlatform.setAngle(closestRightPlatform.getAngle() + oppoBallAngle);
+						 * double averageAngle = (closestLeftPlatform.getAngle() + closestRightPlatform.getAngle()) / 2.0;
+						 * if (oppoBallAngle > 180)
+						 * {
+						 * closestLeftPlatform.setAngle(fixAngleToMoreThan180(closestLeftPlatform.getAngle()));
+						 * closestRightPlatform.setAngle(fixAngleToMoreThan180(closestRightPlatform.getAngle()));
+						 * averageAngle = fixAngleToMoreThan180(averageAngle);
+						 * } else if (oppoBallAngle < 180)
+						 * {
+						 * closestLeftPlatform.setAngle(fixAngleToLessThan180(closestLeftPlatform.getAngle()));
+						 * closestRightPlatform.setAngle(fixAngleToLessThan180(closestRightPlatform.getAngle()));
+						 * averageAngle = fixAngleToLessThan180(averageAngle);
+						 * }
+						 * float ballXDiff = ballX - backupBallX;
+						 * float ballYDiff = ballY - backupBallY;
+						 * simulateBall();
+						 * while ((isOnInfintiteLine(closestLeftPlatform) && isWithinBoundsOfPlatform(closestLeftPlatform)) || (isOnInfintiteLine(closestRightPlatform) && isWithinBoundsOfPlatform(closestRightPlatform)))
+						 * {
+						 * ballX += Math.cos(Math.toRadians(averageAngle)) / 100.0;
+						 * ballY += Math.sin(Math.toRadians(averageAngle)) / 100.0;
+						 * }
+						 * 
+						 * ballX -= ballXDiff;
+						 * ballY -= ballYDiff;
+						 * ballAngle = backupBallAngle;
+						 * ballSpeed = backupBallSpeed;
+						 * updateBallXAndYSpeed();
+						 */
+						// }
+						// // updateBallYSpeedBasedOnGravity();
+						// // updateBallAngle();
+						// // updateBallSpeed();
+						// // updateBallXAndYSpeed();
+						// rolling = true;
+						// } else
+						// {
+						// ballX = backupBallX;
+						// ballY = backupBallY;
+						// ballAngle = backupBallAngle;
+						// ballSpeed = backupBallSpeed;
+						// updateBallXAndYSpeed();
+						// rolling = false;
+						// }
 					} else if (HitPlats.size() == 1)
 					{
 						Platform platform = HitPlats.get(0);
@@ -220,66 +288,69 @@ public class MyView extends View implements OnTouchListener
 						float backupBallX = ballX;
 						float backupBallY = ballY;
 						boolean checkForIntersection = true;
-						if (ballAngle > platform.getAngle())
+						if (gravitationalAcceleration != 0)
 						{
-							while (ballAngle - platform.getAngle() > 0)
+							if (ballAngle > platform.getAngle())
 							{
-								simulateBall();
-								if (ballY > platform.getHighY())
+								while (ballAngle - platform.getAngle() > 0)
 								{
-									checkForIntersection = false;
-									break;
+									simulateBall();
+									if (ballY > platform.getHighY())
+									{
+										checkForIntersection = false;
+										break;
+									}
+								}
+							} else if (ballAngle < platform.getAngle())
+							{
+								while (ballAngle - platform.getAngle() < 0)
+								{
+									simulateBall();
+									if (ballY > platform.getHighY())
+									{
+										checkForIntersection = false;
+										break;
+									}
 								}
 							}
-						} else if (ballAngle < platform.getAngle())
-						{
-							while (ballAngle - platform.getAngle() < 0)
+							if (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && checkForIntersection == true)
 							{
-								simulateBall();
-								if (ballY > platform.getHighY())
+								float ballXDiff = ballX - backupBallX;
+								float ballYDiff = ballY - backupBallY;
+								while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))
 								{
-									checkForIntersection = false;
-									break;
+									if (platform.getAngle() > 180)
+									{
+										// ERROR
+									} else if (platform.getAngle() > 90)
+									{
+										ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
+										ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
+									} else
+									{
+										ballX += Math.cos(Math.toRadians(platform.getAngle() + 270)) / 100.0;
+										ballY += Math.sin(Math.toRadians(platform.getAngle() + 270)) / 100.0;
+									}
 								}
-							}
-						}
-						if (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && checkForIntersection == true)
-						{
-							float ballXDiff = ballX - backupBallX;
-							float ballYDiff = ballY - backupBallY;
-							while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))
+								ballX -= ballXDiff;
+								ballY -= ballYDiff;
+								ballAngle = backupBallAngle;
+								ballSpeed = backupBallSpeed;
+								updateBallXAndYSpeed();
+								// updateBallYSpeedBasedOnGravity();
+								// updateBallAngle();
+								// updateBallSpeed();
+								// updateBallXAndYSpeed();
+								rolling = true;
+							} else
 							{
-								if (platform.getAngle() > 180)
-								{
-									// ERROR
-								} else if (platform.getAngle() > 90)
-								{
-									ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-									ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-								} else
-								{
-									ballX += Math.cos(Math.toRadians(platform.getAngle() + 270)) / 100.0;
-									ballY += Math.sin(Math.toRadians(platform.getAngle() + 270)) / 100.0;
-								}
+								ballX = backupBallX;
+								ballY = backupBallY;
+								ballAngle = backupBallAngle;
+								ballSpeed = backupBallSpeed;
+								updateBallXAndYSpeed();
+								rolling = false;
 							}
-							ballX -= ballXDiff;
-							ballY -= ballYDiff;
-							ballAngle = backupBallAngle;
-							ballSpeed = backupBallSpeed;
-							updateBallXAndYSpeed();
-							// updateBallYSpeedBasedOnGravity();
-							// updateBallAngle();
-							// updateBallSpeed();
-							// updateBallXAndYSpeed();
-							rolling = true;
-						} else
-						{
-							ballX = backupBallX;
-							ballY = backupBallY;
-							ballAngle = backupBallAngle;
-							ballSpeed = backupBallSpeed;
-							updateBallXAndYSpeed();
-							rolling = false;
 						}
 						if (ballSpeed > ballRadius * 2)
 						{
@@ -489,12 +560,16 @@ public class MyView extends View implements OnTouchListener
 		double oppoBallAngle = oppositeOfBallAngle();
 		if (leftAngle == null)
 		{
+			rightAngle.setAngle(fixAngleToLessThan180(rightAngle.getAngle()));
 			ballAngle = (rightAngle.getAngle() * 2) + ballAngle;
 		} else if (rightAngle == null)
 		{
+			leftAngle.setAngle(fixAngleToLessThan180(leftAngle.getAngle()));
 			ballAngle = (leftAngle.getAngle() * 2) + ballAngle;
 		} else
 		{
+			leftAngle.setAngle(fixAngleToLessThan180(leftAngle.getAngle()));
+			rightAngle.setAngle(fixAngleToLessThan180(rightAngle.getAngle()));
 			double resultAngle = ((leftAngle.getAngle() + rightAngle.getAngle()) / 2.0);
 			resultAngle = fixAngleToLessThan180(resultAngle);
 			// ballAngle = (((leftAngle.getAngle() + rightAngle.getAngle()) / 2.0) * 2) + oppoBallAngle;
@@ -842,6 +917,19 @@ public class MyView extends View implements OnTouchListener
 			angle -= 180;
 		}
 		while (angle < 0)
+		{
+			angle += 180;
+		}
+		return angle;
+	}
+
+	private double fixAngleToMoreThan180(double angle)
+	{
+		while (angle > 360)
+		{
+			angle -= 180;
+		}
+		while (angle < 180)
 		{
 			angle += 180;
 		}
