@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
+	public static MediaPlayer bounce;
 	Intent intent;
 	String pickedColor;
 	// MyView v;
@@ -34,6 +36,7 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		bounce = MediaPlayer.create(this, R.raw.bounce);
 		// v = (MyView) findViewById(R.id.myView);
 		ball = (Button) findViewById(R.id.Ball);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
