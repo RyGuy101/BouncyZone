@@ -128,7 +128,7 @@ public class MyView extends View implements OnTouchListener
 				}
 				if (HitPlats.size() > 0)
 				{
-					if (ballSpeed > this.getHeight() / 1000.0)
+					if (ballSpeed > this.getHeight() / 1000.0 || !rolling)
 					{
 						bounce.start();
 					}
