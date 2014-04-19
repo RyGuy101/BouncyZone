@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -17,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +29,13 @@ public class MainActivity extends Activity
 	public static int bounce2;
 	Intent intent;
 	String pickedColor;
-	// MyView v;
 	int[] possibleColors =
 	{ Color.RED, Color.rgb(225, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames =
 	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static boolean justOpened = true;
-	Button ball;
+	public static ImageButton ball;
+	public static ImageButton platform;
 	TextView tv;
 
 	@Override
@@ -42,8 +44,6 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		bounce = MediaPlayer.create(this, R.raw.bounce);
 		bounce2 = spool.load(this, R.raw.bounce, 1);
-		// v = (MyView) findViewById(R.id.myView);
-		ball = (Button) findViewById(R.id.Ball);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "red");
 		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
@@ -68,6 +68,10 @@ public class MainActivity extends Activity
 		}
 		MyView.mode = MyView.MODE_BALL;
 		setContentView(R.layout.activity_main);
+		ball = (ImageButton) findViewById(R.id.Ball);
+		platform = (ImageButton) findViewById(R.id.Platform);
+		MainActivity.ball.setBackgroundColor(Color.DKGRAY);
+		MainActivity.platform.setBackgroundColor(Color.LTGRAY);
 	}
 
 	// @Override
@@ -85,21 +89,24 @@ public class MainActivity extends Activity
 
 	public void modeBall(View view)
 	{
+		ball.setBackgroundColor(Color.DKGRAY);
+		platform.setBackgroundColor(Color.LTGRAY);
 		MyView.mode = MyView.MODE_BALL;
 	}
 
 	public void modePlatform(View view)
 	{
+		platform.setBackgroundColor(Color.DKGRAY);
+		ball.setBackgroundColor(Color.LTGRAY);
 		MyView.mode = MyView.MODE_CREATE_PLATFORM;
 	}
-
-	public void modeGrab(View view)
-	{
-		MyView.timeBetweenFrames = 20;
-	}
-
-	public void modeDelete(View view)
-	{
-		MyView.timeBetweenFrames = 1000;
-	}
+	// public void modeGrab(View view)
+	// {
+	// MyView.timeBetweenFrames = 20;
+	// }
+	//
+	// public void modeDelete(View view)
+	// {
+	// MyView.timeBetweenFrames = 1000;
+	// }
 }

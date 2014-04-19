@@ -48,8 +48,8 @@ public class MyView extends View implements OnTouchListener
 	float endTouchYMode1;
 	public static final int MODE_BALL = 0;
 	public static final int MODE_CREATE_PLATFORM = 1;
-	public static final int MODE_MOVE_PLATFORM = 2;
-	public static final int MODE_DELETE_PLATFORM = 3;
+	// public static final int MODE_MOVE_PLATFORM = 2;
+	// public static final int MODE_DELETE_PLATFORM = 3;
 	public static int mode = 0;
 	static ArrayList<Platform> platforms = new ArrayList<Platform>();
 	static double ballAngle;
@@ -66,6 +66,15 @@ public class MyView extends View implements OnTouchListener
 			TouchXMode0.add(null);
 			TouchYMode0.add(null);
 		}
+//		if (mode == MODE_BALL)
+//		{
+//			MainActivity.ball.setBackgroundColor(Color.DKGRAY);
+//			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
+//		} else if (mode == MODE_CREATE_PLATFORM)
+//		{
+//			MainActivity.platform.setBackgroundColor(Color.DKGRAY);
+//			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
+//		}
 	}
 
 	public MyView(Context context, AttributeSet attrs)
@@ -76,6 +85,15 @@ public class MyView extends View implements OnTouchListener
 			TouchXMode0.add(null);
 			TouchYMode0.add(null);
 		}
+//		if (mode == MODE_BALL)
+//		{
+//			MainActivity.ball.setBackgroundColor(Color.DKGRAY);
+//			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
+//		} else if (mode == MODE_CREATE_PLATFORM)
+//		{
+//			MainActivity.platform.setBackgroundColor(Color.DKGRAY);
+//			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
+//		}
 	}
 
 	public MyView(Context context)
@@ -86,6 +104,15 @@ public class MyView extends View implements OnTouchListener
 			TouchXMode0.add(null);
 			TouchYMode0.add(null);
 		}
+//		if (mode == MODE_BALL)
+//		{
+//			MainActivity.ball.setBackgroundColor(Color.DKGRAY);
+//			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
+//		} else if (mode == MODE_CREATE_PLATFORM)
+//		{
+//			MainActivity.platform.setBackgroundColor(Color.DKGRAY);
+//			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
+//		}
 	}
 
 	@Override
