@@ -132,10 +132,20 @@ public class MyView extends View implements OnTouchListener
 				}
 				if (HitPlats.size() > 0)
 				{
-					if (ballSpeed >= gravitationalAcceleration || !rolling)
+					if (HitPlats.size() == 1)
 					{
-//						bounce.start();
-						sp.play(bounce2, 1, 1, 0, 0, 1);
+						if (Math.abs(Math.sin(Math.toRadians(ballAngle - HitPlats.get(0).getAngle())) * ballSpeed) >= gravitationalAcceleration)
+						{
+							// bounce.start();
+							sp.play(bounce2, 1, 1, 0, 0, 1);
+						}
+					} else
+					{
+						if (ballSpeed >= gravitationalAcceleration)
+						{
+							// bounce.start();
+							sp.play(bounce2, 1, 1, 0, 0, 1);
+						}
 					}
 					touchingScreen = false;
 					if (HitPlats.size() > 1)
