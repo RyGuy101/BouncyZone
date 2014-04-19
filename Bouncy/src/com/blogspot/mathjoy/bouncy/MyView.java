@@ -5,7 +5,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.ListView.FixedViewInfo;
 public class MyView extends View implements OnTouchListener
 {
 	static MediaPlayer bounce = MainActivity.bounce;
+	static SoundPool sp = MainActivity.spool;
+	static int bounce2 = MainActivity.bounce2;
 	Paint platformPaint = new Paint();
 	Paint ballPaint = new Paint();
 	public static int timeBetweenFrames = 20;
@@ -128,9 +132,10 @@ public class MyView extends View implements OnTouchListener
 				}
 				if (HitPlats.size() > 0)
 				{
-					if (ballSpeed > this.getHeight() / 1000.0 || !rolling)
+					if (ballSpeed >= gravitationalAcceleration || !rolling)
 					{
-						bounce.start();
+//						bounce.start();
+						sp.play(bounce2, 1, 1, 0, 0, 1);
 					}
 					touchingScreen = false;
 					if (HitPlats.size() > 1)
