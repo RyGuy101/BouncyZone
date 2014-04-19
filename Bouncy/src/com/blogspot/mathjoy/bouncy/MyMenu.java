@@ -1,6 +1,8 @@
 package com.blogspot.mathjoy.bouncy;
 
 import java.sql.Savepoint;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -20,6 +22,9 @@ import android.widget.TextView;
 
 public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBarChangeListener
 {
+	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+	public static int button;
+	float buttonVolume = MainActivity.buttonVolume;
 	Spinner ballColor;
 	SeekBar seekGravity;
 	SeekBar seekBounceLevel;
@@ -36,6 +41,8 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		button = spool.load(this, R.raw.button, 1);
 		setContentView(R.layout.activity_my_menu);
 		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colors);
 		ballColor = (Spinner) findViewById(R.id.ballColor);
@@ -68,6 +75,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	// }
 	public void goToGame(View v)
 	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		pickedColor = (String) ballColor.getSelectedItem();
 		gravity = (seekGravity.getProgress());
 		bounceLevel = (seekBounceLevel.getProgress());
@@ -82,6 +90,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 	{
+		// spool.play(button, 1, 1, 0, 0, 1);
 	}
 
 	@Override
@@ -110,13 +119,18 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 
 	public void gameReset(View v)
 	{
-		gameReset = true;
-		Button temp = (Button) v;
-		temp.setText("Game Cleared!");
+		if (!gameReset)
+		{
+			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			gameReset = true;
+			Button temp = (Button) v;
+			temp.setText("Game Cleared!");
+		}
 	}
 
 	public void settingsReset(View v)
 	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		seekGravity.setProgress(100);
 		seekBounceLevel.setProgress(100);
 		ballColor.setSelection(0);
@@ -137,14 +151,14 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		edit.putFloat(key, (float) value);
 		edit.commit();
 	}
-//	private void SavePrefs(String key, int value)
-//	{
-//		SharedPreferences sp = getSharedPreferences("settings", 0);
-//		Editor edit = sp.edit();
-//		edit.putInt(key, value);
-//		edit.commit();
-//	}
 
+	// private void SavePrefs(String key, int value)
+	// {
+	// SharedPreferences sp = getSharedPreferences("settings", 0);
+	// Editor edit = sp.edit();
+	// edit.putInt(key, value);
+	// edit.commit();
+	// }
 	private void SavePrefs(String key, float value)
 	{
 		SharedPreferences sp = getSharedPreferences("settings", 0);

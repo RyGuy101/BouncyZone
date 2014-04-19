@@ -1,6 +1,7 @@
 package com.blogspot.mathjoy.bouncy;
 
 import java.util.ArrayList;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,9 +17,9 @@ import android.widget.ListView.FixedViewInfo;
 
 public class MyView extends View implements OnTouchListener
 {
-	static MediaPlayer bounce = MainActivity.bounce;
+	// static MediaPlayer bounce = MainActivity.bounce;
 	static SoundPool sp = MainActivity.spool;
-	static int bounce2 = MainActivity.bounce2;
+	static int bounce = MainActivity.bounce;
 	Paint platformPaint = new Paint();
 	Paint ballPaint = new Paint();
 	public static int timeBetweenFrames = 20;
@@ -66,15 +67,6 @@ public class MyView extends View implements OnTouchListener
 			TouchXMode0.add(null);
 			TouchYMode0.add(null);
 		}
-//		if (mode == MODE_BALL)
-//		{
-//			MainActivity.ball.setBackgroundColor(Color.DKGRAY);
-//			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
-//		} else if (mode == MODE_CREATE_PLATFORM)
-//		{
-//			MainActivity.platform.setBackgroundColor(Color.DKGRAY);
-//			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
-//		}
 	}
 
 	public MyView(Context context, AttributeSet attrs)
@@ -85,15 +77,6 @@ public class MyView extends View implements OnTouchListener
 			TouchXMode0.add(null);
 			TouchYMode0.add(null);
 		}
-//		if (mode == MODE_BALL)
-//		{
-//			MainActivity.ball.setBackgroundColor(Color.DKGRAY);
-//			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
-//		} else if (mode == MODE_CREATE_PLATFORM)
-//		{
-//			MainActivity.platform.setBackgroundColor(Color.DKGRAY);
-//			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
-//		}
 	}
 
 	public MyView(Context context)
@@ -104,15 +87,6 @@ public class MyView extends View implements OnTouchListener
 			TouchXMode0.add(null);
 			TouchYMode0.add(null);
 		}
-//		if (mode == MODE_BALL)
-//		{
-//			MainActivity.ball.setBackgroundColor(Color.DKGRAY);
-//			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
-//		} else if (mode == MODE_CREATE_PLATFORM)
-//		{
-//			MainActivity.platform.setBackgroundColor(Color.DKGRAY);
-//			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
-//		}
 	}
 
 	@Override
@@ -159,21 +133,6 @@ public class MyView extends View implements OnTouchListener
 				}
 				if (HitPlats.size() > 0)
 				{
-					if (HitPlats.size() == 1)
-					{
-						if (Math.abs(Math.sin(Math.toRadians(ballAngle - HitPlats.get(0).getAngle())) * ballSpeed) >= gravitationalAcceleration)
-						{
-							// bounce.start();
-							sp.play(bounce2, 1, 1, 0, 0, 1);
-						}
-					} else
-					{
-						if (ballSpeed >= gravitationalAcceleration)
-						{
-							// bounce.start();
-							sp.play(bounce2, 1, 1, 0, 0, 1);
-						}
-					}
 					touchingScreen = false;
 					if (HitPlats.size() > 1)
 					{
@@ -238,6 +197,11 @@ public class MyView extends View implements OnTouchListener
 						}
 						// closestLeftPlatform.setAngle(fixAngleToLessThan180(closestLeftPlatform.getAngle()));
 						// closestRightPlatform.setAngle(fixAngleToLessThan180(closestRightPlatform.getAngle()));
+						if (Math.abs(Math.sin(Math.toRadians(ballAngle - closestLeftPlatform.getAngle())) * ballSpeed) >= gravitationalAcceleration || Math.abs(Math.sin(Math.toRadians(ballAngle - closestRightPlatform.getAngle())) * ballSpeed) >= gravitationalAcceleration)
+						{
+							// bounce.start();
+							sp.play(bounce, 1, 1, 0, 0, 1);
+						}
 						updateBallAngleBasedOnTwoPlatforms(closestLeftPlatform, closestRightPlatform);
 						double backupBallAngle = ballAngle;
 						// float oldBallSpeed = ballSpeed;
@@ -328,79 +292,119 @@ public class MyView extends View implements OnTouchListener
 					} else if (HitPlats.size() == 1)
 					{
 						Platform platform = HitPlats.get(0);
-						updateBallAngleBasedOnOnePlatform(platform.getAngle());
-						double backupBallAngle = ballAngle;
-						// float oldBallSpeed = ballSpeed;
-						updateSpeedWithBounceFactor();
-						float backupBallSpeed = ballSpeed;
-						updateBallXAndYSpeed();
-						float backupBallX = ballX;
-						float backupBallY = ballY;
-						boolean checkForIntersection = true;
-						if (gravitationalAcceleration != 0)
+						if (Math.abs(Math.sin(Math.toRadians(ballAngle - platform.getAngle())) * ballSpeed) >= gravitationalAcceleration)
 						{
-							if (ballAngle > platform.getAngle())
+							// bounce.start();
+							sp.play(bounce, 1, 1, 0, 0, 1);
+							rolling = false;
+							updateBallAngleBasedOnOnePlatform(platform.getAngle());
+							updateSpeedWithBounceFactor();
+							updateBallXAndYSpeed();
+							if (Math.abs(Math.sin(Math.toRadians(ballAngle - platform.getAngle())) * ballSpeed) < gravitationalAcceleration)
 							{
-								while (ballAngle - platform.getAngle() > 0)
-								{
-									simulateBall();
-									if (ballY > platform.getHighY())
-									{
-										checkForIntersection = false;
-										break;
-									}
-								}
-							} else if (ballAngle < platform.getAngle())
-							{
-								while (ballAngle - platform.getAngle() < 0)
-								{
-									simulateBall();
-									if (ballY > platform.getHighY())
-									{
-										checkForIntersection = false;
-										break;
-									}
-								}
-							}
-							if (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && checkForIntersection == true)
-							{
-								float ballXDiff = ballX - backupBallX;
-								float ballYDiff = ballY - backupBallY;
 								while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))
 								{
-									if (platform.getAngle() > 180)
+									if (platform.getAngle() > ballAngle)
 									{
-										// ERROR
-									} else if (platform.getAngle() > 90)
+										ballX += Math.cos(Math.toRadians(platform.getAngle() - 90)) / 100.0;
+										ballY += Math.sin(Math.toRadians(platform.getAngle() - 90)) / 100.0;
+									} else
 									{
 										ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
 										ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-									} else
-									{
-										ballX += Math.cos(Math.toRadians(platform.getAngle() + 270)) / 100.0;
-										ballY += Math.sin(Math.toRadians(platform.getAngle() + 270)) / 100.0;
 									}
+									// if (platform.getAngle() > 180)
+									// {
+									// // ERROR
+									// } else if (platform.getAngle() > 90)
+									// {
+									// ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
+									// ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
+									// } else
+									// {
+									// ballX += Math.cos(Math.toRadians(platform.getAngle() + 270)) / 100.0;
+									// ballY += Math.sin(Math.toRadians(platform.getAngle() + 270)) / 100.0;
+									// }
 								}
-								ballX -= ballXDiff;
-								ballY -= ballYDiff;
-								ballAngle = backupBallAngle;
-								ballSpeed = backupBallSpeed;
-								updateBallXAndYSpeed();
-								// updateBallYSpeedBasedOnGravity();
-								// updateBallAngle();
-								// updateBallSpeed();
-								// updateBallXAndYSpeed();
-								rolling = true;
-							} else
-							{
-								ballX = backupBallX;
-								ballY = backupBallY;
-								ballAngle = backupBallAngle;
-								ballSpeed = backupBallSpeed;
-								updateBallXAndYSpeed();
-								rolling = false;
 							}
+						} else
+						{
+							rolling = true;
+							updateBallAngleBasedOnOnePlatform(platform.getAngle());
+							updateBallXAndYSpeed();
 						}
+//						double backupBallAngle = ballAngle;
+//						// float oldBallSpeed = ballSpeed;
+//						updateSpeedWithBounceFactor();
+//						float backupBallSpeed = ballSpeed;
+//						updateBallXAndYSpeed();
+//						float backupBallX = ballX;
+//						float backupBallY = ballY;
+//						boolean checkForIntersection = true;
+//						if (gravitationalAcceleration != 0)
+//						{
+//							// if (ballAngle > platform.getAngle())
+//							// {
+//							// while (ballAngle - platform.getAngle() > 0)
+//							// {
+//							// simulateBall();
+//							// if (ballY > platform.getHighY())
+//							// {
+//							// checkForIntersection = false;
+//							// break;
+//							// }
+//							// }
+//							// } else if (ballAngle < platform.getAngle())
+//							// {
+//							// while (ballAngle - platform.getAngle() < 0)
+//							// {
+//							// simulateBall();
+//							// if (ballY > platform.getHighY())
+//							// {
+//							// checkForIntersection = false;
+//							// break;
+//							// }
+//							// }
+//							// }
+//							if (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && checkForIntersection == true)
+//							{
+//								float ballXDiff = ballX - backupBallX;
+//								float ballYDiff = ballY - backupBallY;
+//								while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))
+//								{
+//									if (platform.getAngle() > 180)
+//									{
+//										// ERROR
+//									} else if (platform.getAngle() > 90)
+//									{
+//										ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
+//										ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
+//									} else
+//									{
+//										ballX += Math.cos(Math.toRadians(platform.getAngle() + 270)) / 100.0;
+//										ballY += Math.sin(Math.toRadians(platform.getAngle() + 270)) / 100.0;
+//									}
+//								}
+//								ballX -= ballXDiff;
+//								ballY -= ballYDiff;
+//								ballAngle = backupBallAngle;
+//								ballSpeed = backupBallSpeed;
+//								updateBallXAndYSpeed();
+//								// updateBallYSpeedBasedOnGravity();
+//								// updateBallAngle();
+//								// updateBallSpeed();
+//								// updateBallXAndYSpeed();
+//								rolling = true;
+//							} else
+//							{
+//								ballX = backupBallX;
+//								ballY = backupBallY;
+//								ballAngle = backupBallAngle;
+//								ballSpeed = backupBallSpeed;
+//								updateBallXAndYSpeed();
+//								rolling = false;
+//							}
+//						}
 						if (ballSpeed > ballRadius * 2)
 						{
 							drawBallX = (float) ((minusIntersectX(platform) + plusIntersectX(platform)) / 2.0);// + Math.cos(Math.toRadians(platform.getAngle() + 90) * ballRadius * Math.signum(ballXSpeed)));

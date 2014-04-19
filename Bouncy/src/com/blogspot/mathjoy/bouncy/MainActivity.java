@@ -24,9 +24,11 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
-	public static MediaPlayer bounce;
+	// public static MediaPlayer bounce;
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-	public static int bounce2;
+	public static int bounce;
+	public static int button;
+	public static float buttonVolume = (float) 1;
 	Intent intent;
 	String pickedColor;
 	int[] possibleColors =
@@ -42,8 +44,10 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		bounce = MediaPlayer.create(this, R.raw.bounce);
-		bounce2 = spool.load(this, R.raw.bounce, 1);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		// bounce = MediaPlayer.create(this, R.raw.bounce);
+		bounce = spool.load(this, R.raw.bounce2, 1);
+		button = spool.load(this, R.raw.button, 1);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "red");
 		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
@@ -70,7 +74,7 @@ public class MainActivity extends Activity
 		setContentView(R.layout.activity_main);
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
-		MainActivity.ball.setBackgroundColor(Color.DKGRAY);
+		MainActivity.ball.setBackgroundColor(Color.GRAY);
 		MainActivity.platform.setBackgroundColor(Color.LTGRAY);
 	}
 
@@ -83,22 +87,31 @@ public class MainActivity extends Activity
 	// }
 	public void goToMenu(View v)
 	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(this, MyMenu.class);
 		startActivity(intent);
 	}
 
 	public void modeBall(View view)
 	{
-		ball.setBackgroundColor(Color.DKGRAY);
-		platform.setBackgroundColor(Color.LTGRAY);
-		MyView.mode = MyView.MODE_BALL;
+		if (MyView.mode != MyView.MODE_BALL)
+		{
+			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			ball.setBackgroundColor(Color.GRAY);
+			platform.setBackgroundColor(Color.LTGRAY);
+			MyView.mode = MyView.MODE_BALL;
+		}
 	}
 
 	public void modePlatform(View view)
 	{
-		platform.setBackgroundColor(Color.DKGRAY);
-		ball.setBackgroundColor(Color.LTGRAY);
-		MyView.mode = MyView.MODE_CREATE_PLATFORM;
+		if (MyView.mode != MyView.MODE_CREATE_PLATFORM)
+		{
+			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			platform.setBackgroundColor(Color.GRAY);
+			ball.setBackgroundColor(Color.LTGRAY);
+			MyView.mode = MyView.MODE_CREATE_PLATFORM;
+		}
 	}
 	// public void modeGrab(View view)
 	// {
