@@ -1,19 +1,15 @@
 package com.blogspot.mathjoy.bouncy;
 
 import java.util.ArrayList;
-import org.apache.http.impl.conn.SingleClientConnManager;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.ListView.FixedViewInfo;
 
 public class MyView extends View implements OnTouchListener
 {
@@ -298,33 +294,89 @@ public class MyView extends View implements OnTouchListener
 							sp.play(bounce, 1, 1, 0, 0, 1);
 							rolling = false;
 							updateBallAngleBasedOnOnePlatform(platform.getAngle());
+							double backupBallAngle = ballAngle;
+							// float oldBallSpeed = ballSpeed;
 							updateSpeedWithBounceFactor();
+							float backupBallSpeed = ballSpeed;
 							updateBallXAndYSpeed();
+							float backupBallX = ballX;
+							float backupBallY = ballY;
+							boolean checkForIntersection = true;
+							if (gravitationalAcceleration != 0)
+							{
+								if (ballAngle > platform.getAngle())
+								{
+									while (ballAngle - platform.getAngle() > 0)
+									{
+										simulateBall();
+										if (ballY > platform.getHighY())
+										{
+											checkForIntersection = false;
+											break;
+										}
+									}
+								} else if (ballAngle < platform.getAngle())
+								{
+									while (ballAngle - platform.getAngle() < 0)
+									{
+										simulateBall();
+										if (ballY > platform.getHighY())
+										{
+											checkForIntersection = false;
+											break;
+										}
+									}
+								}
+								if (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && checkForIntersection == true)
+								{
+									float ballXDiff = ballX - backupBallX;
+									float ballYDiff = ballY - backupBallY;
+									if (backupBallAngle > 180)
+									{
+										platform.setAngle(fixAngleToMoreThan180(platform.getAngle()));
+									}
+									while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))
+									{
+										if (platform.getAngle() > backupBallAngle)
+										{
+											ballX += Math.cos(Math.toRadians(platform.getAngle() - 90)) / 100.0;
+											ballY += Math.sin(Math.toRadians(platform.getAngle() - 90)) / 100.0;
+										} else
+										{
+											ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
+											ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
+										}
+									}
+									ballX -= ballXDiff;
+									ballY -= ballYDiff;
+									ballAngle = backupBallAngle;
+									ballSpeed = backupBallSpeed;
+									updateBallXAndYSpeed();
+									// updateBallYSpeedBasedOnGravity();
+									// updateBallAngle();
+									// updateBallSpeed();
+									// updateBallXAndYSpeed();
+									rolling = true;
+								} else
+								{
+									ballX = backupBallX;
+									ballY = backupBallY;
+									ballAngle = backupBallAngle;
+									ballSpeed = backupBallSpeed;
+									updateBallXAndYSpeed();
+									rolling = false;
+								}
+							}
 							if (Math.abs(Math.sin(Math.toRadians(ballAngle - platform.getAngle())) * ballSpeed) < gravitationalAcceleration)
 							{
-								while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))
+								platform.setAngle(fixAngleToLessThan180(platform.getAngle()));
+								ballSpeed = (float) (Math.abs(Math.cos(Math.toRadians(ballAngle - platform.getAngle())) * ballSpeed));
+								if (ballAngle > 180)
 								{
-									if (platform.getAngle() > ballAngle)
-									{
-										ballX += Math.cos(Math.toRadians(platform.getAngle() - 90)) / 100.0;
-										ballY += Math.sin(Math.toRadians(platform.getAngle() - 90)) / 100.0;
-									} else
-									{
-										ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-										ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-									}
-									// if (platform.getAngle() > 180)
-									// {
-									// // ERROR
-									// } else if (platform.getAngle() > 90)
-									// {
-									// ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-									// ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-									// } else
-									// {
-									// ballX += Math.cos(Math.toRadians(platform.getAngle() + 270)) / 100.0;
-									// ballY += Math.sin(Math.toRadians(platform.getAngle() + 270)) / 100.0;
-									// }
+									ballAngle = platform.getAngle() + 180;
+								} else
+								{
+									ballAngle = platform.getAngle();
 								}
 							}
 						} else
@@ -333,78 +385,6 @@ public class MyView extends View implements OnTouchListener
 							updateBallAngleBasedOnOnePlatform(platform.getAngle());
 							updateBallXAndYSpeed();
 						}
-//						double backupBallAngle = ballAngle;
-//						// float oldBallSpeed = ballSpeed;
-//						updateSpeedWithBounceFactor();
-//						float backupBallSpeed = ballSpeed;
-//						updateBallXAndYSpeed();
-//						float backupBallX = ballX;
-//						float backupBallY = ballY;
-//						boolean checkForIntersection = true;
-//						if (gravitationalAcceleration != 0)
-//						{
-//							// if (ballAngle > platform.getAngle())
-//							// {
-//							// while (ballAngle - platform.getAngle() > 0)
-//							// {
-//							// simulateBall();
-//							// if (ballY > platform.getHighY())
-//							// {
-//							// checkForIntersection = false;
-//							// break;
-//							// }
-//							// }
-//							// } else if (ballAngle < platform.getAngle())
-//							// {
-//							// while (ballAngle - platform.getAngle() < 0)
-//							// {
-//							// simulateBall();
-//							// if (ballY > platform.getHighY())
-//							// {
-//							// checkForIntersection = false;
-//							// break;
-//							// }
-//							// }
-//							// }
-//							if (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform) && checkForIntersection == true)
-//							{
-//								float ballXDiff = ballX - backupBallX;
-//								float ballYDiff = ballY - backupBallY;
-//								while (isOnInfintiteLine(platform) && isWithinBoundsOfPlatform(platform))
-//								{
-//									if (platform.getAngle() > 180)
-//									{
-//										// ERROR
-//									} else if (platform.getAngle() > 90)
-//									{
-//										ballX += Math.cos(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-//										ballY += Math.sin(Math.toRadians(platform.getAngle() + 90)) / 100.0;
-//									} else
-//									{
-//										ballX += Math.cos(Math.toRadians(platform.getAngle() + 270)) / 100.0;
-//										ballY += Math.sin(Math.toRadians(platform.getAngle() + 270)) / 100.0;
-//									}
-//								}
-//								ballX -= ballXDiff;
-//								ballY -= ballYDiff;
-//								ballAngle = backupBallAngle;
-//								ballSpeed = backupBallSpeed;
-//								updateBallXAndYSpeed();
-//								// updateBallYSpeedBasedOnGravity();
-//								// updateBallAngle();
-//								// updateBallSpeed();
-//								// updateBallXAndYSpeed();
-//								rolling = true;
-//							} else
-//							{
-//								ballX = backupBallX;
-//								ballY = backupBallY;
-//								ballAngle = backupBallAngle;
-//								ballSpeed = backupBallSpeed;
-//								updateBallXAndYSpeed();
-//								rolling = false;
-//							}
-//						}
 						if (ballSpeed > ballRadius * 2)
 						{
 							drawBallX = (float) ((minusIntersectX(platform) + plusIntersectX(platform)) / 2.0);// + Math.cos(Math.toRadians(platform.getAngle() + 90) * ballRadius * Math.signum(ballXSpeed)));
@@ -985,6 +965,19 @@ public class MyView extends View implements OnTouchListener
 		while (angle < 180)
 		{
 			angle += 180;
+		}
+		return angle;
+	}
+
+	private double fixAngle(double angle)
+	{
+		while (angle > 360)
+		{
+			angle -= 360;
+		}
+		while (angle < 0)
+		{
+			angle += 360;
 		}
 		return angle;
 	}
