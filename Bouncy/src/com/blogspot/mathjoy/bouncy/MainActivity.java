@@ -48,23 +48,30 @@ public class MainActivity extends Activity
 				MyView.ballColor = possibleColors[i];
 			}
 		}
-		if (justOpened)
-		{
-			justOpened = false;
-		} else
-		{
-			intent = getIntent();
-			if (intent.getExtras().getBoolean("isGameReset") == true)
-			{
-				MyView.platforms.clear();
-			}
-		}
-		MyView.mode = MyView.MODE_BALL;
+		// if (justOpened)
+		// {
+		// justOpened = false;
+		// } else
+		// {
+		// intent = getIntent();
+		// if (intent.getExtras().getBoolean("isGameReset") == true)
+		// {
+		// MyView.platforms.clear();
+		// }
+		// }
+		// MyView.mode = MyView.MODE_BALL;
 		setContentView(R.layout.activity_main);
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
-		MainActivity.ball.setBackgroundColor(Color.GRAY);
-		MainActivity.platform.setBackgroundColor(Color.LTGRAY);
+		if (MyView.mode == MyView.MODE_BALL)
+		{
+			MainActivity.ball.setBackgroundColor(Color.GRAY);
+			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
+		} else if (MyView.mode == MyView.MODE_CREATE_PLATFORM)
+		{
+			MainActivity.platform.setBackgroundColor(Color.GRAY);
+			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
+		}
 	}
 
 	// @Override
@@ -102,6 +109,7 @@ public class MainActivity extends Activity
 			MyView.mode = MyView.MODE_CREATE_PLATFORM;
 		}
 	}
+
 	// public void modeGrab(View view)
 	// {
 	// MyView.timeBetweenFrames = 20;
@@ -111,4 +119,15 @@ public class MainActivity extends Activity
 	// {
 	// MyView.timeBetweenFrames = 1000;
 	// }
+	public void undo(View view)
+	{
+		if (MyView.platforms != null)
+		{
+			if (MyView.platforms.size() > 0)
+			{
+				spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+				MyView.platforms.remove(MyView.platforms.size() - 1);
+			}
+		}
+	}
 }

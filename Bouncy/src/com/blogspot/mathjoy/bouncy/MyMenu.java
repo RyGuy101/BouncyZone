@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -122,6 +123,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		if (!gameReset)
 		{
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			MyView.platforms.clear();
 			gameReset = true;
 			Button temp = (Button) v;
 			temp.setText("Game Cleared!");

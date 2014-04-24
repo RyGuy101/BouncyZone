@@ -16,6 +16,7 @@ public class MyView extends View implements OnTouchListener
 	// static MediaPlayer bounce = MainActivity.bounce;
 	static SoundPool sp = MainActivity.spool;
 	static int bounce = MainActivity.bounce;
+	public static float bounceVolume = (float) 0.6;
 	Paint platformPaint = new Paint();
 	Paint ballPaint = new Paint();
 	public static int timeBetweenFrames = 20;
@@ -196,7 +197,7 @@ public class MyView extends View implements OnTouchListener
 						if (Math.abs(Math.sin(Math.toRadians(ballAngle - closestLeftPlatform.getAngle())) * ballSpeed) >= gravitationalAcceleration || Math.abs(Math.sin(Math.toRadians(ballAngle - closestRightPlatform.getAngle())) * ballSpeed) >= gravitationalAcceleration)
 						{
 							// bounce.start();
-							sp.play(bounce, 1, 1, 0, 0, 1);
+							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
 						}
 						updateBallAngleBasedOnTwoPlatforms(closestLeftPlatform, closestRightPlatform);
 						double backupBallAngle = ballAngle;
@@ -291,7 +292,7 @@ public class MyView extends View implements OnTouchListener
 						if (Math.abs(Math.sin(Math.toRadians(ballAngle - platform.getAngle())) * ballSpeed) >= gravitationalAcceleration)
 						{
 							// bounce.start();
-							sp.play(bounce, 1, 1, 0, 0, 1);
+							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
 							rolling = false;
 							updateBallAngleBasedOnOnePlatform(platform.getAngle());
 							double backupBallAngle = ballAngle;
