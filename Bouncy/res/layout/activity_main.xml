@@ -18,20 +18,20 @@
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/Menu"
+            android:id="@+id/Settings"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="goToMenu"
             android:src="@drawable/gear" />
+        <!-- android:onClick="goToMenu" -->
 
         <ImageButton
             android:id="@+id/Ball"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="modeBall"
             android:src="@drawable/ic_launcher" />
+        <!-- android:onClick="modeBall" -->
 
         <ImageButton
             android:id="@+id/Platform"
@@ -42,7 +42,7 @@
             android:src="@drawable/liney" />
 
         <ImageButton
-            android:id="@+id/Platform"
+            android:id="@+id/Undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

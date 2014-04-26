@@ -7,11 +7,14 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class MainActivity extends Activity
+public class MainActivity extends Activity implements OnTouchListener, OnClickListener
 {
 	// public static MediaPlayer bounce;
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
@@ -27,6 +30,9 @@ public class MainActivity extends Activity
 	static boolean justOpened = true;
 	public static ImageButton ball;
 	public static ImageButton platform;
+	public static ImageButton settings;
+	public static ImageButton undo;
+	public ImageButton buttonDown;
 	TextView tv;
 
 	@Override
@@ -63,6 +69,10 @@ public class MainActivity extends Activity
 		setContentView(R.layout.activity_main);
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
+		settings = (ImageButton) findViewById(R.id.Settings);
+		undo = (ImageButton) findViewById(R.id.Undo);
+		settings.setBackgroundColor(Color.LTGRAY);
+		undo.setBackgroundColor(Color.LTGRAY);
 		if (MyView.mode == MyView.MODE_BALL)
 		{
 			MainActivity.ball.setBackgroundColor(Color.GRAY);
@@ -72,6 +82,14 @@ public class MainActivity extends Activity
 			MainActivity.platform.setBackgroundColor(Color.GRAY);
 			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
 		}
+		ball.setOnTouchListener(this);
+		platform.setOnTouchListener(this);
+		settings.setOnTouchListener(this);
+		undo.setOnTouchListener(this);
+		ball.setOnClickListener(this);
+		platform.setOnClickListener(this);
+		settings.setOnClickListener(this);
+		undo.setOnClickListener(this);
 	}
 
 	// @Override
@@ -128,6 +146,40 @@ public class MainActivity extends Activity
 				spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 				MyView.platforms.remove(MyView.platforms.size() - 1);
 			}
+		}
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event)
+	{
+		if (!((v.equals(ball) && MyView.mode == MyView.MODE_BALL) || (v.equals(platform) && MyView.mode == MyView.MODE_CREATE_PLATFORM)))
+		{
+			if (event.getAction() == MotionEvent.ACTION_UP)
+			{
+				v.setBackgroundColor(Color.LTGRAY);
+			} else
+			{
+				v.setBackgroundColor(Color.rgb(170, 170, 170));
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		if (v.equals(ball))
+		{
+			modeBall(v);
+		} else if (v.equals(platform))
+		{
+			modePlatform(v);
+		} else if (v.equals(settings))
+		{
+			goToMenu(v);
+		} else if (v.equals(undo))
+		{
+			undo(v);
 		}
 	}
 }
