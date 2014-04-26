@@ -186,4 +186,10 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	public void onStopTrackingTouch(SeekBar seekBar)
 	{
 	}
+
+	@Override
+	public void onBackPressed()
+	{
+		goToGame(new View(this));
+	}
 }

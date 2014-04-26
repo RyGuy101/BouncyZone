@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.ExifInterface;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -41,7 +42,7 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		super.onCreate(savedInstanceState);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// bounce = MediaPlayer.create(this, R.raw.bounce);
-		bounce = spool.load(this, R.raw.bounce2, 1);
+		bounce = spool.load(this, R.raw.bounce, 1);
 		button = spool.load(this, R.raw.button, 1);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "red");
@@ -90,6 +91,13 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		platform.setOnClickListener(this);
 		settings.setOnClickListener(this);
 		undo.setOnClickListener(this);
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		moveTaskToBack(true);
 	}
 
 	// @Override
@@ -156,7 +164,16 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		{
 			if (event.getAction() == MotionEvent.ACTION_UP)
 			{
-				v.setBackgroundColor(Color.LTGRAY);
+				if (v.equals(ball) || v.equals(platform))
+				{
+					if (event.getY() > v.getBottom() || event.getY() < v.getTop() || event.getX() > v.getRight() || event.getX() < v.getLeft())
+					{
+						v.setBackgroundColor(Color.LTGRAY);
+					}
+				} else
+				{
+					v.setBackgroundColor(Color.LTGRAY);
+				}
 			} else
 			{
 				v.setBackgroundColor(Color.rgb(170, 170, 170));

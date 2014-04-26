@@ -20,12 +20,18 @@ public class MyView extends View implements OnTouchListener
 	Paint platformPaint = new Paint();
 	Paint ballPaint = new Paint();
 	public static int timeBetweenFrames = 20;
+	static boolean offScreen = true;
+	static int offScreenCounter = 0;
 	static float ballRadius;
 	static float theoreticalRadius;
 	static float ballX;
 	static float ballY;
 	static float drawBallX = -1000;
 	static float drawBallY = -1000;
+	static float startBallX;
+	static float startBallY;
+	static float startBallXSpeed = 0;
+	static float startBallYSpeed = 0;
 	static float gravitationalAcceleration;
 	static float ballXSpeed;
 	static float ballYSpeed;
@@ -105,6 +111,8 @@ public class MyView extends View implements OnTouchListener
 			{
 				ballX = currentTouchX;
 				ballY = currentTouchY;
+				startBallX = currentTouchX;
+				startBallY = currentTouchY;
 				for (int i = touchMemory - 1; i > 0; i--)
 				{
 					TouchXMode0.set(i, TouchXMode0.get(i - 1));
@@ -113,16 +121,35 @@ public class MyView extends View implements OnTouchListener
 				TouchXMode0.set(0, currentTouchX);
 				TouchYMode0.set(0, currentTouchY);
 				updateBallXAndYSpeedBasedOnTouch();
+				startBallXSpeed = ballXSpeed;
+				startBallYSpeed = ballYSpeed;
 				wasJustTouchingScreen = true;
 			} // else
 			{
 				updateBallAngle();
 				updateBallSpeed();
+				updateTheoreticalRadius();
 				if (!touchingScreen)
 				{
 					updateBallPosition();
+					if (ballX - theoreticalRadius > this.getWidth() || ballX + theoreticalRadius < 0 || ballY - theoreticalRadius > this.getHeight())
+					{
+						offScreenCounter++;
+					} else
+					{
+						offScreenCounter = 0;
+					}
+					if (offScreenCounter >= 25)
+					{
+						ballX = startBallX;
+						ballY = startBallY;
+						ballXSpeed = startBallXSpeed;
+						ballYSpeed = startBallYSpeed;
+						updateBallAngle();
+						updateBallSpeed();
+						updateTheoreticalRadius();
+					}
 				}
-				updateTheoreticalRadius();
 				for (int i = 0; i < platforms.size(); i++)
 				{
 					Platform thisPlat = platforms.get(i);
@@ -801,6 +828,7 @@ public class MyView extends View implements OnTouchListener
 		ballRadius = (float) (this.getHeight() / 75.0);
 		ballX = (float) (this.getWidth() / 2.0);
 		ballY = ballRadius;
+		startBallX = (float) (this.getWidth() / 2.0);
 		updateGravity();
 		theoreticalRadius = ballRadius;
 	}
