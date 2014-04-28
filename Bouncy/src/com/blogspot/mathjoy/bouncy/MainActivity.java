@@ -3,9 +3,9 @@ package com.blogspot.mathjoy.bouncy;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.ExifInterface;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -164,16 +164,7 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		{
 			if (event.getAction() == MotionEvent.ACTION_UP)
 			{
-				if (v.equals(ball) || v.equals(platform))
-				{
-					if (event.getY() > v.getBottom() || event.getY() < v.getTop() || event.getX() > v.getRight() || event.getX() < v.getLeft())
-					{
-						v.setBackgroundColor(Color.LTGRAY);
-					}
-				} else
-				{
-					v.setBackgroundColor(Color.LTGRAY);
-				}
+				v.setBackgroundColor(Color.LTGRAY);
 			} else
 			{
 				v.setBackgroundColor(Color.rgb(170, 170, 170));

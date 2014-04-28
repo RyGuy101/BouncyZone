@@ -20,7 +20,6 @@ public class MyView extends View implements OnTouchListener
 	Paint platformPaint = new Paint();
 	Paint ballPaint = new Paint();
 	public static int timeBetweenFrames = 20;
-	static boolean offScreen = true;
 	static int offScreenCounter = 0;
 	static float ballRadius;
 	static float theoreticalRadius;
@@ -28,10 +27,10 @@ public class MyView extends View implements OnTouchListener
 	static float ballY;
 	static float drawBallX = -1000;
 	static float drawBallY = -1000;
-	static float startBallX;
-	static float startBallY;
-	static float startBallXSpeed = 0;
-	static float startBallYSpeed = 0;
+	public static float startBallX;
+	public static float startBallY;
+	public static float startBallXSpeed = 0;
+	public static float startBallYSpeed = 0;
 	static float gravitationalAcceleration;
 	static float ballXSpeed;
 	static float ballYSpeed;
@@ -55,7 +54,7 @@ public class MyView extends View implements OnTouchListener
 	// public static final int MODE_MOVE_PLATFORM = 2;
 	// public static final int MODE_DELETE_PLATFORM = 3;
 	public static int mode = 0;
-	static ArrayList<Platform> platforms = new ArrayList<Platform>();
+	public static ArrayList<Platform> platforms = new ArrayList<Platform>();
 	static double ballAngle;
 	static float ballSpeed;
 	static float ballSpeedBeforeBounce;
@@ -139,7 +138,7 @@ public class MyView extends View implements OnTouchListener
 					{
 						offScreenCounter = 0;
 					}
-					if (offScreenCounter >= 25)
+					if (offScreenCounter >= 50)
 					{
 						ballX = startBallX;
 						ballY = startBallY;
