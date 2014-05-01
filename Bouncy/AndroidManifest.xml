@@ -28,6 +28,14 @@
             android:label="Settings"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.blogspot.mathjoy.bouncy.SaveConfActivity"
+            android:label="@string/title_activity_save_conf" >
+        </activity>
+        <activity
+            android:name="com.blogspot.mathjoy.bouncy.LoadConfActivity"
+            android:label="@string/title_activity_load_conf" >
+        </activity>
     </application>
 
 </manifest>

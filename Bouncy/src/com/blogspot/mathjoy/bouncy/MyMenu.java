@@ -226,4 +226,16 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		}
 		return new Configuration(sp.getString("name", "Untitled"), sp.getFloat("startBallX", 0), sp.getFloat("startBallY", 0), sp.getFloat("startBallXSpeed", 0), sp.getFloat("startBallYSpeed", 0), platforms);
 	}
+
+	public void goToSaveSettings(View v)
+	{
+		Intent intent = new Intent(this, SaveConfActivity.class);
+		startActivity(intent);
+	}
+
+	public void goToLoadSettings(View v)
+	{
+		// Intent intent = new Intent(this, LoadConfActivity.class);
+		// startActivity(intent);
+	}
 }

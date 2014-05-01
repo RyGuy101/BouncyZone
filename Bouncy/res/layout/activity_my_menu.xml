@@ -87,7 +87,6 @@
             android:max="200" />
 
         <TextView
-            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -97,8 +96,33 @@
             android:layout_height="wrap_content"
             android:onClick="settingsReset"
             android:text="Restore Default Settings" />
-        
-        
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/saveOrLoadGameHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Save or Load a Configuration"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/goToSaveConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToSaveSettings"
+            android:text="Save Current Configuration" />
+
+        <Button
+            android:id="@+id/goToLoadConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToLoadSettings"
+            android:text="Load a Configuration" />
     </LinearLayout>
 
 </ScrollView>
