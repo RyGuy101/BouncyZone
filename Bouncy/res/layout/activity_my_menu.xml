@@ -103,12 +103,12 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/saveOrLoadGameHeader"
+            android:id="@+id/saveLoadDelGameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Save or Load a Configuration"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="Save/Load/Delete a Configuration"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
             android:id="@+id/goToSaveConf"
@@ -123,6 +123,13 @@
             android:layout_height="wrap_content"
             android:onClick="goToLoadSettings"
             android:text="Load a Configuration" />
+
+        <Button
+            android:id="@+id/goToDelConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToDelSettings"
+            android:text="Delete a Configuration" />
     </LinearLayout>
 
 </ScrollView>

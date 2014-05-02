@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBarChangeListener
 {
-	public final String settingsSP = "settings";
-	public final String dataSP = "data";
+	public final static String settingsSP = "settings";
+	public final static String dataSP = "data";
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 	public static int button;
 	float buttonVolume = MainActivity.buttonVolume;
@@ -196,26 +196,6 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		goToGame(new View(this));
 	}
 
-	private void saveCurrentConfiguration(String name)
-	{
-		SharedPreferences sp = getSharedPreferences(dataSP, 0);
-		Editor edit = sp.edit();
-		edit.putString(name + "name", name);
-		edit.putFloat(name + "startBallX", MyView.startBallX);
-		edit.putFloat(name + "startBallXY", MyView.startBallY);
-		edit.putFloat(name + "startBallXSpeed", MyView.startBallXSpeed);
-		edit.putFloat(name + "startBallYSpeed", MyView.startBallYSpeed);
-		edit.putInt(name + "platformsSize", MyView.platforms.size());
-		for (int i = 0; i < MyView.platforms.size(); i++)
-		{
-			edit.putFloat(name + "platformStartX" + i, MyView.platforms.get(i).getStartX());
-			edit.putFloat(name + "platformStartY" + i, MyView.platforms.get(i).getStartY());
-			edit.putFloat(name + "platformEndX" + i, MyView.platforms.get(i).getEndX());
-			edit.putFloat(name + "platformEndY" + i, MyView.platforms.get(i).getEndY());
-		}
-		edit.commit();
-	}
-
 	private Configuration loadConfiguration()
 	{
 		SharedPreferences sp = getSharedPreferences(dataSP, 0);
@@ -229,13 +209,22 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 
 	public void goToSaveSettings(View v)
 	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(this, SaveConfActivity.class);
 		startActivity(intent);
 	}
 
 	public void goToLoadSettings(View v)
 	{
-		// Intent intent = new Intent(this, LoadConfActivity.class);
-		// startActivity(intent);
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		Intent intent = new Intent(this, LoadConfActivity.class);
+		startActivity(intent);
+	}
+
+	public void goToDelSettings(View v)
+	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		Intent intent = new Intent(this, DelConfActivity.class);
+		startActivity(intent);
 	}
 }

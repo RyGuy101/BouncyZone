@@ -36,6 +36,10 @@
             android:name="com.blogspot.mathjoy.bouncy.LoadConfActivity"
             android:label="@string/title_activity_load_conf" >
         </activity>
+        <activity
+            android:name="com.blogspot.mathjoy.bouncy.DelConfActivity"
+            android:label="@string/title_activity_del_conf" >
+        </activity>
     </application>
 
 </manifest>
