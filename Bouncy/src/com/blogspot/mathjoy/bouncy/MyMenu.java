@@ -196,16 +196,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		goToGame(new View(this));
 	}
 
-	private Configuration loadConfiguration()
-	{
-		SharedPreferences sp = getSharedPreferences(dataSP, 0);
-		ArrayList<Platform> platforms = new ArrayList<Platform>();
-		for (int i = 0; i < sp.getInt("platformsSize", 0); i++)
-		{
-			platforms.add(new Platform(sp.getFloat("platformStartX", 0), sp.getFloat("platformStartY", 0), sp.getFloat("platformEndX", 0), sp.getFloat("platformEndY", 0)));
-		}
-		return new Configuration(sp.getString("name", "Untitled"), sp.getFloat("startBallX", 0), sp.getFloat("startBallY", 0), sp.getFloat("startBallXSpeed", 0), sp.getFloat("startBallYSpeed", 0), platforms);
-	}
+	
 
 	public void goToSaveSettings(View v)
 	{

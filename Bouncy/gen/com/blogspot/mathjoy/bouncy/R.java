@@ -39,7 +39,8 @@ public final class R {
         public static final int cancelSave=0x7f090021;
         public static final int chooseConf=0x7f090007;
         public static final int chooseConftext=0x7f090006;
-        public static final int chooseDelConf=0x7f090001;
+        public static final int chooseDelConf=0x7f090002;
+        public static final int chooseDelConfText=0x7f090001;
         public static final int delConf=0x7f090003;
         public static final int delConfText=0x7f090000;
         public static final int done=0x7f09000f;
@@ -56,7 +57,6 @@ public final class R {
         public static final int saveConf=0x7f090020;
         public static final int saveConfHeading=0x7f09001e;
         public static final int saveLoadDelGameHeader=0x7f09001a;
-        public static final int spinner1=0x7f090002;
         public static final int textBallColor=0x7f090011;
         public static final int textBounce=0x7f090016;
         public static final int textGravity=0x7f090013;

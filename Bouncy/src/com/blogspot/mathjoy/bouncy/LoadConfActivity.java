@@ -1,5 +1,6 @@
 package com.blogspot.mathjoy.bouncy;
 
+import java.util.ArrayList;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -27,12 +28,14 @@ public class LoadConfActivity extends Activity
 		button = spool.load(this, R.raw.button, 1);
 		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
 		confNames = new String[sp.getInt("numOfConfs", 0)];
-		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
+		int i2 = 0;
+		for (int i = sp.getInt("numOfConfs", 0) - 1; i >= 0; i--)
 		{
-			confNames[i] = sp.getString(i + "name", "Untitled");
+			confNames[i2] = sp.getString(i + "name", " ");
+			i2++;
 		}
 		chooseConf = (Spinner) findViewById(R.id.chooseConf);
-		if (confNames[0] != null)
+		if (sp.getInt("numOfConfs", 0) > 0)
 		{
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, confNames);
 			chooseConf.setAdapter(confNamesAd);
@@ -47,6 +50,23 @@ public class LoadConfActivity extends Activity
 	public void loadConf(View v)
 	{
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
+		int n = -1;
+		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
+		{
+			if (chooseConf.getSelectedItem().equals(sp.getString(i + "name", " ")))
+			{
+				n = i;
+			}
+		}
+		ArrayList<Platform> platforms = new ArrayList<Platform>();
+		if (!sp.getString(n + "name", " ").equals(" "))
+		{
+			// for (int i = 0; i < sp.getInt("platformsSize", 0); i++)
+			// {
+			// platforms.add(new Platform(sp.getFloat(n + "platformStartX", 0), sp.getFloat(n + "platformStartY", 0), sp.getFloat(n + "platformEndX", 0), sp.getFloat(n + "platformEndY", 0)));
+			// }
+		}
 	}
 
 	@Override

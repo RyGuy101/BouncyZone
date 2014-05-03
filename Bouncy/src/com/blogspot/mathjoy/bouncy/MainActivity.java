@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements OnTouchListener, OnClickListener
 {
 	// public static MediaPlayer bounce;
-	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+	public static SoundPool spool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 	public static int bounce;
 	public static int button;
 	public static float buttonVolume = (float) 1;
