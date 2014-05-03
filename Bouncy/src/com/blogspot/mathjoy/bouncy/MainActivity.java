@@ -3,9 +3,9 @@ package com.blogspot.mathjoy.bouncy;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.ExifInterface;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements OnTouchListener, OnClickListener
 {
 	// public static MediaPlayer bounce;
-	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+	public static SoundPool spool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 	public static int bounce;
 	public static int button;
 	public static float buttonVolume = (float) 1;

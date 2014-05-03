@@ -27,33 +27,56 @@ public final class R {
         public static final int undo=0x7f020003;
     }
     public static final class id {
-        public static final int Ball=0x7f090001;
-        public static final int Platform=0x7f090002;
-        public static final int Settings=0x7f090000;
-        public static final int Undo=0x7f090003;
-        public static final int action_settings=0x7f090011;
-        public static final int ballColor=0x7f090008;
-        public static final int bouceLevel=0x7f09000e;
-        public static final int done=0x7f090005;
-        public static final int gameReset=0x7f090006;
-        public static final int gravity=0x7f09000b;
-        public static final int myView=0x7f090004;
-        public static final int restoreToDefault=0x7f090010;
-        public static final int textBallColor=0x7f090007;
-        public static final int textBounce=0x7f09000c;
-        public static final int textGravity=0x7f090009;
-        public static final int textView1=0x7f09000f;
-        public static final int valueOfBounceLevel=0x7f09000d;
-        public static final int valueOfGravity=0x7f09000a;
+        public static final int Ball=0x7f09000b;
+        public static final int Platform=0x7f09000c;
+        public static final int Settings=0x7f09000a;
+        public static final int Undo=0x7f09000d;
+        public static final int action_settings=0x7f090022;
+        public static final int ballColor=0x7f090012;
+        public static final int bouceLevel=0x7f090018;
+        public static final int cancelDelConf=0x7f090004;
+        public static final int cancelLoadConf=0x7f090009;
+        public static final int cancelSave=0x7f090021;
+        public static final int chooseConf=0x7f090007;
+        public static final int chooseConftext=0x7f090006;
+        public static final int chooseDelConf=0x7f090002;
+        public static final int chooseDelConfText=0x7f090001;
+        public static final int delConf=0x7f090003;
+        public static final int delConfText=0x7f090000;
+        public static final int done=0x7f09000f;
+        public static final int editConfName=0x7f09001f;
+        public static final int gameReset=0x7f090010;
+        public static final int goToDelConf=0x7f09001d;
+        public static final int goToLoadConf=0x7f09001c;
+        public static final int goToSaveConf=0x7f09001b;
+        public static final int gravity=0x7f090015;
+        public static final int loadConf=0x7f090008;
+        public static final int loadConfText=0x7f090005;
+        public static final int myView=0x7f09000e;
+        public static final int restoreToDefault=0x7f090019;
+        public static final int saveConf=0x7f090020;
+        public static final int saveConfHeading=0x7f09001e;
+        public static final int saveLoadDelGameHeader=0x7f09001a;
+        public static final int textBallColor=0x7f090011;
+        public static final int textBounce=0x7f090016;
+        public static final int textGravity=0x7f090013;
+        public static final int valueOfBounceLevel=0x7f090017;
+        public static final int valueOfGravity=0x7f090014;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_my_menu=0x7f030001;
+        public static final int activity_del_conf=0x7f030000;
+        public static final int activity_load_conf=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_my_menu=0x7f030003;
+        public static final int activity_save_conf=0x7f030004;
     }
     public static final class menu {
-        public static final int main=0x7f080000;
-        public static final int menu=0x7f080001;
-        public static final int my_menu=0x7f080002;
+        public static final int del_conf=0x7f080000;
+        public static final int load_conf=0x7f080001;
+        public static final int main=0x7f080002;
+        public static final int menu=0x7f080003;
+        public static final int my_menu=0x7f080004;
+        public static final int save_conf=0x7f080005;
     }
     public static final class raw {
         public static final int bounce=0x7f040000;
@@ -62,10 +85,27 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
+        public static final int hello_world=0x7f060007;
         public static final int menu_settings=0x7f060002;
+        public static final int title_activity_del_conf=0x7f060009;
+        public static final int title_activity_load_conf=0x7f060008;
         public static final int title_activity_main=0x7f060005;
         public static final int title_activity_menu=0x7f060003;
         public static final int title_activity_my_menu=0x7f060004;
+        /** 
+    <string name="pref_send_report">Send crash reports</string>
+    <string name="pref_send_report_summary">Helps to fix bugs</string>
+    <string name="pref_sync_frequency">Sync frequency</string>
+    <string name="pref_sync_frequency_summary">Set the sync frequency</string>
+    <string name="pref_user_name">Set username</string>
+    <string name="pref_user_name_summary">Set your username</string>
+    <string name="pref_user_profile">User Profile</string>
+    <string name="pref_update_setting">Update Settings</string>
+
+
+    
+         */
+        public static final int title_activity_save_conf=0x7f060006;
     }
     public static final class style {
         /** 

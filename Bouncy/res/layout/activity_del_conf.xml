@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DelConfActivity" >
+
+    <TextView
+        android:id="@+id/delConfText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Delete Configuration"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/chooseDelConfText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose a configuration to delete" />
+
+    <Spinner
+        android:id="@+id/chooseDelConf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/delConf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="delConf"
+        android:text="Delete!" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/cancelDelConf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goToMainSettings"
+        android:text="Cancel" />
+
+</LinearLayout>

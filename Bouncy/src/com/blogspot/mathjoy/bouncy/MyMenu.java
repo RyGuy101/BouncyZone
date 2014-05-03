@@ -1,6 +1,7 @@
 package com.blogspot.mathjoy.bouncy;
 
 import java.sql.Savepoint;
+import java.util.ArrayList;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 
 public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBarChangeListener
 {
+	public final static String settingsSP = "settings";
+	public final static String dataSP = "data";
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 	public static int button;
 	float buttonVolume = MainActivity.buttonVolume;
@@ -140,7 +143,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 
 	private void LoadPrefs()
 	{
-		SharedPreferences sp = getSharedPreferences("settings", 0);
+		SharedPreferences sp = getSharedPreferences(settingsSP, 0);
 		pickedColor = sp.getString("selectedColor", "red");
 		gravity = (int) sp.getFloat("gravityValue", 100);
 		bounceLevel = (int) sp.getFloat("bounceLevelValue", 100);
@@ -148,7 +151,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 
 	private void SavePrefs(String key, double value)
 	{
-		SharedPreferences sp = getSharedPreferences("settings", 0);
+		SharedPreferences sp = getSharedPreferences(settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putFloat(key, (float) value);
 		edit.commit();
@@ -156,14 +159,14 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 
 	// private void SavePrefs(String key, int value)
 	// {
-	// SharedPreferences sp = getSharedPreferences("settings", 0);
+	// SharedPreferences sp = getSharedPreferences(settingsSP, 0);
 	// Editor edit = sp.edit();
 	// edit.putInt(key, value);
 	// edit.commit();
 	// }
 	private void SavePrefs(String key, float value)
 	{
-		SharedPreferences sp = getSharedPreferences("settings", 0);
+		SharedPreferences sp = getSharedPreferences(settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putFloat(key, value);
 		edit.commit();
@@ -171,7 +174,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 
 	private void SavePrefs(String key, String value)
 	{
-		SharedPreferences sp = getSharedPreferences("settings", 0);
+		SharedPreferences sp = getSharedPreferences(settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putString(key, value);
 		edit.commit();
@@ -191,5 +194,28 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	public void onBackPressed()
 	{
 		goToGame(new View(this));
+	}
+
+	
+
+	public void goToSaveSettings(View v)
+	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		Intent intent = new Intent(this, SaveConfActivity.class);
+		startActivity(intent);
+	}
+
+	public void goToLoadSettings(View v)
+	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		Intent intent = new Intent(this, LoadConfActivity.class);
+		startActivity(intent);
+	}
+
+	public void goToDelSettings(View v)
+	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		Intent intent = new Intent(this, DelConfActivity.class);
+		startActivity(intent);
 	}
 }

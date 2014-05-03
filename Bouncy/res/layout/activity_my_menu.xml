@@ -1,97 +1,135 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MyMenu" >
 
-    <Button
-        android:id="@+id/done"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="goToGame"
-        android:text="Done" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToGame"
+            android:text="Done" />
 
-    <Button
-        android:id="@+id/gameReset"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="gameReset"
-        android:text="Clear Game" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/gameReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="gameReset"
+            android:text="Clear Game" />
 
-    <TextView
-        android:id="@+id/textBallColor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ball Color" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <Spinner
-        android:id="@+id/ballColor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textBallColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ball Color" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/ballColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/textGravity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Gravity" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/valueOfGravity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0.0" />
+        <TextView
+            android:id="@+id/textGravity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gravity" />
 
-    <SeekBar
-        android:id="@+id/gravity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="200" />
+        <TextView
+            android:id="@+id/valueOfGravity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0.0" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <SeekBar
+            android:id="@+id/gravity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="200" />
 
-    <TextView
-        android:id="@+id/textBounce"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bounce" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/valueOfBounceLevel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0.0" />
+        <TextView
+            android:id="@+id/textBounce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bounce" />
 
-    <SeekBar
-        android:id="@+id/bouceLevel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="200" />
+        <TextView
+            android:id="@+id/valueOfBounceLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0.0" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <SeekBar
+            android:id="@+id/bouceLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="200" />
 
-    <Button
-        android:id="@+id/restoreToDefault"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="settingsReset"
-        android:text="Restore Default Settings" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/restoreToDefault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="settingsReset"
+            android:text="Restore Default Settings" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/saveLoadDelGameHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Save/Load/Delete a Configuration"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/goToSaveConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToSaveSettings"
+            android:text="Save Current Configuration" />
+
+        <Button
+            android:id="@+id/goToLoadConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToLoadSettings"
+            android:text="Load a Configuration" />
+
+        <Button
+            android:id="@+id/goToDelConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToDelSettings"
+            android:text="Delete a Configuration" />
+    </LinearLayout>
+
+</ScrollView>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BouncyZone</string>
+    <string name="app_name">Bouncy Zone</string>
     <string name="action_settings">Settings</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_menu">Menu</string>
@@ -16,7 +16,12 @@
     <string name="pref_user_name">Set username</string>
     <string name="pref_user_name_summary">Set your username</string>
     <string name="pref_user_profile">User Profile</string>
-    <string name="pref_update_setting">Update Settings</string>
+    <string name="pref_update_setting">Update Settings</string>
     -->
+
+    <string name="title_activity_save_conf">Save Configuration</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_load_conf">Load Configuration</string>
+    <string name="title_activity_del_conf">DelConfActivity</string>
 
 </resources>
