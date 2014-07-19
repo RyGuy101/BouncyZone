@@ -35,7 +35,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 		button = spool.load(this, R.raw.button, 1);
 		editName = (EditText) findViewById(R.id.editConfName);
 		editName.addTextChangedListener(this);
-		alreadyExistsT = Toast.makeText(this, "You already have a configuration with that name. Click the save button again to override it.", Toast.LENGTH_LONG);
+		alreadyExistsT = Toast.makeText(this, "You already have a configuration with that name. Click the save button again to overwrite it.", Toast.LENGTH_LONG);
 		emptySpaceT = Toast.makeText(this, "You must enter a name.", Toast.LENGTH_SHORT);
 		blankT = Toast.makeText(this, "You must have other characters besides a space.", Toast.LENGTH_SHORT);
 		tooManyT = Toast.makeText(this, "You can't have more than 100 configurations.", Toast.LENGTH_SHORT);
@@ -55,8 +55,8 @@ public class SaveConfActivity extends Activity implements TextWatcher
 		String name = editName.getText().toString();
 		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
 		SharedPreferences sps = getSharedPreferences(MyMenu.settingsSP, 0);
-		int numOfConfs = sp.getInt("numOfConfs", 0);
-		for (int i = 0; i < numOfConfs; i++)
+		int n = sp.getInt("numOfConfs", 0);
+		for (int i = 0; i < n; i++)
 		{
 			if (sp.getString(i + "name", " ").equals(name))
 			{
@@ -70,7 +70,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 				emptySpace = false;
 			}
 		}
-		if (numOfConfs >= 100)
+		if (n >= 100)
 		{
 			tooMany = true;
 		}
@@ -80,38 +80,38 @@ public class SaveConfActivity extends Activity implements TextWatcher
 		}
 		if ((!alreadyExists && !emptySpace && !tooMany) || override)
 		{
-			for (int i = 0; i < numOfConfs; i++)
+			for (int i = 0; i < n; i++)
 			{
 				if (sp.getString(i + "name", " ").equals(name))
 				{
-					numOfConfs = i;
+					n = i;
 					foundAvailableIndex = true;
 					break;
 				} else if (sp.getString(i + "name", " ").equals(" "))
 				{
-					numOfConfs = i;
+					n = i;
 					foundAvailableIndex = true;
 				}
 			}
 			Editor edit = sp.edit();
-			edit.putString(numOfConfs + "name", name);
-			edit.putFloat(numOfConfs + "startBallX", MyView.startBallX);
-			edit.putFloat(numOfConfs + "startBallXY", MyView.startBallY);
-			edit.putFloat(numOfConfs + "startBallXSpeed", MyView.startBallXSpeed);
-			edit.putFloat(numOfConfs + "startBallYSpeed", MyView.startBallYSpeed);
-			edit.putInt(numOfConfs + "platformsSize", MyView.platforms.size());
-			edit.putInt(numOfConfs + "gravityValue", (int) sps.getFloat("gravityValue", 100));
-			edit.putInt(numOfConfs + "bounceLevelValue", (int) sps.getFloat("bounceLevelValue", 100));
+			edit.putString(n + "name", name);
+			edit.putFloat(n + "startBallX", MyView.startBallX);
+			edit.putFloat(n + "startBallY", MyView.startBallY);
+			edit.putFloat(n + "startBallXSpeed", MyView.startBallXSpeed);
+			edit.putFloat(n + "startBallYSpeed", MyView.startBallYSpeed);
+			edit.putInt(n + "gravityValue", (int) sps.getFloat("gravityValue", 100));
+			edit.putInt(n + "bounceLevelValue", (int) sps.getFloat("bounceLevelValue", 100));
+			edit.putInt(n + "platformsSize", MyView.platforms.size());
 			for (int i = 0; i < MyView.platforms.size(); i++)
 			{
-				edit.putFloat(numOfConfs + "platformStartX" + i, MyView.platforms.get(i).getStartX());
-				edit.putFloat(numOfConfs + "platformStartY" + i, MyView.platforms.get(i).getStartY());
-				edit.putFloat(numOfConfs + "platformEndX" + i, MyView.platforms.get(i).getEndX());
-				edit.putFloat(numOfConfs + "platformEndY" + i, MyView.platforms.get(i).getEndY());
+				edit.putFloat(n + "platformStartX" + i, MyView.platforms.get(i).getStartX());
+				edit.putFloat(n + "platformStartY" + i, MyView.platforms.get(i).getStartY());
+				edit.putFloat(n + "platformEndX" + i, MyView.platforms.get(i).getEndX());
+				edit.putFloat(n + "platformEndY" + i, MyView.platforms.get(i).getEndY());
 			}
 			if (!foundAvailableIndex)
 			{
-				edit.putInt("numOfConfs", numOfConfs + 1);
+				edit.putInt("numOfConfs", n + 1);
 			}
 			edit.commit();
 			onBackPressed();

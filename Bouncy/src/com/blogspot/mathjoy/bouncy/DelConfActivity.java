@@ -5,6 +5,7 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -38,12 +39,53 @@ public class DelConfActivity extends Activity
 		{
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, confNames);
 			chooseConf.setAdapter(confNamesAd);
+		} else
+		{
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[]
+			{ "You have no saved configurations!" });
+			chooseConf.setAdapter(confNamesAd);
 		}
 	}
 
 	public void delConf(View v)
 	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
+		int thisN = -1;
+		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
+		{
+			if (chooseConf.getSelectedItem().equals(sp.getString(i + "name", " ")))
+			{
+				thisN = i;
+			}
+		}
+		if (!sp.getString(thisN + "name", " ").equals(" "))
+		{
+			for (int n = thisN; n < sp.getInt("numOfConfs", 0) - 1; n++)
+			{
+				Editor edit = sp.edit();
+				edit.putString(n + "name", sp.getString((n + 1) + "name", " "));
+				edit.putFloat(n + "startBallX", sp.getFloat((n + 1) + "startBallX", 0));
+				edit.putFloat(n + "startBallY", sp.getFloat((n + 1) + "startBallY", 0));
+				edit.putFloat(n + "startBallXSpeed", sp.getFloat((n + 1) + "startBallXSpeed", 0));
+				edit.putFloat(n + "startBallYSpeed", sp.getFloat((n + 1) + "startBallYSpeed", 0));
+				edit.putInt(n + "gravityValue", sp.getInt((n + 1) + "gravityValue", 100));
+				edit.putInt(n + "bounceLevelValue", sp.getInt((n + 1) + "bounceLevelValue", 100));
+				edit.putInt(n + "platformsSize", sp.getInt((n + 1) + "platformsSize", 0));
+				for (int i = 0; i < sp.getInt((n + 1) + "platformsSize", 0); i++)
+				{
+					edit.putFloat(n + "platformStartX" + i, sp.getFloat((n + 1) + "platformStartX" + i, 0));
+					edit.putFloat(n + "platformStartY" + i, sp.getFloat((n + 1) + "platformStartY" + i, 0));
+					edit.putFloat(n + "platformEndX" + i, sp.getFloat((n + 1) + "platformEndX" + i, 0));
+					edit.putFloat(n + "platformEndY" + i, sp.getFloat((n + 1) + "platformEndY" + i, 0));
+				}
+				edit.commit();
+			}
+			Editor edit2 = sp.edit();
+			edit2.putString((sp.getInt("numOfConfs", 0) - 1) + "name", " ");
+			edit2.putInt("numOfConfs", sp.getInt("numOfConfs", 1) - 1);
+			edit2.commit();
+			onBackPressed();
+		}
 	}
 
 	public void goToMainSettings(View v)

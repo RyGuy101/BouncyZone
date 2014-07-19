@@ -91,6 +91,17 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		platform.setOnClickListener(this);
 		settings.setOnClickListener(this);
 		undo.setOnClickListener(this);
+		try
+		{
+			if (getIntent().getExtras().getBoolean("fromLoad") == true)
+			{
+				ball.setBackgroundColor(Color.GRAY);
+				platform.setBackgroundColor(Color.LTGRAY);
+				MyView.mode = MyView.MODE_BALL;
+			}
+		} catch (Exception e)
+		{
+		}
 	}
 
 	@Override
