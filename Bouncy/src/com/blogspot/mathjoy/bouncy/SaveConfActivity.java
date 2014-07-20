@@ -37,7 +37,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 		editName.addTextChangedListener(this);
 		alreadyExistsT = Toast.makeText(this, "You already have a configuration with that name. Click the save button again to overwrite it.", Toast.LENGTH_LONG);
 		emptySpaceT = Toast.makeText(this, "You must enter a name.", Toast.LENGTH_SHORT);
-		blankT = Toast.makeText(this, "You must have other characters besides a space.", Toast.LENGTH_SHORT);
+		blankT = Toast.makeText(this, "You must include visible characters.", Toast.LENGTH_SHORT);
 		tooManyT = Toast.makeText(this, "You can't have more than 100 configurations.", Toast.LENGTH_SHORT);
 	}
 
@@ -119,7 +119,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 		{
 			override = true;
 			repeatedName = name;
-			alreadyExistsT.cancel();
+			// alreadyExistsT.cancel();
 			emptySpaceT.cancel();
 			blankT.cancel();
 			tooManyT.cancel();
@@ -129,7 +129,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 			if (name.length() == 0)
 			{
 				alreadyExistsT.cancel();
-				emptySpaceT.cancel();
+				// emptySpaceT.cancel();
 				blankT.cancel();
 				tooManyT.cancel();
 				emptySpaceT.show();
@@ -137,7 +137,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 			{
 				alreadyExistsT.cancel();
 				emptySpaceT.cancel();
-				blankT.cancel();
+				// blankT.cancel();
 				tooManyT.cancel();
 				blankT.show();
 			}
@@ -146,7 +146,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 			alreadyExistsT.cancel();
 			emptySpaceT.cancel();
 			blankT.cancel();
-			tooManyT.cancel();
+			// tooManyT.cancel();
 			tooManyT.show();
 		}
 	}
