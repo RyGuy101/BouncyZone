@@ -13,7 +13,7 @@ import android.widget.Spinner;
 
 public class DelConfActivity extends Activity
 {
-	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	public static int button;
 	float buttonVolume = MainActivity.buttonVolume;
 	Spinner chooseConf;

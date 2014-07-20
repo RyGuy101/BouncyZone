@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class SaveConfActivity extends Activity implements TextWatcher
 {
-	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	public static int button;
 	float buttonVolume = MainActivity.buttonVolume;
 	String[] confNames = new String[100];

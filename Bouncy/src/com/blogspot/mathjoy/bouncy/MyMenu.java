@@ -26,7 +26,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 {
 	public final static String settingsSP = "settings";
 	public final static String dataSP = "data";
-	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	public static int button;
 	float buttonVolume = MainActivity.buttonVolume;
 	Spinner ballColor;

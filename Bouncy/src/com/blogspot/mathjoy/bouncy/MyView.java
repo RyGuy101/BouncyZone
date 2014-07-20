@@ -14,7 +14,7 @@ import android.view.View.OnTouchListener;
 public class MyView extends View implements OnTouchListener
 {
 	// static MediaPlayer bounce = MainActivity.bounce;
-	static SoundPool sp = MainActivity.spool;
+	static SoundPool sp = MainActivity.spoolBounce;
 	static int bounce = MainActivity.bounce;
 	public static float bounceVolume = (float) 0.6;
 	Paint platformPaint = new Paint();
