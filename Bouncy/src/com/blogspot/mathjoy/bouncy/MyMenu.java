@@ -127,6 +127,10 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		{
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.platforms.clear();
+			MyView.alreadyStarted = false;
+			MyView.ballXSpeed = 0;
+			MyView.ballYSpeed = 0;
+			MyView.mode = MyView.MODE_BALL;
 			gameReset = true;
 			Button temp = (Button) v;
 			temp.setText("Game Cleared!");
@@ -195,8 +199,6 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	{
 		goToGame(new View(this));
 	}
-
-	
 
 	public void goToSaveSettings(View v)
 	{

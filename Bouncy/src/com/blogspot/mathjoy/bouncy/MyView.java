@@ -828,6 +828,7 @@ public class MyView extends View implements OnTouchListener
 		ballX = (float) (this.getWidth() / 2.0);
 		ballY = ballRadius;
 		startBallX = (float) (this.getWidth() / 2.0);
+		startBallY = ballRadius;
 		updateGravity();
 		theoreticalRadius = ballRadius;
 	}
