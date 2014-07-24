@@ -5,7 +5,7 @@
     android:versionName="1.1.1" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="11"
         android:targetSdkVersion="20" />
 
     <application
@@ -13,8 +13,14 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.blogspot.mathjoy.bouncy.MainActivity"
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <activity
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -24,21 +30,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.blogspot.mathjoy.bouncy.MyMenu"
+            android:name=".MyMenu"
             android:label="Settings"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.blogspot.mathjoy.bouncy.SaveConfActivity"
+            android:name=".SaveConfActivity"
             android:label="@string/title_activity_save_conf" >
         </activity>
         <activity
-            android:name="com.blogspot.mathjoy.bouncy.LoadConfActivity"
+            android:name=".LoadConfActivity"
             android:label="@string/title_activity_load_conf" >
         </activity>
         <activity
-            android:name="com.blogspot.mathjoy.bouncy.DelConfActivity"
+            android:name=".DelConfActivity"
             android:label="@string/title_activity_del_conf" >
+        </activity>
+        <activity
+            android:name=".GameServicesActivity"
+            android:label="@string/title_activity_game_services" >
         </activity>
     </application>
 

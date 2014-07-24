@@ -12,17 +12,21 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBarChangeListener
+public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBarChangeListener, OnTouchListener
 {
 	public final static String settingsSP = "settings";
 	public final static String dataSP = "data";
@@ -40,6 +44,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	static int gravity = 100;
 	static int bounceLevel = 100;
 	boolean gameReset = false;
+	ImageButton gameServices;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -68,6 +73,9 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 				ballColor.setSelection(i);
 			}
 		}
+		gameServices = (ImageButton) findViewById(R.id.gameServices);
+		gameServices.setBackgroundColor(Color.WHITE);
+		gameServices.setOnTouchListener(this);
 	}
 
 	// @Override
@@ -219,5 +227,25 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(this, DelConfActivity.class);
 		startActivity(intent);
+	}
+
+	public void goToGameServices(View v)
+	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		Intent intent = new Intent(this, GameServicesActivity.class);
+		startActivity(intent);
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event)
+	{
+		if (event.getAction() == MotionEvent.ACTION_UP || event.getX() < 0 || event.getX() > v.getWidth() || event.getY() < v.getY() || event.getY() > v.getBottom())
+		{
+			v.setBackgroundColor(Color.WHITE);
+		} else
+		{
+			v.setBackgroundColor(Color.LTGRAY);
+		}
+		return false;
 	}
 }

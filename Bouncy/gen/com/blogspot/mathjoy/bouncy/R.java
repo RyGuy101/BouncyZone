@@ -365,6 +365,11 @@ containing a value of this type.
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
 
+         Example customization of dimensions originally defined in res/values/dimens.xml
+         (such as screen margins) for screens with more than 820dp of available width. This
+         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
+    
+
          Customize dimensions originally defined in res/values/dimens.xml (such as
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
@@ -397,72 +402,78 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020015;
         public static final int common_signin_btn_text_pressed_dark=0x7f020016;
         public static final int common_signin_btn_text_pressed_light=0x7f020017;
-        public static final int gear=0x7f020018;
-        public static final int ic_launcher=0x7f020019;
-        public static final int ic_plusone_medium_off_client=0x7f02001a;
-        public static final int ic_plusone_small_off_client=0x7f02001b;
-        public static final int ic_plusone_standard_off_client=0x7f02001c;
-        public static final int ic_plusone_tall_off_client=0x7f02001d;
-        public static final int liney=0x7f02001e;
-        public static final int powered_by_google_dark=0x7f02001f;
-        public static final int powered_by_google_light=0x7f020020;
-        public static final int undo=0x7f020021;
+        public static final int game_controller=0x7f020018;
+        public static final int gear=0x7f020019;
+        public static final int ic_launcher=0x7f02001a;
+        public static final int ic_plusone_medium_off_client=0x7f02001b;
+        public static final int ic_plusone_small_off_client=0x7f02001c;
+        public static final int ic_plusone_standard_off_client=0x7f02001d;
+        public static final int ic_plusone_tall_off_client=0x7f02001e;
+        public static final int liney=0x7f02001f;
+        public static final int powered_by_google_dark=0x7f020020;
+        public static final int powered_by_google_light=0x7f020021;
+        public static final int undo=0x7f020022;
     }
     public static final class id {
-        public static final int Ball=0x7f08001f;
-        public static final int Platform=0x7f080020;
-        public static final int Settings=0x7f08001e;
-        public static final int Undo=0x7f080021;
-        public static final int action_settings=0x7f080036;
-        public static final int ballColor=0x7f080026;
+        public static final int Ball=0x7f080023;
+        public static final int Platform=0x7f080024;
+        public static final int Settings=0x7f080022;
+        public static final int Undo=0x7f080025;
+        public static final int achievements=0x7f08001c;
+        public static final int action_settings=0x7f08003b;
+        public static final int ballColor=0x7f08002b;
         public static final int book_now=0x7f080010;
-        public static final int bouceLevel=0x7f08002c;
+        public static final int bouceLevel=0x7f080031;
         public static final int buyButton=0x7f08000a;
         public static final int buy_now=0x7f08000f;
         public static final int buy_with_google=0x7f08000e;
         public static final int cancelDelConf=0x7f080018;
-        public static final int cancelLoadConf=0x7f08001d;
-        public static final int cancelSave=0x7f080035;
-        public static final int chooseConf=0x7f08001b;
-        public static final int chooseConftext=0x7f08001a;
+        public static final int cancelLoadConf=0x7f080021;
+        public static final int cancelSave=0x7f08003a;
+        public static final int chooseConf=0x7f08001f;
+        public static final int chooseConftext=0x7f08001e;
         public static final int chooseDelConf=0x7f080016;
         public static final int chooseDelConfText=0x7f080015;
         public static final int classic=0x7f080011;
         public static final int delConf=0x7f080017;
         public static final int delConfText=0x7f080014;
-        public static final int done=0x7f080023;
-        public static final int editConfName=0x7f080033;
-        public static final int gameReset=0x7f080024;
-        public static final int goToDelConf=0x7f080031;
-        public static final int goToLoadConf=0x7f080030;
-        public static final int goToSaveConf=0x7f08002f;
-        public static final int gravity=0x7f080029;
+        public static final int done=0x7f080027;
+        public static final int editConfName=0x7f080038;
+        public static final int gameReset=0x7f080029;
+        public static final int gameServices=0x7f080028;
+        public static final int goToDelConf=0x7f080036;
+        public static final int goToLoadConf=0x7f080035;
+        public static final int goToSaveConf=0x7f080034;
+        public static final int gravity=0x7f08002e;
         public static final int grayscale=0x7f080012;
         public static final int holo_dark=0x7f080005;
         public static final int holo_light=0x7f080006;
         public static final int hybrid=0x7f080004;
-        public static final int loadConf=0x7f08001c;
-        public static final int loadConfText=0x7f080019;
+        public static final int leaderboards=0x7f08001b;
+        public static final int loadConf=0x7f080020;
+        public static final int loadConfText=0x7f08001d;
         public static final int match_parent=0x7f08000c;
         public static final int monochrome=0x7f080013;
-        public static final int myView=0x7f080022;
+        public static final int myView=0x7f080026;
         public static final int none=0x7f080000;
         public static final int normal=0x7f080001;
         public static final int production=0x7f080007;
-        public static final int restoreToDefault=0x7f08002d;
+        public static final int restoreToDefault=0x7f080032;
         public static final int sandbox=0x7f080008;
         public static final int satellite=0x7f080002;
-        public static final int saveConf=0x7f080034;
-        public static final int saveConfHeading=0x7f080032;
-        public static final int saveLoadDelGameHeader=0x7f08002e;
+        public static final int saveConf=0x7f080039;
+        public static final int saveConfHeading=0x7f080037;
+        public static final int saveLoadDelGameHeader=0x7f080033;
         public static final int selectionDetails=0x7f08000b;
         public static final int strict_sandbox=0x7f080009;
         public static final int terrain=0x7f080003;
-        public static final int textBallColor=0x7f080025;
-        public static final int textBounce=0x7f08002a;
-        public static final int textGravity=0x7f080027;
-        public static final int valueOfBounceLevel=0x7f08002b;
-        public static final int valueOfGravity=0x7f080028;
+        public static final int textBallColor=0x7f08002a;
+        public static final int textBounce=0x7f08002f;
+        public static final int textGravity=0x7f08002c;
+        public static final int textView2=0x7f080019;
+        public static final int textView3=0x7f08001a;
+        public static final int valueOfBounceLevel=0x7f080030;
+        public static final int valueOfGravity=0x7f08002d;
         public static final int wrap_content=0x7f08000d;
     }
     public static final class integer {
@@ -470,18 +481,20 @@ containing a value of this type.
     }
     public static final class layout {
         public static final int activity_del_conf=0x7f030000;
-        public static final int activity_load_conf=0x7f030001;
-        public static final int activity_main=0x7f030002;
-        public static final int activity_my_menu=0x7f030003;
-        public static final int activity_save_conf=0x7f030004;
+        public static final int activity_game_services=0x7f030001;
+        public static final int activity_load_conf=0x7f030002;
+        public static final int activity_main=0x7f030003;
+        public static final int activity_my_menu=0x7f030004;
+        public static final int activity_save_conf=0x7f030005;
     }
     public static final class menu {
         public static final int del_conf=0x7f0b0000;
-        public static final int load_conf=0x7f0b0001;
-        public static final int main=0x7f0b0002;
-        public static final int menu=0x7f0b0003;
-        public static final int my_menu=0x7f0b0004;
-        public static final int save_conf=0x7f0b0005;
+        public static final int game_services=0x7f0b0001;
+        public static final int load_conf=0x7f0b0002;
+        public static final int main=0x7f0b0003;
+        public static final int menu=0x7f0b0004;
+        public static final int my_menu=0x7f0b0005;
+        public static final int save_conf=0x7f0b0006;
     }
     public static final class raw {
         public static final int bounce=0x7f040000;
@@ -603,6 +616,7 @@ containing a value of this type.
         public static final int leaderboard_bounces=0x7f06002a;
         public static final int menu_settings=0x7f06002d;
         public static final int title_activity_del_conf=0x7f060034;
+        public static final int title_activity_game_services=0x7f060035;
         public static final int title_activity_load_conf=0x7f060033;
         public static final int title_activity_main=0x7f060030;
         public static final int title_activity_menu=0x7f06002e;
@@ -616,6 +630,7 @@ containing a value of this type.
     <string name="pref_user_name_summary">Set your username</string>
     <string name="pref_user_profile">User Profile</string>
     <string name="pref_update_setting">Update Settings</string>
+
 
 
     

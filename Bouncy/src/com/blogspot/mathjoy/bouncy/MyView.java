@@ -2,6 +2,8 @@ package com.blogspot.mathjoy.bouncy;
 
 import java.util.ArrayList;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,6 +15,7 @@ import android.view.View.OnTouchListener;
 
 public class MyView extends View implements OnTouchListener
 {
+	MainActivity m = new MainActivity();
 	// static MediaPlayer bounce = MainActivity.bounce;
 	static SoundPool sp = MainActivity.spoolBounce;
 	static int bounce = MainActivity.bounce;
@@ -224,6 +227,10 @@ public class MyView extends View implements OnTouchListener
 						{
 							// bounce.start();
 							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
+							SharedPreferences sp = MainActivity.sp;
+							Editor edit = sp.edit();
+							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+							edit.commit();
 						}
 						updateBallAngleBasedOnTwoPlatforms(closestLeftPlatform, closestRightPlatform);
 						double backupBallAngle = ballAngle;
@@ -319,6 +326,10 @@ public class MyView extends View implements OnTouchListener
 						{
 							// bounce.start();
 							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
+							SharedPreferences sp = MainActivity.sp;
+							Editor edit = sp.edit();
+							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+							edit.commit();
 							rolling = false;
 							updateBallAngleBasedOnOnePlatform(platform.getAngle());
 							double backupBallAngle = ballAngle;
