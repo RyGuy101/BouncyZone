@@ -1,5 +1,7 @@
 package com.blogspot.mathjoy.bouncy;
 
+import org.jbox2d.common.Vec2;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,10 +27,8 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 	public static float buttonVolume = (float) 0.3;
 	Intent intent;
 	String pickedColor;
-	int[] possibleColors =
-	{ Color.RED, Color.rgb(225, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
-	String[] possibleColorNames =
-	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
+	int[] possibleColors = { Color.RED, Color.rgb(225, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
+	String[] possibleColorNames = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static boolean justOpened = true;
 	public static ImageButton ball;
 	public static ImageButton platform;
@@ -50,8 +50,8 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		button = spoolButton.load(this, R.raw.button, 1);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "red");
-		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
-		MyView.bounceFactor = sp.getFloat("bounceLevelValue", 100) / 100.0;
+		//		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
+		MyView.gravity = new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0));
 		for (int i = 0; i < possibleColors.length; i++)
 		{
 			if (pickedColor.equals(possibleColorNames[i]))
@@ -72,6 +72,8 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		// }
 		// MyView.mode = MyView.MODE_BALL;
 		setContentView(R.layout.activity_main);
+		MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
+		WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
 		settings = (ImageButton) findViewById(R.id.Settings);
