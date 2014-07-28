@@ -33,7 +33,7 @@ public class Rectangle
 		bd.position.set(x, y);
 		bd.type = bt;
 		PolygonShape ps = new PolygonShape();
-		ps.setAsBox(width, height);
+		ps.setAsBox(width / 2.0f, height / 2.0f);
 		FixtureDef fd = new FixtureDef();
 		fd.shape = ps;
 		fd.density = density;

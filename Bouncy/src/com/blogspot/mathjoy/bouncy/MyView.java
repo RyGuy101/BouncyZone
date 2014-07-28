@@ -16,9 +16,12 @@ import org.jbox2d.dynamics.contacts.Contact;
 
 import android.R.color;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +29,9 @@ import android.view.View.OnTouchListener;
 
 public class MyView extends View implements ContactListener, OnTouchListener
 {
-
+	static SoundPool sp = MainActivity.spoolBounce;
+	static int bounce = MainActivity.bounce;
+	public static float bounceVolume = (float) 0.6;
 	public static float ballX;
 	public static float ballY;
 	public static float ballXSpeed;
@@ -55,6 +60,8 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	public static Rectangle floor;
 	Paint ballPaint = new Paint();
 
+	boolean makeBounce = true;
+
 	public MyView(Context context, AttributeSet attrs, int defStyleAttr)
 	{
 		super(context, attrs, defStyleAttr);
@@ -78,7 +85,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		WorldManager.setupWorld(new Vec2(0f, 10f));
 		WorldManager.world.setContactListener(this);
 		ball = new Circle(BodyType.DYNAMIC, 1f, 0f, 0.1f, 0.5f, 0.5f, 1f);
-		floor = new Rectangle(BodyType.STATIC, 0.1f, 5f, 1f, 0.1f, 0f, 0f, 0f);
+		floor = new Rectangle(BodyType.STATIC, 1f, 5f, 1f, 0.1f, 0f, 0f, 0f);
 		ballPaint.setColor(Color.RED);
 	}
 
@@ -132,6 +139,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 					initialTouch = false;
 					WorldManager.setGravity(new Vec2(0f, 0f));
 					ball.setPosition(new Vec2(toMeters(touchX[0]), toMeters(touchY[0])));
+					ball.setVelocity(new Vec2(0f, 0f));
 				} else if (knowEnoughtouch())
 				{
 					ball.setVelocity(new Vec2(toMeters(touchX[0] - touchX[1]) * 60, toMeters(touchY[0] - touchY[1]) * 60));
@@ -146,7 +154,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		}
 
 		c.drawCircle(toPixels(ball.getX()), toPixels(ball.getY()), toPixels(ball.getRadius()), ballPaint);
-		c.drawRect(toPixels(floor.getX()), toPixels(floor.getY() - floor.getHeight()), toPixels(floor.getX() + floor.getWidth()), toPixels(floor.getY()), ballPaint);
+		c.drawRect(toPixels(floor.getX() - floor.getWidth() / 2.0f), toPixels(floor.getY() - floor.getHeight() / 2.0f), toPixels(floor.getX() + floor.getWidth() / 2.0f), toPixels(floor.getY() + floor.getHeight() / 2.0f), ballPaint);
 
 		long timeTook = System.currentTimeMillis() - startTime;
 		if (timeTook < 1000.0 / 60.0)
@@ -165,13 +173,24 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	@Override
 	public void beginContact(Contact arg0)
 	{
-		touching = false;
+		if (makeBounce)
+		{
+			makeBounce = false;
+			touching = false;
+			sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
+			SharedPreferences sp = MainActivity.sp;
+			Editor edit = sp.edit();
+			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+			edit.commit();
+		}
+
 	}
 
 	@Override
 	public void endContact(Contact arg0)
 	{
- 	}
+		makeBounce = true;
+	}
 
 	@Override
 	public void postSolve(Contact arg0, ContactImpulse arg1)

@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.FixtureDef;
 
 public class Circle
 {
+	BodyType bt;
 	private float x;
 	private float y;
 	private float radius;
@@ -21,6 +22,7 @@ public class Circle
 
 	public Circle(BodyType bt, float x, float y, float radius, float density, float friction, float restitution)
 	{
+		this.bt = bt;
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
@@ -59,7 +61,9 @@ public class Circle
 
 	public void setRestitution(float restitution)
 	{
+		WorldManager.world.destroyBody(body);
 		fd.restitution = restitution;
+		body = WorldManager.world.createBody(bd);
 		body.createFixture(fd);
 	}
 
@@ -71,6 +75,7 @@ public class Circle
 
 	public void setPosition(Vec2 position)
 	{
+		WorldManager.world.destroyBody(body);
 		bd.position.set(position);
 		body = WorldManager.world.createBody(bd);
 		body.createFixture(fd);
