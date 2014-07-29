@@ -19,8 +19,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
+import android.graphics.Canvas.VertexMode;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -40,16 +42,20 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	public static float startBallY;
 	public static float startBallXSpeed;
 	public static float startBallYSpeed;
+	public static float ballRestitution;
 	public static ArrayList<Platform> platforms = new ArrayList<Platform>();
 	public static boolean alreadyStarted = false;
 	public static int mode;
 	public static final int MODE_BALL = 0;
 	public static final int MODE_CREATE_PLATFORM = 1;
-	public static Vec2 gravity = new Vec2(0, 10.0f);
 	public static double restitution;
 	public static int ballColor;
 	static float currentTouchX;
 	static float currentTouchY;
+	static float startTouchX;
+	static float startTouchY;
+	static float endTouchX;
+	static float endTouchY;
 	float[] touchX = { -1000, -1000 };
 	float[] touchY = { -1000, -1000 };
 	static boolean touching = false;
@@ -57,36 +63,46 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	static boolean wasTouching = false;
 
 	public static Circle ball;
-	public static Rectangle floor;
+	//	public static Platform platform;
 	Paint ballPaint = new Paint();
+	Paint platformPaint = new Paint();
 
 	boolean makeBounce = true;
 
 	public MyView(Context context, AttributeSet attrs, int defStyleAttr)
 	{
 		super(context, attrs, defStyleAttr);
-		setup();
+		//		setup();
 	}
 
 	public MyView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		setup();
+		//		setup();
 	}
 
 	public MyView(Context context)
 	{
 		super(context);
-		setup();
+		//		setup();
 	}
 
 	private void setup()
 	{
-		WorldManager.setupWorld(new Vec2(0f, 10f));
+		alreadyStarted = true;
+		float ballRadius = 0.1f;
+		ballX = toMeters((float) (this.getWidth() / 2.0));
+		ballY = ballRadius;
+		startBallX = (float) (this.getWidth() / 2.0);
+		startBallY = ballRadius;
+		WorldManager.setupWorld();
 		WorldManager.world.setContactListener(this);
-		ball = new Circle(BodyType.DYNAMIC, 1f, 0f, 0.1f, 0.5f, 0.5f, 1f);
-		floor = new Rectangle(BodyType.STATIC, 1f, 5f, 1f, 0.1f, 0f, 0f, 0f);
-		ballPaint.setColor(Color.RED);
+		ball = new Circle(BodyType.DYNAMIC, startBallX, startBallY, ballRadius, 0.5f, 1.0f, ballRestitution);
+		//		platform = new Platform(BodyType.STATIC, 1, 1, 3, 3, 0, 0, 0);
+		//		for (Platform platform : platforms)
+		//		{
+		//			platform.create();
+		//		}
 	}
 
 	//	private static int screenW;
@@ -119,7 +135,13 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	{
 		long startTime = System.currentTimeMillis();
 		super.onDraw(c);
+		updateColors();
 		drawBackground(c);
+		if (alreadyStarted == false)
+		{
+			setup();
+			alreadyStarted = true;
+		}
 		if (mode == MODE_BALL)
 		{
 			if (touching)
@@ -137,7 +159,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 				if (initialTouch)
 				{
 					initialTouch = false;
-					WorldManager.setGravity(new Vec2(0f, 0f));
+					WorldManager.setGravityTemporarily(new Vec2(0f, 0f));
 					ball.setPosition(new Vec2(toMeters(touchX[0]), toMeters(touchY[0])));
 					ball.setVelocity(new Vec2(0f, 0f));
 				} else if (knowEnoughtouch())
@@ -147,15 +169,28 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			} else if (wasTouching)
 			{
 				wasTouching = false;
-				WorldManager.setGravity(gravity);
+				WorldManager.undoTemporaryGravitySet();
 			}
 
 			WorldManager.step();
+		} else if (mode == MODE_CREATE_PLATFORM)
+		{
+			if (touching)
+			{
+				if (initialTouch)
+				{
+					initialTouch = false;
+				}
+				c.drawLine(startTouchX, startTouchY, currentTouchX, currentTouchY, platformPaint);
+			} else if (wasTouching && platformIsLongEnough())
+			{
+				platforms.add(new Platform(BodyType.STATIC, toMeters(startTouchX), toMeters(startTouchY), toMeters(endTouchX), toMeters(endTouchY), 0, 0, 0));
+			}
 		}
 
 		c.drawCircle(toPixels(ball.getX()), toPixels(ball.getY()), toPixels(ball.getRadius()), ballPaint);
-		c.drawRect(toPixels(floor.getX() - floor.getWidth() / 2.0f), toPixels(floor.getY() - floor.getHeight() / 2.0f), toPixels(floor.getX() + floor.getWidth() / 2.0f), toPixels(floor.getY() + floor.getHeight() / 2.0f), ballPaint);
-
+		//		c.drawLine(toPixels((float) (ball.getX() - ball.getRadius() * Math.cos(Math.toRadians(ball.getAngle())))), toPixels((float) (ball.getY() - ball.getRadius() * Math.sin(Math.toRadians(ball.getAngle())))), toPixels((float) (ball.getX() + ball.getRadius() * Math.cos(Math.toRadians(ball.getAngle())))), toPixels((float) (ball.getY() + ball.getRadius() * Math.sin(Math.toRadians(ball.getAngle())))), platformPaint);
+		drawPlatforms(c);
 		long timeTook = System.currentTimeMillis() - startTime;
 		if (timeTook < 1000.0 / 60.0)
 		{
@@ -219,8 +254,11 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		{
 			initialTouch = true;
 			touching = true;
+
 			currentTouchX = event.getX();
 			currentTouchY = event.getY();
+			startTouchX = currentTouchX;
+			startTouchY = currentTouchY;
 		} else if (event.getAction() == MotionEvent.ACTION_UP)
 		{
 			touching = false;
@@ -230,6 +268,8 @@ public class MyView extends View implements ContactListener, OnTouchListener
 				touchX[i] = -1000;
 				touchY[i] = -1000;
 			}
+			endTouchX = event.getX();
+			endTouchY = event.getY();
 
 		} else if (event.getAction() == MotionEvent.ACTION_MOVE)
 		{
@@ -269,5 +309,39 @@ public class MyView extends View implements ContactListener, OnTouchListener
 
 		}
 		return knowEnoughTouch;
+	}
+
+	private boolean platformIsLongEnough()
+	{
+		return Math.sqrt((endTouchY - startTouchY) * (endTouchY - startTouchY) + (endTouchX - startTouchX) * (endTouchX - startTouchX)) > toPixels(0.1f);
+	}
+
+	private void drawPlatforms(Canvas c)
+	{
+		for (Platform platform : platforms)
+		{
+			c.drawLine(toPixels(platform.getStartX()), toPixels(platform.getStartY()), toPixels(platform.getEndX()), toPixels(platform.getEndY()), platformPaint);
+		}
+	}
+
+	public static void clearPlatforms()
+	{
+		for (Platform platform : platforms)
+		{
+			platform.destroy();
+		}
+		platforms.clear();
+	}
+
+	public static void destroyLastPlatform()
+	{
+		platforms.get(platforms.size() - 1).destroy();
+		platforms.remove(platforms.size() - 1);
+	}
+
+	private void updateColors()
+	{
+		platformPaint.setColor(Color.WHITE);
+		ballPaint.setColor(ballColor);
 	}
 }

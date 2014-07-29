@@ -2,7 +2,7 @@ package com.blogspot.mathjoy.bouncy;
 
 public class MathBrain
 {
-	public double intersectX(Platform platform, int ballX, int ballY, double ballRadius)
+	public double intersectX(PlatformDef platform, int ballX, int ballY, double ballRadius)
 	{
 		double intersectX = 0;
 		double relativeX1;
@@ -26,7 +26,7 @@ public class MathBrain
 		return intersectX;
 	}
 
-	public double intersectY(Platform platform, int ballX, int ballY, double ballRadius)
+	public double intersectY(PlatformDef platform, int ballX, int ballY, double ballRadius)
 	{
 		double intersectY = 0;
 		double relativeX1;

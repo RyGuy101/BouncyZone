@@ -51,7 +51,6 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "red");
 		//		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
-		MyView.gravity = new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0));
 		for (int i = 0; i < possibleColors.length; i++)
 		{
 			if (pickedColor.equals(possibleColorNames[i]))
@@ -72,8 +71,18 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		// }
 		// MyView.mode = MyView.MODE_BALL;
 		setContentView(R.layout.activity_main);
-		MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
-		WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
+		MyView.ballRestitution = (float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0);
+		if (ball != null)
+		{
+			MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
+		}
+		if (WorldManager.world != null)
+		{
+			WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
+		} else
+		{
+			WorldManager.setGravityButDontUpdateWorld((new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0))));
+		}
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
 		settings = (ImageButton) findViewById(R.id.Settings);
@@ -169,7 +178,7 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 			if (MyView.platforms.size() > 0)
 			{
 				spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-				MyView.platforms.remove(MyView.platforms.size() - 1);
+				MyView.destroyLastPlatform();
 			}
 		}
 	}

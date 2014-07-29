@@ -1,6 +1,9 @@
 package com.blogspot.mathjoy.bouncy;
 
 import java.util.ArrayList;
+
+import org.jbox2d.dynamics.BodyType;
+
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -44,8 +47,7 @@ public class LoadConfActivity extends Activity
 			chooseConf.setAdapter(confNamesAd);
 		} else
 		{
-			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[]
-			{ "You have no saved configurations!" });
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[] { "You have no saved configurations!" });
 			chooseConf.setAdapter(confNamesAd);
 		}
 	}
@@ -82,7 +84,7 @@ public class LoadConfActivity extends Activity
 			ArrayList<Platform> platforms = new ArrayList<Platform>();
 			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)
 			{
-				platforms.add(new Platform(sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0)));
+				platforms.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 0, 0));
 			}
 			MyView.platforms = platforms;
 			Intent intent = new Intent(this, MainActivity.class);

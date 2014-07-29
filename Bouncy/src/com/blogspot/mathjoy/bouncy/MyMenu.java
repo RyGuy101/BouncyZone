@@ -38,8 +38,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	SeekBar seekBounceLevel;
 	TextView displayGravity;
 	TextView displayBounceLevel;
-	String[] colors =
-	{ "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
+	String[] colors = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static String pickedColor;
 	static int gravity = 100;
 	static int bounceLevel = 100;
@@ -134,7 +133,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		if (!gameReset)
 		{
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-			MyView.platforms.clear();
+			MyView.clearPlatforms();
 			MyView.alreadyStarted = false;
 			MyView.ballXSpeed = 0;
 			MyView.ballYSpeed = 0;

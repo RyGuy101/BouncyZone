@@ -17,7 +17,7 @@ public class Rectangle
 	private float density;
 	private float friction;
 	private float restitution;
-	Body body;
+	private Body body;
 
 	public Rectangle(BodyType bt, float x, float y, float width, float height, float density, float friction, float restitution)
 	{

@@ -9,9 +9,9 @@ public class Configuration
 	float startBallY;
 	float startBallXSpeed;
 	float startBallYSpeed;
-	ArrayList<Platform> platforms;
+	ArrayList<PlatformDef> platforms;
 
-	public Configuration(String name, float startBallX, float startBallY, float startBallXSpeed, float startBallYSpeed, ArrayList<Platform> platforms)
+	public Configuration(String name, float startBallX, float startBallY, float startBallXSpeed, float startBallYSpeed, ArrayList<PlatformDef> platforms)
 	{
 		this.name = name;
 		this.startBallX = startBallX;
@@ -46,7 +46,7 @@ public class Configuration
 		return startBallYSpeed;
 	}
 
-	public ArrayList<Platform> getPlatforms()
+	public ArrayList<PlatformDef> getPlatforms()
 	{
 		return platforms;
 	}

@@ -5,20 +5,21 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 
 public class Circle
 {
-	BodyType bt;
+	private BodyType bt;
 	private float x;
 	private float y;
 	private float radius;
 	private float density;
 	private float friction;
 	private float restitution;
-	Body body;
-	FixtureDef fd;
-	BodyDef bd;
+	private Body body;
+	private FixtureDef fd;
+	private BodyDef bd;
 
 	public Circle(BodyType bt, float x, float y, float radius, float density, float friction, float restitution)
 	{
@@ -57,6 +58,11 @@ public class Circle
 	public float getRadius()
 	{
 		return radius;
+	}
+
+	public float getAngle()
+	{
+		return body.getAngle();
 	}
 
 	public void setRestitution(float restitution)
