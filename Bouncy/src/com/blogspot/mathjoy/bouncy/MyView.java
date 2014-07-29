@@ -25,6 +25,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.SoundPool;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -67,7 +68,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	Paint ballPaint = new Paint();
 	Paint platformPaint = new Paint();
 
-	boolean makeBounce = true;
+	public static boolean makeBounce = true;
 
 	public MyView(Context context, AttributeSet attrs, int defStyleAttr)
 	{
@@ -91,14 +92,14 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	{
 		alreadyStarted = true;
 		float ballRadius = 0.1f;
-		ballX = toMeters((float) (this.getWidth() / 2.0));
-		ballY = ballRadius;
-		startBallX = (float) (this.getWidth() / 2.0);
+		startBallX = toMeters((float) (this.getWidth() / 2.0));
 		startBallY = ballRadius;
+		ballX = startBallX;
+		ballY = startBallY;
 		WorldManager.setupWorld();
 		WorldManager.world.setContactListener(this);
-		ball = new Circle(BodyType.DYNAMIC, startBallX, startBallY, ballRadius, 0.5f, 1.0f, ballRestitution);
-		//		platform = new Platform(BodyType.STATIC, 1, 1, 3, 3, 0, 0, 0);
+		ball = new Circle(BodyType.DYNAMIC, ballX, ballY, ballRadius, 0.5f, 0.5f, ballRestitution);
+		//		platform = new Platform(BodyType.STATIC, 1, 1, 3, 3, 0, 1, 0);
 		//		for (Platform platform : platforms)
 		//		{
 		//			platform.create();
@@ -146,16 +147,16 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		{
 			if (touching)
 			{
-				ballX = currentTouchX;
-				ballY = currentTouchY;
-				startBallX = currentTouchX;
-				startBallY = currentTouchY;
+				//				ballX = currentTouchX;
+				//				ballY = currentTouchY;
+				//				startBallX = currentTouchX;
+				//				startBallY = currentTouchY;
 				touchX[1] = touchX[0];
 				touchY[1] = touchY[0];
 				touchX[0] = currentTouchX;
 				touchY[0] = currentTouchY;
-				startBallXSpeed = ballXSpeed;
-				startBallYSpeed = ballYSpeed;
+				//				startBallXSpeed = ballXSpeed;
+				//				startBallYSpeed = ballYSpeed;
 				if (initialTouch)
 				{
 					initialTouch = false;
@@ -184,12 +185,15 @@ public class MyView extends View implements ContactListener, OnTouchListener
 				c.drawLine(startTouchX, startTouchY, currentTouchX, currentTouchY, platformPaint);
 			} else if (wasTouching && platformIsLongEnough())
 			{
-				platforms.add(new Platform(BodyType.STATIC, toMeters(startTouchX), toMeters(startTouchY), toMeters(endTouchX), toMeters(endTouchY), 0, 0, 0));
+				wasTouching = false;
+				platforms.add(new Platform(BodyType.STATIC, toMeters(startTouchX), toMeters(startTouchY), toMeters(endTouchX), toMeters(endTouchY), 0, 1, 0));
 			}
 		}
 
+		ballX = ball.getX();
+		ballY = ball.getY();
 		c.drawCircle(toPixels(ball.getX()), toPixels(ball.getY()), toPixels(ball.getRadius()), ballPaint);
-		//		c.drawLine(toPixels((float) (ball.getX() - ball.getRadius() * Math.cos(Math.toRadians(ball.getAngle())))), toPixels((float) (ball.getY() - ball.getRadius() * Math.sin(Math.toRadians(ball.getAngle())))), toPixels((float) (ball.getX() + ball.getRadius() * Math.cos(Math.toRadians(ball.getAngle())))), toPixels((float) (ball.getY() + ball.getRadius() * Math.sin(Math.toRadians(ball.getAngle())))), platformPaint);
+		c.drawLine(toPixels((float) (ball.getX() - ball.getRadius() * Math.cos(ball.getAngle()))), toPixels((float) (ball.getY() - ball.getRadius() * Math.sin(ball.getAngle()))), toPixels((float) (ball.getX() + ball.getRadius() * Math.cos(ball.getAngle()))), toPixels((float) (ball.getY() + ball.getRadius() * Math.sin(ball.getAngle()))), platformPaint);
 		drawPlatforms(c);
 		long timeTook = System.currentTimeMillis() - startTime;
 		if (timeTook < 1000.0 / 60.0)
@@ -254,7 +258,6 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		{
 			initialTouch = true;
 			touching = true;
-
 			currentTouchX = event.getX();
 			currentTouchY = event.getY();
 			startTouchX = currentTouchX;

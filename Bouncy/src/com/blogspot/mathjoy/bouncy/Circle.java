@@ -20,6 +20,7 @@ public class Circle
 	private Body body;
 	private FixtureDef fd;
 	private BodyDef bd;
+	private Fixture fixture;
 
 	public Circle(BodyType bt, float x, float y, float radius, float density, float friction, float restitution)
 	{
@@ -42,7 +43,7 @@ public class Circle
 		fd.friction = friction;
 		fd.restitution = restitution;
 		body = WorldManager.world.createBody(bd);
-		body.createFixture(fd);
+		fixture = body.createFixture(fd);
 	}
 
 	public float getX()
@@ -53,6 +54,16 @@ public class Circle
 	public float getY()
 	{
 		return body.getPosition().y;
+	}
+
+	public Vec2 getPosition()
+	{
+		return body.getPosition();
+	}
+
+	public Vec2 getVelocity()
+	{
+		return body.getLinearVelocity();
 	}
 
 	public float getRadius()
@@ -67,20 +78,23 @@ public class Circle
 
 	public void setRestitution(float restitution)
 	{
-		WorldManager.world.destroyBody(body);
+		body.destroyFixture(fixture);
+		//		WorldManager.world.destroyBody(body);
 		fd.restitution = restitution;
-		body = WorldManager.world.createBody(bd);
+		//		body = WorldManager.world.createBody(bd);
 		body.createFixture(fd);
 	}
 
 	public void setVelocity(Vec2 velocity)
 	{
+		body.destroyFixture(fixture);
 		body.setLinearVelocity(velocity);
 		body.createFixture(fd);
 	}
 
 	public void setPosition(Vec2 position)
 	{
+		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
 		bd.position.set(position);
 		body = WorldManager.world.createBody(bd);

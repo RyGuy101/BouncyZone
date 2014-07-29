@@ -84,7 +84,7 @@ public class LoadConfActivity extends Activity
 			ArrayList<Platform> platforms = new ArrayList<Platform>();
 			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)
 			{
-				platforms.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 0, 0));
+				platforms.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
 			}
 			MyView.platforms = platforms;
 			Intent intent = new Intent(this, MainActivity.class);

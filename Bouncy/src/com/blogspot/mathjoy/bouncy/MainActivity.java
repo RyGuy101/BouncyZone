@@ -136,6 +136,8 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 	public void goToMenu(View v)
 	{
 		spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		//		MyView.makeBounce = false;
+		//		MyView.ball.setPosition(new Vec2(MyView.ballX, MyView.ballY));
 		Intent intent = new Intent(this, MyMenu.class);
 		startActivity(intent);
 	}
