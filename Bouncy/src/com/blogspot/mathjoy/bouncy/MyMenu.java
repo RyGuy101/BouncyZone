@@ -2,6 +2,9 @@ package com.blogspot.mathjoy.bouncy;
 
 import java.sql.Savepoint;
 import java.util.ArrayList;
+
+import org.jbox2d.common.Vec2;
+
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -36,12 +39,15 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	Spinner ballColor;
 	SeekBar seekGravity;
 	SeekBar seekBounceLevel;
+	SeekBar seekFriction;
 	TextView displayGravity;
 	TextView displayBounceLevel;
+	TextView displayFriction;
 	String[] colors = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static String pickedColor;
 	static int gravity = 100;
 	static int bounceLevel = 100;
+	static int friction = 50;
 	boolean gameReset = false;
 	ImageButton gameServices;
 
@@ -58,13 +64,18 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		ballColor.setOnItemSelectedListener(this);
 		seekGravity = (SeekBar) findViewById(R.id.gravity);
 		seekBounceLevel = (SeekBar) findViewById(R.id.bouceLevel);
+		seekFriction = (SeekBar) findViewById(R.id.friction);
 		seekGravity.setOnSeekBarChangeListener(this);
 		seekBounceLevel.setOnSeekBarChangeListener(this);
+		seekFriction.setOnSeekBarChangeListener(this);
 		displayGravity = (TextView) findViewById(R.id.valueOfGravity);
 		displayBounceLevel = (TextView) findViewById(R.id.valueOfBounceLevel);
+		displayFriction = (TextView) findViewById(R.id.valueOfFriction);
 		LoadPrefs();
 		seekGravity.setProgress(gravity);
 		seekBounceLevel.setProgress(bounceLevel);
+		seekFriction.setProgress(friction);
+		displayFriction.setText(friction + "%");
 		for (int i = 0; i <= colors.length - 1; i++)
 		{
 			if (colors[i].equals(pickedColor))
@@ -88,11 +99,13 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	{
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		pickedColor = (String) ballColor.getSelectedItem();
-		gravity = (seekGravity.getProgress());
-		bounceLevel = (seekBounceLevel.getProgress());
+		gravity = seekGravity.getProgress();
+		bounceLevel = seekBounceLevel.getProgress();
+		friction = seekFriction.getProgress();
 		SavePrefs("selectedColor", pickedColor);
 		SavePrefs("gravityValue", gravity);
 		SavePrefs("bounceLevelValue", bounceLevel);
+		SavePrefs("frictionValue", friction);
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("isGameReset", gameReset);
 		startActivity(intent);
@@ -126,6 +139,11 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			// bounceLevel = temp;
 			displayBounceLevel.setText(temp.toString());
 		}
+		if (seekBar.equals(seekFriction))
+		{
+			friction = seekBar.getProgress();
+			displayFriction.setText(friction + "%");
+		}
 	}
 
 	public void gameReset(View v)
@@ -135,8 +153,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.clearPlatforms();
 			MyView.alreadyStarted = false;
-			MyView.ballXSpeed = 0;
-			MyView.ballYSpeed = 0;
+			MyView.ball.setVelocity(new Vec2(0, 0));
 			MyView.mode = MyView.MODE_BALL;
 			gameReset = true;
 			Button temp = (Button) v;
@@ -149,6 +166,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		seekGravity.setProgress(100);
 		seekBounceLevel.setProgress(100);
+		seekFriction.setProgress(50);
 		ballColor.setSelection(0);
 	}
 
@@ -158,6 +176,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		pickedColor = sp.getString("selectedColor", "red");
 		gravity = (int) sp.getFloat("gravityValue", 100);
 		bounceLevel = (int) sp.getFloat("bounceLevelValue", 100);
+		friction = (int) sp.getFloat("frictionValue", 50);
 	}
 
 	private void SavePrefs(String key, double value)

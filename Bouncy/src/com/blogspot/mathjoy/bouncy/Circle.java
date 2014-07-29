@@ -79,9 +79,14 @@ public class Circle
 	public void setRestitution(float restitution)
 	{
 		body.destroyFixture(fixture);
-		//		WorldManager.world.destroyBody(body);
 		fd.restitution = restitution;
-		//		body = WorldManager.world.createBody(bd);
+		body.createFixture(fd);
+	}
+
+	public void setFriction(float friction)
+	{
+		body.destroyFixture(fixture);
+		fd.friction = friction;
 		body.createFixture(fd);
 	}
 

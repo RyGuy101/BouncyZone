@@ -101,6 +101,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 			edit.putFloat(n + "startBallYSpeed", MyView.startBallYSpeed);
 			edit.putInt(n + "gravityValue", (int) sps.getFloat("gravityValue", 100));
 			edit.putInt(n + "bounceLevelValue", (int) sps.getFloat("bounceLevelValue", 100));
+			edit.putInt(n + "frictionValue", (int) sps.getFloat("frictionValue", 50));
 			edit.putInt(n + "platformsSize", MyView.platforms.size());
 			for (int i = 0; i < MyView.platforms.size(); i++)
 			{

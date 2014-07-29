@@ -72,9 +72,11 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		// MyView.mode = MyView.MODE_BALL;
 		setContentView(R.layout.activity_main);
 		MyView.ballRestitution = (float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0);
+		MyView.ballFriction = (float) (sp.getFloat("frictionValue", 50.0f) / 100.0);
 		if (ball != null)
 		{
 			MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
+			MyView.ball.setFriction((float) (sp.getFloat("frictionValue", 50.0f) / 100.0));
 		}
 		if (WorldManager.world != null)
 		{

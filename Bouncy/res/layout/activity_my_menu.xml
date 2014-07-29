@@ -104,6 +104,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <TextView
+            android:id="@+id/textFriction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Friction" />
+
+        <TextView
+            android:id="@+id/valueOfFriction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="50%" />
+
+        <SeekBar
+            android:id="@+id/friction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/restoreToDefault"
             android:layout_width="match_parent"

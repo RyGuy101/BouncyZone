@@ -2,6 +2,7 @@ package com.blogspot.mathjoy.bouncy;
 
 import java.util.ArrayList;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 
 import android.media.AudioManager;
@@ -71,22 +72,21 @@ public class LoadConfActivity extends Activity
 		if (!sp.getString(n + "name", " ").equals(" "))
 		{
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-			MyView.ballX = sp.getFloat(n + "startBallX", 0);
-			MyView.ballY = sp.getFloat(n + "startBallY", 0);
-			MyView.ballXSpeed = sp.getFloat(n + "startBallXSpeed", 0);
-			MyView.ballYSpeed = sp.getFloat(n + "startBallYSpeed", 0);
+			MyView.ball.setPosition(new Vec2(sp.getFloat(n + "startBallX", 0), sp.getFloat(n + "startBallY", 0)));
+			MyView.ball.setVelocity(new Vec2(sp.getFloat(n + "startBallXSpeed", 0), sp.getFloat(n + "startBallYSpeed", 0)));
 			MyView.startBallX = sp.getFloat(n + "startBallX", 0);
 			MyView.startBallY = sp.getFloat(n + "startBallY", 0);
 			MyView.startBallXSpeed = sp.getFloat(n + "startBallXSpeed", 0);
 			MyView.startBallYSpeed = sp.getFloat(n + "startBallYSpeed", 0);
 			SavePrefs("gravityValue", sp.getInt(n + "gravityValue", 100));
 			SavePrefs("bounceLevelValue", sp.getInt(n + "bounceLevelValue", 100));
-			ArrayList<Platform> platforms = new ArrayList<Platform>();
+			SavePrefs("frictionValue", sp.getInt(n + "frictionValue", 50));
+
+			MyView.clearPlatforms();
 			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)
 			{
-				platforms.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
+				MyView.platforms.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
 			}
-			MyView.platforms = platforms;
 			Intent intent = new Intent(this, MainActivity.class);
 			intent.putExtra("fromLoad", true);
 			startActivity(intent);
