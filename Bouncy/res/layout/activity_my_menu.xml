@@ -51,6 +51,12 @@
             android:layout_height="wrap_content"
             android:text="Ball Color" />
 
+        <View
+            android:id="@+id/colorView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ff0000" />
+
         <Spinner
             android:id="@+id/ballColor"
             android:layout_width="match_parent"
@@ -131,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="settingsReset"
-            android:text="Restore Default Settings" />
+            android:text="Restore Default Values" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -143,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Save/Load/Delete a Configuration"
+            android:text="Save/Load/Delete a Zone"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
@@ -151,21 +157,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="goToSaveSettings"
-            android:text="Save Current Configuration" />
+            android:text="Save the Current Zone" />
 
         <Button
             android:id="@+id/goToLoadConf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="goToLoadSettings"
-            android:text="Load a Configuration" />
+            android:text="Load a Zone" />
 
         <Button
             android:id="@+id/goToDelConf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="goToDelSettings"
-            android:text="Delete a Configuration" />
+            android:text="Delete a Zone" />
     </LinearLayout>
 
 </ScrollView>

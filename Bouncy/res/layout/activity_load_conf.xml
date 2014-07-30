@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Load Configuration"
+        android:text="Load a Zone"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -21,7 +21,7 @@
         android:id="@+id/chooseConftext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose a configuration to load" />
+        android:text="Choose a zone to load" />
 
     <Spinner
         android:id="@+id/chooseConf"

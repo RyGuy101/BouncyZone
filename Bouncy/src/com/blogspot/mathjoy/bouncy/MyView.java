@@ -39,6 +39,8 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	//	public static float ballY;
 	//	public static float ballXSpeed;
 	//	public static float ballYSpeed;
+	public static float originalStartBallX;
+	public static float originalStartBallY;
 	public static float startBallX;
 	public static float startBallY;
 	public static float startBallXSpeed;
@@ -67,6 +69,8 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	//	public static Platform platform;
 	Paint ballPaint = new Paint();
 	Paint platformPaint = new Paint();
+	Paint lineInBallPaint = new Paint();
+
 	private int offScreenCounter = 0;
 
 	public static boolean makeBounce = true;
@@ -91,13 +95,23 @@ public class MyView extends View implements ContactListener, OnTouchListener
 
 	private void setup()
 	{
-		alreadyStarted = true;
 		float ballRadius = 0.1f;
-		startBallX = toMeters((float) (this.getWidth() / 2.0));
-		startBallY = ballRadius;
+		originalStartBallX = toMeters((float) (this.getWidth() / 2.0));
+		originalStartBallY = ballRadius;
+		startBallX = originalStartBallX;
+		startBallY = originalStartBallY;
 		WorldManager.setupWorld();
 		WorldManager.world.setContactListener(this);
-		ball = new Circle(BodyType.DYNAMIC, startBallX, startBallY, ballRadius, 1, ballFriction, ballRestitution);
+		ball = new Circle(BodyType.DYNAMIC, startBallX, startBallY, ballRadius, 1.0f, ballFriction, ballRestitution);
+	}
+
+	public static void reset()
+	{
+		float ballRadius = 0.1f;
+		startBallX = originalStartBallX;
+		startBallY = originalStartBallY;
+		ball.setPosition(new Vec2(originalStartBallX, originalStartBallY));
+		ball.setVelocity(new Vec2(0, 0));
 	}
 
 	//	private static int screenW;
@@ -168,7 +182,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 				WorldManager.undoTemporaryGravitySet();
 			} else if (!touching)
 			{
-				if (ball.getX() - ball.getRadius() > toMeters(this.getWidth()) || ball.getX() + ball.getRadius() < 0 || ball.getY() - ball.getRadius() > toMeters(this.getHeight()))
+				if (ball.getX() - ball.getRadius() > toMeters(this.getWidth()) || ball.getX() + ball.getRadius() < 0 || ball.getY() - ball.getRadius() > toMeters(this.getHeight()) || !ball.isAwake())
 				{
 					offScreenCounter++;
 				} else
@@ -199,7 +213,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			}
 		}
 		c.drawCircle(toPixels(ball.getX()), toPixels(ball.getY()), toPixels(ball.getRadius()), ballPaint);
-		c.drawLine(toPixels((float) (ball.getX() - ball.getRadius() * Math.cos(ball.getAngle()))), toPixels((float) (ball.getY() - ball.getRadius() * Math.sin(ball.getAngle()))), toPixels((float) (ball.getX() + ball.getRadius() * Math.cos(ball.getAngle()))), toPixels((float) (ball.getY() + ball.getRadius() * Math.sin(ball.getAngle()))), platformPaint);
+		c.drawLine(toPixels((float) (ball.getX() - ball.getRadius() * Math.cos(ball.getAngle()))), toPixels((float) (ball.getY() - ball.getRadius() * Math.sin(ball.getAngle()))), toPixels((float) (ball.getX() + ball.getRadius() * Math.cos(ball.getAngle()))), toPixels((float) (ball.getY() + ball.getRadius() * Math.sin(ball.getAngle()))), lineInBallPaint);
 		drawPlatforms(c);
 		long timeTook = System.currentTimeMillis() - startTime;
 		if (timeTook < 1000.0 / 60.0)
@@ -222,6 +236,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		{
 			makeBounce = false;
 			touching = false;
+			WorldManager.undoTemporaryGravitySet();
 			sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
 			SharedPreferences sp = MainActivity.sp;
 			Editor edit = sp.edit();
@@ -351,6 +366,10 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	private void updateColors()
 	{
 		platformPaint.setColor(Color.WHITE);
+		platformPaint.setStrokeWidth(toPixels(0.02f));
 		ballPaint.setColor(ballColor);
+		lineInBallPaint.setColor(Color.BLACK);
+		lineInBallPaint.setAlpha(79);
+		lineInBallPaint.setStrokeWidth(toPixels(0.04f));
 	}
 }

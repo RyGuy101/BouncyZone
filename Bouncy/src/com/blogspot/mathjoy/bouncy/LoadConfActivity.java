@@ -48,7 +48,7 @@ public class LoadConfActivity extends Activity
 			chooseConf.setAdapter(confNamesAd);
 		} else
 		{
-			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[] { "You have no saved configurations!" });
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
 		}
 	}
@@ -80,7 +80,7 @@ public class LoadConfActivity extends Activity
 			MyView.startBallYSpeed = sp.getFloat(n + "startBallYSpeed", 0);
 			SavePrefs("gravityValue", sp.getInt(n + "gravityValue", 100));
 			SavePrefs("bounceLevelValue", sp.getInt(n + "bounceLevelValue", 100));
-			SavePrefs("frictionValue", sp.getInt(n + "frictionValue", 50));
+			SavePrefs("frictionValue", sp.getInt(n + "frictionValue", 100));
 
 			MyView.clearPlatforms();
 			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)

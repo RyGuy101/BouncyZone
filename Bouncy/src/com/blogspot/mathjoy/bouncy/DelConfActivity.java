@@ -41,7 +41,7 @@ public class DelConfActivity extends Activity
 			chooseConf.setAdapter(confNamesAd);
 		} else
 		{
-			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[] { "You have no saved configurations!" });
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
 		}
 	}
@@ -69,7 +69,7 @@ public class DelConfActivity extends Activity
 				edit.putFloat(n + "startBallYSpeed", sp.getFloat((n + 1) + "startBallYSpeed", 0));
 				edit.putInt(n + "gravityValue", sp.getInt((n + 1) + "gravityValue", 100));
 				edit.putInt(n + "bounceLevelValue", sp.getInt((n + 1) + "bounceLevelValue", 100));
-				edit.putInt(n + "frictionValue", sp.getInt((n + 1) + "frictionValue", 50));
+				edit.putInt(n + "frictionValue", sp.getInt((n + 1) + "frictionValue", 100));
 				edit.putInt(n + "platformsSize", sp.getInt((n + 1) + "platformsSize", 0));
 				for (int i = 0; i < sp.getInt((n + 1) + "platformsSize", 0); i++)
 				{

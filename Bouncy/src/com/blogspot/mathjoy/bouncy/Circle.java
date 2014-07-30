@@ -105,4 +105,9 @@ public class Circle
 		body = WorldManager.world.createBody(bd);
 		body.createFixture(fd);
 	}
+
+	public boolean isAwake()
+	{
+		return body.isAwake();
+	}
 }

@@ -36,6 +36,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	public static int button;
 	float buttonVolume = MainActivity.buttonVolume;
+	View colorView;
 	Spinner ballColor;
 	SeekBar seekGravity;
 	SeekBar seekBounceLevel;
@@ -43,11 +44,12 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	TextView displayGravity;
 	TextView displayBounceLevel;
 	TextView displayFriction;
-	String[] colors = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
+	String[] colorNames = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
+	int[] colors = { Color.RED, Color.rgb(225, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	static String pickedColor;
 	static int gravity = 100;
 	static int bounceLevel = 100;
-	static int friction = 50;
+	static int friction = 100;
 	boolean gameReset = false;
 	ImageButton gameServices;
 
@@ -58,7 +60,8 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
 		setContentView(R.layout.activity_my_menu);
-		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colors);
+		colorView = findViewById(R.id.colorView);
+		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colorNames);
 		ballColor = (Spinner) findViewById(R.id.ballColor);
 		ballColor.setAdapter(colorAd);
 		ballColor.setOnItemSelectedListener(this);
@@ -76,11 +79,12 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		seekBounceLevel.setProgress(bounceLevel);
 		seekFriction.setProgress(friction);
 		displayFriction.setText(friction + "%");
-		for (int i = 0; i <= colors.length - 1; i++)
+		for (int i = 0; i <= colorNames.length - 1; i++)
 		{
-			if (colors[i].equals(pickedColor))
+			if (colorNames[i].equals(pickedColor))
 			{
 				ballColor.setSelection(i);
+				colorView.setBackgroundColor(colors[i]);
 			}
 		}
 		gameServices = (ImageButton) findViewById(R.id.gameServices);
@@ -114,7 +118,13 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 	{
-		// spool.play(button, 1, 1, 0, 0, 1);
+		for (int i = 0; i <= colorNames.length - 1; i++)
+		{
+			if (colorNames[i].equals(pickedColor))
+			{
+				colorView.setBackgroundColor(colors[i]);
+			}
+		}
 	}
 
 	@Override
@@ -152,7 +162,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		{
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.clearPlatforms();
-			MyView.alreadyStarted = false;
+			MyView.reset();
 			MyView.ball.setVelocity(new Vec2(0, 0));
 			MyView.mode = MyView.MODE_BALL;
 			gameReset = true;
@@ -166,8 +176,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		seekGravity.setProgress(100);
 		seekBounceLevel.setProgress(100);
-		seekFriction.setProgress(50);
-		ballColor.setSelection(0);
+		seekFriction.setProgress(100);
 	}
 
 	private void LoadPrefs()
@@ -176,7 +185,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		pickedColor = sp.getString("selectedColor", "red");
 		gravity = (int) sp.getFloat("gravityValue", 100);
 		bounceLevel = (int) sp.getFloat("bounceLevelValue", 100);
-		friction = (int) sp.getFloat("frictionValue", 50);
+		friction = (int) sp.getFloat("frictionValue", 100);
 	}
 
 	private void SavePrefs(String key, double value)

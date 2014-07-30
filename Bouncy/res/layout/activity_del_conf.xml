@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Delete Configuration"
+        android:text="Delete Zone"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -21,7 +21,7 @@
         android:id="@+id/chooseDelConfText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose a configuration to delete" />
+        android:text="Choose a zone to delete" />
 
     <Spinner
         android:id="@+id/chooseDelConf"

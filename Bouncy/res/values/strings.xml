@@ -16,13 +16,13 @@
     <string name="pref_user_name">Set username</string>
     <string name="pref_user_name_summary">Set your username</string>
     <string name="pref_user_profile">User Profile</string>
-    <string name="pref_update_setting">Update Settings</string>
+    <string name="pref_update_setting">Update Settings</string>
     -->
 
-    <string name="title_activity_save_conf">Save Configuration</string>
+    <string name="title_activity_save_conf">Save Zone</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_load_conf">Load Configuration</string>
-    <string name="title_activity_del_conf">Delete Configuration</string>
+    <string name="title_activity_load_conf">Load a Zone</string>
+    <string name="title_activity_del_conf">Delete a Zone</string>
     <string name="title_activity_game_services">Google Play Games Services</string>
 
 </resources>

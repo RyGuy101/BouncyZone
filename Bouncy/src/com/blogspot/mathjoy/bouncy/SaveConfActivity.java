@@ -1,30 +1,35 @@
 package com.blogspot.mathjoy.bouncy;
 
+import java.text.Format;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker.Formatter;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class SaveConfActivity extends Activity implements TextWatcher
+public class SaveConfActivity extends Activity
 {
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	public static int button;
 	float buttonVolume = MainActivity.buttonVolume;
 	String[] confNames = new String[100];
 	EditText editName;
-	Toast alreadyExistsT;
 	Toast emptySpaceT;
 	Toast blankT;
-	Toast tooManyT;
-	boolean override = false;
-	String repeatedName = "";
+	boolean overwrite = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -34,11 +39,8 @@ public class SaveConfActivity extends Activity implements TextWatcher
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
 		editName = (EditText) findViewById(R.id.editConfName);
-		editName.addTextChangedListener(this);
-		alreadyExistsT = Toast.makeText(this, "You already have a configuration with that name. Click the save button again to overwrite it.", Toast.LENGTH_LONG);
 		emptySpaceT = Toast.makeText(this, "You must enter a name.", Toast.LENGTH_SHORT);
-		blankT = Toast.makeText(this, "You must include visible characters.", Toast.LENGTH_SHORT);
-		tooManyT = Toast.makeText(this, "You can't have more than 100 configurations.", Toast.LENGTH_SHORT);
+		blankT = Toast.makeText(this, "Please include visible characters in the name.", Toast.LENGTH_SHORT);
 	}
 
 	public void goToMainSettings(View v)
@@ -48,21 +50,34 @@ public class SaveConfActivity extends Activity implements TextWatcher
 
 	public void saveConf(View v)
 	{
-		boolean alreadyExists = false;
-		boolean emptySpace = true;
-		boolean tooMany = false;
-		boolean foundAvailableIndex = false;
-		String name = editName.getText().toString();
 		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
-		SharedPreferences sps = getSharedPreferences(MyMenu.settingsSP, 0);
+		String name = editName.getText().toString();
 		int n = sp.getInt("numOfConfs", 0);
+		overwrite = false;
+		boolean foundDuplicate = false;
 		for (int i = 0; i < n; i++)
 		{
 			if (sp.getString(i + "name", " ").equals(name))
 			{
-				alreadyExists = true;
+				foundDuplicate = true;
+				emptySpaceT.cancel();
+				blankT.cancel();
+				createAlreadyExistsAlertDialogue(sp, name, n).show();
 			}
 		}
+		if (!foundDuplicate)
+		{
+			doTheSaving(sp, name, n);
+		}
+	}
+
+	private void doTheSaving(SharedPreferences sp, String name, int n)
+	{
+		boolean emptySpace = true;
+		boolean tooMany = false;
+		boolean foundAvailableIndex = false;
+		SharedPreferences sps = getSharedPreferences(MyMenu.settingsSP, 0);
+
 		for (int i = 0; i < name.length(); i++)
 		{
 			if (name.charAt(i) != ' ' && name.charAt(i) != '	')
@@ -74,11 +89,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 		{
 			tooMany = true;
 		}
-		if (!repeatedName.equals(name))
-		{
-			override = false;
-		}
-		if ((!alreadyExists && !emptySpace && !tooMany) || override)
+		if ((!emptySpace && !tooMany) || overwrite)
 		{
 			for (int i = 0; i < n; i++)
 			{
@@ -101,7 +112,7 @@ public class SaveConfActivity extends Activity implements TextWatcher
 			edit.putFloat(n + "startBallYSpeed", MyView.startBallYSpeed);
 			edit.putInt(n + "gravityValue", (int) sps.getFloat("gravityValue", 100));
 			edit.putInt(n + "bounceLevelValue", (int) sps.getFloat("bounceLevelValue", 100));
-			edit.putInt(n + "frictionValue", (int) sps.getFloat("frictionValue", 50));
+			edit.putInt(n + "frictionValue", (int) sps.getFloat("frictionValue", 100));
 			edit.putInt(n + "platformsSize", MyView.platforms.size());
 			for (int i = 0; i < MyView.platforms.size(); i++)
 			{
@@ -116,39 +127,24 @@ public class SaveConfActivity extends Activity implements TextWatcher
 			}
 			edit.commit();
 			onBackPressed();
-		} else if (alreadyExists)
-		{
-			override = true;
-			repeatedName = name;
-			// alreadyExistsT.cancel();
-			emptySpaceT.cancel();
-			blankT.cancel();
-			tooManyT.cancel();
-			alreadyExistsT.show();
 		} else if (emptySpace)
 		{
 			if (name.length() == 0)
 			{
-				alreadyExistsT.cancel();
 				// emptySpaceT.cancel();
 				blankT.cancel();
-				tooManyT.cancel();
 				emptySpaceT.show();
 			} else
 			{
-				alreadyExistsT.cancel();
 				emptySpaceT.cancel();
 				// blankT.cancel();
-				tooManyT.cancel();
 				blankT.show();
 			}
 		} else if (tooMany)
 		{
-			alreadyExistsT.cancel();
 			emptySpaceT.cancel();
 			blankT.cancel();
-			// tooManyT.cancel();
-			tooManyT.show();
+			createTooManyAlertDialogue().show();
 		}
 	}
 
@@ -156,25 +152,46 @@ public class SaveConfActivity extends Activity implements TextWatcher
 	public void onBackPressed()
 	{
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-		alreadyExistsT.cancel();
 		emptySpaceT.cancel();
 		blankT.cancel();
 		super.onBackPressed();
 	}
 
-	@Override
-	public void afterTextChanged(Editable s)
+	private AlertDialog createTooManyAlertDialogue()
 	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("You can't have more than 100 zones. Delete one or more in order to make room.").setPositiveButton("OK", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+			}
+		});
+		AlertDialog dialog = builder.create();
+		return dialog;
 	}
 
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after)
+	private AlertDialog createAlreadyExistsAlertDialogue(final SharedPreferences sp, final String name, final int n)
 	{
-	}
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(Html.fromHtml("A zone named <b>" + name + "</b> already exists.\nWould you like to overwrite it?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				overwrite = true;
+				doTheSaving(sp, name, n);
+			}
+		}).setNegativeButton("No", new DialogInterface.OnClickListener()
+		{
 
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count)
-	{
-		override = false;
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				overwrite = false;
+			}
+		});
+		AlertDialog dialog = builder.create();
+		return dialog;
 	}
 }
