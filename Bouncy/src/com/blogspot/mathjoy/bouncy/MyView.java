@@ -95,6 +95,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 
 	private void setup()
 	{
+		PPM = (float) (this.getHeight() / 5.0);
 		float ballRadius = 0.1f;
 		originalStartBallX = toMeters((float) (this.getWidth() / 2.0));
 		originalStartBallY = ballRadius;
@@ -117,7 +118,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	//	private static int screenW;
 	//	private static int screenH;
 
-	private static float PPM = 128.0f;
+	private static float PPM;
 
 	public static float toMeters(float pixels)
 	{
@@ -238,10 +239,10 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			touching = false;
 			WorldManager.undoTemporaryGravitySet();
 			sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
-			SharedPreferences sp = MainActivity.sp;
-			Editor edit = sp.edit();
-			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
-			edit.commit();
+			//			SharedPreferences sp = MainActivity.sp;
+			//			Editor edit = sp.edit();
+			//			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+			//			edit.commit();
 		}
 
 	}

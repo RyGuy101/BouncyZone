@@ -21,13 +21,14 @@
                 android:layout_weight="1"
                 android:onClick="goToGame"
                 android:text="Done" />
-
+            <!--
             <ImageButton
                 android:id="@+id/gameServices"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:onClick="goToGameServices"
                 android:src="@drawable/game_controller" />
+            -->
         </LinearLayout>
 
         <TextView
@@ -51,11 +52,10 @@
             android:layout_height="wrap_content"
             android:text="Ball Color" />
 
-        <View
+        <com.blogspot.mathjoy.bouncy.ColorView
             android:id="@+id/colorView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ff0000" />
+            android:layout_height="match_parent" />
 
         <Spinner
             android:id="@+id/ballColor"

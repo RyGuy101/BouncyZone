@@ -36,7 +36,6 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	public static int button;
 	float buttonVolume = MainActivity.buttonVolume;
-	View colorView;
 	Spinner ballColor;
 	SeekBar seekGravity;
 	SeekBar seekBounceLevel;
@@ -45,13 +44,14 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	TextView displayBounceLevel;
 	TextView displayFriction;
 	String[] colorNames = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
-	int[] colors = { Color.RED, Color.rgb(225, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
+	int[] colors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	static String pickedColor;
 	static int gravity = 100;
 	static int bounceLevel = 100;
 	static int friction = 100;
 	boolean gameReset = false;
 	ImageButton gameServices;
+	ColorView colorView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -60,7 +60,6 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
 		setContentView(R.layout.activity_my_menu);
-		colorView = findViewById(R.id.colorView);
 		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colorNames);
 		ballColor = (Spinner) findViewById(R.id.ballColor);
 		ballColor.setAdapter(colorAd);
@@ -79,17 +78,18 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		seekBounceLevel.setProgress(bounceLevel);
 		seekFriction.setProgress(friction);
 		displayFriction.setText(friction + "%");
+		colorView = (ColorView) findViewById(R.id.colorView);
 		for (int i = 0; i <= colorNames.length - 1; i++)
 		{
 			if (colorNames[i].equals(pickedColor))
 			{
 				ballColor.setSelection(i);
-				colorView.setBackgroundColor(colors[i]);
+				colorView.ballColor = colors[i];
 			}
 		}
-		gameServices = (ImageButton) findViewById(R.id.gameServices);
-		gameServices.setBackgroundColor(Color.WHITE);
-		gameServices.setOnTouchListener(this);
+		//		gameServices = (ImageButton) findViewById(R.id.gameServices);
+		//		gameServices.setBackgroundColor(Color.WHITE);
+		//		gameServices.setOnTouchListener(this);
 	}
 
 	// @Override
@@ -120,9 +120,9 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	{
 		for (int i = 0; i <= colorNames.length - 1; i++)
 		{
-			if (colorNames[i].equals(pickedColor))
+			if (colorNames[i].equals(ballColor.getSelectedItem()))
 			{
-				colorView.setBackgroundColor(colors[i]);
+				colorView.ballColor = colors[i];
 			}
 		}
 	}

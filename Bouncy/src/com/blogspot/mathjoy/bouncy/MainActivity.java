@@ -27,7 +27,7 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 	public static float buttonVolume = (float) 0.3;
 	Intent intent;
 	String pickedColor;
-	int[] possibleColors = { Color.RED, Color.rgb(225, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
+	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
 	static boolean justOpened = true;
 	public static ImageButton ball;
