@@ -21,14 +21,12 @@
                 android:layout_weight="1"
                 android:onClick="goToGame"
                 android:text="Done" />
-            <!--
-            <ImageButton
+            <ImageButton
                 android:id="@+id/gameServices"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:onClick="goToGameServices"
                 android:src="@drawable/game_controller" />
-            -->
         </LinearLayout>
 
         <TextView

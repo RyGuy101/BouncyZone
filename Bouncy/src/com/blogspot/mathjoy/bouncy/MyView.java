@@ -25,6 +25,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.SoundPool;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -95,7 +96,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 
 	private void setup()
 	{
-		PPM = (float) (this.getHeight() / 5.0);
+		PPM = (float) (getResources().getDisplayMetrics().ydpi / 2.0);
 		float ballRadius = 0.1f;
 		originalStartBallX = toMeters((float) (this.getWidth() / 2.0));
 		originalStartBallY = ballRadius;

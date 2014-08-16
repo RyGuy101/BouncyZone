@@ -87,9 +87,9 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 				colorView.ballColor = colors[i];
 			}
 		}
-		//		gameServices = (ImageButton) findViewById(R.id.gameServices);
-		//		gameServices.setBackgroundColor(Color.WHITE);
-		//		gameServices.setOnTouchListener(this);
+				gameServices = (ImageButton) findViewById(R.id.gameServices);
+				gameServices.setBackgroundColor(Color.WHITE);
+				gameServices.setOnTouchListener(this);
 	}
 
 	// @Override
