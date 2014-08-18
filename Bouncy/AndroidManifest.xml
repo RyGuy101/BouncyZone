@@ -33,25 +33,45 @@
         <activity
             android:name=".MyMenu"
             android:label="Settings"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".SaveConfActivity"
-            android:label="@string/title_activity_save_conf" >
+            android:label="@string/title_activity_save_conf"
+            android:parentActivityName=".MyMenu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MyMenu" />
         </activity>
         <activity
             android:name=".LoadConfActivity"
             android:label="@string/title_activity_load_conf"
+            android:parentActivityName=".MyMenu"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MyMenu" />
         </activity>
         <activity
             android:name=".DelConfActivity"
             android:label="@string/title_activity_del_conf"
+            android:parentActivityName=".MyMenu"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MyMenu" />
         </activity>
         <activity
             android:name=".GameServicesActivity"
-            android:label="@string/title_activity_game_services" >
+            android:label="@string/title_activity_game_services"
+            android:parentActivityName=".MyMenu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MyMenu" />
         </activity>
     </application>
 

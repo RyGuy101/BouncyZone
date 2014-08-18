@@ -18,18 +18,20 @@
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/Settings"
+            android:id="@+id/Undo"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/gear" />
-        <!-- android:onClick="goToMenu" -->
+            android:onClick="undo"
+            android:src="@drawable/undo" />
+        <!-- android:onClick="undo" -->
 
         <ImageButton
             android:id="@+id/Ball"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="modeBall"
             android:src="@drawable/ic_launcher" />
         <!-- android:onClick="modeBall" -->
 
@@ -40,14 +42,17 @@
             android:layout_weight="1"
             android:onClick="modePlatform"
             android:src="@drawable/liney" />
+        <!-- android:onClick="modePlatform" -->
 
         <ImageButton
-            android:id="@+id/Undo"
+            android:id="@+id/Settings"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="undo"
-            android:src="@drawable/undo" />
+            android:onClick="goToMenu"
+            android:src="@drawable/gear" />
+        <!-- android:onClick="goToMenu" -->
+
 
         <!--
         <Button

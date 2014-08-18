@@ -17,7 +17,7 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnTouchListener, OnClickListener
+public class MainActivity extends Activity implements OnTouchListener//, OnClickListener
 {
 	// public static MediaPlayer bounce;
 	public static SoundPool spoolBounce = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
@@ -105,10 +105,10 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		platform.setOnTouchListener(this);
 		settings.setOnTouchListener(this);
 		undo.setOnTouchListener(this);
-		ball.setOnClickListener(this);
-		platform.setOnClickListener(this);
-		settings.setOnClickListener(this);
-		undo.setOnClickListener(this);
+		//		ball.setOnClickListener(this);
+		//		platform.setOnClickListener(this);
+		//		settings.setOnClickListener(this);
+		//		undo.setOnClickListener(this);
 		try
 		{
 			if (getIntent().getExtras().getBoolean("fromLoad") == true)
@@ -204,23 +204,23 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
 		return false;
 	}
 
-	@Override
-	public void onClick(View v)
-	{
-		if (v.equals(ball))
-		{
-			modeBall(v);
-		} else if (v.equals(platform))
-		{
-			modePlatform(v);
-		} else if (v.equals(settings))
-		{
-			goToMenu(v);
-		} else if (v.equals(undo))
-		{
-			undo(v);
-		}
-	}
+	//	@Override
+	//	public void onClick(View v)
+	//	{
+	//		if (v.equals(ball))
+	//		{
+	//			modeBall(v);
+	//		} else if (v.equals(platform))
+	//		{
+	//			modePlatform(v);
+	//		} else if (v.equals(settings))
+	//		{
+	//			goToMenu(v);
+	//		} else if (v.equals(undo))
+	//		{
+	//			undo(v);
+	//		}
+	//	}
 
 	public void addBounce()
 	{

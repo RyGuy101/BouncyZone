@@ -15,30 +15,20 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/done"
+                android:id="@+id/gameReset"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="goToGame"
-                android:text="Done" />
-            <ImageButton
+                android:onClick="gameReset"
+                android:text="Clear Game" />
+
+            <ImageButton
                 android:id="@+id/gameServices"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:onClick="goToGameServices"
                 android:src="@drawable/game_controller" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/gameReset"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="gameReset"
-            android:text="Clear Game" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -148,7 +138,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Save/Load/Delete a Zone"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/goToSaveConf"
@@ -157,19 +148,27 @@
             android:onClick="goToSaveSettings"
             android:text="Save the Current Zone" />
 
-        <Button
-            android:id="@+id/goToLoadConf"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="goToLoadSettings"
-            android:text="Load a Zone" />
+            android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/goToDelConf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="goToDelSettings"
-            android:text="Delete a Zone" />
+            <Button
+                android:id="@+id/goToLoadConf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="goToLoadSettings"
+                android:text="Load a Zone" />
+
+            <Button
+                android:id="@+id/goToDelConf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="goToDelSettings"
+                android:text="Delete a Zone" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

@@ -26,6 +26,12 @@
         android:inputType="textPersonName" />
 
     <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The ball color, gravity, bounce, and friction will all be saved with your zone." />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker.Formatter;
@@ -35,6 +36,7 @@ public class SaveConfActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_save_conf);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
@@ -193,5 +195,16 @@ public class SaveConfActivity extends Activity
 		});
 		AlertDialog dialog = builder.create();
 		return dialog;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

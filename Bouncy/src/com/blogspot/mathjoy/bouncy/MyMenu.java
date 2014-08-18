@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
@@ -57,6 +58,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
 		setContentView(R.layout.activity_my_menu);
@@ -87,9 +89,9 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 				colorView.ballColor = colors[i];
 			}
 		}
-				gameServices = (ImageButton) findViewById(R.id.gameServices);
-				gameServices.setBackgroundColor(Color.WHITE);
-				gameServices.setOnTouchListener(this);
+		gameServices = (ImageButton) findViewById(R.id.gameServices);
+		gameServices.setBackgroundColor(Color.WHITE);
+		gameServices.setOnTouchListener(this);
 	}
 
 	// @Override
@@ -100,6 +102,11 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	// return true;
 	// }
 	public void goToGame(View v)
+	{
+		goToGame();
+	}
+
+	private void goToGame()
 	{
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		pickedColor = (String) ballColor.getSelectedItem();
@@ -274,5 +281,18 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			v.setBackgroundColor(Color.LTGRAY);
 		}
 		return false;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		// Respond to the action bar's Up/Home button
+		case android.R.id.home:
+			goToGame();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
