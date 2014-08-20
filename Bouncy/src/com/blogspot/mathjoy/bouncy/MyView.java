@@ -240,10 +240,10 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			touching = false;
 			WorldManager.undoTemporaryGravitySet();
 			sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
-			//			SharedPreferences sp = MainActivity.sp;
-			//			Editor edit = sp.edit();
-			//			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
-			//			edit.commit();
+			SharedPreferences sp = MainActivity.gameSP;
+			Editor edit = sp.edit();
+			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+			edit.commit();
 		}
 
 	}

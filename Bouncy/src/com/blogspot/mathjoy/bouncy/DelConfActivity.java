@@ -4,8 +4,11 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,13 +55,23 @@ public class DelConfActivity extends Activity
 	{
 		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
 		int thisN = -1;
+		String name = " ";
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
 			if (chooseConf.getSelectedItem().equals(sp.getString(i + "name", " ")))
 			{
 				thisN = i;
+				name = sp.getString(i + "name", " ");
 			}
 		}
+		if (name != " ")
+		{
+			createDeleteAlertDialogue(name, sp, thisN).show();
+		}
+	}
+
+	private void doTheDeleting(SharedPreferences sp, int thisN)
+	{
 		if (!sp.getString(thisN + "name", " ").equals(" "))
 		{
 			for (int n = thisN; n < sp.getInt("numOfConfs", 0) - 1; n++)
@@ -111,5 +124,27 @@ public class DelConfActivity extends Activity
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private AlertDialog createDeleteAlertDialogue(final String name, final SharedPreferences sp, final int thisN)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(Html.fromHtml("Are you sure you want to delete <b>" + name + "</b>?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				doTheDeleting(sp, thisN);
+			}
+		}).setNegativeButton("No", new DialogInterface.OnClickListener()
+		{
+
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+			}
+		});
+		AlertDialog dialog = builder.create();
+		return dialog;
 	}
 }

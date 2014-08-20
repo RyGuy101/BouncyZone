@@ -36,14 +36,14 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	public static ImageButton undo;
 	public ImageButton buttonDown;
 	TextView tv;
-	public static final String gameSP = "game";
-	public static SharedPreferences sp;
+	public static final String GAME_SP = "game";
+	public static SharedPreferences gameSP;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		sp = getSharedPreferences(gameSP, 0);
+		gameSP = getSharedPreferences(GAME_SP, 0);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// bounce = MediaPlayer.create(this, R.raw.bounce);
 		bounce = spoolBounce.load(this, R.raw.bounce, 1);
@@ -224,7 +224,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 
 	public void addBounce()
 	{
-		SharedPreferences sp = getSharedPreferences(gameSP, 0);
+		SharedPreferences sp = getSharedPreferences(GAME_SP, 0);
 		Editor edit = sp.edit();
 		edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
 		edit.commit();

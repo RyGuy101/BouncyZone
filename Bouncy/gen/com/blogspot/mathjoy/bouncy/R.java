@@ -451,7 +451,6 @@ containing a value of this type.
         public static final int holo_dark=0x7f080005;
         public static final int holo_light=0x7f080006;
         public static final int hybrid=0x7f080004;
-        public static final int leaderboards=0x7f08001b;
         public static final int loadConf=0x7f080020;
         public static final int loadConfText=0x7f08001d;
         public static final int match_parent=0x7f08000c;
@@ -459,6 +458,8 @@ containing a value of this type.
         public static final int myView=0x7f080026;
         public static final int none=0x7f080000;
         public static final int normal=0x7f080001;
+        public static final int numBouncesText=0x7f08001a;
+        public static final int otdText=0x7f08001b;
         public static final int production=0x7f080007;
         public static final int restoreToDefault=0x7f080035;
         public static final int sandbox=0x7f080008;
@@ -475,7 +476,6 @@ containing a value of this type.
         public static final int textGravity=0x7f08002c;
         public static final int textView1=0x7f08003c;
         public static final int textView2=0x7f080019;
-        public static final int textView3=0x7f08001a;
         public static final int valueOfBounceLevel=0x7f080030;
         public static final int valueOfFriction=0x7f080033;
         public static final int valueOfGravity=0x7f08002d;
@@ -513,11 +513,11 @@ containing a value of this type.
         public static final int achievement_hyper_bouncy=0x7f070022;
         public static final int achievement_mega_bouncy=0x7f070021;
         public static final int achievement_super_bouncy=0x7f070020;
-        public static final int action_settings=0x7f070026;
+        public static final int action_settings=0x7f070025;
         /**  TODO: Replace this by your app's app ID! 
          */
         public static final int app_id=0x7f07001e;
-        public static final int app_name=0x7f070025;
+        public static final int app_name=0x7f070024;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -611,15 +611,14 @@ containing a value of this type.
         public static final int gamehelper_license_failed=0x7f07001c;
         public static final int gamehelper_sign_in_failed=0x7f07001a;
         public static final int gamehelper_unknown_error=0x7f07001d;
-        public static final int hello_world=0x7f07002c;
-        public static final int leaderboard_bounces=0x7f070024;
-        public static final int menu_settings=0x7f070027;
-        public static final int title_activity_del_conf=0x7f07002e;
-        public static final int title_activity_game_services=0x7f07002f;
-        public static final int title_activity_load_conf=0x7f07002d;
-        public static final int title_activity_main=0x7f07002a;
-        public static final int title_activity_menu=0x7f070028;
-        public static final int title_activity_my_menu=0x7f070029;
+        public static final int hello_world=0x7f07002b;
+        public static final int menu_settings=0x7f070026;
+        public static final int title_activity_del_conf=0x7f07002d;
+        public static final int title_activity_game_services=0x7f07002e;
+        public static final int title_activity_load_conf=0x7f07002c;
+        public static final int title_activity_main=0x7f070029;
+        public static final int title_activity_menu=0x7f070027;
+        public static final int title_activity_my_menu=0x7f070028;
         /** 
     <string name="pref_send_report">Send crash reports</string>
     <string name="pref_send_report_summary">Helps to fix bugs</string>
@@ -632,7 +631,7 @@ containing a value of this type.
 
     
          */
-        public static final int title_activity_save_conf=0x7f07002b;
+        public static final int title_activity_save_conf=0x7f07002a;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

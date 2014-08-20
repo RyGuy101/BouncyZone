@@ -227,7 +227,7 @@ public class MyOldView extends View implements OnTouchListener
 						{
 							// bounce.start();
 							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
-							SharedPreferences sp = MainActivity.sp;
+							SharedPreferences sp = MainActivity.gameSP;
 							Editor edit = sp.edit();
 							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
 							edit.commit();
@@ -326,7 +326,7 @@ public class MyOldView extends View implements OnTouchListener
 						{
 							// bounce.start();
 							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
-							SharedPreferences sp = MainActivity.sp;
+							SharedPreferences sp = MainActivity.gameSP;
 							Editor edit = sp.edit();
 							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
 							edit.commit();
