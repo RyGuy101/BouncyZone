@@ -27,6 +27,7 @@ public class DelConfActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_del_conf);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);

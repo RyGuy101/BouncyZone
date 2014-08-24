@@ -30,6 +30,7 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_game_services);
 		button = spool.load(this, R.raw.button, 1);

@@ -1,174 +1,155 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MyMenu" >
 
-    <LinearLayout
+    <!--
+          <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
+    -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/gameReset"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:onClick="gameReset"
-                android:text="Clear Game" />
-
-            <ImageButton
-                android:id="@+id/gameServices"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:onClick="goToGameServices"
-                android:src="@drawable/game_controller" />
-        </LinearLayout>
-
-        <TextView
+        <Button
+            android:id="@+id/gameReset"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="gameReset"
+            android:text="Clear Game" />
 
-        <TextView
-            android:id="@+id/textBallColor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ball Color" />
-
-        <com.blogspot.mathjoy.bouncy.ColorView
-            android:id="@+id/colorView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <Spinner
-            android:id="@+id/ballColor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
+        <ImageButton
+            android:id="@+id/gameServices"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:onClick="goToGameServices"
+            android:src="@drawable/game_controller" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/textGravity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Gravity" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/valueOfGravity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0.0" />
+    <TextView
+        android:id="@+id/textBallColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ball Color" />
 
-        <SeekBar
-            android:id="@+id/gravity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="200" />
+    <com.blogspot.mathjoy.bouncy.ColorView
+        android:id="@+id/colorView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <Spinner
+        android:id="@+id/ballColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/textBounce"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bounce" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/valueOfBounceLevel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0.0" />
+    <TextView
+        android:id="@+id/textGravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gravity" />
 
-        <SeekBar
-            android:id="@+id/bouceLevel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="200" />
+    <TextView
+        android:id="@+id/valueOfGravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0.0" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <SeekBar
+        android:id="@+id/gravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="200" />
 
-        <TextView
-            android:id="@+id/textFriction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Friction" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/valueOfFriction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="50%" />
+    <TextView
+        android:id="@+id/textBounce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bounce" />
 
-        <SeekBar
-            android:id="@+id/friction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100" />
+    <TextView
+        android:id="@+id/valueOfBounceLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0.0" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <SeekBar
+        android:id="@+id/bouceLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="200" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textFriction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Friction" />
+
+    <TextView
+        android:id="@+id/valueOfFriction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="50%" />
+
+    <SeekBar
+        android:id="@+id/friction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/restoreToDefault"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:onClick="settingsReset"
             android:text="Restore Default Values" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/saveLoadDelGameHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Save/Load/Delete a Zone"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-
         <Button
-            android:id="@+id/goToSaveConf"
-            android:layout_width="match_parent"
+            android:id="@+id/moreSettingsButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="goToSaveSettings"
-            android:text="Save the Current Zone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/goToLoadConf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="goToLoadSettings"
-                android:text="Load a Zone" />
-
-            <Button
-                android:id="@+id/goToDelConf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="goToDelSettings"
-                android:text="Delete a Zone" />
-        </LinearLayout>
+            android:layout_weight="1"
+            android:onClick="goToMoreSettings"
+            android:text="More >" />
     </LinearLayout>
 
-</ScrollView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+<!--  </LinearLayout>-->
+
+</LinearLayout>

@@ -58,6 +58,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
@@ -120,6 +121,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("isGameReset", gameReset);
 		startActivity(intent);
+		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 	}
 
 	@Override
@@ -242,31 +244,19 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		goToGame(new View(this));
 	}
 
-	public void goToSaveSettings(View v)
-	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-		Intent intent = new Intent(this, SaveConfActivity.class);
-		startActivity(intent);
-	}
-
-	public void goToLoadSettings(View v)
-	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-		Intent intent = new Intent(this, LoadConfActivity.class);
-		startActivity(intent);
-	}
-
-	public void goToDelSettings(View v)
-	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-		Intent intent = new Intent(this, DelConfActivity.class);
-		startActivity(intent);
-	}
-
 	public void goToGameServices(View v)
 	{
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(this, GameServicesActivity.class);
+		startActivity(intent);
+	}
+
+	public void goToMoreSettings(View v)
+	{
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		Intent intent = new Intent(this, MoreSettingsActivity.class);
 		startActivity(intent);
 	}
 

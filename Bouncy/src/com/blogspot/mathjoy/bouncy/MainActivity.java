@@ -43,6 +43,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 		gameSP = getSharedPreferences(GAME_SP, 0);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// bounce = MediaPlayer.create(this, R.raw.bounce);
