@@ -36,7 +36,6 @@ public class SaveConfActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_save_conf);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -158,6 +157,19 @@ public class SaveConfActivity extends Activity
 		emptySpaceT.cancel();
 		blankT.cancel();
 		super.onBackPressed();
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private AlertDialog createTooManyAlertDialogue()
@@ -196,16 +208,5 @@ public class SaveConfActivity extends Activity
 		});
 		AlertDialog dialog = builder.create();
 		return dialog;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-		case android.R.id.home:
-			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-		}
-		return super.onOptionsItemSelected(item);
 	}
 }

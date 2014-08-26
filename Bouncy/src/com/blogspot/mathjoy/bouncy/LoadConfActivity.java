@@ -31,7 +31,6 @@ public class LoadConfActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_load_conf);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -101,14 +100,7 @@ public class LoadConfActivity extends Activity
 	{
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		super.onBackPressed();
-	}
-
-	private void SavePrefs(String key, float value)
-	{
-		SharedPreferences sp = getSharedPreferences(MyMenu.settingsSP, 0);
-		Editor edit = sp.edit();
-		edit.putFloat(key, value);
-		edit.commit();
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 	}
 
 	@Override
@@ -117,8 +109,17 @@ public class LoadConfActivity extends Activity
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
-			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			onBackPressed();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void SavePrefs(String key, float value)
+	{
+		SharedPreferences sp = getSharedPreferences(MyMenu.settingsSP, 0);
+		Editor edit = sp.edit();
+		edit.putFloat(key, value);
+		edit.commit();
 	}
 }

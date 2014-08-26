@@ -30,7 +30,6 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_game_services);
 		button = spool.load(this, R.raw.button, 1);
@@ -112,6 +111,7 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 	{
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		super.onBackPressed();
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 	}
 
 	@Override
@@ -120,7 +120,8 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
-			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			onBackPressed();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

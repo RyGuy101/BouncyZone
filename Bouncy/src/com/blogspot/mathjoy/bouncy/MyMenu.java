@@ -58,7 +58,6 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
@@ -121,7 +120,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("isGameReset", gameReset);
 		startActivity(intent);
-		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 	}
 
 	@Override
@@ -241,23 +240,35 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	@Override
 	public void onBackPressed()
 	{
-		goToGame(new View(this));
+		goToGame();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void goToGameServices(View v)
 	{
-		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(this, GameServicesActivity.class);
 		startActivity(intent);
+		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_in_left);
 	}
 
 	public void goToMoreSettings(View v)
 	{
-		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(this, MoreSettingsActivity.class);
 		startActivity(intent);
+		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_in_left);
 	}
 
 	@Override
@@ -271,18 +282,5 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			v.setBackgroundColor(Color.LTGRAY);
 		}
 		return false;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-		// Respond to the action bar's Up/Home button
-		case android.R.id.home:
-			goToGame();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 }

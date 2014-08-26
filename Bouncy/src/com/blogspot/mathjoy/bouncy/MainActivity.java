@@ -43,7 +43,6 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 		gameSP = getSharedPreferences(GAME_SP, 0);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// bounce = MediaPlayer.create(this, R.raw.bounce);
@@ -144,6 +143,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		//		MyView.ball.setPosition(new Vec2(MyView.ballX, MyView.ballY));
 		Intent intent = new Intent(this, MyMenu.class);
 		startActivity(intent);
+		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 	}
 
 	public void modeBall(View view)
