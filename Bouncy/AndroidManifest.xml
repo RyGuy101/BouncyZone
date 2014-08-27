@@ -41,29 +41,29 @@
         </activity>
         <activity
             android:name=".SaveConfActivity"
-            android:label="Back to Main Settings"
-            android:parentActivityName=".MyMenu" >
+            android:label="Back to More Settings"
+            android:parentActivityName=".MoreSettings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MyMenu" />
+                android:value=".MoreSettings" />
         </activity>
         <activity
             android:name=".LoadConfActivity"
-            android:label="Back to Main Settings"
-            android:parentActivityName=".MyMenu"
+            android:label="Back to More Settings"
+            android:parentActivityName=".MoreSettings"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MyMenu" />
+                android:value=".MoreSettings" />
         </activity>
         <activity
             android:name=".DelConfActivity"
-            android:label="Back to Main Settings"
-            android:parentActivityName=".MyMenu"
+            android:label="Back to More Settings"
+            android:parentActivityName=".MoreSettings"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MyMenu" />
+                android:value=".MoreSettings" />
         </activity>
         <activity
             android:name=".GameServicesActivity"
