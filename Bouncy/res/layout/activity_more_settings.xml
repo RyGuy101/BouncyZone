@@ -22,7 +22,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="goToSaveSettings"
-        android:text="Save the Current Zone >" />
+        android:text="▼ Save the Current Zone ▼" />
+
+    <LinearLayout
+        android:id="@+id/saveLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +40,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="goToLoadSettings"
-        android:text="Load a Zone >" />
+        android:text="▼ Load a Zone ▼" />
+
+    <LinearLayout
+        android:id="@+id/loadLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,6 +58,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="goToDelSettings"
-        android:text="Delete a Zone >" />
+        android:text="▼ Delete a Zone ▼" />
+
+    <LinearLayout
+        android:id="@+id/deleteLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
 
 </LinearLayout>

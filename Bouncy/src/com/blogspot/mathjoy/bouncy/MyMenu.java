@@ -173,6 +173,8 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			MyView.reset();
 			MyView.ball.setVelocity(new Vec2(0, 0));
 			MyView.mode = MyView.MODE_BALL;
+			MyView.startBallXSpeed = 0;
+			MyView.startBallYSpeed = 0;
 			gameReset = true;
 			Button temp = (Button) v;
 			temp.setText("Game Cleared!");
