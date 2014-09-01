@@ -24,7 +24,7 @@
         android:text="Choose a zone to load" />
 
     <Spinner
-        android:id="@+id/chooseConf"
+        android:id="@+id/chooseLoadConf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

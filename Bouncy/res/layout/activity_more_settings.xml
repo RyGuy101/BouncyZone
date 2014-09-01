@@ -32,6 +32,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/spaceBeforeLoad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -40,16 +41,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="goToLoadSettings"
-        android:text="▼ Load a Zone ▼" />
-
-    <LinearLayout
-        android:id="@+id/loadLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:text="Load" />
 
     <TextView
+        android:id="@+id/spaceBeforeDel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -58,13 +53,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="goToDelSettings"
-        android:text="▼ Delete a Zone ▼" />
+        android:text="Delete" />
 
-    <LinearLayout
-        android:id="@+id/deleteLayout"
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
+    <ListView
+        android:id="@+id/chooseConf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:fadeScrollbars="false" >
+    </ListView>
 
 </LinearLayout>
