@@ -208,7 +208,7 @@ public class MoreSettingsActivity extends Activity
 
 	public void overwriteConf(View v)
 	{
-
+		createOverwriteAlertDialogue().show();
 	}
 
 	private String changeToDownArrows(String str)
@@ -319,8 +319,11 @@ public class MoreSettingsActivity extends Activity
 			}
 			edit.commit();
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-			saveConfAlert.dismiss();
-			saveConfAlert = null;
+			if (saveConfAlert != null)
+			{
+				saveConfAlert.dismiss();
+				saveConfAlert = null;
+			}
 			refreshZoneList();
 		} else if (emptySpace)
 		{
@@ -450,5 +453,31 @@ public class MoreSettingsActivity extends Activity
 		Editor edit = sp.edit();
 		edit.putFloat(key, value);
 		edit.commit();
+	}
+
+	private AlertDialog createOverwriteAlertDialogue()
+	{
+		final SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
+		final int n = sp.getInt("numOfConfs", 0);
+		final String name = (String) chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition());
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(Html.fromHtml("Overwrite <b>" + name + "</b> with the current zone?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				overwrite = true;
+				doTheSaving(sp, name, n);
+			}
+		}).setNegativeButton("No", new DialogInterface.OnClickListener()
+		{
+
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+			}
+		});
+		AlertDialog dialog = builder.create();
+		return dialog;
 	}
 }
