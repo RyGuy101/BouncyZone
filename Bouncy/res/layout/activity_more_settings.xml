@@ -22,19 +22,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="goToSaveSettings"
-        android:text="▼ Save the Current Zone ▼" />
-
-    <LinearLayout
-        android:id="@+id/saveLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:text="Save the Current Zone" />
 
     <TextView
-        android:id="@+id/spaceBeforeLoad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    
+    <Button
+        android:id="@+id/overwriteConf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="overwriteConf"
+        android:text="Overwrite" />
 
     <Button
         android:id="@+id/goToLoadConf"
@@ -42,11 +41,6 @@
         android:layout_height="wrap_content"
         android:onClick="goToLoadSettings"
         android:text="Load" />
-
-    <TextView
-        android:id="@+id/spaceBeforeDel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/goToDelConf"

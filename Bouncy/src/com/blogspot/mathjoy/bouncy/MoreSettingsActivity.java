@@ -1,37 +1,34 @@
 package com.blogspot.mathjoy.bouncy;
 
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.BodyType;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification.Action;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.BitmapFactory.Options;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
-import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
-import android.view.ViewManager;
-import android.view.WindowManager;
+import android.view.View.OnCreateContextMenuListener;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,17 +40,20 @@ public class MoreSettingsActivity extends Activity
 	float buttonVolume = MainActivity.buttonVolume;
 	boolean saveIsOpen = false;
 	LinearLayout saveLayout;
-	Button openSave;
+	Button save;
+	Button overwriteButton;
 	Button load;
 	Button delete;
+	AlertDialog saveConfAlert;
 
-	EditText editName;
+	EditText editName = null;
 	Toast emptySpaceT;
 	Toast blankT;
 	boolean overwrite = false;
 
 	ListView chooseConf;
 	String[] confNames;
+	private boolean noZones = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -62,11 +62,35 @@ public class MoreSettingsActivity extends Activity
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_more_settings);
 		button = spool.load(this, R.raw.button, 1);
-		saveLayout = (LinearLayout) findViewById(R.id.saveLayout);
-		openSave = (Button) findViewById(R.id.goToSaveConf);
+		saveLayout = null;
+		save = (Button) findViewById(R.id.goToSaveConf);
+		overwriteButton = (Button) findViewById(R.id.overwriteConf);
 		load = (Button) findViewById(R.id.goToLoadConf);
 		delete = (Button) findViewById(R.id.goToDelConf);
+		emptySpaceT = Toast.makeText(this, "You must enter a name.", Toast.LENGTH_SHORT);
+		blankT = Toast.makeText(this, "You must include visible characters in the name.", Toast.LENGTH_SHORT);
+		chooseConf = (ListView) findViewById(R.id.chooseConf);
+		chooseConf.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
+			{
+				String name = (String) chooseConf.getItemAtPosition(position);
+				if (!noZones)
+				{
+					overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
+					load.setText(Html.fromHtml("Load <b>" + name));
+					delete.setText(Html.fromHtml("Delete <b>" + name));
+				}
+			}
+		});
 		refreshZoneList();
+		chooseConf.setItemChecked(0, true);
+		String name = (String) chooseConf.getItemAtPosition(0);
+		overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
+		load.setText(Html.fromHtml("Load <b>" + name));
+		delete.setText(Html.fromHtml("Delete <b>" + name));
 	}
 
 	private void refreshZoneList()
@@ -79,27 +103,17 @@ public class MoreSettingsActivity extends Activity
 			confNames[i2] = sp.getString(i + "name", " ");
 			i2++;
 		}
-		chooseConf = (ListView) findViewById(R.id.chooseConf);
-		chooseConf.setOnItemClickListener(new AdapterView.OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
-			{
-				load.setText(Html.fromHtml("Load <b>" + (String) chooseConf.getItemAtPosition(position)));
-				delete.setText(Html.fromHtml("Delete <b>" + (String) chooseConf.getItemAtPosition(position)));
-
-			}
-		});
 		if (sp.getInt("numOfConfs", 0) > 0)
 		{
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, confNames);
 			chooseConf.setAdapter(confNamesAd);
 			chooseConf.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			noZones = false;
 		} else
 		{
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
+			noZones = true;
 		}
 	}
 
@@ -112,32 +126,30 @@ public class MoreSettingsActivity extends Activity
 
 	public void goToSaveSettings(View v)
 	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-		if (saveIsOpen)
-		{
-			closeSave();
-		} else
-		{
-			setupSave();
-			saveIsOpen = true;
-		}
+		//		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		//		if (saveIsOpen)
+		//		{
+		//			closeSave();
+		//		} else
+		//		{
+		//			setupSave();
+		//			saveIsOpen = true;
+		//		}
+		saveConfAlert = createSaveConfAlertDialogue();
+		saveConfAlert.show();
 	}
 
 	private void closeSave()
 	{
 		saveLayout.removeAllViews();
 		saveIsOpen = false;
-		openSave.setText(changeToDownArrows(openSave.getText().toString()));
-		findViewById(R.id.spaceBeforeLoad).setVisibility(View.VISIBLE);
-		findViewById(R.id.spaceBeforeDel).setVisibility(View.VISIBLE);
-		load.setVisibility(View.VISIBLE);
-		delete.setVisibility(View.VISIBLE);
+		save.setText(changeToDownArrows(save.getText().toString()));
 	}
 
 	private void setupSave()
 	{
 		editName = new EditText(this);
-		openSave.setText(changeToUpArrows(openSave.getText().toString()));
+		save.setText(changeToUpArrows(save.getText().toString()));
 		editName.setHint("Give your zone a name!");
 		editName.setInputType(InputType.TYPE_CLASS_TEXT);
 		editName.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -157,19 +169,15 @@ public class MoreSettingsActivity extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				saveConf();
+				saveConf(editName.getText().toString());
 			}
 		});
 		saveLayout.addView(saveButton);
-		findViewById(R.id.spaceBeforeLoad).setVisibility(View.GONE);
-		findViewById(R.id.spaceBeforeDel).setVisibility(View.GONE);
-		load.setVisibility(View.GONE);
-		delete.setVisibility(View.GONE);
 	}
 
 	public void goToLoadSettings(View v)
 	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		loadConf();
 	}
 
 	public void goToDelSettings(View v)
@@ -195,6 +203,11 @@ public class MoreSettingsActivity extends Activity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void overwriteConf(View v)
+	{
+
 	}
 
 	private String changeToDownArrows(String str)
@@ -231,10 +244,9 @@ public class MoreSettingsActivity extends Activity
 
 	}
 
-	public void saveConf()
+	private void saveConf(String name)
 	{
 		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
-		String name = editName.getText().toString();
 		int n = sp.getInt("numOfConfs", 0);
 		overwrite = false;
 		boolean foundDuplicate = false;
@@ -245,6 +257,7 @@ public class MoreSettingsActivity extends Activity
 				foundDuplicate = true;
 				emptySpaceT.cancel();
 				blankT.cancel();
+				saveConfAlert.dismiss();
 				createAlreadyExistsAlertDialogue(sp, name, n).show();
 			}
 		}
@@ -310,8 +323,8 @@ public class MoreSettingsActivity extends Activity
 			}
 			edit.commit();
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			saveConfAlert.dismiss();
 			refreshZoneList();
-			closeSave();
 		} else if (emptySpace)
 		{
 			if (name.length() == 0)
@@ -329,6 +342,7 @@ public class MoreSettingsActivity extends Activity
 		{
 			emptySpaceT.cancel();
 			blankT.cancel();
+			saveConfAlert.dismiss();
 			createTooManyAlertDialogue().show();
 		}
 	}
@@ -365,9 +379,98 @@ public class MoreSettingsActivity extends Activity
 			public void onClick(DialogInterface dialog, int which)
 			{
 				overwrite = false;
+				saveConfAlert.show();
 			}
 		});
 		AlertDialog dialog = builder.create();
 		return dialog;
+	}
+
+	private AlertDialog createSaveConfAlertDialogue()
+	{
+		AlertDialog.Builder b = new AlertDialog.Builder(this);
+		b.setMessage("Save the current zone as...").setPositiveButton("Save!", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+			}
+		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+		{
+
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+			}
+		});
+		if (editName == null)
+		{
+			editName = new EditText(this);
+			editName.setHint("Give your zone a name!");
+			editName.setInputType(InputType.TYPE_CLASS_TEXT);
+		}
+		b.setView(editName);
+		final AlertDialog alert = b.create();
+
+		alert.setOnShowListener(new DialogInterface.OnShowListener()
+		{
+			@Override
+			public void onShow(DialogInterface dialog)
+			{
+				Button saveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+				saveButton.setOnClickListener(new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						saveConf(editName.getText().toString());
+					}
+				});
+			}
+		});
+		return alert;
+	}
+
+	private void loadConf()
+	{
+		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
+		int n = -1;
+		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
+		{
+			if (chooseConf.getSelectedItem().equals(sp.getString(i + "name", " ")))
+			{
+				n = i;
+			}
+		}
+		if (!sp.getString(n + "name", " ").equals(" "))
+		{
+			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			MyView.ball.setPosition(new Vec2(sp.getFloat(n + "startBallX", 0), sp.getFloat(n + "startBallY", 0)));
+			MyView.ball.setVelocity(new Vec2(sp.getFloat(n + "startBallXSpeed", 0), sp.getFloat(n + "startBallYSpeed", 0)));
+			MyView.startBallX = sp.getFloat(n + "startBallX", 0);
+			MyView.startBallY = sp.getFloat(n + "startBallY", 0);
+			MyView.startBallXSpeed = sp.getFloat(n + "startBallXSpeed", 0);
+			MyView.startBallYSpeed = sp.getFloat(n + "startBallYSpeed", 0);
+			SavePrefs("gravityValue", sp.getInt(n + "gravityValue", 100));
+			SavePrefs("bounceLevelValue", sp.getInt(n + "bounceLevelValue", 100));
+			SavePrefs("frictionValue", sp.getInt(n + "frictionValue", 100));
+
+			MyView.clearPlatforms();
+			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)
+			{
+				MyView.platforms.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
+			}
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.putExtra("fromLoad", true);
+			startActivity(intent);
+		}
+	}
+
+	private void SavePrefs(String key, float value)
+	{
+		SharedPreferences sp = getSharedPreferences(MyMenu.settingsSP, 0);
+		Editor edit = sp.edit();
+		edit.putFloat(key, value);
+		edit.commit();
 	}
 }
