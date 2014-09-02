@@ -14,7 +14,6 @@ import com.google.android.gms.games.GamesStatusCodes;
 import com.google.android.gms.games.achievement.Achievement;
 import com.google.android.gms.games.achievement.AchievementBuffer;
 import com.google.android.gms.games.achievement.Achievements.LoadAchievementsResult;
-import com.google.android.gms.internal.hy;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
 public class GameServicesActivity extends BaseGameActivity implements ResultCallback<LoadAchievementsResult>

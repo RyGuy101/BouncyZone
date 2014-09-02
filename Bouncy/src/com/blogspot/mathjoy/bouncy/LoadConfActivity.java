@@ -1,19 +1,15 @@
 package com.blogspot.mathjoy.bouncy;
 
-import java.util.ArrayList;
-
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
-import android.view.Menu;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;

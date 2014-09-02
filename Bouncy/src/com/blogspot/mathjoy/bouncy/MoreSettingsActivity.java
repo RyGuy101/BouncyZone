@@ -14,18 +14,14 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
-import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
-import android.view.View.OnCreateContextMenuListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,9 +40,9 @@ public class MoreSettingsActivity extends Activity
 	Button overwriteButton;
 	Button load;
 	Button delete;
-	AlertDialog saveConfAlert;
+	AlertDialog saveConfAlert = null;
 
-	EditText editName = null;
+	EditText editName;
 	Toast emptySpaceT;
 	Toast blankT;
 	boolean overwrite = false;
@@ -88,9 +84,12 @@ public class MoreSettingsActivity extends Activity
 		refreshZoneList();
 		chooseConf.setItemChecked(0, true);
 		String name = (String) chooseConf.getItemAtPosition(0);
-		overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
-		load.setText(Html.fromHtml("Load <b>" + name));
-		delete.setText(Html.fromHtml("Delete <b>" + name));
+		if (!noZones)
+		{
+			overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
+			load.setText(Html.fromHtml("Load <b>" + name));
+			delete.setText(Html.fromHtml("Delete <b>" + name));
+		}
 	}
 
 	private void refreshZoneList()
@@ -103,6 +102,7 @@ public class MoreSettingsActivity extends Activity
 			confNames[i2] = sp.getString(i + "name", " ");
 			i2++;
 		}
+		Object checked = chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition());
 		if (sp.getInt("numOfConfs", 0) > 0)
 		{
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, confNames);
@@ -111,9 +111,17 @@ public class MoreSettingsActivity extends Activity
 			noZones = false;
 		} else
 		{
-			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, new String[] { "You haven't saved any zones!" });
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
 			noZones = true;
+		}
+		chooseConf.setItemChecked(0, true);
+		for (int i = 0; i < confNames.length; i++)
+		{
+			if (chooseConf.getItemAtPosition(i).equals(checked))
+			{
+				chooseConf.setItemChecked(i, true);
+			}
 		}
 	}
 
@@ -125,7 +133,10 @@ public class MoreSettingsActivity extends Activity
 
 	public void goToSaveSettings(View v)
 	{
-		saveConfAlert = createSaveConfAlertDialogue();
+		if (createSaveConfAlertDialogue() != null)
+		{
+			saveConfAlert = createSaveConfAlertDialogue();
+		}
 		saveConfAlert.show();
 	}
 
@@ -309,6 +320,7 @@ public class MoreSettingsActivity extends Activity
 			edit.commit();
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 			saveConfAlert.dismiss();
+			saveConfAlert = null;
 			refreshZoneList();
 		} else if (emptySpace)
 		{
@@ -353,6 +365,10 @@ public class MoreSettingsActivity extends Activity
 
 	private AlertDialog createSaveConfAlertDialogue()
 	{
+		if (saveConfAlert != null)
+		{
+			return null;
+		}
 		AlertDialog.Builder b = new AlertDialog.Builder(this);
 		b.setMessage("Save the current zone as...").setPositiveButton("Save!", new DialogInterface.OnClickListener()
 		{
@@ -368,12 +384,9 @@ public class MoreSettingsActivity extends Activity
 			{
 			}
 		});
-		if (editName == null)
-		{
-			editName = new EditText(this);
-			editName.setHint("Give your zone a name!");
-			editName.setInputType(InputType.TYPE_CLASS_TEXT);
-		}
+		editName = new EditText(this);
+		editName.setHint("Give your zone a name!");
+		editName.setInputType(InputType.TYPE_CLASS_TEXT);
 		b.setView(editName);
 		final AlertDialog alert = b.create();
 

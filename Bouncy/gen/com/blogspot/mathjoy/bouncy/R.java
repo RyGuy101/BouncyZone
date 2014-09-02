@@ -502,6 +502,7 @@ containing a value of this type.
         public static final int activity_more_settings=0x7f030004;
         public static final int activity_my_menu=0x7f030005;
         public static final int activity_save_conf=0x7f030006;
+        public static final int spinner_item=0x7f030007;
     }
     public static final class menu {
         public static final int del_conf=0x7f0c0000;

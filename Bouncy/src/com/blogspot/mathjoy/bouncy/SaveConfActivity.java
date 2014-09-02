@@ -1,24 +1,17 @@
 package com.blogspot.mathjoy.bouncy;
 
-import java.text.Format;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.NumberPicker.Formatter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class SaveConfActivity extends Activity

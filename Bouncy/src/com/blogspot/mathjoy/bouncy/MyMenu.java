@@ -1,24 +1,17 @@
 package com.blogspot.mathjoy.bouncy;
 
-import java.sql.Savepoint;
-import java.util.ArrayList;
-
 import org.jbox2d.common.Vec2;
-
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
-import android.view.Menu;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -44,7 +37,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	TextView displayGravity;
 	TextView displayBounceLevel;
 	TextView displayFriction;
-	String[] colorNames = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
+	String[] colorNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "White", "Gray" };
 	int[] colors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	static String pickedColor;
 	static int gravity = 100;
@@ -62,7 +55,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
 		setContentView(R.layout.activity_my_menu);
-		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colorNames);
+		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(this, R.layout.spinner_item, colorNames);
 		ballColor = (Spinner) findViewById(R.id.ballColor);
 		ballColor.setAdapter(colorAd);
 		ballColor.setOnItemSelectedListener(this);
