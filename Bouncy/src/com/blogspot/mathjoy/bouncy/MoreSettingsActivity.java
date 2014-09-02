@@ -121,20 +121,10 @@ public class MoreSettingsActivity extends Activity
 	protected void onResume()
 	{
 		super.onResume();
-		//		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 	}
 
 	public void goToSaveSettings(View v)
 	{
-		//		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-		//		if (saveIsOpen)
-		//		{
-		//			closeSave();
-		//		} else
-		//		{
-		//			setupSave();
-		//			saveIsOpen = true;
-		//		}
 		saveConfAlert = createSaveConfAlertDialogue();
 		saveConfAlert.show();
 	}
@@ -270,7 +260,6 @@ public class MoreSettingsActivity extends Activity
 	private void doTheSaving(SharedPreferences sp, String name, int n)
 	{
 		boolean emptySpace = true;
-		boolean tooMany = false;
 		boolean foundAvailableIndex = false;
 		SharedPreferences sps = getSharedPreferences(MyMenu.settingsSP, 0);
 
@@ -281,11 +270,7 @@ public class MoreSettingsActivity extends Activity
 				emptySpace = false;
 			}
 		}
-		if (n >= 100)
-		{
-			tooMany = true;
-		}
-		if ((!emptySpace && !tooMany) || overwrite)
+		if (!emptySpace || overwrite)
 		{
 			for (int i = 0; i < n; i++)
 			{
@@ -338,27 +323,7 @@ public class MoreSettingsActivity extends Activity
 				// blankT.cancel();
 				blankT.show();
 			}
-		} else if (tooMany)
-		{
-			emptySpaceT.cancel();
-			blankT.cancel();
-			saveConfAlert.dismiss();
-			createTooManyAlertDialogue().show();
 		}
-	}
-
-	private AlertDialog createTooManyAlertDialogue()
-	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("You can't have more than 100 zones. Delete one or more in order to make room.").setPositiveButton("OK", new DialogInterface.OnClickListener()
-		{
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-			}
-		});
-		AlertDialog dialog = builder.create();
-		return dialog;
 	}
 
 	private AlertDialog createAlreadyExistsAlertDialogue(final SharedPreferences sp, final String name, final int n)
