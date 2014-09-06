@@ -13,7 +13,11 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnTouchListener//, OnClickListener
@@ -27,16 +31,18 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	Intent intent;
 	String pickedColor;
 	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
-	String[] possibleColorNames = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "gray" };
+	String[] possibleColorNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "White", "Gray" };
 	static boolean justOpened = true;
 	public static ImageButton ball;
 	public static ImageButton platform;
 	public static ImageButton settings;
 	public static ImageButton undo;
+	public static TextView redoText;
 	public ImageButton buttonDown;
-	TextView tv;
 	public static final String GAME_SP = "game";
 	public static SharedPreferences gameSP;
+	boolean drewUndo = false;
+	boolean drewRedo = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -89,8 +95,18 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		platform = (ImageButton) findViewById(R.id.Platform);
 		settings = (ImageButton) findViewById(R.id.Settings);
 		undo = (ImageButton) findViewById(R.id.Undo);
+		redoText = (TextView) findViewById(R.id.redoText);
 		settings.setBackgroundColor(Color.LTGRAY);
 		undo.setBackgroundColor(Color.LTGRAY);
+		final ViewTreeObserver observer = redoText.getViewTreeObserver();
+		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+		{
+			@Override
+			public void onGlobalLayout()
+			{
+				undo.getLayoutParams().height = undo.getHeight() - redoText.getHeight();
+			}
+		});
 		if (MyView.mode == MyView.MODE_BALL)
 		{
 			MainActivity.ball.setBackgroundColor(Color.GRAY);

@@ -55,7 +55,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		button = spool.load(this, R.raw.button, 1);
 		setContentView(R.layout.activity_my_menu);
-		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(this, R.layout.spinner_item, colorNames);
+		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colorNames);
 		ballColor = (Spinner) findViewById(R.id.ballColor);
 		ballColor.setAdapter(colorAd);
 		ballColor.setOnItemSelectedListener(this);
@@ -72,7 +72,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 		seekGravity.setProgress(gravity);
 		seekBounceLevel.setProgress(bounceLevel);
 		seekFriction.setProgress(friction);
-		displayFriction.setText(friction + "%");
+		displayFriction.setText("Friction: " + friction + "%");
 		colorView = (ColorView) findViewById(R.id.colorView);
 		for (int i = 0; i <= colorNames.length - 1; i++)
 		{
@@ -141,19 +141,19 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			gravity = seekBar.getProgress();
 			Float temp = (float) (gravity / 100.0);
 			// gravity = temp;
-			displayGravity.setText(temp.toString());
+			displayGravity.setText("Gravity: " + temp.toString());
 		}
 		if (seekBar.equals(seekBounceLevel))
 		{
 			bounceLevel = seekBar.getProgress();
 			Float temp = (float) (bounceLevel / 100.0);
 			// bounceLevel = temp;
-			displayBounceLevel.setText(temp.toString());
+			displayBounceLevel.setText("Bounce: " + temp.toString());
 		}
 		if (seekBar.equals(seekFriction))
 		{
 			friction = seekBar.getProgress();
-			displayFriction.setText(friction + "%");
+			displayFriction.setText("Friction: " + friction + "%");
 		}
 	}
 

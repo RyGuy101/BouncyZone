@@ -58,12 +58,6 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/textGravity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Gravity" />
-
-    <TextView
         android:id="@+id/valueOfGravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,12 +72,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/textBounce"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bounce" />
 
     <TextView
         android:id="@+id/valueOfBounceLevel"
@@ -101,11 +89,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/textFriction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Friction" />
 
     <TextView
         android:id="@+id/valueOfFriction"
