@@ -36,13 +36,14 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	public static ImageButton ball;
 	public static ImageButton platform;
 	public static ImageButton settings;
+	public static LinearLayout undoLayout;
 	public static ImageButton undo;
 	public static TextView redoText;
 	public ImageButton buttonDown;
 	public static final String GAME_SP = "game";
 	public static SharedPreferences gameSP;
-	boolean drewUndo = false;
-	boolean drewRedo = false;
+	boolean updatedUndoButton = false;
+	boolean undoLongClicked = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -94,8 +95,13 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
 		settings = (ImageButton) findViewById(R.id.Settings);
+		undoLayout = (LinearLayout) findViewById(R.id.undoLayout);
 		undo = (ImageButton) findViewById(R.id.Undo);
 		redoText = (TextView) findViewById(R.id.redoText);
+		if (MyView.oldPlatforms.size() == 0)
+		{
+			redoText.setTextColor(Color.GRAY);
+		}
 		settings.setBackgroundColor(Color.LTGRAY);
 		undo.setBackgroundColor(Color.LTGRAY);
 		final ViewTreeObserver observer = redoText.getViewTreeObserver();
@@ -104,7 +110,11 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 			@Override
 			public void onGlobalLayout()
 			{
-				undo.getLayoutParams().height = undo.getHeight() - redoText.getHeight();
+				if (!updatedUndoButton)
+				{
+					undo.getLayoutParams().height = undo.getHeight() - redoText.getHeight();
+					updatedUndoButton = true;
+				}
 			}
 		});
 		if (MyView.mode == MyView.MODE_BALL)
@@ -119,7 +129,39 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		ball.setOnTouchListener(this);
 		platform.setOnTouchListener(this);
 		settings.setOnTouchListener(this);
+		undoLayout.setOnTouchListener(this);
 		undo.setOnTouchListener(this);
+		undoLayout.setOnLongClickListener(new View.OnLongClickListener()
+		{
+			@Override
+			public boolean onLongClick(View v)
+			{
+				if (MyView.oldPlatforms.size() > 0)
+				{
+					undo.setImageResource(R.drawable.redo);
+					undo.setBackgroundColor(Color.DKGRAY);
+					redoText.setBackgroundColor(Color.DKGRAY);
+					undoLongClicked = true;
+				}
+				return false;
+			}
+		});
+		undo.setOnLongClickListener(new View.OnLongClickListener()
+		{
+
+			@Override
+			public boolean onLongClick(View v)
+			{
+				if (MyView.oldPlatforms.size() > 0)
+				{
+					undo.setImageResource(R.drawable.redo);
+					undo.setBackgroundColor(Color.DKGRAY);
+					redoText.setBackgroundColor(Color.DKGRAY);
+					undoLongClicked = true;
+				}
+				return false;
+			}
+		});
 		//		ball.setOnClickListener(this);
 		//		platform.setOnClickListener(this);
 		//		settings.setOnClickListener(this);
@@ -194,13 +236,26 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	// }
 	public void undo(View view)
 	{
-		if (MyView.platforms != null)
+		if (!undoLongClicked)
 		{
-			if (MyView.platforms.size() > 0)
+			if (MyView.platforms != null)
 			{
-				spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-				MyView.destroyLastPlatform();
+				if (MyView.platforms.size() > 0)
+				{
+					spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+					MyView.destroyLastPlatform();
+					redoText.setTextColor(Color.BLACK);
+				}
 			}
+		} else
+		{
+			spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			MyView.reCreatePlatform();
+			if (MyView.oldPlatforms.size() == 0)
+			{
+				redoText.setTextColor(Color.GRAY);
+			}
+			undoLongClicked = false;
 		}
 	}
 
@@ -211,10 +266,25 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		{
 			if (event.getAction() == MotionEvent.ACTION_UP)
 			{
-				v.setBackgroundColor(Color.LTGRAY);
-			} else
+				if (v.equals(undoLayout) || v.equals(undo))
+				{
+					undo.setImageResource(R.drawable.undo);
+					undo.setBackgroundColor(Color.LTGRAY);
+					redoText.setBackgroundColor(Color.LTGRAY);
+				} else
+				{
+					v.setBackgroundColor(Color.LTGRAY);
+				}
+			} else if (event.getAction() == MotionEvent.ACTION_DOWN)
 			{
-				v.setBackgroundColor(Color.rgb(170, 170, 170));
+				if (v.equals(undoLayout) || v.equals(undo))
+				{
+					undo.setBackgroundColor(Color.rgb(170, 170, 170));
+					redoText.setBackgroundColor(Color.rgb(170, 170, 170));
+				} else
+				{
+					v.setBackgroundColor(Color.rgb(170, 170, 170));
+				}
 			}
 		}
 		return false;

@@ -164,6 +164,7 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.clearPlatforms();
 			MyView.reset();
+			MyView.oldPlatforms.clear();
 			MyView.ball.setVelocity(new Vec2(0, 0));
 			MyView.mode = MyView.MODE_BALL;
 			MyView.startBallXSpeed = 0;

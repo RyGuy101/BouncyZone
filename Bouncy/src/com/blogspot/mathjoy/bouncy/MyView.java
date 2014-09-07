@@ -39,6 +39,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	public static float ballRestitution;
 	public static float ballFriction;
 	public static ArrayList<Platform> platforms = new ArrayList<Platform>();
+	public static ArrayList<Platform> oldPlatforms = new ArrayList<Platform>();
 	public static boolean alreadyStarted = false;
 	public static int mode;
 	public static final int MODE_BALL = 0;
@@ -352,7 +353,15 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	public static void destroyLastPlatform()
 	{
 		platforms.get(platforms.size() - 1).destroy();
+		oldPlatforms.add(platforms.get(platforms.size() - 1));
 		platforms.remove(platforms.size() - 1);
+	}
+
+	public static void reCreatePlatform()
+	{
+		platforms.add(oldPlatforms.get(oldPlatforms.size() - 1));
+		oldPlatforms.remove(oldPlatforms.size() - 1);
+		platforms.get(platforms.size() - 1).create();
 	}
 
 	private void updateColors()
