@@ -9,11 +9,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.Layout;
+import android.text.TextWatcher;
+import android.util.LayoutDirection;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -387,12 +393,43 @@ public class MoreSettingsActivity extends Activity
 			{
 			}
 		});
+		LinearLayout ll = new LinearLayout(this);
+		ll.setOrientation(LinearLayout.VERTICAL);
+		final TextView numChars = new TextView(this);
+		numChars.setText("0/20 characters");
 		editName = new EditText(this);
 		editName.setHint("Give your zone a name!");
 		editName.setInputType(InputType.TYPE_CLASS_TEXT);
-		b.setView(editName);
-		final AlertDialog alert = b.create();
+		editName.addTextChangedListener(new TextWatcher()
+		{
 
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count)
+			{
+				if (s.length() <= 20)
+				{
+					numChars.setTextColor(Color.BLACK);
+				} else
+				{
+					numChars.setTextColor(Color.RED);
+				}
+				numChars.setText(s.length() + "/20 characters");
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after)
+			{
+			}
+
+			@Override
+			public void afterTextChanged(Editable s)
+			{
+			}
+		});
+		ll.addView(editName);
+		ll.addView(numChars);
+		b.setView(ll);
+		final AlertDialog alert = b.create();
 		alert.setOnShowListener(new DialogInterface.OnShowListener()
 		{
 			@Override
