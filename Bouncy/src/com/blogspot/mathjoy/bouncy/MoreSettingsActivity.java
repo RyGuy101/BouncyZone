@@ -108,26 +108,36 @@ public class MoreSettingsActivity extends Activity
 			confNames[i2] = sp.getString(i + "name", " ");
 			i2++;
 		}
-		Object checked = chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition());
 		if (sp.getInt("numOfConfs", 0) > 0)
 		{
+			Object checked = chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition());
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, confNames);
 			chooseConf.setAdapter(confNamesAd);
 			chooseConf.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			noZones = false;
+			chooseConf.setItemChecked(0, true);
+			for (int i = 0; i < confNames.length; i++)
+			{
+				if (chooseConf.getItemAtPosition(i).equals(checked))
+				{
+					chooseConf.setItemChecked(i, true);
+				}
+			}
+			if (chooseConf.getCheckedItemPosition() == 0)
+			{
+				String name = (String) chooseConf.getItemAtPosition(0);
+				overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
+				load.setText(Html.fromHtml("Load <b>" + name));
+				delete.setText(Html.fromHtml("Delete <b>" + name));
+			}
 		} else
 		{
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
 			noZones = true;
-		}
-		chooseConf.setItemChecked(0, true);
-		for (int i = 0; i < confNames.length; i++)
-		{
-			if (chooseConf.getItemAtPosition(i).equals(checked))
-			{
-				chooseConf.setItemChecked(i, true);
-			}
+			overwriteButton.setText("Overwrite");
+			load.setText("Load");
+			delete.setText("Delete");
 		}
 	}
 
@@ -189,7 +199,7 @@ public class MoreSettingsActivity extends Activity
 
 	public void goToDelSettings(View v)
 	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		delConf();
 	}
 
 	@Override
@@ -214,7 +224,10 @@ public class MoreSettingsActivity extends Activity
 
 	public void overwriteConf(View v)
 	{
-		createOverwriteAlertDialogue().show();
+		if (!noZones)
+		{
+			createOverwriteAlertDialogue().show();
+		}
 	}
 
 	private String changeToDownArrows(String str)
@@ -408,9 +421,17 @@ public class MoreSettingsActivity extends Activity
 			{
 				if (s.length() <= 20)
 				{
+					if (saveConfAlert != null)
+					{
+						saveConfAlert.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					}
 					numChars.setTextColor(Color.BLACK);
 				} else
 				{
+					if (saveConfAlert != null)
+					{
+						saveConfAlert.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+					}
 					numChars.setTextColor(Color.RED);
 				}
 				numChars.setText(s.length() + "/20 characters");
@@ -455,7 +476,7 @@ public class MoreSettingsActivity extends Activity
 		int n = -1;
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
-			if (chooseConf.getSelectedItem().equals(sp.getString(i + "name", " ")))
+			if (chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition()).equals(sp.getString(i + "name", " ")))
 			{
 				n = i;
 			}
@@ -505,6 +526,81 @@ public class MoreSettingsActivity extends Activity
 			{
 				overwrite = true;
 				doTheSaving(sp, name, n);
+			}
+		}).setNegativeButton("No", new DialogInterface.OnClickListener()
+		{
+
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+			}
+		});
+		AlertDialog dialog = builder.create();
+		return dialog;
+	}
+
+	public void delConf()
+	{
+		SharedPreferences sp = getSharedPreferences(MyMenu.dataSP, 0);
+		int thisN = -1;
+		String name = " ";
+		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
+		{
+			if (chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition()).equals(sp.getString(i + "name", " ")))
+			{
+				thisN = i;
+				name = sp.getString(i + "name", " ");
+			}
+		}
+		if (name != " ")
+		{
+			createDeleteAlertDialogue(name, sp, thisN).show();
+		}
+	}
+
+	private void doTheDeleting(SharedPreferences sp, int thisN)
+	{
+		if (!sp.getString(thisN + "name", " ").equals(" "))
+		{
+			for (int n = thisN; n < sp.getInt("numOfConfs", 0) - 1; n++)
+			{
+				Editor edit = sp.edit();
+				edit.putString(n + "name", sp.getString((n + 1) + "name", " "));
+				edit.putFloat(n + "startBallX", sp.getFloat((n + 1) + "startBallX", 0));
+				edit.putFloat(n + "startBallY", sp.getFloat((n + 1) + "startBallY", 0));
+				edit.putFloat(n + "startBallXSpeed", sp.getFloat((n + 1) + "startBallXSpeed", 0));
+				edit.putFloat(n + "startBallYSpeed", sp.getFloat((n + 1) + "startBallYSpeed", 0));
+				edit.putInt(n + "gravityValue", sp.getInt((n + 1) + "gravityValue", 100));
+				edit.putInt(n + "bounceLevelValue", sp.getInt((n + 1) + "bounceLevelValue", 100));
+				edit.putInt(n + "frictionValue", sp.getInt((n + 1) + "frictionValue", 100));
+				edit.putInt(n + "platformsSize", sp.getInt((n + 1) + "platformsSize", 0));
+				for (int i = 0; i < sp.getInt((n + 1) + "platformsSize", 0); i++)
+				{
+					edit.putFloat(n + "platformStartX" + i, sp.getFloat((n + 1) + "platformStartX" + i, 0));
+					edit.putFloat(n + "platformStartY" + i, sp.getFloat((n + 1) + "platformStartY" + i, 0));
+					edit.putFloat(n + "platformEndX" + i, sp.getFloat((n + 1) + "platformEndX" + i, 0));
+					edit.putFloat(n + "platformEndY" + i, sp.getFloat((n + 1) + "platformEndY" + i, 0));
+				}
+				edit.commit();
+			}
+			Editor edit2 = sp.edit();
+			edit2.putString((sp.getInt("numOfConfs", 0) - 1) + "name", " ");
+			edit2.putInt("numOfConfs", sp.getInt("numOfConfs", 1) - 1);
+			edit2.commit();
+			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			refreshZoneList();
+		}
+	}
+
+	private AlertDialog createDeleteAlertDialogue(final String name, final SharedPreferences sp, final int thisN)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(Html.fromHtml("Permanently delete <b>" + name + "</b>?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				doTheDeleting(sp, thisN);
 			}
 		}).setNegativeButton("No", new DialogInterface.OnClickListener()
 		{

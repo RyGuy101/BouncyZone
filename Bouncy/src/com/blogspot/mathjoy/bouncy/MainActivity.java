@@ -281,6 +281,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 				{
 					undo.setBackgroundColor(Color.rgb(170, 170, 170));
 					redoText.setBackgroundColor(Color.rgb(170, 170, 170));
+					undoLongClicked = false;
 				} else
 				{
 					v.setBackgroundColor(Color.rgb(170, 170, 170));

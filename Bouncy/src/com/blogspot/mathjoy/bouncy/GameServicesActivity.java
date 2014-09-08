@@ -40,13 +40,16 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 		{
 			if (numBounces == 1)
 			{
-				numBouncesText.setText("You have bounced the ball 1 time!");
+				numBouncesText.setText("You've bounced the ball 1 time!");
 				otd.setText("(on this device)");
 			} else
 			{
-				numBouncesText.setText("You have bounced the ball " + numBounces + " times!");
+				numBouncesText.setText("You've bounced the ball " + numBounces + " times!");
 				otd.setText("(on this device)");
 			}
+		} else
+		{
+			otd.setVisibility(View.GONE);
 		}
 
 	}
@@ -70,7 +73,7 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 			startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), RC_UNUSED);
 		} else
 		{
-			showAlert("Please sign in to view achievements.");
+			showAlert("You have to be signed in to view achievements.");
 		}
 	}
 
