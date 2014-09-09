@@ -262,7 +262,8 @@ public class MyMenu extends Activity implements OnItemSelectedListener, OnSeekBa
 	public void goToMoreSettings(View v)
 	{
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
-		Intent intent = new Intent(this, MoreSettingsActivity.class);
+		//		Intent intent = new Intent(this, MoreSettingsActivity.class);
+		Intent intent = new Intent(this, SettingsTabs.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 	}

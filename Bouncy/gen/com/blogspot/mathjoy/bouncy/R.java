@@ -428,7 +428,7 @@ containing a value of this type.
         public static final int Settings=0x7f090027;
         public static final int Undo=0x7f090023;
         public static final int achievements=0x7f09001c;
-        public static final int action_settings=0x7f090042;
+        public static final int action_settings=0x7f090043;
         public static final int ballColor=0x7f090034;
         public static final int book_now=0x7f090010;
         public static final int bouceLevel=0x7f090038;
@@ -489,6 +489,7 @@ containing a value of this type.
         public static final int valueOfFriction=0x7f090039;
         public static final int valueOfGravity=0x7f090035;
         public static final int view1=0x7f09002e;
+        public static final int viewPager=0x7f090042;
         public static final int wrap_content=0x7f09000d;
     }
     public static final class integer {
@@ -502,6 +503,9 @@ containing a value of this type.
         public static final int activity_more_settings=0x7f030004;
         public static final int activity_my_menu=0x7f030005;
         public static final int activity_save_conf=0x7f030006;
+        public static final int activity_tab_settings=0x7f030007;
+        public static final int fragment_a=0x7f030008;
+        public static final int fragment_b=0x7f030009;
     }
     public static final class menu {
         public static final int del_conf=0x7f0c0000;

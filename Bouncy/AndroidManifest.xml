@@ -83,6 +83,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MyMenu" />
         </activity>
+        <activity
+            android:name=".SettingsTabs"
+            android:label="Back to Game"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>
