@@ -3,6 +3,7 @@ package com.blogspot.mathjoy.bouncy;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,28 +45,30 @@ public class ZonesFragment extends Fragment
 	Button load;
 	Button delete;
 	AlertDialog saveConfAlert = null;
+	Activity activity;
 
 	EditText editName;
+	String emptySpaceS = "You must enter a name.";
+	String blankS = "You must include visible characters in the name.";
 	Toast emptySpaceT;
 	Toast blankT;
 	boolean overwrite = false;
 
 	ListView chooseConf;
 	String[] confNames;
-	private boolean noZones = false;
+	private static boolean noZones = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.activity_more_settings, container, false);
-		button = spool.load(getActivity(), R.raw.button, 1);
+		activity = SettingsTabs.activity;
+		button = spool.load(SettingsTabs.activity, R.raw.button, 1);
 		saveLayout = null;
 		save = (Button) view.findViewById(R.id.goToSaveConf);
 		overwriteButton = (Button) view.findViewById(R.id.overwriteConf);
 		load = (Button) view.findViewById(R.id.goToLoadConf);
 		delete = (Button) view.findViewById(R.id.goToDelConf);
-		emptySpaceT = Toast.makeText(getActivity(), "You must enter a name.", Toast.LENGTH_SHORT);
-		blankT = Toast.makeText(getActivity(), "You must include visible characters in the name.", Toast.LENGTH_SHORT);
 		chooseConf = (ListView) view.findViewById(R.id.chooseConf);
 		chooseConf.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -83,10 +86,10 @@ public class ZonesFragment extends Fragment
 			}
 		});
 		refreshZoneList();
-		chooseConf.setItemChecked(0, true);
-		String name = (String) chooseConf.getItemAtPosition(0);
 		if (!noZones)
 		{
+			String name = (String) chooseConf.getItemAtPosition(0);
+			chooseConf.setItemChecked(0, true);
 			overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
 			load.setText(Html.fromHtml("Load <b>" + name));
 			delete.setText(Html.fromHtml("Delete <b>" + name));
@@ -96,7 +99,7 @@ public class ZonesFragment extends Fragment
 
 	private void refreshZoneList()
 	{
-		SharedPreferences sp = getActivity().getSharedPreferences(MyMenu.dataSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
 		confNames = new String[sp.getInt("numOfConfs", 0)];
 		int i2 = 0;
 		for (int i = sp.getInt("numOfConfs", 0) - 1; i >= 0; i--)
@@ -106,8 +109,18 @@ public class ZonesFragment extends Fragment
 		}
 		if (sp.getInt("numOfConfs", 0) > 0)
 		{
-			Object checked = chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition());
-			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_single_choice, confNames);
+			Object checked = "";
+			try
+			{
+				checked = chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition());
+			} catch (Exception e)
+			{
+			}
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_list_item_single_choice, confNames);
+			if (chooseConf == null)
+			{
+				chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+			}
 			chooseConf.setAdapter(confNamesAd);
 			chooseConf.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			noZones = false;
@@ -122,13 +135,25 @@ public class ZonesFragment extends Fragment
 			if (chooseConf.getCheckedItemPosition() == 0)
 			{
 				String name = (String) chooseConf.getItemAtPosition(0);
+				if (overwriteButton == null)
+				{
+					overwriteButton = (Button) SettingsTabs.activity.findViewById(R.id.overwriteConf);
+				}
+				if (load == null)
+				{
+					load = (Button) SettingsTabs.activity.findViewById(R.id.goToLoadConf);
+				}
+				if (delete == null)
+				{
+					delete = (Button) SettingsTabs.activity.findViewById(R.id.goToDelConf);
+				}
 				overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
 				load.setText(Html.fromHtml("Load <b>" + name));
 				delete.setText(Html.fromHtml("Delete <b>" + name));
 			}
 		} else
 		{
-			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, new String[] { "You haven't saved any zones!" });
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_list_item_1, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
 			noZones = true;
 			overwriteButton.setText("Overwrite");
@@ -166,7 +191,7 @@ public class ZonesFragment extends Fragment
 
 	private void saveConf(String name)
 	{
-		SharedPreferences sp = getActivity().getSharedPreferences(MyMenu.dataSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
 		int n = sp.getInt("numOfConfs", 0);
 		overwrite = false;
 		boolean foundDuplicate = false;
@@ -175,8 +200,14 @@ public class ZonesFragment extends Fragment
 			if (sp.getString(i + "name", " ").equals(name))
 			{
 				foundDuplicate = true;
-				emptySpaceT.cancel();
-				blankT.cancel();
+				if (emptySpaceT != null)
+				{
+					emptySpaceT.cancel();
+				}
+				if (blankT != null)
+				{
+					blankT.cancel();
+				}
 				saveConfAlert.dismiss();
 				createAlreadyExistsAlertDialogue(sp, name, n).show();
 			}
@@ -191,7 +222,7 @@ public class ZonesFragment extends Fragment
 	{
 		boolean emptySpace = true;
 		boolean foundAvailableIndex = false;
-		SharedPreferences sps = getActivity().getSharedPreferences(MyMenu.settingsSP, 0);
+		SharedPreferences sps = SettingsTabs.activity.getSharedPreferences(MyMenu.settingsSP, 0);
 
 		for (int i = 0; i < name.length(); i++)
 		{
@@ -248,13 +279,27 @@ public class ZonesFragment extends Fragment
 		{
 			if (name.length() == 0)
 			{
-				// emptySpaceT.cancel();
-				blankT.cancel();
+				if (emptySpaceT != null)
+				{
+					emptySpaceT.cancel();
+				}
+				if (blankT != null)
+				{
+					blankT.cancel();
+				}
+				emptySpaceT = Toast.makeText(SettingsTabs.activity, emptySpaceS, Toast.LENGTH_SHORT);
 				emptySpaceT.show();
 			} else
 			{
-				emptySpaceT.cancel();
-				// blankT.cancel();
+				if (emptySpaceT != null)
+				{
+					emptySpaceT.cancel();
+				}
+				if (blankT != null)
+				{
+					blankT.cancel();
+				}
+				blankT = Toast.makeText(SettingsTabs.activity, blankS, Toast.LENGTH_SHORT);
 				blankT.show();
 			}
 		}
@@ -262,7 +307,7 @@ public class ZonesFragment extends Fragment
 
 	private AlertDialog createAlreadyExistsAlertDialogue(final SharedPreferences sp, final String name, final int n)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabs.activity);
 		builder.setMessage(Html.fromHtml("A zone named <b>" + name + "</b> already exists.\nWould you like to overwrite it?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
 		{
 			@Override
@@ -291,7 +336,7 @@ public class ZonesFragment extends Fragment
 		{
 			return null;
 		}
-		AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder b = new AlertDialog.Builder(SettingsTabs.activity);
 		b.setMessage("Save the current zone as...").setPositiveButton("Save!", new DialogInterface.OnClickListener()
 		{
 			@Override
@@ -306,11 +351,11 @@ public class ZonesFragment extends Fragment
 			{
 			}
 		});
-		LinearLayout ll = new LinearLayout(getActivity());
+		LinearLayout ll = new LinearLayout(SettingsTabs.activity);
 		ll.setOrientation(LinearLayout.VERTICAL);
-		final TextView numChars = new TextView(getActivity());
+		final TextView numChars = new TextView(SettingsTabs.activity);
 		numChars.setText("0/20 characters");
-		editName = new EditText(getActivity());
+		editName = new EditText(SettingsTabs.activity);
 		editName.setHint("Give your zone a name!");
 		editName.setInputType(InputType.TYPE_CLASS_TEXT);
 		editName.addTextChangedListener(new TextWatcher()
@@ -372,10 +417,14 @@ public class ZonesFragment extends Fragment
 
 	private void loadConf()
 	{
-		SharedPreferences sp = getActivity().getSharedPreferences(MyMenu.dataSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
 		int n = -1;
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
+			if (chooseConf == null)
+			{
+				chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+			}
 			if (chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition()).equals(sp.getString(i + "name", " ")))
 			{
 				n = i;
@@ -399,15 +448,15 @@ public class ZonesFragment extends Fragment
 			{
 				MyView.platforms.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
 			}
-			Intent intent = new Intent(getActivity(), MainActivity.class);
+			Intent intent = new Intent(SettingsTabs.activity, MainActivity.class);
 			intent.putExtra("fromLoad", true);
-			startActivity(intent);
+			SettingsTabs.activity.startActivity(intent);
 		}
 	}
 
 	private void SavePrefs(String key, float value)
 	{
-		SharedPreferences sp = getActivity().getSharedPreferences(MyMenu.settingsSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putFloat(key, value);
 		edit.commit();
@@ -415,10 +464,14 @@ public class ZonesFragment extends Fragment
 
 	private AlertDialog createOverwriteAlertDialogue()
 	{
-		final SharedPreferences sp = getActivity().getSharedPreferences(MyMenu.dataSP, 0);
+		final SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
 		final int n = sp.getInt("numOfConfs", 0);
+		if (chooseConf == null)
+		{
+			chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+		}
 		final String name = (String) chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition());
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabs.activity);
 		builder.setMessage(Html.fromHtml("Overwrite <b>" + name + "</b> with the current zone?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
 		{
 			@Override
@@ -441,11 +494,15 @@ public class ZonesFragment extends Fragment
 
 	public void delConf()
 	{
-		SharedPreferences sp = getActivity().getSharedPreferences(MyMenu.dataSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
 		int thisN = -1;
 		String name = " ";
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
+			if (chooseConf == null)
+			{
+				chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+			}
 			if (chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition()).equals(sp.getString(i + "name", " ")))
 			{
 				thisN = i;
@@ -494,7 +551,7 @@ public class ZonesFragment extends Fragment
 
 	private AlertDialog createDeleteAlertDialogue(final String name, final SharedPreferences sp, final int thisN)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabs.activity);
 		builder.setMessage(Html.fromHtml("Permanently delete <b>" + name + "</b>?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
 		{
 			@Override

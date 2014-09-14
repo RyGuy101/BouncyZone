@@ -3,6 +3,7 @@ package com.blogspot.mathjoy.bouncy;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	ActionBar actionBar;
 	ViewPager viewPager;
 	ZonesFragment zonesFragment;
+	public static Activity activity;
 
 	@Override
 	protected void onCreate(Bundle arg0)
@@ -51,15 +53,21 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		ActionBar.Tab tab1 = actionBar.newTab();
-		tab1.setText("Tab 1");
+		tab1.setText("Main");
 		tab1.setTabListener(this);
 
 		ActionBar.Tab tab2 = actionBar.newTab();
-		tab2.setText("Tab 2");
+		tab2.setText("Zones");
 		tab2.setTabListener(this);
+
+		ActionBar.Tab tab3 = actionBar.newTab();
+		tab3.setText("More");
+		tab3.setTabListener(this);
 
 		actionBar.addTab(tab1);
 		actionBar.addTab(tab2);
+		actionBar.addTab(tab3);
+		activity = this;
 	}
 
 	@Override
@@ -118,8 +126,12 @@ class MyAdapter extends FragmentPagerAdapter
 		Fragment f = null;
 		if (pos == 0)
 		{
+			f = new Fragment();
+		}
+		if (pos == 1)
+		{
 			f = new ZonesFragment();
-		} else if (pos == 1)
+		} else if (pos == 2)
 		{
 			f = new TestFragmentB();
 		}
@@ -129,6 +141,6 @@ class MyAdapter extends FragmentPagerAdapter
 	@Override
 	public int getCount()
 	{
-		return 2;
+		return 3;
 	}
 }
