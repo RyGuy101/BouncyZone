@@ -113,7 +113,6 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 	{
 		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 		super.onBackPressed();
-		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 	}
 
 	@Override

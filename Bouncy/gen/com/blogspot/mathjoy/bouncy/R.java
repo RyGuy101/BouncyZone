@@ -428,7 +428,7 @@ containing a value of this type.
         public static final int Settings=0x7f090027;
         public static final int Undo=0x7f090023;
         public static final int achievements=0x7f09001c;
-        public static final int action_settings=0x7f090042;
+        public static final int action_settings=0x7f090041;
         public static final int ballColor=0x7f090033;
         public static final int book_now=0x7f090010;
         public static final int bouceLevel=0x7f090037;
@@ -437,7 +437,7 @@ containing a value of this type.
         public static final int buy_with_google=0x7f09000e;
         public static final int cancelDelConf=0x7f090018;
         public static final int cancelLoadConf=0x7f090021;
-        public static final int cancelSave=0x7f090040;
+        public static final int cancelSave=0x7f09003f;
         public static final int chooseConf=0x7f09002e;
         public static final int chooseConftext=0x7f09001e;
         public static final int chooseDelConf=0x7f090016;
@@ -447,7 +447,7 @@ containing a value of this type.
         public static final int colorView=0x7f090032;
         public static final int delConf=0x7f090017;
         public static final int delConfText=0x7f090014;
-        public static final int editConfName=0x7f09003d;
+        public static final int editConfName=0x7f09003c;
         public static final int friction=0x7f090039;
         public static final int gameReset=0x7f09002f;
         public static final int gameServices=0x7f090030;
@@ -463,7 +463,6 @@ containing a value of this type.
         public static final int loadConfText=0x7f09001d;
         public static final int match_parent=0x7f09000c;
         public static final int monochrome=0x7f090013;
-        public static final int moreSettingsButton=0x7f09003b;
         public static final int myView=0x7f090028;
         public static final int none=0x7f090000;
         public static final int normal=0x7f090001;
@@ -475,20 +474,20 @@ containing a value of this type.
         public static final int restoreToDefault=0x7f09003a;
         public static final int sandbox=0x7f090008;
         public static final int satellite=0x7f090002;
-        public static final int saveConf=0x7f09003f;
-        public static final int saveConfHeading=0x7f09003c;
+        public static final int saveConf=0x7f09003e;
+        public static final int saveConfHeading=0x7f09003b;
         public static final int selectionDetails=0x7f09000b;
         public static final int strict_sandbox=0x7f090009;
         public static final int terrain=0x7f090003;
         public static final int textBallColor=0x7f090031;
-        public static final int textView1=0x7f09003e;
+        public static final int textView1=0x7f09003d;
         public static final int textView2=0x7f090019;
         public static final int undoLayout=0x7f090022;
         public static final int valueOfBounceLevel=0x7f090036;
         public static final int valueOfFriction=0x7f090038;
         public static final int valueOfGravity=0x7f090034;
         public static final int view1=0x7f09002d;
-        public static final int viewPager=0x7f090041;
+        public static final int viewPager=0x7f090040;
         public static final int wrap_content=0x7f09000d;
     }
     public static final class integer {
@@ -505,6 +504,7 @@ containing a value of this type.
         public static final int activity_tab_settings=0x7f030007;
         public static final int fragment_a=0x7f030008;
         public static final int fragment_b=0x7f030009;
+        public static final int fragment_more_settings=0x7f03000a;
     }
     public static final class menu {
         public static final int del_conf=0x7f0c0000;

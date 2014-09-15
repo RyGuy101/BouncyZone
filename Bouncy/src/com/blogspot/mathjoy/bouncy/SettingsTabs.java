@@ -5,12 +5,18 @@ import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.view.View;
 
 public class SettingsTabs extends FragmentActivity implements TabListener
@@ -18,13 +24,20 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	ActionBar actionBar;
 	ViewPager viewPager;
 	ZonesFragment zonesFragment;
+	MainSettingsFragment mainSettFragment;
 	public static Activity activity;
+	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
+	public static int button;
+	float buttonVolume = MainActivity.buttonVolume;
 
 	@Override
 	protected void onCreate(Bundle arg0)
 	{
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_tab_settings);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		button = spool.load(this, R.raw.button, 1);
+		mainSettFragment = new MainSettingsFragment();
 		zonesFragment = new ZonesFragment();
 		viewPager = (ViewPager) findViewById(R.id.viewPager);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
@@ -110,6 +123,77 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	{
 		zonesFragment.overwriteConf(v);
 	}
+
+	public void gameReset(View v)
+	{
+		mainSettFragment.gameReset(v);
+	}
+
+	public void settingsReset(View v)
+	{
+		mainSettFragment.settingsReset(v);
+
+	}
+
+	public void goToGameServices(View v)
+	{
+		mainSettFragment.goToGameServices(v);
+	}
+
+	public void goToGame(View v)
+	{
+		goToGame();
+	}
+
+	private void goToGame()
+	{
+		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		MainSettingsFragment.pickedColor = (String) MainSettingsFragment.ballColor.getSelectedItem();
+		MainSettingsFragment.gravity = MainSettingsFragment.seekGravity.getProgress();
+		MainSettingsFragment.bounceLevel = MainSettingsFragment.seekBounceLevel.getProgress();
+		MainSettingsFragment.friction = MainSettingsFragment.seekFriction.getProgress();
+		SavePrefs("selectedColor", MainSettingsFragment.pickedColor);
+		SavePrefs("gravityValue", MainSettingsFragment.gravity);
+		SavePrefs("bounceLevelValue", MainSettingsFragment.bounceLevel);
+		SavePrefs("frictionValue", MainSettingsFragment.friction);
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
+	}
+
+	private void SavePrefs(String key, float value)
+	{
+		SharedPreferences sp = getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		Editor edit = sp.edit();
+		edit.putFloat(key, value);
+		edit.commit();
+	}
+
+	private void SavePrefs(String key, String value)
+	{
+		SharedPreferences sp = getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		Editor edit = sp.edit();
+		edit.putString(key, value);
+		edit.commit();
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		goToGame();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }
 
 class MyAdapter extends FragmentPagerAdapter
@@ -126,14 +210,14 @@ class MyAdapter extends FragmentPagerAdapter
 		Fragment f = null;
 		if (pos == 0)
 		{
-			f = new Fragment();
+			f = new MainSettingsFragment();
 		}
 		if (pos == 1)
 		{
 			f = new ZonesFragment();
 		} else if (pos == 2)
 		{
-			f = new TestFragmentB();
+			f = new MoreSettingsFragment();
 		}
 		return f;
 	}

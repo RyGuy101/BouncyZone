@@ -3,14 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context=".MyMenu" >
-
-    <!--
-          <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-    -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,8 +39,8 @@
 
     <com.blogspot.mathjoy.bouncy.ColorView
         android:id="@+id/colorView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <Spinner
         android:id="@+id/ballColor"
@@ -89,7 +83,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-
     <TextView
         android:id="@+id/valueOfFriction"
         android:layout_width="match_parent"
@@ -106,33 +99,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/restoreToDefault"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/restoreToDefault"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="settingsReset"
-            android:text="Restore Default Values" />
-
-        <Button
-            android:id="@+id/moreSettingsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="goToMoreSettings"
-            android:text="More >" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-<!--  </LinearLayout>-->
+        android:layout_weight="1"
+        android:onClick="settingsReset"
+        android:text="Restore Default Values" />
 
 </LinearLayout>

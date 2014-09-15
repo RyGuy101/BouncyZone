@@ -99,7 +99,7 @@ public class ZonesFragment extends Fragment
 
 	private void refreshZoneList()
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		confNames = new String[sp.getInt("numOfConfs", 0)];
 		int i2 = 0;
 		for (int i = sp.getInt("numOfConfs", 0) - 1; i >= 0; i--)
@@ -191,7 +191,7 @@ public class ZonesFragment extends Fragment
 
 	private void saveConf(String name)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		int n = sp.getInt("numOfConfs", 0);
 		overwrite = false;
 		boolean foundDuplicate = false;
@@ -222,7 +222,7 @@ public class ZonesFragment extends Fragment
 	{
 		boolean emptySpace = true;
 		boolean foundAvailableIndex = false;
-		SharedPreferences sps = SettingsTabs.activity.getSharedPreferences(MyMenu.settingsSP, 0);
+		SharedPreferences sps = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 
 		for (int i = 0; i < name.length(); i++)
 		{
@@ -417,7 +417,7 @@ public class ZonesFragment extends Fragment
 
 	private void loadConf()
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		int n = -1;
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
@@ -456,7 +456,7 @@ public class ZonesFragment extends Fragment
 
 	private void SavePrefs(String key, float value)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.settingsSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putFloat(key, value);
 		edit.commit();
@@ -464,7 +464,7 @@ public class ZonesFragment extends Fragment
 
 	private AlertDialog createOverwriteAlertDialogue()
 	{
-		final SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
+		final SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		final int n = sp.getInt("numOfConfs", 0);
 		if (chooseConf == null)
 		{
@@ -494,7 +494,7 @@ public class ZonesFragment extends Fragment
 
 	public void delConf()
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MyMenu.dataSP, 0);
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		int thisN = -1;
 		String name = " ";
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)

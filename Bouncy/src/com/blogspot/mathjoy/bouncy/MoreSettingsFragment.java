@@ -6,12 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TestFragmentB extends Fragment
+public class MoreSettingsFragment extends Fragment
 {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		// TODO Auto-generated method stub
-		return inflater.inflate(R.layout.fragment_b, container, false);
+		return inflater.inflate(R.layout.fragment_more_settings, container, false);
 	}
 }
