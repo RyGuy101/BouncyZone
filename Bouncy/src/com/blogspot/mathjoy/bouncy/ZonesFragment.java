@@ -99,6 +99,22 @@ public class ZonesFragment extends Fragment
 
 	private void refreshZoneList()
 	{
+		if (chooseConf == null)
+		{
+			chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+		}
+		if (overwriteButton == null)
+		{
+			overwriteButton = (Button) SettingsTabs.activity.findViewById(R.id.overwriteConf);
+		}
+		if (load == null)
+		{
+			load = (Button) SettingsTabs.activity.findViewById(R.id.goToLoadConf);
+		}
+		if (delete == null)
+		{
+			delete = (Button) SettingsTabs.activity.findViewById(R.id.goToDelConf);
+		}
 		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		confNames = new String[sp.getInt("numOfConfs", 0)];
 		int i2 = 0;
@@ -117,10 +133,6 @@ public class ZonesFragment extends Fragment
 			{
 			}
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_list_item_single_choice, confNames);
-			if (chooseConf == null)
-			{
-				chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
-			}
 			chooseConf.setAdapter(confNamesAd);
 			chooseConf.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			noZones = false;
@@ -135,18 +147,6 @@ public class ZonesFragment extends Fragment
 			if (chooseConf.getCheckedItemPosition() == 0)
 			{
 				String name = (String) chooseConf.getItemAtPosition(0);
-				if (overwriteButton == null)
-				{
-					overwriteButton = (Button) SettingsTabs.activity.findViewById(R.id.overwriteConf);
-				}
-				if (load == null)
-				{
-					load = (Button) SettingsTabs.activity.findViewById(R.id.goToLoadConf);
-				}
-				if (delete == null)
-				{
-					delete = (Button) SettingsTabs.activity.findViewById(R.id.goToDelConf);
-				}
 				overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
 				load.setText(Html.fromHtml("Load <b>" + name));
 				delete.setText(Html.fromHtml("Delete <b>" + name));
