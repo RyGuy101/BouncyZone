@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		bounce = spoolBounce.load(this, R.raw.bounce, 1);
 		button = spoolButton.load(this, R.raw.button, 1);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
-		pickedColor = sp.getString("selectedColor", "red");
+		pickedColor = sp.getString("selectedColor", "Red");
 		//		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
 		for (int i = 0; i < possibleColors.length; i++)
 		{
@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		int frictionPower = 7;
 		MyView.ballRestitution = (float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0);
 		MyView.ballFriction = (float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower));
-		if (ball != null)
+		if (MyView.ball != null)
 		{
 			MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
 			MyView.ball.setFriction((float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower)));

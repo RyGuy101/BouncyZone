@@ -36,8 +36,8 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	public static float startBallY;
 	public static float startBallXSpeed;
 	public static float startBallYSpeed;
-	public static float ballRestitution;
-	public static float ballFriction;
+	public static float ballRestitution = 1;
+	public static float ballFriction = 1;
 	public static ArrayList<Platform> platforms = new ArrayList<Platform>();
 	public static ArrayList<Platform> oldPlatforms = new ArrayList<Platform>();
 	public static boolean alreadyStarted = false;
@@ -70,22 +70,19 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	public MyView(Context context, AttributeSet attrs, int defStyleAttr)
 	{
 		super(context, attrs, defStyleAttr);
-		//		setup();
 	}
 
 	public MyView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		//		setup();
 	}
 
 	public MyView(Context context)
 	{
 		super(context);
-		//		setup();
 	}
 
-	private void setup()
+	protected void setup()
 	{
 		PPM = (float) (getResources().getDisplayMetrics().ydpi / 2.0);
 		float ballRadius = 0.1f;
@@ -231,10 +228,6 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			touching = false;
 			WorldManager.undoTemporaryGravitySet();
 			sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
-			SharedPreferences sp = MainActivity.gameSP;
-			Editor edit = sp.edit();
-			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
-			edit.commit();
 		}
 
 	}
