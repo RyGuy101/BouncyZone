@@ -11,10 +11,12 @@ import android.view.MotionEvent;
 
 public class IntroView extends MyView
 {
+//	public static boolean doSetup = false;
+
 	public IntroView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		ballColor = Color.GREEN;
+		ballColor = Color.RED;
 		sp = IntroActivity.spoolBounce;
 	}
 
@@ -22,19 +24,23 @@ public class IntroView extends MyView
 	protected void onDraw(Canvas c)
 	{
 		super.onDraw(c);
-
+		//		if (doSetup)
+		//		{
+		//			setup();
+		//			doSetup = false;
+		//		}
 	}
 
 	protected void setup()
 	{
-		bounce = IntroActivity.bounce;
 		super.setup();
-		startBallY = toMeters(100);
+		bounce = IntroActivity.bounce;
+		float w = this.getWidth();
+		float h = this.getHeight();
+		startBallY = toMeters(w * 0.2f);
 		ball.setPosition(new Vec2(ball.getX(), toMeters(100)));
 		ball.setFriction(0f);
 		ball.setVelocity(new Vec2(5, 0));
-		float w = this.getWidth();
-		float h = this.getHeight();
 		makePlatform(w * 0.02f, w * 0.02f, w - w * 0.02f, w * 0.02f);
 		makePlatform(w * 0.02f, w * 0.02f, w * 0.02f, h - w * 0.02f);
 		makePlatform(w * 0.02f, h - w * 0.02f, w - w * 0.02f, h - w * 0.02f);
@@ -45,9 +51,9 @@ public class IntroView extends MyView
 		makePlatform(IntroActivity.buttons.getLeft(), IntroActivity.buttons.getTop(), IntroActivity.buttons.getLeft(), IntroActivity.buttons.getBottom());
 		makePlatform(IntroActivity.buttons.getRight(), IntroActivity.buttons.getTop(), IntroActivity.buttons.getRight(), IntroActivity.buttons.getBottom());
 
-//		makePlatform(IntroActivity.buttons.getLeft() + w * 0.1f, w * 0.2f, IntroActivity.buttons.getRight() - w * 0.1f, IntroActivity.buttons.getTop() - w * 0.2f);
-//		makePlatform(IntroActivity.buttons.getLeft() + w * 0.2f, h - w * 0.2f, IntroActivity.buttons.getRight(), IntroActivity.buttons.getBottom() + w * 0.2f);
-//		makePlatform(IntroActivity.buttons.getRight() + w * 0.1f, IntroActivity.buttons.getTop() + IntroActivity.buttons.getHeight() / 2.0f, w - w * 0.2f, IntroActivity.buttons.getBottom());
+		//		makePlatform(IntroActivity.buttons.getLeft() + w * 0.1f, w * 0.2f, IntroActivity.buttons.getRight() - w * 0.1f, IntroActivity.buttons.getTop() - w * 0.2f);
+		//		makePlatform(IntroActivity.buttons.getLeft() + w * 0.2f, h - w * 0.2f, IntroActivity.buttons.getRight(), IntroActivity.buttons.getBottom() + w * 0.2f);
+		//		makePlatform(IntroActivity.buttons.getRight() + w * 0.1f, IntroActivity.buttons.getTop() + IntroActivity.buttons.getHeight() / 2.0f, w - w * 0.2f, IntroActivity.buttons.getBottom());
 	}
 
 	@Override

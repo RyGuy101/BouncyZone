@@ -67,19 +67,9 @@ public class MyView extends View implements ContactListener, OnTouchListener
 
 	public static boolean makeBounce = true;
 
-	public MyView(Context context, AttributeSet attrs, int defStyleAttr)
-	{
-		super(context, attrs, defStyleAttr);
-	}
-
 	public MyView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-	}
-
-	public MyView(Context context)
-	{
-		super(context);
 	}
 
 	protected void setup()
