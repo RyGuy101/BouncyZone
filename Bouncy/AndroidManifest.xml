@@ -89,7 +89,8 @@
         </activity>
         <activity
             android:name=".IntroActivity"
-            android:label="Back to Game" >
+            android:label="Bouncy Zone"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
