@@ -91,7 +91,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		int boundary = -25;
+		int boundary = -24;
 		if (event.getAction() == MotionEvent.ACTION_UP || event.getX() < boundary || event.getX() > v.getWidth() - boundary || event.getY() < v.getY() + boundary || event.getY() > v.getBottom() - boundary)
 		{
 			v.setBackgroundColor(Color.WHITE);

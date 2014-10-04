@@ -63,7 +63,7 @@
         </activity>
         <activity
             android:name=".GameServicesActivity"
-            android:label="Back to Settings"
+            android:label="Back to Menu"
             android:parentActivityName=".MyMenu" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

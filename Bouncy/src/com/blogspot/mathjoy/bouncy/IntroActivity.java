@@ -41,10 +41,23 @@ public class IntroActivity extends Activity
 
 	public void goToGame(View v)
 	{
-		IntroView.startBallY = IntroView.originalStartBallY;
-		IntroView.clearPlatforms();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		IntroView.startBallY = IntroView.originalStartBallY;
+		IntroView.clearPlatforms();
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		IntroView.doSetup = true; 
 	}
 
 	public void goToGameServices(View v)

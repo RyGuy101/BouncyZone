@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 
 public class IntroView extends MyView
 {
-//	public static boolean doSetup = false;
+	public static boolean doSetup = false;
 
 	public IntroView(Context context, AttributeSet attrs)
 	{
@@ -24,11 +24,11 @@ public class IntroView extends MyView
 	protected void onDraw(Canvas c)
 	{
 		super.onDraw(c);
-		//		if (doSetup)
-		//		{
-		//			setup();
-		//			doSetup = false;
-		//		}
+		if (doSetup)
+		{
+			setup();
+			doSetup = false;
+		}
 	}
 
 	protected void setup()
