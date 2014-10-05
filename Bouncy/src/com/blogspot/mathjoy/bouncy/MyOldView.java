@@ -17,8 +17,8 @@ public class MyOldView extends View implements OnTouchListener
 {
 	MainActivity m = new MainActivity();
 	// static MediaPlayer bounce = MainActivity.bounce;
-	static SoundPool sp = MainActivity.spoolBounce;
-	static int bounce = MainActivity.bounce;
+//	static SoundPool sp = MainActivity.spoolBounce;
+//	static int bounce = MainActivity.bounce;
 	public static float bounceVolume = (float) 0.6;
 	Paint platformPaint = new Paint();
 	Paint ballPaint = new Paint();
@@ -226,7 +226,7 @@ public class MyOldView extends View implements OnTouchListener
 						if (Math.abs(Math.sin(Math.toRadians(ballAngle - closestLeftPlatform.getAngle())) * ballSpeed) >= gravitationalAcceleration || Math.abs(Math.sin(Math.toRadians(ballAngle - closestRightPlatform.getAngle())) * ballSpeed) >= gravitationalAcceleration)
 						{
 							// bounce.start();
-							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
+//							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
 							SharedPreferences sp = MainActivity.gameSP;
 							Editor edit = sp.edit();
 							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
@@ -325,7 +325,7 @@ public class MyOldView extends View implements OnTouchListener
 						if (Math.abs(Math.sin(Math.toRadians(ballAngle - platform.getAngle())) * ballSpeed) >= gravitationalAcceleration)
 						{
 							// bounce.start();
-							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
+//							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
 							SharedPreferences sp = MainActivity.gameSP;
 							Editor edit = sp.edit();
 							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);

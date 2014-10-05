@@ -22,12 +22,6 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnTouchListener//, OnClickListener
 {
-	// public static MediaPlayer bounce;
-	public static SoundPool spoolBounce = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-	public static SoundPool spoolButton = new SoundPool(5, AudioManager.STREAM_SYSTEM, 0);
-	public static int bounce;
-	public static int button;
-	public static float buttonVolume = (float) 0.3;
 	Intent intent;
 	String pickedColor;
 	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
@@ -52,8 +46,6 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		gameSP = getSharedPreferences(GAME_SP, 0);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// bounce = MediaPlayer.create(this, R.raw.bounce);
-		bounce = spoolBounce.load(this, R.raw.bounce, 1);
-		button = spoolButton.load(this, R.raw.button, 1);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "Red");
 		//		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
@@ -182,7 +174,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	@Override
 	public void onBackPressed()
 	{
-		spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 		moveTaskToBack(true);
 	}
 
@@ -195,7 +187,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	// }
 	public void goToMenu(View v)
 	{
-		spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 		//		MyView.makeBounce = false;
 		//		MyView.ball.setPosition(new Vec2(MyView.ballX, MyView.ballY));
 		Intent intent = new Intent(this, SettingsTabs.class);
@@ -207,7 +199,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	{
 		if (MyView.mode != MyView.MODE_BALL)
 		{
-			spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			ball.setBackgroundColor(Color.GRAY);
 			platform.setBackgroundColor(Color.LTGRAY);
 			MyView.mode = MyView.MODE_BALL;
@@ -218,7 +210,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 	{
 		if (MyView.mode != MyView.MODE_CREATE_PLATFORM)
 		{
-			spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			platform.setBackgroundColor(Color.GRAY);
 			ball.setBackgroundColor(Color.LTGRAY);
 			MyView.mode = MyView.MODE_CREATE_PLATFORM;
@@ -242,14 +234,14 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 			{
 				if (MyView.platforms.size() > 0)
 				{
-					spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+					IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 					MyView.destroyLastPlatform();
 					redoText.setTextColor(Color.BLACK);
 				}
 			}
 		} else
 		{
-			spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			MyView.reCreatePlatform();
 			if (MyView.oldPlatforms.size() == 0)
 			{

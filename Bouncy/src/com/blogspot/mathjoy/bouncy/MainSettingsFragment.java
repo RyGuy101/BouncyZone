@@ -30,8 +30,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	public final static String settingsSP = "settings";
 	public final static String dataSP = "data";
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
-	public static int button;
-	float buttonVolume = MainActivity.buttonVolume;
+	float buttonVolume = IntroActivity.buttonVolume;
 	static Spinner ballColor;
 	static SeekBar seekGravity;
 	static SeekBar seekBounceLevel;
@@ -53,7 +52,6 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.activity_my_menu, container, false);
-		button = spool.load(SettingsTabs.activity, R.raw.button, 1);
 		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_spinner_item, colorNames);
 		ballColor = (Spinner) view.findViewById(R.id.ballColor);
 		ballColor.setAdapter(colorAd);
@@ -163,7 +161,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	{
 		if (!gameReset)
 		{
-			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.clearPlatforms();
 			MyView.reset();
 			MyView.oldPlatforms.clear();
@@ -179,7 +177,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	public void settingsReset(View v)
 	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		seekGravity.setProgress(100);
 		seekBounceLevel.setProgress(100);
 		seekFriction.setProgress(100);
@@ -196,7 +194,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	public void goToGameServices(View v)
 	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(SettingsTabs.activity, GameServicesActivity.class);
 		SettingsTabs.activity.startActivity(intent);
 	}

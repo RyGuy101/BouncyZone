@@ -23,8 +23,7 @@ import android.view.View.OnTouchListener;
 
 public class MyView extends View implements ContactListener, OnTouchListener
 {
-	static SoundPool sp = MainActivity.spoolBounce;
-	static int bounce = MainActivity.bounce;
+	static SoundPool sp = IntroActivity.spoolBounce;
 	public static float bounceVolume = (float) 0.6;
 	//	public static float ballX;
 	//	public static float ballY;
@@ -217,7 +216,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			makeBounce = false;
 			touching = false;
 			WorldManager.undoTemporaryGravitySet();
-			sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
+			sp.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
 		}
 
 	}

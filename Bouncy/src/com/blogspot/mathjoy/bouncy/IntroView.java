@@ -34,7 +34,6 @@ public class IntroView extends MyView
 	protected void setup()
 	{
 		super.setup();
-		bounce = IntroActivity.bounce;
 		float w = this.getWidth();
 		float h = this.getHeight();
 		startBallY = toMeters(w * 0.2f);

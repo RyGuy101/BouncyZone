@@ -27,8 +27,7 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	MainSettingsFragment mainSettFragment;
 	public static Activity activity;
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
-	public static int button;
-	float buttonVolume = MainActivity.buttonVolume;
+	float buttonVolume = IntroActivity.buttonVolume;
 
 	@Override
 	protected void onCreate(Bundle arg0)
@@ -36,7 +35,6 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_tab_settings);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		button = spool.load(this, R.raw.button, 1);
 		mainSettFragment = new MainSettingsFragment();
 		zonesFragment = new ZonesFragment();
 		viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -147,7 +145,7 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 
 	private void goToGame()
 	{
-		spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		MainSettingsFragment.pickedColor = (String) MainSettingsFragment.ballColor.getSelectedItem();
 		MainSettingsFragment.gravity = MainSettingsFragment.seekGravity.getProgress();
 		MainSettingsFragment.bounceLevel = MainSettingsFragment.seekBounceLevel.getProgress();

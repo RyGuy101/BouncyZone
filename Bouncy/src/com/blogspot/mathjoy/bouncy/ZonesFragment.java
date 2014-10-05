@@ -36,8 +36,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ZonesFragment extends Fragment
 {
 	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
-	public static int button;
-	float buttonVolume = MainActivity.buttonVolume;
+	float buttonVolume = IntroActivity.buttonVolume;
 	boolean saveIsOpen = false;
 	LinearLayout saveLayout;
 	Button save;
@@ -63,7 +62,6 @@ public class ZonesFragment extends Fragment
 	{
 		View view = inflater.inflate(R.layout.activity_more_settings, container, false);
 		activity = SettingsTabs.activity;
-		button = spool.load(SettingsTabs.activity, R.raw.button, 1);
 		saveLayout = null;
 		save = (Button) view.findViewById(R.id.goToSaveConf);
 		overwriteButton = (Button) view.findViewById(R.id.overwriteConf);
@@ -268,7 +266,7 @@ public class ZonesFragment extends Fragment
 				edit.putInt("numOfConfs", n + 1);
 			}
 			edit.commit();
-			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			if (saveConfAlert != null)
 			{
 				saveConfAlert.dismiss();
@@ -432,7 +430,7 @@ public class ZonesFragment extends Fragment
 		}
 		if (!sp.getString(n + "name", " ").equals(" "))
 		{
-			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.ball.setPosition(new Vec2(sp.getFloat(n + "startBallX", 0), sp.getFloat(n + "startBallY", 0)));
 			MyView.ball.setVelocity(new Vec2(sp.getFloat(n + "startBallXSpeed", 0), sp.getFloat(n + "startBallYSpeed", 0)));
 			MyView.startBallX = sp.getFloat(n + "startBallX", 0);
@@ -544,7 +542,7 @@ public class ZonesFragment extends Fragment
 			edit2.putString((sp.getInt("numOfConfs", 0) - 1) + "name", " ");
 			edit2.putInt("numOfConfs", sp.getInt("numOfConfs", 1) - 1);
 			edit2.commit();
-			spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+			spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			refreshZoneList();
 		}
 	}
