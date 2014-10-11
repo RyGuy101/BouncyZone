@@ -2,6 +2,8 @@ package com.blogspot.mathjoy.bouncy;
 
 import org.jbox2d.common.Vec2;
 
+import com.blogspot.mathjoy.bouncy.R.id;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -15,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
+import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,9 +46,9 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	static int gravity = 100;
 	static int bounceLevel = 100;
 	static int friction = 100;
-	boolean gameReset = false;
 	ImageButton gameServices;
 	ColorView colorView;
+	Button resetGame;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -64,12 +67,15 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		displayGravity = (TextView) view.findViewById(R.id.valueOfGravity);
 		displayBounceLevel = (TextView) view.findViewById(R.id.valueOfBounceLevel);
 		displayFriction = (TextView) view.findViewById(R.id.valueOfFriction);
+		colorView = (ColorView) view.findViewById(R.id.colorView);
+		gameServices = (ImageButton) view.findViewById(R.id.gameServices);
+		gameServices.setBackgroundColor(Color.WHITE);
+		gameServices.setOnTouchListener(this);
 		LoadPrefs();
 		seekGravity.setProgress(gravity);
 		seekBounceLevel.setProgress(bounceLevel);
 		seekFriction.setProgress(friction);
 		displayFriction.setText("Friction: " + friction + "%");
-		colorView = (ColorView) view.findViewById(R.id.colorView);
 		for (int i = 0; i <= colorNames.length - 1; i++)
 		{
 			if (colorNames[i].equals(pickedColor))
@@ -78,10 +84,11 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 				colorView.ballColor = colors[i];
 			}
 		}
-		gameServices = (ImageButton) view.findViewById(R.id.gameServices);
-		gameServices.setBackgroundColor(Color.WHITE);
-		gameServices.setOnTouchListener(this);
-
+		resetGame = (Button) view.findViewById(R.id.gameReset);
+		if (SettingsTabs.gameReset)
+		{
+			resetGame.setText("Game Cleared!");
+		}
 		return view;
 	}
 
@@ -169,7 +176,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	public void gameReset(View v)
 	{
-		if (!gameReset)
+		if (!SettingsTabs.gameReset)
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.clearPlatforms();
@@ -179,9 +186,9 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 			MyView.mode = MyView.MODE_BALL;
 			MyView.startBallXSpeed = 0;
 			MyView.startBallYSpeed = 0;
-			gameReset = true;
-			Button temp = (Button) v;
-			temp.setText("Game Cleared!");
+			SettingsTabs.gameReset = true;
+			resetGame = (Button) v;
+			resetGame.setText("Game Cleared!");
 		}
 	}
 
@@ -191,6 +198,9 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		seekGravity.setProgress(100);
 		seekBounceLevel.setProgress(100);
 		seekFriction.setProgress(100);
+		SavePrefs("gravityValue", seekGravity.getProgress());
+		SavePrefs("bounceLevelValue", seekBounceLevel.getProgress());
+		SavePrefs("frictionValue", seekFriction.getProgress());
 	}
 
 	private void LoadPrefs()

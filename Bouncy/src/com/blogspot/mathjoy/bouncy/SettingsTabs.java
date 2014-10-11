@@ -16,8 +16,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 
 public class SettingsTabs extends FragmentActivity implements TabListener
 {
@@ -27,11 +30,13 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	MainSettingsFragment mainSettFragment;
 	public static Activity activity;
 	float buttonVolume = IntroActivity.buttonVolume;
+	public static boolean gameReset;
 
 	@Override
 	protected void onCreate(Bundle arg0)
 	{
 		super.onCreate(arg0);
+		gameReset = false;
 		setContentView(R.layout.activity_tab_settings);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		mainSettFragment = new MainSettingsFragment();
@@ -81,6 +86,13 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.menu_items, menu);
+		return true;
+	}
+
+	@Override
 	public void onTabReselected(Tab arg0, FragmentTransaction arg1)
 	{
 		// TODO Auto-generated method stub
@@ -91,7 +103,6 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	public void onTabSelected(Tab arg0, FragmentTransaction arg1)
 	{
 		viewPager.setCurrentItem(arg0.getPosition());
-
 	}
 
 	@Override

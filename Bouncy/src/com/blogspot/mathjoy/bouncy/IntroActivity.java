@@ -25,7 +25,6 @@ public class IntroActivity extends Activity
 	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "White", "Gray" };
 	ToggleButton soundsTog;
-	private static boolean firstTime = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -86,14 +85,19 @@ public class IntroActivity extends Activity
 	protected void onResume()
 	{
 		super.onResume();
-		if (!firstTime)
-		{
-			MyView.makeBallUnreal();
-		}
+		MyView.makeBallUnreal();
 		MyView.makePlatformsUnreal();
 		IntroView.makePlatformsReal();
 		IntroView.makeBallReal();
-		firstTime = false;
+		SharedPreferences sp = getSharedPreferences("settings", 0);
+		String pickedColor = sp.getString("selectedColor", "Red");
+		for (int i = 0; i < possibleColors.length; i++)
+		{
+			if (pickedColor.equals(possibleColorNames[i]))
+			{
+				MyView.ballColor = possibleColors[i];
+			}
+		}
 	}
 
 	public void goToGameServices(View v)

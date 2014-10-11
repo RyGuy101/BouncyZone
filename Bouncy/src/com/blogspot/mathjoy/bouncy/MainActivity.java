@@ -45,45 +45,7 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		super.onCreate(savedInstanceState);
 		gameSP = getSharedPreferences(GAME_SP, 0);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		// bounce = MediaPlayer.create(this, R.raw.bounce);
-		SharedPreferences sp = getSharedPreferences("settings", 0);
-		pickedColor = sp.getString("selectedColor", "Red");
-		//		MyView.gAccelerationMultiplier = sp.getFloat("gravityValue", 100) / 100.0;
-		for (int i = 0; i < possibleColors.length; i++)
-		{
-			if (pickedColor.equals(possibleColorNames[i]))
-			{
-				MyView.ballColor = possibleColors[i];
-			}
-		}
-		// if (justOpened)
-		// {
-		// justOpened = false;
-		// } else
-		// {
-		// intent = getIntent();
-		// if (intent.getExtras().getBoolean("isGameReset") == true)
-		// {
-		// MyView.platforms.clear();
-		// }
-		// }
-		// MyView.mode = MyView.MODE_BALL;
 		setContentView(R.layout.activity_main);
-		int frictionPower = 7;
-		MyView.ballRestitution = (float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0);
-		MyView.ballFriction = (float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower));
-		if (MyView.ball != null)
-		{
-			MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
-			MyView.ball.setFriction((float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower)));
-		}
-		if (WorldManager.world != null)
-		{
-			WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
-		} else
-		{
-			WorldManager.setGravityButDontUpdateWorld((new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0))));
-		}
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
 		settings = (ImageButton) findViewById(R.id.Settings);
@@ -168,6 +130,36 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 			}
 		} catch (Exception e)
 		{
+		}
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		SharedPreferences sp = getSharedPreferences("settings", 0);
+		pickedColor = sp.getString("selectedColor", "Red");
+		for (int i = 0; i < possibleColors.length; i++)
+		{
+			if (pickedColor.equals(possibleColorNames[i]))
+			{
+				MyView.ballColor = possibleColors[i];
+			}
+		}
+		int frictionPower = 7;
+		MyView.ballRestitution = (float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0);
+		MyView.ballFriction = (float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower));
+		if (MyView.ball != null)
+		{
+			MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
+			MyView.ball.setFriction((float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower)));
+		}
+		if (WorldManager.world != null)
+		{
+			WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
+		} else
+		{
+			WorldManager.setGravityButDontUpdateWorld((new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0))));
 		}
 	}
 

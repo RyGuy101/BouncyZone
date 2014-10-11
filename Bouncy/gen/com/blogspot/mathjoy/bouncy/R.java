@@ -428,7 +428,6 @@ containing a value of this type.
         public static final int Settings=0x7f09002d;
         public static final int Undo=0x7f090029;
         public static final int achievements=0x7f09001c;
-        public static final int action_settings=0x7f090047;
         public static final int ballColor=0x7f090039;
         public static final int book_now=0x7f090010;
         public static final int bouceLevel=0x7f09003d;
@@ -487,6 +486,8 @@ containing a value of this type.
         public static final int textBallColor=0x7f090037;
         public static final int textView1=0x7f090043;
         public static final int textView2=0x7f090019;
+        public static final int toGamestats=0x7f090048;
+        public static final int toIntro=0x7f090047;
         public static final int toggleSounds=0x7f090022;
         public static final int undoLayout=0x7f090028;
         public static final int valueOfBounceLevel=0x7f09003c;
@@ -512,13 +513,7 @@ containing a value of this type.
         public static final int fragment_more_settings=0x7f030009;
     }
     public static final class menu {
-        public static final int del_conf=0x7f0c0000;
-        public static final int game_services=0x7f0c0001;
-        public static final int load_conf=0x7f0c0002;
-        public static final int main=0x7f0c0003;
-        public static final int menu=0x7f0c0004;
-        public static final int my_menu=0x7f0c0005;
-        public static final int save_conf=0x7f0c0006;
+        public static final int menu_items=0x7f0c0000;
     }
     public static final class raw {
         public static final int bounce=0x7f050000;

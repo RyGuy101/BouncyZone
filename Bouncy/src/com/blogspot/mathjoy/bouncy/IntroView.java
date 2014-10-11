@@ -13,6 +13,9 @@ import android.view.MotionEvent;
 
 public class IntroView extends MyView
 {
+	static float w;
+	static float h;
+
 	public IntroView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
@@ -25,13 +28,12 @@ public class IntroView extends MyView
 	{
 		super.setup();
 		super.makeBallUnreal();
-		introBall = new Circle(BodyType.DYNAMIC, startBallX, startBallY, 0.1f, 1.0f, ballFriction, ballRestitution);
-		float w = this.getWidth();
-		float h = this.getHeight();
-		introBall.setPosition(new Vec2(startBallX, toMeters(h * 0.1f)));
+		introBall = new Circle(BodyType.DYNAMIC, originalStartBallX, toMeters(h * 0.1f), 0.1f, 1.0f, ballFriction, ballRestitution);
+		w = this.getWidth();
+		h = this.getHeight();
+		introBall.setPosition(new Vec2(originalStartBallX, toMeters(h * 0.1f)));
 		introBall.setFriction(0f);
 		introBall.setVelocity(new Vec2(toMeters(w * 0.5f), 0));
-		originalStartBallY = toMeters(h * 0.1f);
 
 		makePlatform(1, 1, w - 1, 1);
 		makePlatform(1, 1, 1, h - 1);
@@ -79,6 +81,9 @@ public class IntroView extends MyView
 		if (introBall != null)
 		{
 			introBall.create();
+			introBall.setPosition(new Vec2(originalStartBallX, toMeters(h * 0.1f)));
+			introBall.setFriction(0f);
+			introBall.setVelocity(new Vec2(toMeters(w * 0.5f), 0));
 		}
 	}
 }

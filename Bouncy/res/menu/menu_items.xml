@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.blogspot.mathjoy.bouncy.SettingsTabs" >
+
+    <item
+        android:id="@+id/toIntro"
+        android:orderInCategory="1"
+        android:showAsAction="never"
+        android:title="Main Menu"/>
+    <item
+        android:id="@+id/toGamestats"
+        android:orderInCategory="2"
+        android:showAsAction="never"
+        android:title="Game Stats"/>
+
+</menu>

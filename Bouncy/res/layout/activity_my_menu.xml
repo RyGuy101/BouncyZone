@@ -31,16 +31,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/textBallColor"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ball Color" />
+        android:orientation="horizontal" >
 
-    <com.blogspot.mathjoy.bouncy.ColorView
-        android:id="@+id/colorView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textBallColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Ball Color: " />
+
+        <com.blogspot.mathjoy.bouncy.ColorView
+            android:id="@+id/colorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <Spinner
         android:id="@+id/ballColor"
@@ -48,19 +55,22 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E0E0E0" />
 
     <TextView
         android:id="@+id/valueOfGravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#E0E0E0"
         android:text="0.0" />
 
     <SeekBar
         android:id="@+id/gravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#E0E0E0"
         android:max="200" />
 
     <TextView
@@ -80,19 +90,22 @@
         android:max="200" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E0E0E0" />
 
     <TextView
         android:id="@+id/valueOfFriction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#E0E0E0"
         android:text="50%" />
 
     <SeekBar
         android:id="@+id/friction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#E0E0E0"
         android:max="100" />
 
     <TextView
