@@ -18,7 +18,6 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 
 public class GameServicesActivity extends BaseGameActivity implements ResultCallback<LoadAchievementsResult>
 {
-	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	float buttonVolume = IntroActivity.buttonVolume;
 	final int RC_RESOLVE = 5000, RC_UNUSED = 5001;
 	TextView numBouncesText;
@@ -104,13 +103,6 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 	public void setStepsOfAchivement(int id, int steps)
 	{
 		Games.Achievements.setSteps(getApiClient(), getString(id), steps);
-	}
-
-	@Override
-	public void onBackPressed()
-	{
-		spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
-		super.onBackPressed();
 	}
 
 	@Override

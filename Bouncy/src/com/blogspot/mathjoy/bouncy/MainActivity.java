@@ -171,13 +171,6 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		}
 	}
 
-	@Override
-	public void onBackPressed()
-	{
-		IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
-		moveTaskToBack(true);
-	}
-
 	// @Override
 	// public boolean onCreateOptionsMenu(Menu menu)
 	// {

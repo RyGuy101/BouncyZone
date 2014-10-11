@@ -56,7 +56,8 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	static boolean initialTouch = false;
 	static boolean wasTouching = false;
 
-	public static Circle ball;
+	public static Circle ball = null;
+
 	//	public static Platform platform;
 	Paint ballPaint = new Paint();
 	Paint platformPaint = new Paint();
@@ -66,9 +67,14 @@ public class MyView extends View implements ContactListener, OnTouchListener
 
 	public static boolean makeBounce = true;
 
+	protected boolean intro;
+	protected static ArrayList<Platform> introPlatforms = new ArrayList<Platform>();
+	public static Circle introBall = null;
+
 	public MyView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
+		intro = false;
 	}
 
 	protected void setup()
@@ -130,9 +136,9 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			setup();
 			alreadyStarted = true;
 		}
-		if (mode == MODE_BALL)
+		if (mode == MODE_BALL || intro)
 		{
-			if (touching)
+			if (touching && !intro)
 			{
 				startBallX = toMeters(currentTouchX);
 				startBallY = toMeters(currentTouchY);
@@ -168,13 +174,12 @@ public class MyView extends View implements ContactListener, OnTouchListener
 				{
 					offScreenCounter = 0;
 				}
-				if (offScreenCounter >= 60)
+				if (offScreenCounter >= 60 && !intro)
 				{
 					ball.setPosition(new Vec2(startBallX, startBallY));
 					ball.setVelocity(new Vec2(startBallXSpeed, startBallYSpeed));
 				}
 			}
-
 			WorldManager.step();
 		} else if (mode == MODE_CREATE_PLATFORM)
 		{
@@ -191,8 +196,16 @@ public class MyView extends View implements ContactListener, OnTouchListener
 				platforms.add(new Platform(BodyType.STATIC, toMeters(startTouchX), toMeters(startTouchY), toMeters(endTouchX), toMeters(endTouchY), 0, 1, 0));
 			}
 		}
-		c.drawCircle(toPixels(ball.getX()), toPixels(ball.getY()), toPixels(ball.getRadius()), ballPaint);
-		c.drawLine(toPixels((float) (ball.getX() - ball.getRadius() * Math.cos(ball.getAngle()))), toPixels((float) (ball.getY() - ball.getRadius() * Math.sin(ball.getAngle()))), toPixels((float) (ball.getX() + ball.getRadius() * Math.cos(ball.getAngle()))), toPixels((float) (ball.getY() + ball.getRadius() * Math.sin(ball.getAngle()))), lineInBallPaint);
+		Circle theBall;
+		if (!intro)
+		{
+			theBall = ball;
+		} else
+		{
+			theBall = introBall;
+		}
+		c.drawCircle(toPixels(theBall.getX()), toPixels(theBall.getY()), toPixels(theBall.getRadius()), ballPaint);
+		c.drawLine(toPixels((float) (theBall.getX() - theBall.getRadius() * Math.cos(theBall.getAngle()))), toPixels((float) (theBall.getY() - theBall.getRadius() * Math.sin(theBall.getAngle()))), toPixels((float) (theBall.getX() + theBall.getRadius() * Math.cos(theBall.getAngle()))), toPixels((float) (theBall.getY() + theBall.getRadius() * Math.sin(theBall.getAngle()))), lineInBallPaint);
 		drawPlatforms(c);
 		long timeTook = System.currentTimeMillis() - startTime;
 		if (timeTook < 1000.0 / 60.0)
@@ -317,9 +330,18 @@ public class MyView extends View implements ContactListener, OnTouchListener
 
 	private void drawPlatforms(Canvas c)
 	{
-		for (Platform platform : platforms)
+		if (!intro)
 		{
-			c.drawLine(toPixels(platform.getStartX()), toPixels(platform.getStartY()), toPixels(platform.getEndX()), toPixels(platform.getEndY()), platformPaint);
+			for (Platform platform : platforms)
+			{
+				c.drawLine(toPixels(platform.getStartX()), toPixels(platform.getStartY()), toPixels(platform.getEndX()), toPixels(platform.getEndY()), platformPaint);
+			}
+		} else
+		{
+			for (Platform platform : introPlatforms)
+			{
+				c.drawLine(toPixels(platform.getStartX()), toPixels(platform.getStartY()), toPixels(platform.getEndX()), toPixels(platform.getEndY()), platformPaint);
+			}
 		}
 	}
 
@@ -344,6 +366,35 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		platforms.add(oldPlatforms.get(oldPlatforms.size() - 1));
 		oldPlatforms.remove(oldPlatforms.size() - 1);
 		platforms.get(platforms.size() - 1).create();
+	}
+
+	public static void makePlatformsReal()
+	{
+		for (Platform platform : platforms)
+		{
+			platform.create();
+		}
+	}
+
+	public static void makePlatformsUnreal()
+	{
+		for (Platform platform : platforms)
+		{
+			platform.destroy();
+		}
+	}
+
+	public static void makeBallUnreal()
+	{
+		if (ball != null)
+		{
+			ball.destroy();
+		}
+	}
+
+	public static void makeBallReal()
+	{
+		ball.create();
 	}
 
 	private void updateColors()

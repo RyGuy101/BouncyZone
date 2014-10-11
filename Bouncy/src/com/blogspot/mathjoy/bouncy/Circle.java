@@ -31,7 +31,11 @@ public class Circle
 		this.density = density;
 		this.friction = friction;
 		this.restitution = restitution;
+		create();
+	}
 
+	public void create()
+	{
 		bd = new BodyDef();
 		bd.position.set(x, y);
 		bd.type = bt;
@@ -44,6 +48,12 @@ public class Circle
 		fd.restitution = restitution;
 		body = WorldManager.world.createBody(bd);
 		fixture = body.createFixture(fd);
+	}
+
+	public void destroy()
+	{
+		body.destroyFixture(fixture);
+		WorldManager.world.destroyBody(body);
 	}
 
 	public float getX()

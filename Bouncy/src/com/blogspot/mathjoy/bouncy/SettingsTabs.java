@@ -26,7 +26,6 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	ZonesFragment zonesFragment;
 	MainSettingsFragment mainSettFragment;
 	public static Activity activity;
-	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	float buttonVolume = IntroActivity.buttonVolume;
 
 	@Override
@@ -138,26 +137,21 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 		mainSettFragment.goToGameServices(v);
 	}
 
-	public void goToGame(View v)
-	{
-		goToGame();
-	}
-
-	private void goToGame()
-	{
-		spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
-		MainSettingsFragment.pickedColor = (String) MainSettingsFragment.ballColor.getSelectedItem();
-		MainSettingsFragment.gravity = MainSettingsFragment.seekGravity.getProgress();
-		MainSettingsFragment.bounceLevel = MainSettingsFragment.seekBounceLevel.getProgress();
-		MainSettingsFragment.friction = MainSettingsFragment.seekFriction.getProgress();
-		SavePrefs("selectedColor", MainSettingsFragment.pickedColor);
-		SavePrefs("gravityValue", MainSettingsFragment.gravity);
-		SavePrefs("bounceLevelValue", MainSettingsFragment.bounceLevel);
-		SavePrefs("frictionValue", MainSettingsFragment.friction);
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
-		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
-	}
+	//	private void goToGame()
+	//	{
+	//		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+	//		MainSettingsFragment.pickedColor = (String) MainSettingsFragment.ballColor.getSelectedItem();
+	//		MainSettingsFragment.gravity = MainSettingsFragment.seekGravity.getProgress();
+	//		MainSettingsFragment.bounceLevel = MainSettingsFragment.seekBounceLevel.getProgress();
+	//		MainSettingsFragment.friction = MainSettingsFragment.seekFriction.getProgress();
+	//		SavePrefs("selectedColor", MainSettingsFragment.pickedColor);
+	//		SavePrefs("gravityValue", MainSettingsFragment.gravity);
+	//		SavePrefs("bounceLevelValue", MainSettingsFragment.bounceLevel);
+	//		SavePrefs("frictionValue", MainSettingsFragment.friction);
+	//		Intent intent = new Intent(this, MainActivity.class);
+	//		startActivity(intent);
+	//		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
+	//	}
 
 	private void SavePrefs(String key, float value)
 	{
@@ -178,7 +172,8 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	@Override
 	public void onBackPressed()
 	{
-		goToGame();
+		super.onBackPressed();
+		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 	}
 
 	@Override

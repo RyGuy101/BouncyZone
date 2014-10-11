@@ -29,7 +29,6 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 {
 	public final static String settingsSP = "settings";
 	public final static String dataSP = "data";
-	public static SoundPool spool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 0);
 	float buttonVolume = IntroActivity.buttonVolume;
 	static Spinner ballColor;
 	static SeekBar seekGravity;
@@ -132,10 +131,20 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	}
 
 	@Override
-	public void onStopTrackingTouch(SeekBar arg0)
+	public void onStopTrackingTouch(SeekBar seekBar)
 	{
-		// TODO Auto-generated method stub
-
+		if (seekBar.equals(seekGravity))
+		{
+			SavePrefs("gravityValue", MainSettingsFragment.gravity);
+		}
+		if (seekBar.equals(seekBounceLevel))
+		{
+			SavePrefs("bounceLevelValue", MainSettingsFragment.bounceLevel);
+		}
+		if (seekBar.equals(seekFriction))
+		{
+			SavePrefs("frictionValue", MainSettingsFragment.friction);
+		}
 	}
 
 	@Override
@@ -146,6 +155,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 			if (colorNames[i].equals(ballColor.getSelectedItem()))
 			{
 				colorView.ballColor = colors[i];
+				SavePrefs("selectedColor", colorNames[i]);
 			}
 		}
 	}
@@ -161,7 +171,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	{
 		if (!gameReset)
 		{
-			spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.clearPlatforms();
 			MyView.reset();
 			MyView.oldPlatforms.clear();
@@ -177,7 +187,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	public void settingsReset(View v)
 	{
-		spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		seekGravity.setProgress(100);
 		seekBounceLevel.setProgress(100);
 		seekFriction.setProgress(100);
@@ -192,9 +202,25 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		friction = (int) sp.getFloat("frictionValue", 100);
 	}
 
+	private void SavePrefs(String key, float value)
+	{
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		Editor edit = sp.edit();
+		edit.putFloat(key, value);
+		edit.commit();
+	}
+
+	private void SavePrefs(String key, String value)
+	{
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		Editor edit = sp.edit();
+		edit.putString(key, value);
+		edit.commit();
+	}
+
 	public void goToGameServices(View v)
 	{
-		spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(SettingsTabs.activity, GameServicesActivity.class);
 		SettingsTabs.activity.startActivity(intent);
 	}
