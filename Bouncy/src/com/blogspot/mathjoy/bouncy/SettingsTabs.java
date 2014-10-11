@@ -127,9 +127,9 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 		zonesFragment.goToDelSettings(v);
 	}
 
-	public void overwriteConf(View v)
+	public void renameConf(View v)
 	{
-		zonesFragment.overwriteConf(v);
+		zonesFragment.renameConf(v);
 	}
 
 	public void gameReset(View v)
@@ -145,7 +145,14 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 
 	public void goToGameServices(View v)
 	{
-		mainSettFragment.goToGameServices(v);
+		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+		Intent intent = new Intent(SettingsTabs.activity, GameServicesActivity.class);
+		SettingsTabs.activity.startActivity(intent);
+	}
+
+	public void goToMainMenu(View v)
+	{
+
 	}
 
 	//	private void goToGame()

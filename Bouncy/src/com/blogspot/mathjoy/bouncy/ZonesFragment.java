@@ -38,11 +38,8 @@ public class ZonesFragment extends Fragment
 	float buttonVolume = IntroActivity.buttonVolume;
 	boolean saveIsOpen = false;
 	LinearLayout saveLayout;
-	Button save;
-	Button overwriteButton;
-	Button load;
-	Button delete;
 	AlertDialog saveConfAlert = null;
+	AlertDialog renameConfAlert;
 	Activity activity;
 
 	EditText editName;
@@ -62,35 +59,8 @@ public class ZonesFragment extends Fragment
 		View view = inflater.inflate(R.layout.activity_more_settings, container, false);
 		activity = SettingsTabs.activity;
 		saveLayout = null;
-		save = (Button) view.findViewById(R.id.goToSaveConf);
-		overwriteButton = (Button) view.findViewById(R.id.overwriteConf);
-		load = (Button) view.findViewById(R.id.goToLoadConf);
-		delete = (Button) view.findViewById(R.id.goToDelConf);
 		chooseConf = (ListView) view.findViewById(R.id.chooseConf);
-		chooseConf.setOnItemClickListener(new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
-			{
-				String name = (String) chooseConf.getItemAtPosition(position);
-				if (!noZones)
-				{
-					overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
-					load.setText(Html.fromHtml("Load <b>" + name));
-					delete.setText(Html.fromHtml("Delete <b>" + name));
-				}
-			}
-		});
 		refreshZoneList();
-		if (!noZones)
-		{
-			String name = (String) chooseConf.getItemAtPosition(0);
-			chooseConf.setItemChecked(0, true);
-			overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
-			load.setText(Html.fromHtml("Load <b>" + name));
-			delete.setText(Html.fromHtml("Delete <b>" + name));
-		}
 		return view;
 	}
 
@@ -99,18 +69,6 @@ public class ZonesFragment extends Fragment
 		if (chooseConf == null)
 		{
 			chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
-		}
-		if (overwriteButton == null)
-		{
-			overwriteButton = (Button) SettingsTabs.activity.findViewById(R.id.overwriteConf);
-		}
-		if (load == null)
-		{
-			load = (Button) SettingsTabs.activity.findViewById(R.id.goToLoadConf);
-		}
-		if (delete == null)
-		{
-			delete = (Button) SettingsTabs.activity.findViewById(R.id.goToDelConf);
 		}
 		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		confNames = new String[sp.getInt("numOfConfs", 0)];
@@ -141,21 +99,11 @@ public class ZonesFragment extends Fragment
 					chooseConf.setItemChecked(i, true);
 				}
 			}
-			if (chooseConf.getCheckedItemPosition() == 0)
-			{
-				String name = (String) chooseConf.getItemAtPosition(0);
-				overwriteButton.setText(Html.fromHtml("Overwrite <b>" + name));
-				load.setText(Html.fromHtml("Load <b>" + name));
-				delete.setText(Html.fromHtml("Delete <b>" + name));
-			}
 		} else
 		{
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_list_item_1, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
 			noZones = true;
-			overwriteButton.setText("Overwrite");
-			load.setText("Load");
-			delete.setText("Delete");
 		}
 	}
 
@@ -178,11 +126,33 @@ public class ZonesFragment extends Fragment
 		delConf();
 	}
 
-	public void overwriteConf(View v)
+	//	public void overwriteConf(View v)
+	//	{
+	//		if (!noZones)
+	//		{
+	//			createOverwriteAlertDialogue().show();
+	//		}
+	//	}
+	public void renameConf(View v)
 	{
-		if (!noZones)
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
+		int thisN = -1;
+		String name = " ";
+		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
-			createOverwriteAlertDialogue().show();
+			if (chooseConf == null)
+			{
+				chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+			}
+			if (chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition()).equals(sp.getString(i + "name", " ")))
+			{
+				thisN = i;
+				name = sp.getString(i + "name", " ");
+			}
+		}
+		if (name != " ")
+		{
+			createRenameConfAlertDialogue(sp, thisN, name).show();
 		}
 	}
 
@@ -302,6 +272,16 @@ public class ZonesFragment extends Fragment
 		}
 	}
 
+	private void renameConf(SharedPreferences sp, int thisN, String name, AlertDialog alert)
+	{
+		Editor edit = sp.edit();
+		edit.putString(thisN + "name", name);
+		edit.commit();
+		alert.dismiss();
+		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+		refreshZoneList();
+	}
+
 	private AlertDialog createAlreadyExistsAlertDialogue(final SharedPreferences sp, final String name, final int n)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabs.activity);
@@ -325,6 +305,95 @@ public class ZonesFragment extends Fragment
 		});
 		AlertDialog dialog = builder.create();
 		return dialog;
+	}
+
+	private AlertDialog createRenameConfAlertDialogue(final SharedPreferences sp, final int thisN, final String name)
+	{
+		AlertDialog.Builder b = new AlertDialog.Builder(SettingsTabs.activity);
+		b.setMessage(Html.fromHtml("Rename <b>" + name + "</b> as...")).setPositiveButton("Rename!", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+			}
+		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+		{
+
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+			}
+		});
+		LinearLayout ll = new LinearLayout(SettingsTabs.activity);
+		ll.setOrientation(LinearLayout.VERTICAL);
+		final TextView numChars = new TextView(SettingsTabs.activity);
+		numChars.setText("0/20 characters");
+		final EditText et = new EditText(SettingsTabs.activity);
+		et.setHint("Give your zone a new name!");
+		et.setInputType(InputType.TYPE_CLASS_TEXT);
+		et.addTextChangedListener(new TextWatcher()
+		{
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count)
+			{
+				if (s.length() <= 20)
+				{
+					renameConfAlert.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					numChars.setTextColor(Color.BLACK);
+				} else
+				{
+					renameConfAlert.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+					numChars.setTextColor(Color.RED);
+				}
+				numChars.setText(s.length() + "/20 characters");
+
+				for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
+				{
+					if (sp.getString(i + "name", " ").equals(et.getText().toString()) && i != thisN)
+					{
+						renameConfAlert.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+						numChars.setTextColor(Color.RED);
+						numChars.setText("Already exists");
+
+					}
+				}
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after)
+			{
+			}
+
+			@Override
+			public void afterTextChanged(Editable s)
+			{
+			}
+		});
+		ll.addView(et);
+		ll.addView(numChars);
+		b.setView(ll);
+		final AlertDialog alert = b.create();
+		alert.setOnShowListener(new DialogInterface.OnShowListener()
+		{
+			@Override
+			public void onShow(DialogInterface dialog)
+			{
+				Button saveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+				saveButton.setOnClickListener(new View.OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						renameConf(sp, thisN, et.getText().toString(), alert);
+					}
+
+				});
+			}
+		});
+		renameConfAlert = alert;
+		return alert;
 	}
 
 	private AlertDialog createSaveConfAlertDialogue()

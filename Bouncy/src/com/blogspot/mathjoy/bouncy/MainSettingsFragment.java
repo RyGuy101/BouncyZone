@@ -46,7 +46,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	static int gravity = 100;
 	static int bounceLevel = 100;
 	static int friction = 100;
-	ImageButton gameServices;
+	//	ImageButton gameServices;
 	ColorView colorView;
 	Button resetGame;
 
@@ -68,9 +68,9 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		displayBounceLevel = (TextView) view.findViewById(R.id.valueOfBounceLevel);
 		displayFriction = (TextView) view.findViewById(R.id.valueOfFriction);
 		colorView = (ColorView) view.findViewById(R.id.colorView);
-		gameServices = (ImageButton) view.findViewById(R.id.gameServices);
-		gameServices.setBackgroundColor(Color.WHITE);
-		gameServices.setOnTouchListener(this);
+		//		gameServices = (ImageButton) view.findViewById(R.id.gameServices);
+		//		gameServices.setBackgroundColor(Color.WHITE);
+		//		gameServices.setOnTouchListener(this);
 		LoadPrefs();
 		seekGravity.setProgress(gravity);
 		seekBounceLevel.setProgress(bounceLevel);
@@ -226,12 +226,5 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		Editor edit = sp.edit();
 		edit.putString(key, value);
 		edit.commit();
-	}
-
-	public void goToGameServices(View v)
-	{
-		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
-		Intent intent = new Intent(SettingsTabs.activity, GameServicesActivity.class);
-		SettingsTabs.activity.startActivity(intent);
 	}
 }

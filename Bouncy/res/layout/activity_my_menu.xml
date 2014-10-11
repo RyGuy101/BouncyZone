@@ -6,34 +6,27 @@
     android:padding="5dp"
     tools:context=".MyMenu" >
 
-    <LinearLayout
+    <Button
+        android:id="@+id/gameReset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/gameReset"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="gameReset"
-            android:text="Clear Game" />
-
-        <ImageButton
-            android:id="@+id/gameServices"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:onClick="goToGameServices"
-            android:src="@drawable/game_controller" />
-    </LinearLayout>
+        android:layout_weight="1"
+        android:onClick="gameReset"
+        android:text="Clear Game" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E0E0E0" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#E0E0E0"
         android:orientation="horizontal" >
 
         <TextView
@@ -49,44 +42,32 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/ballColor"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#E0E0E0"
+        android:orientation="vertical" >
+
+        <Spinner
+            android:id="@+id/ballColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E0E0E0" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/valueOfGravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E0E0E0"
         android:text="0.0" />
 
     <SeekBar
         android:id="@+id/gravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E0E0E0"
-        android:max="200" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/valueOfBounceLevel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0.0" />
-
-    <SeekBar
-        android:id="@+id/bouceLevel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:max="200" />
 
     <TextView
@@ -95,29 +76,52 @@
         android:background="#E0E0E0" />
 
     <TextView
-        android:id="@+id/valueOfFriction"
+        android:id="@+id/valueOfBounceLevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E0E0E0"
+        android:text="0.0" />
+
+    <SeekBar
+        android:id="@+id/bouceLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E0E0E0"
+        android:max="200" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/valueOfFriction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="50%" />
 
     <SeekBar
         android:id="@+id/friction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E0E0E0"
         android:max="100" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/restoreToDefault"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:onClick="settingsReset"
-        android:text="Restore Default Values" />
+        android:background="#E0E0E0"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/restoreToDefault"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="settingsReset"
+            android:text="Restore Default Values" />
+    </LinearLayout>
 
 </LinearLayout>
