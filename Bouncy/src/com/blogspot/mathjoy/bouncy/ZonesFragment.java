@@ -327,7 +327,7 @@ public class ZonesFragment extends Fragment
 		LinearLayout ll = new LinearLayout(SettingsTabs.activity);
 		ll.setOrientation(LinearLayout.VERTICAL);
 		final TextView numChars = new TextView(SettingsTabs.activity);
-		numChars.setText("0/20 characters");
+		numChars.setText("0/30 characters");
 		final EditText et = new EditText(SettingsTabs.activity);
 		et.setHint("Give your zone a new name!");
 		et.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -337,7 +337,7 @@ public class ZonesFragment extends Fragment
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count)
 			{
-				if (s.length() <= 20)
+				if (s.length() <= 30)
 				{
 					renameConfAlert.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 					numChars.setTextColor(Color.BLACK);
@@ -346,7 +346,7 @@ public class ZonesFragment extends Fragment
 					renameConfAlert.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 					numChars.setTextColor(Color.RED);
 				}
-				numChars.setText(s.length() + "/20 characters");
+				numChars.setText(s.length() + "/30 characters");
 
 				for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 				{
@@ -420,7 +420,7 @@ public class ZonesFragment extends Fragment
 		LinearLayout ll = new LinearLayout(SettingsTabs.activity);
 		ll.setOrientation(LinearLayout.VERTICAL);
 		final TextView numChars = new TextView(SettingsTabs.activity);
-		numChars.setText("0/20 characters");
+		numChars.setText("0/30 characters");
 		editName = new EditText(SettingsTabs.activity);
 		editName.setHint("Give your zone a name!");
 		editName.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -430,7 +430,7 @@ public class ZonesFragment extends Fragment
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count)
 			{
-				if (s.length() <= 20)
+				if (s.length() <= 30)
 				{
 					if (saveConfAlert != null)
 					{
@@ -445,7 +445,7 @@ public class ZonesFragment extends Fragment
 					}
 					numChars.setTextColor(Color.RED);
 				}
-				numChars.setText(s.length() + "/20 characters");
+				numChars.setText(s.length() + "/30 characters");
 			}
 
 			@Override

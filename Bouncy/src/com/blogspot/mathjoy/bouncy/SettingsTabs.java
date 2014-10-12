@@ -143,10 +143,15 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 
 	}
 
-	public void goToGameServices(View v)
+	private void goToGameServices()
 	{
-		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(SettingsTabs.activity, GameServicesActivity.class);
+		SettingsTabs.activity.startActivity(intent);
+	}
+
+	private void goToIntro()
+	{
+		Intent intent = new Intent(SettingsTabs.activity, IntroActivity.class);
 		SettingsTabs.activity.startActivity(intent);
 	}
 
@@ -201,6 +206,12 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 		{
 		case android.R.id.home:
 			onBackPressed();
+			return true;
+		case R.id.toIntro:
+			goToIntro();
+			return true;
+		case R.id.toGameStats:
+			goToGameServices();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
