@@ -85,6 +85,13 @@ public class IntroActivity extends Activity
 	protected void onResume()
 	{
 		super.onResume();
+		if (WorldManager.world != null)
+		{
+			WorldManager.setGravity(new Vec2(0, 10));
+		} else
+		{
+			WorldManager.setGravityButDontUpdateWorld(new Vec2(0, 10));
+		}
 		MyView.makeBallUnreal();
 		MyView.makePlatformsUnreal();
 		IntroView.makePlatformsReal();

@@ -72,6 +72,8 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		//		gameServices.setBackgroundColor(Color.WHITE);
 		//		gameServices.setOnTouchListener(this);
 		LoadPrefs();
+		displayGravity.setText("Gravity: 0.0");
+		displayBounceLevel.setText("Bounce: 0.0");
 		seekGravity.setProgress(gravity);
 		seekBounceLevel.setProgress(bounceLevel);
 		seekFriction.setProgress(friction);
@@ -88,6 +90,9 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		if (SettingsTabs.gameReset)
 		{
 			resetGame.setText("Game Cleared!");
+			resetGame.setBackgroundColor(Color.TRANSPARENT);
+			resetGame.setEnabled(false);
+			resetGame.setTextColor(Color.BLACK);
 		}
 		return view;
 	}
@@ -189,6 +194,9 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 			SettingsTabs.gameReset = true;
 			resetGame = (Button) v;
 			resetGame.setText("Game Cleared!");
+			resetGame.setBackgroundColor(Color.TRANSPARENT);
+			resetGame.setEnabled(false);
+			resetGame.setTextColor(Color.BLACK);
 		}
 	}
 

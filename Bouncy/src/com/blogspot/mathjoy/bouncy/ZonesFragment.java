@@ -310,7 +310,7 @@ public class ZonesFragment extends Fragment
 	private AlertDialog createRenameConfAlertDialogue(final SharedPreferences sp, final int thisN, final String name)
 	{
 		AlertDialog.Builder b = new AlertDialog.Builder(SettingsTabs.activity);
-		b.setMessage(Html.fromHtml("Rename <b>" + name + "</b> as...")).setPositiveButton("Rename!", new DialogInterface.OnClickListener()
+		b.setMessage(Html.fromHtml("Rename <b>" + name + "</b> to...")).setPositiveButton("Rename!", new DialogInterface.OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int which)

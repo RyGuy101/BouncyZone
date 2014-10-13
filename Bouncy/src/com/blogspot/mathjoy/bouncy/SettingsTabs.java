@@ -75,13 +75,8 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 		tab2.setText("Zones");
 		tab2.setTabListener(this);
 
-		ActionBar.Tab tab3 = actionBar.newTab();
-		tab3.setText("More");
-		tab3.setTabListener(this);
-
 		actionBar.addTab(tab1);
 		actionBar.addTab(tab2);
-		actionBar.addTab(tab3);
 		activity = this;
 	}
 
@@ -237,9 +232,6 @@ class MyAdapter extends FragmentPagerAdapter
 		if (pos == 1)
 		{
 			f = new ZonesFragment();
-		} else if (pos == 2)
-		{
-			f = new MoreSettingsFragment();
 		}
 		return f;
 	}
@@ -247,6 +239,6 @@ class MyAdapter extends FragmentPagerAdapter
 	@Override
 	public int getCount()
 	{
-		return 3;
+		return 2;
 	}
 }

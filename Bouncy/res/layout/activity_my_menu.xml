@@ -1,22 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-     android:layout_height="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
     tools:context=".MyMenu" >
 
-    <Button
-        android:id="@+id/gameReset"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="gameReset"
-        android:text="Clear Game" />
+        android:layout_weight="1" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/gameReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:onClick="gameReset"
+            android:text="Clear Game" />
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -105,23 +107,19 @@
         android:layout_height="wrap_content"
         android:max="100" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#E0E0E0"
-        android:orientation="vertical" >
+        android:background="#E0E0E0" >
 
         <Button
             android:id="@+id/restoreToDefault"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:onClick="settingsReset"
             android:text="Restore Default Values" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

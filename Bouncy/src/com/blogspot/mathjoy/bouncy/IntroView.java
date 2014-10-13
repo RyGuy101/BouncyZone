@@ -28,7 +28,7 @@ public class IntroView extends MyView
 	{
 		super.setup();
 		super.makeBallUnreal();
-		introBall = new Circle(BodyType.DYNAMIC, originalStartBallX, toMeters(h * 0.1f), 0.1f, 1.0f, ballFriction, ballRestitution);
+		introBall = new Circle(BodyType.DYNAMIC, originalStartBallX, toMeters(h * 0.1f), 0.1f, 1, 0, 1);
 		w = this.getWidth();
 		h = this.getHeight();
 		introBall.setPosition(new Vec2(originalStartBallX, toMeters(h * 0.1f)));
