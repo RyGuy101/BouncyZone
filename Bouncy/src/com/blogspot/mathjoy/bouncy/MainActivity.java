@@ -149,10 +149,21 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		int frictionPower = 7;
 		MyView.ballRestitution = (float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0);
 		MyView.ballFriction = (float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower));
+		if (MyView.ballFriction == 0)
+		{
+			MyView.showLine = false;
+		} else
+		{
+			MyView.showLine = true;
+		}
 		if (MyView.ball != null)
 		{
 			MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
 			MyView.ball.setFriction((float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower)));
+			if (MyView.ballFriction == 0)
+			{
+				MyView.ball.setAngularVelocity(0);
+			}
 		}
 		if (WorldManager.world != null)
 		{

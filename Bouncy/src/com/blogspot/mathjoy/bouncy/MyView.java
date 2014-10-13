@@ -62,10 +62,12 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	Paint ballPaint = new Paint();
 	Paint platformPaint = new Paint();
 	Paint lineInBallPaint = new Paint();
+	public static boolean showLine;
 
 	private int offScreenCounter = 0;
 
 	public static boolean makeBounce = true;
+	public static boolean makeBounceOnstart = true;
 
 	protected boolean intro;
 	protected static ArrayList<Platform> introPlatforms = new ArrayList<Platform>();
@@ -205,7 +207,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			theBall = introBall;
 		}
 		c.drawCircle(toPixels(theBall.getX()), toPixels(theBall.getY()), toPixels(theBall.getRadius()), ballPaint);
-		if (!intro)
+		if (!intro && showLine == true)
 		{
 			c.drawLine(toPixels((float) (theBall.getX() - theBall.getRadius() * Math.cos(theBall.getAngle()))), toPixels((float) (theBall.getY() - theBall.getRadius() * Math.sin(theBall.getAngle()))), toPixels((float) (theBall.getX() + theBall.getRadius() * Math.cos(theBall.getAngle()))), toPixels((float) (theBall.getY() + theBall.getRadius() * Math.sin(theBall.getAngle()))), lineInBallPaint);
 		}
@@ -221,6 +223,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 				e.printStackTrace();
 			}
 		}
+		makeBounceOnstart = true;
 		invalidate();
 	}
 
@@ -232,7 +235,13 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			makeBounce = false;
 			touching = false;
 			WorldManager.undoTemporaryGravitySet();
-			sp.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
+			if (makeBounceOnstart)
+			{
+				sp.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
+			} else
+			{
+				makeBounceOnstart = true;
+			}
 		}
 
 	}

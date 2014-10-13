@@ -13,6 +13,7 @@ public class ColorView extends View
 	Paint ballPaint = new Paint();
 	Paint lineInBallPaint = new Paint();
 	public int ballColor;
+	boolean showLine = true;
 
 	public ColorView(Context context, AttributeSet attrs, int defStyleAttr)
 	{
@@ -44,7 +45,10 @@ public class ColorView extends View
 		lineInBallPaint.setStrokeWidth(MyView.toPixels(0.04f));
 		c.drawRect(0, 0, MyView.toPixels(MyView.ball.getRadius() * 2 + 0.1f), MyView.toPixels(MyView.ball.getRadius() * 2 + 0.1f), backgroundPaint);
 		c.drawCircle(MyView.toPixels((MyView.ball.getRadius() * 2 + 0.1f) / 2.0f), MyView.toPixels((MyView.ball.getRadius() * 2 + 0.1f) / 2.0f), MyView.toPixels(MyView.ball.getRadius()), ballPaint);
-		c.drawLine(0.05f, MyView.toPixels((MyView.ball.getRadius() * 2 + 0.1f) / 2.0f), MyView.toPixels(MyView.ball.getRadius() * 2 + 0.05f), MyView.toPixels((MyView.ball.getRadius() * 2 + 0.1f) / 2.0f), lineInBallPaint);
+		if (showLine)
+		{
+			c.drawLine(0.05f, MyView.toPixels((MyView.ball.getRadius() * 2 + 0.1f) / 2.0f), MyView.toPixels(MyView.ball.getRadius() * 2 + 0.05f), MyView.toPixels((MyView.ball.getRadius() * 2 + 0.1f) / 2.0f), lineInBallPaint);
+		}
 		//		try
 		//		{
 		//			Thread.sleep(20);

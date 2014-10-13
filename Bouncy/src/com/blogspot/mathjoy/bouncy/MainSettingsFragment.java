@@ -78,6 +78,10 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		seekBounceLevel.setProgress(bounceLevel);
 		seekFriction.setProgress(friction);
 		displayFriction.setText("Friction: " + friction + "%");
+		if (friction == 0)
+		{
+			colorView.showLine = false;
+		}
 		for (int i = 0; i <= colorNames.length - 1; i++)
 		{
 			if (colorNames[i].equals(pickedColor))
@@ -132,6 +136,13 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		{
 			friction = seekBar.getProgress();
 			displayFriction.setText("Friction: " + friction + "%");
+			if (friction == 0)
+			{
+				colorView.showLine = false;
+			} else if (colorView.showLine == false)
+			{
+				colorView.showLine = true;
+			}
 		}
 	}
 

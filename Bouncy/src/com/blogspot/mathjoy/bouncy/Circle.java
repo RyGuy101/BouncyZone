@@ -88,23 +88,40 @@ public class Circle
 
 	public void setRestitution(float restitution)
 	{
+		Vec2 pos = new Vec2(getX(), getY());
+		Vec2 vel = getVelocity();
 		body.destroyFixture(fixture);
+		WorldManager.world.destroyBody(body);
+		bd.position.set(pos);
+		bd.linearVelocity.set(vel);
+		body = WorldManager.world.createBody(bd);
 		fd.restitution = restitution;
 		body.createFixture(fd);
+		MyView.makeBounceOnstart = false;
 	}
 
 	public void setFriction(float friction)
 	{
+		Vec2 pos = new Vec2(getX(), getY());
+		Vec2 vel = getVelocity();
 		body.destroyFixture(fixture);
+		WorldManager.world.destroyBody(body);
+		bd.position.set(pos);
+		bd.linearVelocity.set(vel);
+		body = WorldManager.world.createBody(bd);
 		fd.friction = friction;
 		body.createFixture(fd);
+		MyView.makeBounceOnstart = false;
 	}
 
 	public void setVelocity(Vec2 velocity)
 	{
-		body.destroyFixture(fixture);
 		body.setLinearVelocity(velocity);
-		body.createFixture(fd);
+	}
+
+	public void setAngularVelocity(float w)
+	{
+		body.setAngularVelocity(w);
 	}
 
 	public void setPosition(Vec2 position)
