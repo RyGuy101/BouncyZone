@@ -9,6 +9,8 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import com.google.android.gms.internal.ia;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -16,6 +18,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.SoundPool;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -72,6 +75,8 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	protected boolean intro;
 	protected static ArrayList<Platform> introPlatforms = new ArrayList<Platform>();
 	public static Circle introBall = null;
+
+	MainActivity ma;
 
 	public MyView(Context context, AttributeSet attrs)
 	{
@@ -237,13 +242,18 @@ public class MyView extends View implements ContactListener, OnTouchListener
 			WorldManager.undoTemporaryGravitySet();
 			if (makeBounceOnstart)
 			{
+
 				sp.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
+				if (arg0.getFixtureA().getBody().equals(ball.getBody()) || arg0.getFixtureB().getBody().equals(ball.getBody()))
+				{
+					ma = new MainActivity();
+					new MyTask().execute();
+				}
 			} else
 			{
 				makeBounceOnstart = true;
 			}
 		}
-
 	}
 
 	@Override
@@ -417,5 +427,19 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		lineInBallPaint.setColor(Color.BLACK);
 		lineInBallPaint.setAlpha(79);
 		lineInBallPaint.setStrokeWidth(toPixels(0.04f));
+	}
+
+	class MyTask extends AsyncTask<Void, Void, Void>
+	{
+		@Override
+		protected Void doInBackground(Void... params)
+		{
+			SharedPreferences sp = MainActivity.gameSP;
+			Editor edit = sp.edit();
+			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+			edit.commit();
+			ma.updateStepsOfBounceAchievements(3000);
+			return null;
+		}
 	}
 }

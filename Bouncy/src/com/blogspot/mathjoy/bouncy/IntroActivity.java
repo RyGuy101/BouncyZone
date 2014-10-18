@@ -3,6 +3,9 @@ package com.blogspot.mathjoy.bouncy;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,11 +13,12 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
-public class IntroActivity extends Activity
+public class IntroActivity extends BaseGameActivity
 {
 	public static SoundPool spoolBounce = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 	public static SoundPool spoolButton = new SoundPool(5, AudioManager.STREAM_SYSTEM, 0);
@@ -117,5 +121,15 @@ public class IntroActivity extends Activity
 	{
 		Intent intent = new Intent(this, SettingsTabs.class);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onSignInFailed()
+	{
+	}
+
+	@Override
+	public void onSignInSucceeded()
+	{
 	}
 }

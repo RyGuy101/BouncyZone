@@ -2,6 +2,8 @@ package com.blogspot.mathjoy.bouncy;
 
 import org.jbox2d.common.Vec2;
 
+import com.google.example.games.basegameutils.BaseGameActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,7 +22,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnTouchListener//, OnClickListener
+public class MainActivity extends BaseGameActivity implements OnTouchListener//, OnClickListener
 {
 	Intent intent;
 	String pickedColor;
@@ -303,5 +305,57 @@ public class MainActivity extends Activity implements OnTouchListener//, OnClick
 		Editor edit = sp.edit();
 		edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
 		edit.commit();
+	}
+
+	@Override
+	public void onSignInFailed()
+	{
+	}
+
+	@Override
+	public void onSignInSucceeded()
+	{
+	}
+
+	private void setStepsOfAchivement(int id, int steps)
+	{
+		if (isSignedIn())
+		{
+			//			Games.Achievements.setSteps(getApiClient(), getString(id), steps);
+		}
+	}
+
+	public void updateStepsOfBounceAchievements(int numBounces)
+	{
+		//		try
+		//		{
+		//			setStepsOfAchivement(R.string.achievement_bouncy, numBounces);
+		//		} catch (Exception e)
+		//		{
+		//		}
+		//		try
+		//		{
+		//			setStepsOfAchivement(R.string.achievement_super_bouncy, numBounces);
+		//		} catch (Exception e)
+		//		{
+		//		}
+		//		try
+		//		{
+		//			setStepsOfAchivement(R.string.achievement_mega_bouncy, numBounces);
+		//		} catch (Exception e)
+		//		{
+		//		}
+		//		try
+		//		{
+		//			setStepsOfAchivement(R.string.achievement_hyper_bouncy, numBounces);
+		//		} catch (Exception e)
+		//		{
+		//		}
+		//		try
+		//		{
+		setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
+		//		} catch (Exception e)
+		//		{
+		//		}
 	}
 }

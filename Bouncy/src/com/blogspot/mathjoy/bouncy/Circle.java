@@ -137,4 +137,9 @@ public class Circle
 	{
 		return body.isAwake();
 	}
+
+	public Body getBody()
+	{
+		return body;
+	}
 }
