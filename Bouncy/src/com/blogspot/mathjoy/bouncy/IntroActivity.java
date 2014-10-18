@@ -132,4 +132,51 @@ public class IntroActivity extends BaseGameActivity
 	public void onSignInSucceeded()
 	{
 	}
+
+	private void setStepsOfAchivement(int id, int steps)
+	{
+		if (isSignedIn())
+		{
+			Games.Achievements.setSteps(getApiClient(), getString(id), steps);
+		}
+	}
+
+	public void updateStepsOfBounceAchievements(int numBounces)
+	{
+		//		try
+		//		{
+		//			setStepsOfAchivement(R.string.achievement_bouncy, numBounces);
+		//		} catch (Exception e)
+		//		{
+		//		}
+		//		try
+		//		{
+		//			setStepsOfAchivement(R.string.achievement_super_bouncy, numBounces);
+		//		} catch (Exception e)
+		//		{
+		//		}
+		//		try
+		//		{
+		//			setStepsOfAchivement(R.string.achievement_mega_bouncy, numBounces);
+		//		} catch (Exception e)
+		//		{
+		//		}
+		//		try
+		//		{
+		//			setStepsOfAchivement(R.string.achievement_hyper_bouncy, numBounces);
+		//		} catch (Exception e)
+		//		{
+		//		}
+		//		try
+		//		{
+		//		setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
+		//		} catch (Exception e)
+		//		{
+		//		}
+		getGameHelper();
+		if (isSignedIn())
+		{
+
+		}
+	}
 }

@@ -76,6 +76,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	protected static ArrayList<Platform> introPlatforms = new ArrayList<Platform>();
 	public static Circle introBall = null;
 
+	IntroActivity ia;
 	MainActivity ma;
 
 	public MyView(Context context, AttributeSet attrs)
@@ -86,6 +87,8 @@ public class MyView extends View implements ContactListener, OnTouchListener
 
 	protected void setup()
 	{
+		ia = new IntroActivity();
+		ma = new MainActivity();
 		PPM = (float) (getResources().getDisplayMetrics().ydpi / 2.0);
 		float ballRadius = 0.1f;
 		originalStartBallX = toMeters((float) (this.getWidth() / 2.0));
@@ -246,7 +249,6 @@ public class MyView extends View implements ContactListener, OnTouchListener
 				sp.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
 				if (arg0.getFixtureA().getBody().equals(ball.getBody()) || arg0.getFixtureB().getBody().equals(ball.getBody()))
 				{
-					ma = new MainActivity();
 					new MyTask().execute();
 				}
 			} else

@@ -2,6 +2,7 @@ package com.blogspot.mathjoy.bouncy;
 
 import org.jbox2d.common.Vec2;
 
+import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
 import android.app.Activity;
@@ -10,12 +11,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageButton;
@@ -133,6 +132,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 		} catch (Exception e)
 		{
 		}
+		getGameHelper();
 	}
 
 	@Override
@@ -310,18 +310,22 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 	@Override
 	public void onSignInFailed()
 	{
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void onSignInSucceeded()
 	{
+		// TODO Auto-generated method stub
+
 	}
 
 	private void setStepsOfAchivement(int id, int steps)
 	{
 		if (isSignedIn())
 		{
-			//			Games.Achievements.setSteps(getApiClient(), getString(id), steps);
+			Games.Achievements.setSteps(getApiClient(), getString(id), steps);
 		}
 	}
 
@@ -353,9 +357,13 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 		//		}
 		//		try
 		//		{
-		setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
+		//		setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
 		//		} catch (Exception e)
 		//		{
 		//		}
+		if (isSignedIn())
+		{
+
+		}
 	}
 }
