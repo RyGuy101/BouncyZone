@@ -5,7 +5,7 @@ import org.jbox2d.dynamics.World;
 
 public class WorldManager
 {
-	public static World world;
+	public static World world = null;
 	private static float timeStep = 1.0f / 60.f;
 	private static int velocityIterations = 6;
 	private static int positionIterations = 3;

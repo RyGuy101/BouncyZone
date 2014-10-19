@@ -67,6 +67,10 @@ public class IntroActivity extends BaseGameActivity
 				}
 			}
 		});
+		if (WorldManager.world == null)
+		{
+			WorldManager.setupWorld();
+		}
 	}
 
 	public void goToGame(View v)

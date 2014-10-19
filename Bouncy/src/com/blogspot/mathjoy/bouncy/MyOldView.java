@@ -17,8 +17,8 @@ public class MyOldView extends View implements OnTouchListener
 {
 	MainActivity m = new MainActivity();
 	// static MediaPlayer bounce = MainActivity.bounce;
-//	static SoundPool sp = MainActivity.spoolBounce;
-//	static int bounce = MainActivity.bounce;
+	//	static SoundPool sp = MainActivity.spoolBounce;
+	//	static int bounce = MainActivity.bounce;
 	public static float bounceVolume = (float) 0.6;
 	Paint platformPaint = new Paint();
 	Paint ballPaint = new Paint();
@@ -226,11 +226,11 @@ public class MyOldView extends View implements OnTouchListener
 						if (Math.abs(Math.sin(Math.toRadians(ballAngle - closestLeftPlatform.getAngle())) * ballSpeed) >= gravitationalAcceleration || Math.abs(Math.sin(Math.toRadians(ballAngle - closestRightPlatform.getAngle())) * ballSpeed) >= gravitationalAcceleration)
 						{
 							// bounce.start();
-//							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
-							SharedPreferences sp = MainActivity.gameSP;
-							Editor edit = sp.edit();
-							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
-							edit.commit();
+							//							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
+							//							SharedPreferences sp = MainActivity.gameSP;
+							//							Editor edit = sp.edit();
+							//							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+							//							edit.commit();
 						}
 						updateBallAngleBasedOnTwoPlatforms(closestLeftPlatform, closestRightPlatform);
 						double backupBallAngle = ballAngle;
@@ -274,35 +274,39 @@ public class MyOldView extends View implements OnTouchListener
 						// {
 						/*
 						 * WORK IN PROGRESS
-						 * closestLeftPlatform.setAngle(closestLeftPlatform.getAngle() + oppoBallAngle);
-						 * closestRightPlatform.setAngle(closestRightPlatform.getAngle() + oppoBallAngle);
-						 * double averageAngle = (closestLeftPlatform.getAngle() + closestRightPlatform.getAngle()) / 2.0;
-						 * if (oppoBallAngle > 180)
-						 * {
-						 * closestLeftPlatform.setAngle(fixAngleToMoreThan180(closestLeftPlatform.getAngle()));
-						 * closestRightPlatform.setAngle(fixAngleToMoreThan180(closestRightPlatform.getAngle()));
-						 * averageAngle = fixAngleToMoreThan180(averageAngle);
-						 * } else if (oppoBallAngle < 180)
-						 * {
-						 * closestLeftPlatform.setAngle(fixAngleToLessThan180(closestLeftPlatform.getAngle()));
-						 * closestRightPlatform.setAngle(fixAngleToLessThan180(closestRightPlatform.getAngle()));
-						 * averageAngle = fixAngleToLessThan180(averageAngle);
-						 * }
-						 * float ballXDiff = ballX - backupBallX;
-						 * float ballYDiff = ballY - backupBallY;
-						 * simulateBall();
-						 * while ((isOnInfintiteLine(closestLeftPlatform) && isWithinBoundsOfPlatform(closestLeftPlatform)) || (isOnInfintiteLine(closestRightPlatform) && isWithinBoundsOfPlatform(closestRightPlatform)))
-						 * {
-						 * ballX += Math.cos(Math.toRadians(averageAngle)) / 100.0;
-						 * ballY += Math.sin(Math.toRadians(averageAngle)) / 100.0;
-						 * }
+						 * closestLeftPlatform.setAngle(closestLeftPlatform
+						 * .getAngle() + oppoBallAngle);
+						 * closestRightPlatform.setAngle
+						 * (closestRightPlatform.getAngle() + oppoBallAngle);
+						 * double averageAngle = (closestLeftPlatform.getAngle()
+						 * + closestRightPlatform.getAngle()) / 2.0; if
+						 * (oppoBallAngle > 180) {
+						 * closestLeftPlatform.setAngle(fixAngleToMoreThan180
+						 * (closestLeftPlatform.getAngle()));
+						 * closestRightPlatform
+						 * .setAngle(fixAngleToMoreThan180(closestRightPlatform
+						 * .getAngle())); averageAngle =
+						 * fixAngleToMoreThan180(averageAngle); } else if
+						 * (oppoBallAngle < 180) {
+						 * closestLeftPlatform.setAngle(fixAngleToLessThan180
+						 * (closestLeftPlatform.getAngle()));
+						 * closestRightPlatform
+						 * .setAngle(fixAngleToLessThan180(closestRightPlatform
+						 * .getAngle())); averageAngle =
+						 * fixAngleToLessThan180(averageAngle); } float
+						 * ballXDiff = ballX - backupBallX; float ballYDiff =
+						 * ballY - backupBallY; simulateBall(); while
+						 * ((isOnInfintiteLine(closestLeftPlatform) &&
+						 * isWithinBoundsOfPlatform(closestLeftPlatform)) ||
+						 * (isOnInfintiteLine(closestRightPlatform) &&
+						 * isWithinBoundsOfPlatform(closestRightPlatform))) {
+						 * ballX += Math.cos(Math.toRadians(averageAngle)) /
+						 * 100.0; ballY +=
+						 * Math.sin(Math.toRadians(averageAngle)) / 100.0; }
 						 * 
-						 * ballX -= ballXDiff;
-						 * ballY -= ballYDiff;
-						 * ballAngle = backupBallAngle;
-						 * ballSpeed = backupBallSpeed;
-						 * updateBallXAndYSpeed();
-						 * rolling = true;
+						 * ballX -= ballXDiff; ballY -= ballYDiff; ballAngle =
+						 * backupBallAngle; ballSpeed = backupBallSpeed;
+						 * updateBallXAndYSpeed(); rolling = true;
 						 */
 						// }
 						// // updateBallYSpeedBasedOnGravity();
@@ -325,11 +329,11 @@ public class MyOldView extends View implements OnTouchListener
 						if (Math.abs(Math.sin(Math.toRadians(ballAngle - platform.getAngle())) * ballSpeed) >= gravitationalAcceleration)
 						{
 							// bounce.start();
-//							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
-							SharedPreferences sp = MainActivity.gameSP;
-							Editor edit = sp.edit();
-							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
-							edit.commit();
+							//							sp.play(bounce, bounceVolume, bounceVolume, 0, 0, 1);
+							//							SharedPreferences sp = MainActivity.gameSP;
+							//							Editor edit = sp.edit();
+							//							edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+							//							edit.commit();
 							rolling = false;
 							updateBallAngleBasedOnOnePlatform(platform.getAngle());
 							double backupBallAngle = ballAngle;

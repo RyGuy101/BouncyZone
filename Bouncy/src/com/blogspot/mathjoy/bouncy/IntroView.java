@@ -21,7 +21,6 @@ public class IntroView extends MyView
 	{
 		super(context, attrs);
 		ballColor = Color.RED;
-		sp = IntroActivity.spoolBounce;
 		intro = true;
 	}
 

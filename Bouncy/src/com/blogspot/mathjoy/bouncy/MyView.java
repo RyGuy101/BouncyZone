@@ -11,6 +11,7 @@ import org.jbox2d.dynamics.contacts.Contact;
 
 import com.google.android.gms.internal.ia;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -24,10 +25,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-public class MyView extends View implements ContactListener, OnTouchListener
+public class MyView extends View implements OnTouchListener
 {
-	static SoundPool sp = IntroActivity.spoolBounce;
-	public static float bounceVolume = (float) 0.6;
 	//	public static float ballX;
 	//	public static float ballY;
 	//	public static float ballXSpeed;
@@ -77,7 +76,7 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	public static Circle introBall = null;
 
 	IntroActivity ia;
-	MainActivity ma;
+	MainActivity activity;
 
 	public MyView(Context context, AttributeSet attrs)
 	{
@@ -88,15 +87,12 @@ public class MyView extends View implements ContactListener, OnTouchListener
 	protected void setup()
 	{
 		ia = new IntroActivity();
-		ma = new MainActivity();
 		PPM = (float) (getResources().getDisplayMetrics().ydpi / 2.0);
 		float ballRadius = 0.1f;
 		originalStartBallX = toMeters((float) (this.getWidth() / 2.0));
 		originalStartBallY = ballRadius;
 		startBallX = originalStartBallX;
 		startBallY = originalStartBallY;
-		WorldManager.setupWorld();
-		WorldManager.world.setContactListener(this);
 		ball = new Circle(BodyType.DYNAMIC, startBallX, startBallY, ballRadius, 1.0f, ballFriction, ballRestitution);
 	}
 
@@ -233,49 +229,6 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		}
 		makeBounceOnstart = true;
 		invalidate();
-	}
-
-	@Override
-	public void beginContact(Contact arg0)
-	{
-		if (makeBounce)
-		{
-			makeBounce = false;
-			touching = false;
-			WorldManager.undoTemporaryGravitySet();
-			if (makeBounceOnstart)
-			{
-
-				sp.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
-				if (arg0.getFixtureA().getBody().equals(ball.getBody()) || arg0.getFixtureB().getBody().equals(ball.getBody()))
-				{
-					new MyTask().execute();
-				}
-			} else
-			{
-				makeBounceOnstart = true;
-			}
-		}
-	}
-
-	@Override
-	public void endContact(Contact arg0)
-	{
-		makeBounce = true;
-	}
-
-	@Override
-	public void postSolve(Contact arg0, ContactImpulse arg1)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void preSolve(Contact arg0, Manifold arg1)
-	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -429,19 +382,5 @@ public class MyView extends View implements ContactListener, OnTouchListener
 		lineInBallPaint.setColor(Color.BLACK);
 		lineInBallPaint.setAlpha(79);
 		lineInBallPaint.setStrokeWidth(toPixels(0.04f));
-	}
-
-	class MyTask extends AsyncTask<Void, Void, Void>
-	{
-		@Override
-		protected Void doInBackground(Void... params)
-		{
-			SharedPreferences sp = MainActivity.gameSP;
-			Editor edit = sp.edit();
-			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
-			edit.commit();
-			ma.updateStepsOfBounceAchievements(3000);
-			return null;
-		}
 	}
 }

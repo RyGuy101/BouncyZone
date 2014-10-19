@@ -1,6 +1,10 @@
 package com.blogspot.mathjoy.bouncy;
 
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.contacts.Contact;
 
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
@@ -12,6 +16,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +27,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends BaseGameActivity implements OnTouchListener//, OnClickListener
+public class MainActivity extends BaseGameActivity implements OnTouchListener, ContactListener
 {
 	Intent intent;
 	String pickedColor;
@@ -37,15 +42,14 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 	public static TextView redoText;
 	public ImageButton buttonDown;
 	public static final String GAME_SP = "game";
-	public static SharedPreferences gameSP;
 	boolean updatedUndoButton = false;
 	boolean undoLongClicked = false;
+	public static float bounceVolume = (float) 0.6;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		gameSP = getSharedPreferences(GAME_SP, 0);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		setContentView(R.layout.activity_main);
 		ball = (ImageButton) findViewById(R.id.Ball);
@@ -133,7 +137,6 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 		} catch (Exception e)
 		{
 		}
-		getGameHelper();
 	}
 
 	@Override
@@ -168,13 +171,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 				MyView.ball.setAngularVelocity(0);
 			}
 		}
-		if (WorldManager.world != null)
-		{
-			WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
-		} else
-		{
-			WorldManager.setGravityButDontUpdateWorld((new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0))));
-		}
+		WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
+		WorldManager.world.setContactListener(this);
 	}
 
 	// @Override
@@ -300,67 +298,88 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 	//		}
 	//	}
 
-	public void addBounce()
-	{
-		SharedPreferences sp = getSharedPreferences(GAME_SP, 0);
-		Editor edit = sp.edit();
-		edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
-		edit.commit();
-	}
-
 	@Override
 	public void onSignInFailed()
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onSignInSucceeded()
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	private void setStepsOfAchivement(int id, int steps)
 	{
-		//		if (isSignedIn())
-		//		{
-		Games.Achievements.setSteps(getApiClient(), getString(id), steps);
-		//		}
+		try
+		{
+			Games.Achievements.setSteps(getApiClient(), getString(id), steps);
+		} catch (Exception e)
+		{
+		}
 	}
 
 	public void updateStepsOfBounceAchievements(int numBounces)
 	{
-		//		try
-		//		{
-		//			setStepsOfAchivement(R.string.achievement_bouncy, numBounces);
-		//		} catch (Exception e)
-		//		{
-		//		}
-		//		try
-		//		{
-		//			setStepsOfAchivement(R.string.achievement_super_bouncy, numBounces);
-		//		} catch (Exception e)
-		//		{
-		//		}
-		//		try
-		//		{
-		//			setStepsOfAchivement(R.string.achievement_mega_bouncy, numBounces);
-		//		} catch (Exception e)
-		//		{
-		//		}
-		//		try
-		//		{
-		//			setStepsOfAchivement(R.string.achievement_hyper_bouncy, numBounces);
-		//		} catch (Exception e)
-		//		{
-		//		}
-		//		try
-		//		{
+		setStepsOfAchivement(R.string.achievement_bouncy, numBounces);
+		setStepsOfAchivement(R.string.achievement_super_bouncy, numBounces);
+		setStepsOfAchivement(R.string.achievement_mega_bouncy, numBounces);
+		setStepsOfAchivement(R.string.achievement_hyper_bouncy, numBounces);
 		setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
-		//		} catch (Exception e)
-		//		{
-		//		}
+	}
+
+	class MyTask extends AsyncTask<Void, Void, Void>
+	{
+		@Override
+		protected Void doInBackground(Void... params)
+		{
+			SharedPreferences sp = getSharedPreferences(GAME_SP, 0);
+			Editor edit = sp.edit();
+			edit.putInt("numBounces", sp.getInt("numBounces", 0) + 1);
+			edit.commit();
+			updateStepsOfBounceAchievements(sp.getInt("numBounces", 0));
+			return null;
+		}
+	}
+
+	@Override
+	public void beginContact(Contact arg0)
+	{
+		if (MyView.makeBounce)
+		{
+			MyView.makeBounce = false;
+			MyView.touching = false;
+			WorldManager.undoTemporaryGravitySet();
+			if (MyView.makeBounceOnstart)
+			{
+				IntroActivity.spoolBounce.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
+				if (arg0.getFixtureA().getBody().equals(MyView.ball.getBody()) || arg0.getFixtureB().getBody().equals(MyView.ball.getBody()))
+				{
+					new MyTask().execute();
+				}
+			} else
+			{
+				MyView.makeBounceOnstart = true;
+			}
+		}
+	}
+
+	@Override
+	public void endContact(Contact arg0)
+	{
+		MyView.makeBounce = true;
+	}
+
+	@Override
+	public void postSolve(Contact arg0, ContactImpulse arg1)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void preSolve(Contact arg0, Manifold arg1)
+	{
+		// TODO Auto-generated method stub
+
 	}
 }
