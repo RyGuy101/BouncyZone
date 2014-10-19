@@ -4,6 +4,7 @@ import org.jbox2d.common.Vec2;
 
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
+import com.google.example.games.basegameutils.GameHelper;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -323,10 +324,10 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 
 	private void setStepsOfAchivement(int id, int steps)
 	{
-		if (isSignedIn())
-		{
-			Games.Achievements.setSteps(getApiClient(), getString(id), steps);
-		}
+		//		if (isSignedIn())
+		//		{
+		Games.Achievements.setSteps(getApiClient(), getString(id), steps);
+		//		}
 	}
 
 	public void updateStepsOfBounceAchievements(int numBounces)
@@ -357,13 +358,9 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener//,
 		//		}
 		//		try
 		//		{
-		//		setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
+		setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
 		//		} catch (Exception e)
 		//		{
 		//		}
-		if (isSignedIn())
-		{
-
-		}
 	}
 }
