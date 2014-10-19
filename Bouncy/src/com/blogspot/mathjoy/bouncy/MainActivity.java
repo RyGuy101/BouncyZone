@@ -320,11 +320,23 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 
 	public void updateStepsOfBounceAchievements(int numBounces)
 	{
-		setStepsOfAchivement(R.string.achievement_bouncy, numBounces);
-		setStepsOfAchivement(R.string.achievement_super_bouncy, numBounces);
-		setStepsOfAchivement(R.string.achievement_mega_bouncy, numBounces);
-		setStepsOfAchivement(R.string.achievement_hyper_bouncy, numBounces);
-		setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
+		if (numBounces == 100)
+		{
+			setStepsOfAchivement(R.string.achievement_bouncy, numBounces);
+		} else if (numBounces == 500)
+		{
+			setStepsOfAchivement(R.string.achievement_super_bouncy, numBounces);
+
+		} else if (numBounces == 1000)
+		{
+			setStepsOfAchivement(R.string.achievement_mega_bouncy, numBounces);
+		} else if (numBounces == 2000)
+		{
+			setStepsOfAchivement(R.string.achievement_hyper_bouncy, numBounces);
+		} else if (numBounces == 100000)
+		{
+			setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
+		}
 	}
 
 	class MyTask extends AsyncTask<Void, Void, Void>

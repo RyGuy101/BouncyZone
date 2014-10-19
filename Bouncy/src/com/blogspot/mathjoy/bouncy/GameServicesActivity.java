@@ -16,7 +16,7 @@ import com.google.android.gms.games.achievement.AchievementBuffer;
 import com.google.android.gms.games.achievement.Achievements.LoadAchievementsResult;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
-public class GameServicesActivity extends BaseGameActivity// implements ResultCallback<LoadAchievementsResult>
+public class GameServicesActivity extends BaseGameActivity implements ResultCallback<LoadAchievementsResult>
 {
 	float buttonVolume = IntroActivity.buttonVolume;
 	final int RC_RESOLVE = 5000, RC_UNUSED = 5001;
@@ -54,13 +54,12 @@ public class GameServicesActivity extends BaseGameActivity// implements ResultCa
 	@Override
 	public void onSignInFailed()
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void onSignInSucceeded()
 	{
-		//		Games.Achievements.load(getApiClient(), false).setResultCallback(this);
+		Games.Achievements.load(getApiClient(), false).setResultCallback(this);
 	}
 
 	public void showAchievements(View v)
@@ -117,66 +116,69 @@ public class GameServicesActivity extends BaseGameActivity// implements ResultCa
 		return super.onOptionsItemSelected(item);
 	}
 
-	//	@Override
-	//	public void onResult(LoadAchievementsResult result)
-	//	{
-	//		SharedPreferences sp = getSharedPreferences(MainActivity.GAME_SP, 0);
-	//		int numBounces = sp.getInt("numBounces", 0);
-	//		Achievement bouncy = null;
-	//		Achievement superBouncy = null;
-	//		Achievement megaBouncy = null;
-	//		Achievement hyperBouncy = null;
-	//		Achievement bouncyKing = null;
-	//
-	//		if (result != null)
-	//		{
-	//			if (result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK)
-	//			{
-	//				if (result.getAchievements() != null)
-	//				{
-	//					AchievementBuffer achievementBuffer = result.getAchievements();
-	//					for (Achievement achievement : achievementBuffer)
-	//					{
-	//						if (achievement.getAchievementId().equals(getString(R.string.achievement_bouncy)))
-	//						{
-	//							bouncy = achievement;
-	//						} else if (achievement.getAchievementId().equals(getString(R.string.achievement_super_bouncy)))
-	//						{
-	//							superBouncy = achievement;
-	//						} else if (achievement.getAchievementId().equals(getString(R.string.achievement_mega_bouncy)))
-	//						{
-	//							megaBouncy = achievement;
-	//						} else if (achievement.getAchievementId().equals(getString(R.string.achievement_hyper_bouncy)))
-	//						{
-	//							hyperBouncy = achievement;
-	//						} else if (achievement.getAchievementId().equals(getString(R.string.achievement_bouncy_king)))
-	//						{
-	//							bouncyKing = achievement;
-	//						}
-	//					}
-	//					if (bouncy.getCurrentSteps() < numBounces)
-	//					{
-	//						setStepsOfAchivement(R.string.achievement_bouncy, numBounces);
-	//					}
-	//					if (superBouncy.getCurrentSteps() < numBounces)
-	//					{
-	//						setStepsOfAchivement(R.string.achievement_super_bouncy, numBounces);
-	//					}
-	//					if (megaBouncy.getCurrentSteps() < numBounces)
-	//					{
-	//						setStepsOfAchivement(R.string.achievement_mega_bouncy, numBounces);
-	//					}
-	//					if (hyperBouncy.getCurrentSteps() < numBounces) 
-	//					{
-	//						setStepsOfAchivement(R.string.achievement_hyper_bouncy, numBounces);
-	//					}
-	//					if (bouncyKing.getCurrentSteps() < (int) numBounces / 10.0)
-	//					{
-	//						setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
-	//					}
-	//					achievementBuffer.close();
-	//				}
-	//			}
-	//		}
-	//	}
+	@Override
+	public void onResult(LoadAchievementsResult result)
+	{
+		SharedPreferences sp = getSharedPreferences(MainActivity.GAME_SP, 0);
+		int numBounces = sp.getInt("numBounces", 0);
+		Achievement bouncy = null;
+		Achievement superBouncy = null;
+		Achievement megaBouncy = null;
+		Achievement hyperBouncy = null;
+		Achievement bouncyKing = null;
+
+		if (result != null)
+		{
+			if (result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK)
+			{
+				if (result.getAchievements() != null)
+				{
+					AchievementBuffer achievementBuffer = result.getAchievements();
+					for (Achievement achievement : achievementBuffer)
+					{
+						if (achievement.getAchievementId().equals(getString(R.string.achievement_bouncy)))
+						{
+							bouncy = achievement;
+						} else if (achievement.getAchievementId().equals(getString(R.string.achievement_super_bouncy)))
+						{
+							superBouncy = achievement;
+						} else if (achievement.getAchievementId().equals(getString(R.string.achievement_mega_bouncy)))
+						{
+							megaBouncy = achievement;
+						} else if (achievement.getAchievementId().equals(getString(R.string.achievement_hyper_bouncy)))
+						{
+							hyperBouncy = achievement;
+						} else if (achievement.getAchievementId().equals(getString(R.string.achievement_bouncy_king)))
+						{
+							bouncyKing = achievement;
+						}
+					}
+					if (numBounces > 0)
+					{
+						if (bouncy.getCurrentSteps() < numBounces)
+						{
+							setStepsOfAchivement(R.string.achievement_bouncy, numBounces);
+						}
+						if (superBouncy.getCurrentSteps() < numBounces)
+						{
+							setStepsOfAchivement(R.string.achievement_super_bouncy, numBounces);
+						}
+						if (megaBouncy.getCurrentSteps() < numBounces)
+						{
+							setStepsOfAchivement(R.string.achievement_mega_bouncy, numBounces);
+						}
+						if (hyperBouncy.getCurrentSteps() < numBounces)
+						{
+							setStepsOfAchivement(R.string.achievement_hyper_bouncy, numBounces);
+						}
+						if (bouncyKing.getCurrentSteps() < (int) (numBounces / 10.0) && numBounces >= 10)
+						{
+							setStepsOfAchivement(R.string.achievement_bouncy_king, (int) (numBounces / 10.0));
+						}
+					}
+					achievementBuffer.close();
+				}
+			}
+		}
+	}
 }

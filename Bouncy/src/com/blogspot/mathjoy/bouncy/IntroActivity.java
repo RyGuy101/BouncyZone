@@ -70,6 +70,7 @@ public class IntroActivity extends BaseGameActivity
 		if (WorldManager.world == null)
 		{
 			WorldManager.setupWorld();
+			WorldManager.world.setContactListener(new MainActivity());
 		}
 	}
 
