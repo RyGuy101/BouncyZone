@@ -38,11 +38,9 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 			if (numBounces == 1)
 			{
 				numBouncesText.setText("You've bounced the ball 1 time!");
-				otd.setText("(on this device)");
 			} else
 			{
 				numBouncesText.setText("You've bounced the ball " + numBounces + " times!");
-				otd.setText("(on this device)");
 			}
 		} else
 		{
