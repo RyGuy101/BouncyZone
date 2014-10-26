@@ -3,13 +3,25 @@
     tools:context="com.blogspot.mathjoy.bouncy.SettingsTabs" >
 
     <item
-        android:id="@+id/toIntro"
+        android:id="@+id/soundsOnActionBar"
+        android:icon="@drawable/sounds_on"
         android:orderInCategory="1"
+        android:showAsAction="always"
+        android:title="Sounds"/>
+    <item
+        android:id="@+id/toGameStatsWithIcon"
+        android:icon="@drawable/game_controller"
+        android:orderInCategory="2"
+        android:showAsAction="always"
+        android:title="Game Stats"/>
+    <item
+        android:id="@+id/toIntro"
+        android:orderInCategory="3"
         android:showAsAction="never"
         android:title="Main Menu"/>
     <item
         android:id="@+id/toGameStats"
-        android:orderInCategory="2"
+        android:orderInCategory="4"
         android:showAsAction="never"
         android:title="Game Stats"/>
 

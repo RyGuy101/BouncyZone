@@ -64,6 +64,7 @@ public class MyView extends View implements OnTouchListener
 	Paint ballPaint = new Paint();
 	Paint platformPaint = new Paint();
 	Paint lineInBallPaint = new Paint();
+	Paint startPosPaint = new Paint();
 	public static boolean showLine;
 
 	private int offScreenCounter = 0;
@@ -144,49 +145,57 @@ public class MyView extends View implements OnTouchListener
 		}
 		if (mode == MODE_BALL || intro)
 		{
-			if (touching && !intro)
+			WorldManager.step();
+			if (!intro)
 			{
-				startBallX = toMeters(currentTouchX);
-				startBallY = toMeters(currentTouchY);
-				touchX[1] = touchX[0];
-				touchY[1] = touchY[0];
-				touchX[0] = currentTouchX;
-				touchY[0] = currentTouchY;
 
-				if (initialTouch)
+				if (touching)
 				{
-					initialTouch = false;
-					WorldManager.setGravityTemporarily(new Vec2(0f, 0f));
-					ball.setPosition(new Vec2(toMeters(touchX[0]), toMeters(touchY[0])));
-					ball.setVelocity(new Vec2(0f, 0f));
-					startBallXSpeed = 0;
-					startBallYSpeed = 0;
-				} else if (knowEnoughtouch())
+					startBallX = ball.getX();
+					startBallY = ball.getY();
+					touchX[1] = touchX[0];
+					touchY[1] = touchY[0];
+					touchX[0] = currentTouchX;
+					touchY[0] = currentTouchY;
+
+					if (initialTouch)
+					{
+						initialTouch = false;
+						WorldManager.setGravityTemporarily(new Vec2(0f, 0f));
+						ball.setPosition(new Vec2(toMeters(touchX[0]), toMeters(touchY[0])));
+						ball.setVelocity(new Vec2(0f, 0f));
+						startBallXSpeed = 0;
+						startBallYSpeed = 0;
+					} else if (knowEnoughtouch())
+					{
+						ball.setVelocity(new Vec2(toMeters(touchX[0] - touchX[1]) * 60, toMeters(touchY[0] - touchY[1]) * 60));
+						startBallXSpeed = toMeters(touchX[0] - touchX[1]) * 60;
+						startBallYSpeed = toMeters(touchY[0] - touchY[1]) * 60;
+					}
+				} else if (wasTouching)
 				{
-					ball.setVelocity(new Vec2(toMeters(touchX[0] - touchX[1]) * 60, toMeters(touchY[0] - touchY[1]) * 60));
-					startBallXSpeed = toMeters(touchX[0] - touchX[1]) * 60;
-					startBallYSpeed = toMeters(touchY[0] - touchY[1]) * 60;
-				}
-			} else if (wasTouching)
-			{
-				wasTouching = false;
-				WorldManager.undoTemporaryGravitySet();
-			} else if (!touching)
-			{
-				if (ball.getX() - ball.getRadius() > toMeters(this.getWidth()) || ball.getX() + ball.getRadius() < 0 || ball.getY() - ball.getRadius() > toMeters(this.getHeight()) || !ball.isAwake())
+					WorldManager.undoTemporaryGravitySet();
+					wasTouching = false;
+					startBallX = ball.getX();
+					startBallY = ball.getY();
+					startBallXSpeed = ball.getVelocity().x;
+					startBallYSpeed = ball.getVelocity().y;
+				} else if (!touching)
 				{
-					offScreenCounter++;
-				} else
-				{
-					offScreenCounter = 0;
-				}
-				if (offScreenCounter >= 60 && !intro)
-				{
-					ball.setPosition(new Vec2(startBallX, startBallY));
-					ball.setVelocity(new Vec2(startBallXSpeed, startBallYSpeed));
+					if (ball.getX() - ball.getRadius() > toMeters(this.getWidth()) || ball.getX() + ball.getRadius() < 0 || ball.getY() - ball.getRadius() > toMeters(this.getHeight()) || !ball.isAwake())
+					{
+						offScreenCounter++;
+					} else
+					{
+						offScreenCounter = 0;
+					}
+					if (offScreenCounter >= 60)
+					{
+						ball.setPosition(new Vec2(startBallX, startBallY));
+						ball.setVelocity(new Vec2(startBallXSpeed, startBallYSpeed));
+					}
 				}
 			}
-			WorldManager.step();
 		} else if (mode == MODE_CREATE_PLATFORM)
 		{
 			if (touching)
@@ -206,6 +215,7 @@ public class MyView extends View implements OnTouchListener
 		if (!intro)
 		{
 			theBall = ball;
+			c.drawCircle(toPixels(startBallX), toPixels(startBallY), toPixels(theBall.getRadius()), startPosPaint);
 		} else
 		{
 			theBall = introBall;
@@ -250,8 +260,11 @@ public class MyView extends View implements OnTouchListener
 			startTouchY = currentTouchY;
 		} else if (event.getAction() == MotionEvent.ACTION_UP)
 		{
-			touching = false;
-			wasTouching = true;
+			if (touching)
+			{
+				touching = false;
+				wasTouching = true;
+			}
 			for (int i = 0; i < 2; i++)
 			{
 				touchX[i] = -1000;
@@ -382,5 +395,6 @@ public class MyView extends View implements OnTouchListener
 		lineInBallPaint.setColor(Color.BLACK);
 		lineInBallPaint.setAlpha(79);
 		lineInBallPaint.setStrokeWidth(toPixels(0.04f));
+		startPosPaint.setColor(Color.rgb(31, 31, 31));
 	}
 }

@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
     tools:context=".MyMenu" >
 
     <RelativeLayout
@@ -20,92 +19,102 @@
             android:text="Clear Game" />
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E0E0E0" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E0E0E0"
-        android:orientation="horizontal" >
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textBallColor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Ball Color: " />
+
+            <com.blogspot.mathjoy.bouncy.ColorView
+                android:id="@+id/colorView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Spinner
+                android:id="@+id/ballColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <TextView
-            android:id="@+id/textBallColor"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="Ball Color: " />
+            android:id="@+id/valueOfGravity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0.0" />
 
-        <com.blogspot.mathjoy.bouncy.ColorView
-            android:id="@+id/colorView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <SeekBar
+            android:id="@+id/gravity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="200" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E0E0E0"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-        <Spinner
-            android:id="@+id/ballColor"
+        <TextView
+            android:id="@+id/valueOfBounceLevel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#E0E0E0"
+            android:text="0.0" />
+
+        <SeekBar
+            android:id="@+id/bouceLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E0E0E0"
+            android:max="200" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/valueOfGravity"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0.0" />
+         android:orientation="vertical"
+        android:padding="10dp" >
 
-    <SeekBar
-        android:id="@+id/gravity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="200" />
+        <TextView
+            android:id="@+id/valueOfFriction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="50%" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E0E0E0" />
-
-    <TextView
-        android:id="@+id/valueOfBounceLevel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E0E0E0"
-        android:text="0.0" />
-
-    <SeekBar
-        android:id="@+id/bouceLevel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E0E0E0"
-        android:max="200" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/valueOfFriction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="50%" />
-
-    <SeekBar
-        android:id="@+id/friction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100" />
+        <SeekBar
+            android:id="@+id/friction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

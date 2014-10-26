@@ -6,11 +6,11 @@
     tools:context="com.blogspot.mathjoy.bouncy.GameServicesActivity" >
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/helloUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Game Stats"
+        android:text="Hello, anonymous user!"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -63,12 +63,14 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/signInInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Not signed in" />
 
                 <TextView
+                    android:id="@+id/googleInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -82,11 +84,28 @@
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
-                <Button
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:text="Sign in" />
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/signOutButt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="signOut"
+                        android:text="Sign out" />
+
+                    <Button
+                        android:id="@+id/signInButt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="signIn"
+                        android:text="Sign in" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

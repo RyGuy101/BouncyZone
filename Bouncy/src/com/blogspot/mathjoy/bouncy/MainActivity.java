@@ -359,13 +359,16 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		if (MyView.makeBounce)
 		{
 			MyView.makeBounce = false;
-			MyView.touching = false;
-			WorldManager.undoTemporaryGravitySet();
 			if (MyView.makeBounceOnstart)
 			{
 				IntroActivity.spoolBounce.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
 				if (arg0.getFixtureA().getBody().equals(MyView.ball.getBody()) || arg0.getFixtureB().getBody().equals(MyView.ball.getBody()))
 				{
+					if (MyView.touching)
+					{
+						MyView.touching = false;
+						MyView.wasTouching = true;
+					}
 					new MyTask().execute();
 				}
 			} else

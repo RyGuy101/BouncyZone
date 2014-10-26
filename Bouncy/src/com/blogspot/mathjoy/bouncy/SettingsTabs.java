@@ -208,6 +208,12 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 		case R.id.toGameStats:
 			goToGameServices();
 			return true;
+		case R.id.toGameStatsWithIcon:
+			goToGameServices();
+			return true;
+		case R.id.soundsOnActionBar:
+			item.setIcon(R.drawable.muted);
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
