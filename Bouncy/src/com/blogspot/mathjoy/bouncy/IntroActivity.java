@@ -74,6 +74,11 @@ public class IntroActivity extends BaseGameActivity
 		}
 	}
 
+	public void playSound(View v)
+	{
+		spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+	}
+
 	public void goToGame(View v)
 	{
 		Intent intent = new Intent(this, MainActivity.class);

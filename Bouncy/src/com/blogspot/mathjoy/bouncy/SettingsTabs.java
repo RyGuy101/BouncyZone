@@ -31,6 +31,7 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	public static Activity activity;
 	float buttonVolume = IntroActivity.buttonVolume;
 	public static boolean gameReset;
+	boolean soundsOn;
 
 	@Override
 	protected void onCreate(Bundle arg0)
@@ -78,12 +79,24 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 		actionBar.addTab(tab1);
 		actionBar.addTab(tab2);
 		activity = this;
+
+		if (IntroActivity.bounce == 0)
+		{
+			soundsOn = false;
+		} else
+		{
+			soundsOn = true;
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.menu_items, menu);
+		if (!soundsOn)
+		{
+			menu.getItem(0).setIcon(R.drawable.muted);
+		}
 		return true;
 	}
 
@@ -212,10 +225,29 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 			goToGameServices();
 			return true;
 		case R.id.soundsOnActionBar:
-			item.setIcon(R.drawable.muted);
+			togglesounds(item);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void togglesounds(MenuItem item)
+	{
+		if (!soundsOn)
+		{
+			IntroActivity.bounce = IntroActivity.spoolBounce.load(getApplicationContext(), R.raw.bounce, 1);
+			IntroActivity.button = IntroActivity.spoolButton.load(getApplicationContext(), R.raw.button, 1);
+			item.setIcon(R.drawable.sounds_on);
+			soundsOn = true;
+			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+		} else
+		{
+			IntroActivity.bounce = 0;
+			IntroActivity.button = 0;
+			item.setIcon(R.drawable.muted);
+			soundsOn = false;
+
+		}
 	}
 }
 
