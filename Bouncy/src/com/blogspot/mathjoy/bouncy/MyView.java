@@ -149,7 +149,6 @@ public class MyView extends View implements OnTouchListener
 			WorldManager.step();
 			if (!intro)
 			{
-
 				if (touching)
 				{
 					startBallX = ball.getX();
@@ -158,17 +157,10 @@ public class MyView extends View implements OnTouchListener
 					touchY[1] = touchY[0];
 					touchX[0] = currentTouchX;
 					touchY[0] = currentTouchY;
-
 					if (initialTouch)
 					{
 						initialTouch = false;
 						WorldManager.setGravityTemporarily(new Vec2(0f, 0f));
-						ball.setPosition(new Vec2(toMeters(touchX[0]), toMeters(touchY[0])));
-						ball.setAngle(0);
-						ball.setAngularVelocity(0);
-						ball.setVelocity(new Vec2(0f, 0f));
-						startBallXSpeed = 0;
-						startBallYSpeed = 0;
 					} else if (knowEnoughtouch())
 					{
 						ball.setVelocity(new Vec2(toMeters(touchX[0] - touchX[1]) * 60, toMeters(touchY[0] - touchY[1]) * 60));
@@ -177,6 +169,7 @@ public class MyView extends View implements OnTouchListener
 					}
 				} else if (wasTouching)
 				{
+					initialTouch = false;
 					wasTouching = false;
 					startBallX = ball.getX();
 					startBallY = ball.getY();
@@ -255,35 +248,48 @@ public class MyView extends View implements OnTouchListener
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		if (event.getAction() == MotionEvent.ACTION_DOWN)
+		if (!intro)
 		{
-			initialTouch = true;
-			touching = true;
-			currentTouchX = event.getX();
-			currentTouchY = event.getY();
-			startTouchX = currentTouchX;
-			startTouchY = currentTouchY;
-		} else if (event.getAction() == MotionEvent.ACTION_UP)
-		{
-			if (touching)
+			if (event.getAction() == MotionEvent.ACTION_DOWN)
 			{
-				touching = false;
-				wasTouching = true;
-			}
-			for (int i = 0; i < 2; i++)
+				initialTouch = true;
+				touching = true;
+				currentTouchX = event.getX();
+				currentTouchY = event.getY();
+				startTouchX = currentTouchX;
+				startTouchY = currentTouchY;
+				if (mode == MODE_BALL)
+				{
+					ball.setPosition(new Vec2(toMeters(currentTouchX), toMeters(currentTouchY)));
+					ball.setAngle(0);
+					ball.setAngularVelocity(0);
+					ball.setVelocity(new Vec2(0f, 0f));
+					startBallXSpeed = 0;
+					startBallYSpeed = 0;
+				}
+			} else if (event.getAction() == MotionEvent.ACTION_UP)
 			{
-				touchX[i] = -1000;
-				touchY[i] = -1000;
-			}
-			endTouchX = event.getX();
-			endTouchY = event.getY();
+				if (touching)
+				{
+					touching = false;
+					wasTouching = true;
+				}
+				for (int i = 0; i < 2; i++)
+				{
+					touchX[i] = -1000;
+					touchY[i] = -1000;
+				}
+				endTouchX = event.getX();
+				endTouchY = event.getY();
 
-		} else if (event.getAction() == MotionEvent.ACTION_MOVE)
-		{
-			currentTouchX = event.getX();
-			currentTouchY = event.getY();
+			} else if (event.getAction() == MotionEvent.ACTION_MOVE)
+			{
+				currentTouchX = event.getX();
+				currentTouchY = event.getY();
+			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	private void drawBackground(Canvas c)

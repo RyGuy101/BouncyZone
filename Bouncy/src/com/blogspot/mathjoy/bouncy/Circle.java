@@ -110,11 +110,13 @@ public class Circle
 		Vec2 pos = new Vec2(getPosition());
 		Vec2 vel = getVelocity();
 		float aVel = body.getAngularVelocity();
+		float angle = getAngle();
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
 		bd.position.set(pos);
 		bd.linearVelocity.set(vel);
 		bd.angularVelocity = aVel;
+		bd.angle = angle;
 		body = WorldManager.world.createBody(bd);
 		fd.restitution = restitution;
 		body.createFixture(fd);
@@ -126,11 +128,13 @@ public class Circle
 		Vec2 pos = new Vec2(getPosition());
 		Vec2 vel = getVelocity();
 		float aVel = body.getAngularVelocity();
+		float angle = getAngle();
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
 		bd.position.set(pos);
 		bd.linearVelocity.set(vel);
 		bd.angularVelocity = aVel;
+		bd.angle = angle;
 		body = WorldManager.world.createBody(bd);
 		fd.friction = friction;
 		body.createFixture(fd);

@@ -58,10 +58,6 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		undoLayout = (LinearLayout) findViewById(R.id.undoLayout);
 		undo = (ImageButton) findViewById(R.id.Undo);
 		redoText = (TextView) findViewById(R.id.redoText);
-		if (MyView.oldPlatforms.size() == 0)
-		{
-			redoText.setTextColor(Color.GRAY);
-		}
 		settings.setBackgroundColor(Color.LTGRAY);
 		undo.setBackgroundColor(Color.LTGRAY);
 		final ViewTreeObserver observer = redoText.getViewTreeObserver();
@@ -77,15 +73,6 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 				}
 			}
 		});
-		if (MyView.mode == MyView.MODE_BALL)
-		{
-			MainActivity.ball.setBackgroundColor(Color.GRAY);
-			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
-		} else if (MyView.mode == MyView.MODE_CREATE_PLATFORM)
-		{
-			MainActivity.platform.setBackgroundColor(Color.GRAY);
-			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
-		}
 		ball.setOnTouchListener(this);
 		platform.setOnTouchListener(this);
 		settings.setOnTouchListener(this);
@@ -108,7 +95,6 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		});
 		undo.setOnLongClickListener(new View.OnLongClickListener()
 		{
-
 			@Override
 			public boolean onLongClick(View v)
 			{
@@ -174,6 +160,19 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
 		WorldManager.world.setContactListener(this);
 		MyView.intro = false;
+		if (MyView.mode == MyView.MODE_BALL)
+		{
+			MainActivity.ball.setBackgroundColor(Color.GRAY);
+			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
+		} else if (MyView.mode == MyView.MODE_CREATE_PLATFORM)
+		{
+			MainActivity.platform.setBackgroundColor(Color.GRAY);
+			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
+		}
+		if (MyView.oldPlatforms.size() == 0)
+		{
+			redoText.setTextColor(Color.GRAY);
+		}
 	}
 
 	// @Override
