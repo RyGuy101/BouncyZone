@@ -466,12 +466,12 @@ containing a value of this type.
         public static final int introButtons=0x7f090022;
         public static final int introPlay=0x7f090023;
         public static final int introStats=0x7f090024;
+        public static final int introView=0x7f090021;
         public static final int loadConf=0x7f09002a;
         public static final int loadConfText=0x7f090027;
         public static final int match_parent=0x7f09000c;
         public static final int monochrome=0x7f090013;
         public static final int myView=0x7f090032;
-        public static final int myView1=0x7f090021;
         public static final int none=0x7f090000;
         public static final int normal=0x7f090001;
         public static final int numBouncesText=0x7f09001a;

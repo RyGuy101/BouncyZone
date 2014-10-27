@@ -7,7 +7,7 @@
         android:icon="@drawable/sounds_on"
         android:orderInCategory="0"
         android:showAsAction="always"
-        android:title="Sounds"/>
+        android:title="Sounds On/Off"/>
     <item
         android:id="@+id/toGameStatsWithIcon"
         android:icon="@drawable/game_controller"

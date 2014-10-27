@@ -40,7 +40,6 @@ public class ZonesFragment extends Fragment
 	LinearLayout saveLayout;
 	AlertDialog saveConfAlert = null;
 	AlertDialog renameConfAlert;
-	Activity activity;
 
 	EditText editName;
 	String emptySpaceS = "You must enter a name.";
@@ -57,7 +56,6 @@ public class ZonesFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.activity_more_settings, container, false);
-		activity = SettingsTabs.activity;
 		saveLayout = null;
 		chooseConf = (ListView) view.findViewById(R.id.chooseConf);
 		refreshZoneList();
@@ -386,7 +384,46 @@ public class ZonesFragment extends Fragment
 					@Override
 					public void onClick(View v)
 					{
-						renameConf(sp, thisN, et.getText().toString(), alert);
+						String newName = et.getText().toString();
+						boolean emptySpace = true;
+						for (int i = 0; i < newName.length(); i++)
+						{
+							if (newName.charAt(i) != ' ' && newName.charAt(i) != '	')
+							{
+								emptySpace = false;
+							}
+						}
+						if (emptySpace)
+						{
+							if (newName.length() == 0)
+							{
+								if (emptySpaceT != null)
+								{
+									emptySpaceT.cancel();
+								}
+								if (blankT != null)
+								{
+									blankT.cancel();
+								}
+								emptySpaceT = Toast.makeText(SettingsTabs.activity, emptySpaceS, Toast.LENGTH_SHORT);
+								emptySpaceT.show();
+							} else
+							{
+								if (emptySpaceT != null)
+								{
+									emptySpaceT.cancel();
+								}
+								if (blankT != null)
+								{
+									blankT.cancel();
+								}
+								blankT = Toast.makeText(SettingsTabs.activity, blankS, Toast.LENGTH_SHORT);
+								blankT.show();
+							}
+						} else
+						{
+							renameConf(sp, thisN, newName, alert);
+						}
 					}
 
 				});
@@ -517,6 +554,7 @@ public class ZonesFragment extends Fragment
 			Intent intent = new Intent(SettingsTabs.activity, MainActivity.class);
 			intent.putExtra("fromLoad", true);
 			SettingsTabs.activity.startActivity(intent);
+			SettingsTabs.activity.overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 		}
 	}
 

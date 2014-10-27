@@ -173,6 +173,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		}
 		WorldManager.setGravity(new Vec2(0, (float) (sp.getFloat("gravityValue", 100.0f) / 10.0)));
 		WorldManager.world.setContactListener(this);
+		MyView.intro = false;
 	}
 
 	// @Override

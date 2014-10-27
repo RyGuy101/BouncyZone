@@ -235,8 +235,8 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	{
 		if (!soundsOn)
 		{
-			IntroActivity.bounce = IntroActivity.spoolBounce.load(getApplicationContext(), R.raw.bounce, 1);
-			IntroActivity.button = IntroActivity.spoolButton.load(getApplicationContext(), R.raw.button, 1);
+			IntroActivity.bounce = IntroActivity.originalBounce;
+			IntroActivity.button = IntroActivity.originalButton;
 			item.setIcon(R.drawable.sounds_on);
 			soundsOn = true;
 			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);

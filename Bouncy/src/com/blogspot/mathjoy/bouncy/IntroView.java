@@ -21,7 +21,6 @@ public class IntroView extends MyView
 	{
 		super(context, attrs);
 		ballColor = Color.RED;
-		intro = true;
 	}
 
 	protected void setup()
@@ -80,7 +79,7 @@ public class IntroView extends MyView
 	{
 		if (introBall != null)
 		{
-			introBall.create();
+			introBall.reCreate();
 			introBall.setPosition(new Vec2(originalStartBallX, toMeters(h * 0.1f)));
 			introBall.setFriction(0f);
 			introBall.setVelocity(new Vec2(toMeters(w * 0.5f), 0));

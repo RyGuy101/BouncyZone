@@ -72,7 +72,7 @@ public class MyView extends View implements OnTouchListener
 	public static boolean makeBounce = true;
 	public static boolean makeBounceOnstart = true;
 
-	protected boolean intro;
+	public static boolean intro;
 	protected static ArrayList<Platform> introPlatforms = new ArrayList<Platform>();
 	public static Circle introBall = null;
 
@@ -82,7 +82,6 @@ public class MyView extends View implements OnTouchListener
 	public MyView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		intro = false;
 	}
 
 	protected void setup()
@@ -103,6 +102,8 @@ public class MyView extends View implements OnTouchListener
 		startBallX = originalStartBallX;
 		startBallY = originalStartBallY;
 		ball.setPosition(new Vec2(originalStartBallX, originalStartBallY));
+		ball.setAngle(0);
+		ball.setAngularVelocity(0);
 		ball.setVelocity(new Vec2(0, 0));
 	}
 
@@ -163,6 +164,8 @@ public class MyView extends View implements OnTouchListener
 						initialTouch = false;
 						WorldManager.setGravityTemporarily(new Vec2(0f, 0f));
 						ball.setPosition(new Vec2(toMeters(touchX[0]), toMeters(touchY[0])));
+						ball.setAngle(0);
+						ball.setAngularVelocity(0);
 						ball.setVelocity(new Vec2(0f, 0f));
 						startBallXSpeed = 0;
 						startBallYSpeed = 0;
@@ -174,12 +177,12 @@ public class MyView extends View implements OnTouchListener
 					}
 				} else if (wasTouching)
 				{
-					WorldManager.undoTemporaryGravitySet();
 					wasTouching = false;
 					startBallX = ball.getX();
 					startBallY = ball.getY();
 					startBallXSpeed = ball.getVelocity().x;
 					startBallYSpeed = ball.getVelocity().y;
+					WorldManager.undoTemporaryGravitySet();
 				} else if (!touching)
 				{
 					if (ball.getX() - ball.getRadius() > toMeters(this.getWidth()) || ball.getX() + ball.getRadius() < 0 || ball.getY() - ball.getRadius() > toMeters(this.getHeight()) || !ball.isAwake())
@@ -191,7 +194,9 @@ public class MyView extends View implements OnTouchListener
 					}
 					if (offScreenCounter >= 60)
 					{
+						ball.setAngle(0);
 						ball.setPosition(new Vec2(startBallX, startBallY));
+						ball.setAngularVelocity(0);
 						ball.setVelocity(new Vec2(startBallXSpeed, startBallYSpeed));
 					}
 				}
@@ -384,7 +389,7 @@ public class MyView extends View implements OnTouchListener
 
 	public static void makeBallReal()
 	{
-		ball.create();
+		ball.reCreate();
 	}
 
 	private void updateColors()

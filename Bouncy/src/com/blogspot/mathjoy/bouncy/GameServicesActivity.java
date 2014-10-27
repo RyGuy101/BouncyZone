@@ -102,7 +102,7 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 			startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), RC_UNUSED);
 		} else
 		{
-			showAlert("You have to be signed in to view achievements.");
+			showAlert("Viewing achievements requires signing in to Google.");
 		}
 	}
 

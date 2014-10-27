@@ -21,6 +21,10 @@ public class Circle
 	private FixtureDef fd;
 	private BodyDef bd;
 	private Fixture fixture;
+	private Vec2 lastPos;
+	private Vec2 lastVel;
+	private float lastAngle;
+	private float lastAVel;
 
 	public Circle(BodyType bt, float x, float y, float radius, float density, float friction, float restitution)
 	{
@@ -31,10 +35,21 @@ public class Circle
 		this.density = density;
 		this.friction = friction;
 		this.restitution = restitution;
-		create();
+		initialCreate();
 	}
 
-	public void create()
+	public void reCreate()
+	{
+		bd.position.set(lastPos);
+		bd.linearVelocity.set(lastVel);
+		bd.angle = lastAngle;
+		bd.angularVelocity = lastAVel;
+		body = WorldManager.world.createBody(bd);
+		fixture = body.createFixture(fd);
+		MyView.makeBounceOnstart = false;
+	}
+
+	public void initialCreate()
 	{
 		bd = new BodyDef();
 		bd.position.set(x, y);
@@ -52,6 +67,10 @@ public class Circle
 
 	public void destroy()
 	{
+		lastPos = new Vec2(getPosition());
+		lastVel = getVelocity();
+		lastAngle = getAngle();
+		lastAVel = body.getAngularVelocity();
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
 	}
@@ -88,12 +107,14 @@ public class Circle
 
 	public void setRestitution(float restitution)
 	{
-		Vec2 pos = new Vec2(getX(), getY());
+		Vec2 pos = new Vec2(getPosition());
 		Vec2 vel = getVelocity();
+		float aVel = body.getAngularVelocity();
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
 		bd.position.set(pos);
 		bd.linearVelocity.set(vel);
+		bd.angularVelocity = aVel;
 		body = WorldManager.world.createBody(bd);
 		fd.restitution = restitution;
 		body.createFixture(fd);
@@ -102,12 +123,14 @@ public class Circle
 
 	public void setFriction(float friction)
 	{
-		Vec2 pos = new Vec2(getX(), getY());
+		Vec2 pos = new Vec2(getPosition());
 		Vec2 vel = getVelocity();
+		float aVel = body.getAngularVelocity();
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
 		bd.position.set(pos);
 		bd.linearVelocity.set(vel);
+		bd.angularVelocity = aVel;
 		body = WorldManager.world.createBody(bd);
 		fd.friction = friction;
 		body.createFixture(fd);
@@ -117,6 +140,15 @@ public class Circle
 	public void setVelocity(Vec2 velocity)
 	{
 		body.setLinearVelocity(velocity);
+	}
+
+	public void setAngle(float angle)
+	{
+		body.destroyFixture(fixture);
+		WorldManager.world.destroyBody(body);
+		bd.angle = angle;
+		body = WorldManager.world.createBody(bd);
+		body.createFixture(fd);
 	}
 
 	public void setAngularVelocity(float w)

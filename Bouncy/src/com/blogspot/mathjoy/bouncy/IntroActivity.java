@@ -22,6 +22,8 @@ public class IntroActivity extends BaseGameActivity
 {
 	public static SoundPool spoolBounce = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 	public static SoundPool spoolButton = new SoundPool(5, AudioManager.STREAM_SYSTEM, 0);
+	public static int originalBounce;
+	public static int originalButton;
 	public static int bounce;
 	public static int button;
 	public static float buttonVolume = (float) 0.3;
@@ -36,8 +38,10 @@ public class IntroActivity extends BaseGameActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intro);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		bounce = spoolBounce.load(this, R.raw.bounce, 1);
-		button = spoolButton.load(this, R.raw.button, 1);
+		originalBounce = spoolBounce.load(this, R.raw.bounce, 1);
+		originalButton = spoolButton.load(this, R.raw.button, 1);
+		bounce = originalBounce;
+		button = originalButton;
 		buttons = findViewById(R.id.introButtons);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		String pickedColor = sp.getString("selectedColor", "Red");
@@ -58,13 +62,14 @@ public class IntroActivity extends BaseGameActivity
 			{
 				if (isChecked)
 				{
-					bounce = spoolBounce.load(getApplicationContext(), R.raw.bounce, 1);
-					button = spoolButton.load(getApplicationContext(), R.raw.button, 1);
+					bounce = originalBounce;
+					button = originalButton;
 				} else
 				{
 					bounce = 0;
 					button = 0;
 				}
+				spoolButton.play(bounce, buttonVolume, buttonVolume, 0, 0, 1);
 			}
 		});
 		if (WorldManager.world == null)
@@ -76,7 +81,7 @@ public class IntroActivity extends BaseGameActivity
 
 	public void playSound(View v)
 	{
-		spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+		//		spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 	}
 
 	public void goToGame(View v)
@@ -99,13 +104,7 @@ public class IntroActivity extends BaseGameActivity
 	protected void onResume()
 	{
 		super.onResume();
-		if (WorldManager.world != null)
-		{
-			WorldManager.setGravity(new Vec2(0, 10));
-		} else
-		{
-			WorldManager.setGravityButDontUpdateWorld(new Vec2(0, 10));
-		}
+		WorldManager.setGravity(new Vec2(0, 10));
 		MyView.makeBallUnreal();
 		MyView.makePlatformsUnreal();
 		IntroView.makePlatformsReal();
@@ -119,6 +118,7 @@ public class IntroActivity extends BaseGameActivity
 				MyView.ballColor = possibleColors[i];
 			}
 		}
+		IntroView.intro = true;
 	}
 
 	public void goToGameServices(View v)
