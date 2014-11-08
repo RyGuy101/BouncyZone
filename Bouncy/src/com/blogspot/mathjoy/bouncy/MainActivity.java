@@ -11,6 +11,7 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 import com.google.example.games.basegameutils.GameHelper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -18,6 +19,7 @@ import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,12 +51,22 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	boolean undoLongClicked = false;
 	public static float bounceVolume = (float) 0.6;
 
+	SensorManager sm;
+	Sensor s;
+	boolean thereIsSensor = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		setContentView(R.layout.activity_main);
+		sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		if (sm.getSensorList(Sensor.TYPE_ACCELEROMETER).size() != 0)
+		{
+			s = sm.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
+			thereIsSensor = true;
+		}
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
 		settings = (ImageButton) findViewById(R.id.Settings);
@@ -132,6 +144,10 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	protected void onResume()
 	{
 		super.onResume();
+		if (thereIsSensor)
+		{
+			sm.registerListener(this, s, SensorManager.SENSOR_DELAY_GAME);
+		}
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		pickedColor = sp.getString("selectedColor", "Red");
 		for (int i = 0; i < possibleColors.length; i++)
@@ -175,6 +191,16 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		if (MyView.oldPlatforms.size() == 0)
 		{
 			redoText.setTextColor(Color.GRAY);
+		}
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		if (thereIsSensor)
+		{
+			sm.unregisterListener(this);
 		}
 	}
 
@@ -390,28 +416,21 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	@Override
 	public void postSolve(Contact arg0, ContactImpulse arg1)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void preSolve(Contact arg0, Manifold arg1)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event)
 	{
-		// TODO Auto-generated method stub
-		
+		WorldManager.setGravity(new Vec2(event.values[0], event.values[1]));
 	}
 }
