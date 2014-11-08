@@ -52,12 +52,19 @@ public class ZonesFragment extends Fragment
 	String[] confNames;
 	private static boolean noZones = false;
 
+	Button loadButt;
+	Button renameButt;
+	Button deleteButt;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.activity_more_settings, container, false);
+		View view = inflater.inflate(R.layout.fragment_zones, container, false);
 		saveLayout = null;
 		chooseConf = (ListView) view.findViewById(R.id.chooseConf);
+		loadButt = (Button) view.findViewById(R.id.goToLoadConf);
+		renameButt = (Button) view.findViewById(R.id.renameConf);
+		deleteButt = (Button) view.findViewById(R.id.goToDelConf);
 		refreshZoneList();
 		return view;
 	}
@@ -67,6 +74,18 @@ public class ZonesFragment extends Fragment
 		if (chooseConf == null)
 		{
 			chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+		}
+		if (loadButt == null)
+		{
+			loadButt = (Button) SettingsTabs.activity.findViewById(R.id.goToLoadConf);
+		}
+		if (renameButt == null)
+		{
+			renameButt = (Button) SettingsTabs.activity.findViewById(R.id.renameConf);
+		}
+		if (deleteButt == null)
+		{
+			deleteButt = (Button) SettingsTabs.activity.findViewById(R.id.goToDelConf);
 		}
 		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		confNames = new String[sp.getInt("numOfConfs", 0)];
@@ -89,6 +108,9 @@ public class ZonesFragment extends Fragment
 			chooseConf.setAdapter(confNamesAd);
 			chooseConf.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			noZones = false;
+			loadButt.setEnabled(true);
+			renameButt.setEnabled(true);
+			deleteButt.setEnabled(true);
 			chooseConf.setItemChecked(0, true);
 			for (int i = 0; i < confNames.length; i++)
 			{
@@ -102,6 +124,9 @@ public class ZonesFragment extends Fragment
 			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_list_item_1, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
 			noZones = true;
+			loadButt.setEnabled(false);
+			renameButt.setEnabled(false);
+			deleteButt.setEnabled(false);
 		}
 	}
 
