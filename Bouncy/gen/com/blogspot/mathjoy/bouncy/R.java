@@ -431,6 +431,8 @@ containing a value of this type.
         public static final int Platform=0x7f090030;
         public static final int Settings=0x7f090031;
         public static final int Undo=0x7f09002d;
+        public static final int accelText=0x7f090044;
+        public static final int accelToggle=0x7f090045;
         public static final int achievements=0x7f09001c;
         public static final int ballColor=0x7f090036;
         public static final int book_now=0x7f090010;
@@ -441,7 +443,7 @@ containing a value of this type.
         public static final int cancelDelConf=0x7f090018;
         public static final int cancelLoadConf=0x7f09002b;
         public static final int cancelSave=0x7f090042;
-        public static final int chooseConf=0x7f09004a;
+        public static final int chooseConf=0x7f09004b;
         public static final int chooseConftext=0x7f090028;
         public static final int chooseDelConf=0x7f090016;
         public static final int chooseDelConfText=0x7f090015;
@@ -453,9 +455,9 @@ containing a value of this type.
         public static final int editConfName=0x7f09003f;
         public static final int friction=0x7f09003c;
         public static final int gameReset=0x7f090033;
-        public static final int goToDelConf=0x7f090048;
-        public static final int goToLoadConf=0x7f090046;
-        public static final int goToSaveConf=0x7f090045;
+        public static final int goToDelConf=0x7f090049;
+        public static final int goToLoadConf=0x7f090047;
+        public static final int goToSaveConf=0x7f090046;
         public static final int googleInfo=0x7f09001e;
         public static final int gravity=0x7f090038;
         public static final int grayscale=0x7f090012;
@@ -478,7 +480,7 @@ containing a value of this type.
         public static final int otdText=0x7f09001b;
         public static final int production=0x7f090007;
         public static final int redoText=0x7f09002e;
-        public static final int renameConf=0x7f090047;
+        public static final int renameConf=0x7f090048;
         public static final int restoreToDefault=0x7f09003d;
         public static final int sandbox=0x7f090008;
         public static final int satellite=0x7f090002;
@@ -489,21 +491,20 @@ containing a value of this type.
         public static final int signInInfo=0x7f09001d;
         public static final int signOutButt=0x7f09001f;
         public static final int sounds=0x7f090025;
-        public static final int soundsOnActionBar=0x7f09004b;
+        public static final int soundsOnActionBar=0x7f09004c;
         public static final int strict_sandbox=0x7f090009;
         public static final int terrain=0x7f090003;
         public static final int textBallColor=0x7f090034;
         public static final int textView1=0x7f090040;
-        public static final int textView2=0x7f090044;
-        public static final int toGameStats=0x7f09004e;
-        public static final int toGameStatsWithIcon=0x7f09004c;
-        public static final int toIntro=0x7f09004d;
+        public static final int toGameStats=0x7f09004f;
+        public static final int toGameStatsWithIcon=0x7f09004d;
+        public static final int toIntro=0x7f09004e;
         public static final int toggleSounds=0x7f090026;
         public static final int undoLayout=0x7f09002c;
         public static final int valueOfBounceLevel=0x7f090039;
         public static final int valueOfFriction=0x7f09003b;
         public static final int valueOfGravity=0x7f090037;
-        public static final int view1=0x7f090049;
+        public static final int view1=0x7f09004a;
         public static final int viewPager=0x7f090043;
         public static final int wrap_content=0x7f09000d;
     }

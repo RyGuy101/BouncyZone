@@ -15,6 +15,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,7 +30,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends BaseGameActivity implements OnTouchListener, ContactListener
+public class MainActivity extends BaseGameActivity implements OnTouchListener, ContactListener, SensorEventListener
 {
 	Intent intent;
 	String pickedColor;
@@ -396,5 +399,19 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }
