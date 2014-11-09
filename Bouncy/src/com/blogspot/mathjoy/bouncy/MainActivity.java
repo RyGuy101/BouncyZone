@@ -431,6 +431,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	@Override
 	public void onSensorChanged(SensorEvent event)
 	{
-		WorldManager.setGravity(new Vec2(event.values[0], event.values[1]));
+		float multiplier = 1 / MyView.toMeters(getResources().getDisplayMetrics().ydpi);
+		WorldManager.setGravity(new Vec2(-event.values[0] * multiplier, event.values[1] * multiplier));
 	}
 }
