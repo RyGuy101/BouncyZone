@@ -103,7 +103,8 @@
     <com.blogspot.mathjoy.bouncy.MyView
         android:id="@+id/myView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:keepScreenOn="true" />
     <!-- android:tag="red" -->
 
 </LinearLayout>

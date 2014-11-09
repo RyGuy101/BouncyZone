@@ -31,6 +31,7 @@ public class IntroActivity extends BaseGameActivity
 	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "White", "Gray" };
 	ToggleButton soundsTog;
+	private static boolean firstTime = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -40,8 +41,12 @@ public class IntroActivity extends BaseGameActivity
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		originalBounce = spoolBounce.load(this, R.raw.bounce, 1);
 		originalButton = spoolButton.load(this, R.raw.button, 1);
-		bounce = originalBounce;
-		button = originalButton;
+		if (firstTime)
+		{
+			bounce = originalBounce;
+			button = originalButton;
+			firstTime = false;
+		}
 		buttons = findViewById(R.id.introButtons);
 		SharedPreferences sp = getSharedPreferences("settings", 0);
 		String pickedColor = sp.getString("selectedColor", "Red");
@@ -72,6 +77,7 @@ public class IntroActivity extends BaseGameActivity
 				spoolButton.play(bounce, buttonVolume, buttonVolume, 0, 0, 1);
 			}
 		});
+		soundsTog.setChecked(bounce != 0);
 		if (WorldManager.world == null)
 		{
 			WorldManager.setupWorld();

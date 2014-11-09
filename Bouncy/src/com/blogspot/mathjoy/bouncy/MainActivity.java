@@ -148,7 +148,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			sm.registerListener(this, s, SensorManager.SENSOR_DELAY_GAME);
 		}
-		SharedPreferences sp = getSharedPreferences("settings", 0);
+		SharedPreferences sp = getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		pickedColor = sp.getString("selectedColor", "Red");
 		for (int i = 0; i < possibleColors.length; i++)
 		{
@@ -431,7 +431,13 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	@Override
 	public void onSensorChanged(SensorEvent event)
 	{
-		float multiplier = 1 / MyView.toMeters(getResources().getDisplayMetrics().ydpi);
-		WorldManager.setGravity(new Vec2(-event.values[0] * multiplier, event.values[1] * multiplier));
+		SharedPreferences sp = getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		if (sp.getBoolean("useAccelerometer", false))
+		{
+			double xForce = event.values[0];
+			double yForce = event.values[1];
+			double multiplier = 1.02 * (float) (sp.getFloat("gravityValue", 100.0f) / 100.0);
+			WorldManager.setGravity(new Vec2((float) (-xForce * multiplier), (float) (yForce * multiplier)));
+		}
 	}
 }

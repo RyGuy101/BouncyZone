@@ -10,6 +10,7 @@ public class WorldManager
 	private static int velocityIterations = 6;
 	private static int positionIterations = 3;
 	private static Vec2 myGravity = new Vec2(0, 10.0f);
+	private static boolean gravityIsTemporarilySet = false;
 
 	public static void setupWorld()
 	{
@@ -25,7 +26,10 @@ public class WorldManager
 	public static void setGravity(Vec2 gravity)
 	{
 		myGravity = gravity;
-		world.setGravity(myGravity);
+		if (!gravityIsTemporarilySet)
+		{
+			world.setGravity(myGravity);
+		}
 	}
 
 	public static void setGravityButDontUpdateWorld(Vec2 gravity)
@@ -36,11 +40,13 @@ public class WorldManager
 	public static void setGravityTemporarily(Vec2 gravity)
 	{
 		world.setGravity(gravity);
+		gravityIsTemporarilySet = true;
 	}
 
 	public static void undoTemporaryGravitySet()
 	{
 		world.setGravity(myGravity);
+		gravityIsTemporarilySet = false;
 	}
 
 }
