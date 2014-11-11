@@ -299,29 +299,14 @@ public class MyView extends View implements OnTouchListener
 
 	private boolean knowEnoughtouch()
 	{
-		boolean knowEnoughTouch = true;
 		for (int i = 0; i < 2; i++)
 		{
-			if (touchX[i] == -1000)
+			if (touchX[i] == -1000 || touchY[i] == -1000)
 			{
-				knowEnoughTouch = false;
-			}
-			if (touchY[i] == -1000)
-			{
-				knowEnoughTouch = false;
+				return false;
 			}
 		}
-		if (touchX[0] == touchX[1])
-		{
-			knowEnoughTouch = false;
-
-		}
-		if (touchY[0] == touchY[1])
-		{
-			knowEnoughTouch = false;
-
-		}
-		return knowEnoughTouch;
+		return true;
 	}
 
 	private boolean platformIsLongEnough()

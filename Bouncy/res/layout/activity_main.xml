@@ -50,7 +50,6 @@
             android:layout_weight="1"
             android:onClick="modeBall"
             android:src="@drawable/ic_launcher" />
-        <!-- android:onClick="modeBall" -->
 
         <ImageButton
             android:id="@+id/Platform"
@@ -59,7 +58,6 @@
             android:layout_weight="1"
             android:onClick="modePlatform"
             android:src="@drawable/liney" />
-        <!-- android:onClick="modePlatform" -->
 
         <ImageButton
             android:id="@+id/Settings"
@@ -68,37 +66,7 @@
             android:layout_weight="1"
             android:onClick="goToMenu"
             android:src="@drawable/gear" />
-        <!-- android:onClick="goToMenu" -->
-
-
-        <!--
-        <Button
-            android:id="@+id/Grab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="modeGrab" />
-
-        <Button
-            android:id="@+id/Delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="modeDelete" />
-        -->
     </LinearLayout>
-    <!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TextView
-            android:id="@+id/textUserSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:context=".MainActivity" />
-    </LinearLayout>
-    -->
 
     <com.blogspot.mathjoy.bouncy.MyView
         android:id="@+id/myView"

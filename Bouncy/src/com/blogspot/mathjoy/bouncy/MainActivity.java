@@ -158,7 +158,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			}
 		}
 		int frictionPower = 7;
-		MyView.ballRestitution = (float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0);
+		double restitutionPower = 0.5;
+		MyView.ballRestitution = (float) (Math.pow(sp.getFloat("bounceLevelValue", 100.0f), restitutionPower) / Math.pow(100, restitutionPower));
 		MyView.ballFriction = (float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower));
 		if (MyView.ballFriction == 0)
 		{
@@ -169,7 +170,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		}
 		if (MyView.ball != null)
 		{
-			MyView.ball.setRestitution((float) (sp.getFloat("bounceLevelValue", 100.0f) / 100.0));
+			MyView.ball.setRestitution((float) (Math.pow(sp.getFloat("bounceLevelValue", 100.0f), restitutionPower) / Math.pow(100, restitutionPower)));
 			MyView.ball.setFriction((float) (Math.pow(sp.getFloat("frictionValue", 100.0f), frictionPower) / Math.pow(100, frictionPower)));
 			if (MyView.ballFriction == 0)
 			{
@@ -436,7 +437,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			double xForce = event.values[0];
 			double yForce = event.values[1];
-			double multiplier = 1.02 * (float) (sp.getFloat("gravityValue", 100.0f) / 100.0);
+			double multiplier = 1.02 * Math.sqrt(2) * (float) (sp.getFloat("gravityValue", 100.0f) / 100.0);
 			WorldManager.setGravity(new Vec2((float) (-xForce * multiplier), (float) (yForce * multiplier)));
 		}
 	}
