@@ -17,47 +17,69 @@
         android:layout_height="match_parent"
         android:orientation="horizontal" >
 
-        <LinearLayout
-            android:id="@+id/undoLayout"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="undo"
-            android:orientation="vertical" >
+            android:layout_weight="1" >
 
             <ImageButton
                 android:id="@+id/Undo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:onClick="undo"
                 android:src="@drawable/undo" />
-            <!-- android:onClick="undo" -->
 
             <TextView
                 android:id="@+id/redoText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#CCCCCC"
-                android:gravity="center_horizontal"
+                android:layout_gravity="bottom|center_horizontal"
                 android:text="Hold to Redo"
-                android:textColor="#000000" />
-        </LinearLayout>
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#80000000" />
+        </FrameLayout>
 
-        <ImageButton
-            android:id="@+id/Ball"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="modeBall"
-            android:src="@drawable/ic_launcher" />
+            android:layout_weight="1" >
 
-        <ImageButton
-            android:id="@+id/Platform"
+            <ImageButton
+                android:id="@+id/Ball"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="modeBall"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="Hold for More"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#80000000" />
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="modePlatform"
-            android:src="@drawable/liney" />
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/Platform"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="modePlatform"
+                android:src="@drawable/liney" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="Hold for More"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#80000000" />
+        </FrameLayout>
 
         <ImageButton
             android:id="@+id/Settings"
@@ -73,6 +95,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:keepScreenOn="true" />
-    <!-- android:tag="red" -->
 
 </LinearLayout>

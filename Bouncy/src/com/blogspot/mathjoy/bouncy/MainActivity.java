@@ -23,6 +23,7 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -42,7 +43,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	public static ImageButton ball;
 	public static ImageButton platform;
 	public static ImageButton settings;
-	public static LinearLayout undoLayout;
+	//	public static LinearLayout undoLayout;
 	public static ImageButton undo;
 	public static TextView redoText;
 	public ImageButton buttonDown;
@@ -70,44 +71,44 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
 		settings = (ImageButton) findViewById(R.id.Settings);
-		undoLayout = (LinearLayout) findViewById(R.id.undoLayout);
+		//		undoLayout = (LinearLayout) findViewById(R.id.undoLayout);
 		undo = (ImageButton) findViewById(R.id.Undo);
 		redoText = (TextView) findViewById(R.id.redoText);
 		settings.setBackgroundColor(Color.LTGRAY);
 		undo.setBackgroundColor(Color.LTGRAY);
-		final ViewTreeObserver observer = redoText.getViewTreeObserver();
-		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-		{
-			@Override
-			public void onGlobalLayout()
-			{
-				if (!updatedUndoButton)
-				{
-					undo.getLayoutParams().height = undo.getHeight() - redoText.getHeight();
-					updatedUndoButton = true;
-				}
-			}
-		});
+		//		final ViewTreeObserver observer = redoText.getViewTreeObserver();
+		//		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+		//		{
+		//			@Override
+		//			public void onGlobalLayout()
+		//			{
+		//				if (!updatedUndoButton)
+		//				{
+		//					undo.getLayoutParams().height = undo.getHeight() - redoText.getHeight();
+		//					updatedUndoButton = true;
+		//				}
+		//			}
+		//		});
 		ball.setOnTouchListener(this);
 		platform.setOnTouchListener(this);
 		settings.setOnTouchListener(this);
-		undoLayout.setOnTouchListener(this);
+		//		undoLayout.setOnTouchListener(this);
 		undo.setOnTouchListener(this);
-		undoLayout.setOnLongClickListener(new View.OnLongClickListener()
-		{
-			@Override
-			public boolean onLongClick(View v)
-			{
-				if (MyView.oldPlatforms.size() > 0)
-				{
-					undo.setImageResource(R.drawable.redo);
-					undo.setBackgroundColor(Color.DKGRAY);
-					redoText.setBackgroundColor(Color.DKGRAY);
-					undoLongClicked = true;
-				}
-				return false;
-			}
-		});
+		//		undoLayout.setOnLongClickListener(new View.OnLongClickListener()
+		//		{
+		//			@Override
+		//			public boolean onLongClick(View v)
+		//			{
+		//				if (MyView.oldPlatforms.size() > 0)
+		//				{
+		//					undo.setImageResource(R.drawable.redo);
+		//					undo.setBackgroundColor(Color.DKGRAY);
+		//					redoText.setBackgroundColor(Color.DKGRAY);
+		//					undoLongClicked = true;
+		//				}
+		//				return false;
+		//			}
+		//		});
 		undo.setOnLongClickListener(new View.OnLongClickListener()
 		{
 			@Override
@@ -117,7 +118,6 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 				{
 					undo.setImageResource(R.drawable.redo);
 					undo.setBackgroundColor(Color.DKGRAY);
-					redoText.setBackgroundColor(Color.DKGRAY);
 					undoLongClicked = true;
 				}
 				return false;
@@ -191,7 +191,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		}
 		if (MyView.oldPlatforms.size() == 0)
 		{
-			redoText.setTextColor(Color.GRAY);
+			redoText.setTextColor(Color.TRANSPARENT);
 		}
 	}
 
@@ -263,7 +263,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 				{
 					IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 					MyView.destroyLastPlatform();
-					redoText.setTextColor(Color.BLACK);
+					redoText.setTextColor(Color.argb(128, 0, 0, 0));
 				}
 			}
 		} else
@@ -272,7 +272,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			MyView.reCreatePlatform();
 			if (MyView.oldPlatforms.size() == 0)
 			{
-				redoText.setTextColor(Color.GRAY);
+				redoText.setTextColor(Color.TRANSPARENT);
 			}
 			undoLongClicked = false;
 		}
@@ -285,26 +285,18 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			if (event.getAction() == MotionEvent.ACTION_UP)
 			{
-				if (v.equals(undoLayout) || v.equals(undo))
+				if (v.equals(undo))
 				{
 					undo.setImageResource(R.drawable.undo);
-					undo.setBackgroundColor(Color.LTGRAY);
-					redoText.setBackgroundColor(Color.LTGRAY);
-				} else
-				{
-					v.setBackgroundColor(Color.LTGRAY);
 				}
+				v.setBackgroundColor(Color.LTGRAY);
 			} else if (event.getAction() == MotionEvent.ACTION_DOWN)
 			{
-				if (v.equals(undoLayout) || v.equals(undo))
+				if (v.equals(undo))
 				{
-					undo.setBackgroundColor(Color.rgb(170, 170, 170));
-					redoText.setBackgroundColor(Color.rgb(170, 170, 170));
 					undoLongClicked = false;
-				} else
-				{
-					v.setBackgroundColor(Color.rgb(170, 170, 170));
 				}
+				v.setBackgroundColor(Color.rgb(170, 170, 170));
 			}
 		}
 		return false;
