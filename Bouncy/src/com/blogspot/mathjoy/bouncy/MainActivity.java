@@ -51,6 +51,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	boolean updatedUndoButton = false;
 	boolean longClicked = false;
 	public static float bounceVolume = (float) 0.6;
+	public static MainActivity activity;
 
 	SensorManager sm;
 	Sensor s;
@@ -60,6 +61,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		activity = this;
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		setContentView(R.layout.activity_main);
 		sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -201,9 +203,9 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	{
 		if (!longClicked)
 		{
-			if (MyView.platforms != null)
+			if (MyView.shapes != null)
 			{
-				if (MyView.platforms.size() > 0)
+				if (MyView.shapes.size() > 0)
 				{
 					IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 					MyView.destroyLastPlatform();
@@ -310,34 +312,22 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	}
 
 	@Override
-	public void beginContact(Contact arg0)
+	public void beginContact(Contact contact)
 	{
-		if (MyView.makeBounce)
+		MyView.beginContact = true;
+		if (contact.getFixtureA().getBody().equals(MyView.ball.getBody()) || contact.getFixtureB().getBody().equals(MyView.ball.getBody()))
 		{
-			MyView.makeBounce = false;
-			if (MyView.makeBounceOnstart)
-			{
-				IntroActivity.spoolBounce.play(IntroActivity.bounce, bounceVolume, bounceVolume, 0, 0, 1);
-				if (arg0.getFixtureA().getBody().equals(MyView.ball.getBody()) || arg0.getFixtureB().getBody().equals(MyView.ball.getBody()))
-				{
-					if (MyView.touching)
-					{
-						MyView.touching = false;
-						MyView.wasTouching = true;
-					}
-					new MyTask().execute();
-				}
-			} else
-			{
-				MyView.makeBounceOnstart = true;
-			}
+			MyView.isIntroBall = false;
+		} else
+		{
+			MyView.isIntroBall = true;
 		}
 	}
 
 	@Override
-	public void endContact(Contact arg0)
+	public void endContact(Contact contact)
 	{
-		MyView.makeBounce = true;
+		MyView.endContact = true;
 	}
 
 	@Override

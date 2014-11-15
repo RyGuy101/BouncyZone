@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 
-public class Platform
+public class Platform extends Shape
 {
 	private BodyType bt;
 	private float startX;

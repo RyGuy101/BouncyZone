@@ -245,13 +245,17 @@ public class ZonesFragment extends Fragment
 			edit.putInt(n + "gravityValue", (int) sps.getFloat("gravityValue", 100));
 			edit.putInt(n + "bounceLevelValue", (int) sps.getFloat("bounceLevelValue", 100));
 			edit.putInt(n + "frictionValue", (int) sps.getFloat("frictionValue", 100));
-			edit.putInt(n + "platformsSize", MyView.platforms.size());
-			for (int i = 0; i < MyView.platforms.size(); i++)
+			edit.putInt(n + "platformsSize", MyView.shapes.size());
+			for (int i = 0; i < MyView.shapes.size(); i++)
 			{
-				edit.putFloat(n + "platformStartX" + i, MyView.platforms.get(i).getStartX());
-				edit.putFloat(n + "platformStartY" + i, MyView.platforms.get(i).getStartY());
-				edit.putFloat(n + "platformEndX" + i, MyView.platforms.get(i).getEndX());
-				edit.putFloat(n + "platformEndY" + i, MyView.platforms.get(i).getEndY());
+				if (MyView.shapes.get(i) instanceof Platform)
+				{
+					Platform platform = (Platform) MyView.shapes.get(i);
+					edit.putFloat(n + "platformStartX" + i, platform.getStartX());
+					edit.putFloat(n + "platformStartY" + i, platform.getStartY());
+					edit.putFloat(n + "platformEndX" + i, platform.getEndX());
+					edit.putFloat(n + "platformEndY" + i, platform.getEndY());
+				}
 			}
 			if (!foundAvailableIndex)
 			{
@@ -574,7 +578,7 @@ public class ZonesFragment extends Fragment
 			MyView.clearPlatforms();
 			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)
 			{
-				MyView.platforms.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
+				MyView.shapes.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
 			}
 			Intent intent = new Intent(SettingsTabs.activity, MainActivity.class);
 			intent.putExtra("fromLoad", true);

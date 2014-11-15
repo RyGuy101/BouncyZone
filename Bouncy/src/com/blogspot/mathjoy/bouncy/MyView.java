@@ -25,8 +25,8 @@ public class MyView extends View implements OnTouchListener
 	public static float ballRestitution = 1;
 	public static float ballFriction = 1;
 	public static boolean accelerometer = false;
-	public static ArrayList<Platform> platforms = new ArrayList<Platform>();
-	public static ArrayList<Platform> oldPlatforms = new ArrayList<Platform>();
+	public static ArrayList<Shape> shapes = new ArrayList<Shape>();
+	public static ArrayList<Shape> oldPlatforms = new ArrayList<Shape>();
 	public static boolean alreadyStarted = false;
 	public static int mode;
 	public static final int MODE_BALL = 0;
@@ -43,6 +43,9 @@ public class MyView extends View implements OnTouchListener
 	static boolean touching = false;
 	static boolean initialTouch = false;
 	static boolean wasTouching = false;
+	public static boolean beginContact = false;
+	public static boolean endContact = false;
+	public static boolean isIntroBall = true;
 
 	public static Circle ball = null;
 
@@ -55,7 +58,7 @@ public class MyView extends View implements OnTouchListener
 
 	private int offScreenCounter = 0;
 
-	public static boolean makeBounce = true;
+	//	public static boolean makeBounce = true;
 	public static boolean makeBounceOnstart = true;
 
 	public static boolean intro;
@@ -80,6 +83,7 @@ public class MyView extends View implements OnTouchListener
 		startBallX = originalStartBallX;
 		startBallY = originalStartBallY;
 		ball = new Circle(BodyType.DYNAMIC, startBallX, startBallY, ballRadius, 1.0f, ballFriction, ballRestitution);
+		new HollowOval(BodyType.STATIC, 2, 2, 1, 2, 0, 1, 0);
 	}
 
 	public static void reset()
@@ -132,6 +136,26 @@ public class MyView extends View implements OnTouchListener
 		if (mode == MODE_BALL || intro)
 		{
 			WorldManager.step();
+			if (beginContact && !endContact)
+			{
+				if (MyView.makeBounceOnstart)
+				{
+					IntroActivity.spoolBounce.play(IntroActivity.bounce, MainActivity.bounceVolume, MainActivity.bounceVolume, 0, 0, 1);
+					if (!isIntroBall)
+					{
+						if (MyView.touching)
+						{
+							MyView.touching = false;
+							MyView.wasTouching = true;
+						}
+						MainActivity.MyTask mt = MainActivity.activity.new MyTask();
+						mt.execute();
+					}
+				} else
+				{
+					MyView.makeBounceOnstart = true;
+				}
+			}
 			if (!intro)
 			{
 				if (touching)
@@ -188,7 +212,7 @@ public class MyView extends View implements OnTouchListener
 			} else if (wasTouching && platformIsLongEnough())
 			{
 				wasTouching = false;
-				platforms.add(new Platform(BodyType.STATIC, toMeters(startTouchX), toMeters(startTouchY), toMeters(endTouchX), toMeters(endTouchY), 0, 1, 0));
+				shapes.add(new Platform(BodyType.STATIC, toMeters(startTouchX), toMeters(startTouchY), toMeters(endTouchX), toMeters(endTouchY), 0, 1, 0));
 			}
 		}
 		Circle theBall;
@@ -218,6 +242,8 @@ public class MyView extends View implements OnTouchListener
 			}
 		}
 		makeBounceOnstart = true;
+		beginContact = false;
+		endContact = false;
 		invalidate();
 	}
 
@@ -313,9 +339,13 @@ public class MyView extends View implements OnTouchListener
 	{
 		if (!intro)
 		{
-			for (Platform platform : platforms)
+			for (Shape shape : shapes)
 			{
-				c.drawLine(toPixels(platform.getStartX()), toPixels(platform.getStartY()), toPixels(platform.getEndX()), toPixels(platform.getEndY()), platformPaint);
+				if (shape instanceof Platform)
+				{
+					Platform platform = (Platform) shape;
+					c.drawLine(toPixels(platform.getStartX()), toPixels(platform.getStartY()), toPixels(platform.getEndX()), toPixels(platform.getEndY()), platformPaint);
+				}
 			}
 		} else
 		{
@@ -328,40 +358,40 @@ public class MyView extends View implements OnTouchListener
 
 	public static void clearPlatforms()
 	{
-		for (Platform platform : platforms)
+		for (Shape shape : shapes)
 		{
-			platform.destroy();
+			shape.destroy();
 		}
-		platforms.clear();
+		shapes.clear();
 	}
 
 	public static void destroyLastPlatform()
 	{
-		platforms.get(platforms.size() - 1).destroy();
-		oldPlatforms.add(platforms.get(platforms.size() - 1));
-		platforms.remove(platforms.size() - 1);
+		shapes.get(shapes.size() - 1).destroy();
+		oldPlatforms.add(shapes.get(shapes.size() - 1));
+		shapes.remove(shapes.size() - 1);
 	}
 
 	public static void reCreatePlatform()
 	{
-		platforms.add(oldPlatforms.get(oldPlatforms.size() - 1));
+		shapes.add(oldPlatforms.get(oldPlatforms.size() - 1));
 		oldPlatforms.remove(oldPlatforms.size() - 1);
-		platforms.get(platforms.size() - 1).create();
+		shapes.get(shapes.size() - 1).create();
 	}
 
 	public static void makePlatformsReal()
 	{
-		for (Platform platform : platforms)
+		for (Shape shape : shapes)
 		{
-			platform.create();
+			shape.create();
 		}
 	}
 
 	public static void makePlatformsUnreal()
 	{
-		for (Platform platform : platforms)
+		for (Shape shape : shapes)
 		{
-			platform.destroy();
+			shape.destroy();
 		}
 	}
 

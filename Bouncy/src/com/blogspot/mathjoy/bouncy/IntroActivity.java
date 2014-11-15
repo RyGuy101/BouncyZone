@@ -74,7 +74,7 @@ public class IntroActivity extends BaseGameActivity
 					bounce = 0;
 					button = 0;
 				}
-				spoolButton.play(bounce, buttonVolume, buttonVolume, 0, 0, 1);
+				spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 			}
 		});
 		soundsTog.setChecked(bounce != 0);
