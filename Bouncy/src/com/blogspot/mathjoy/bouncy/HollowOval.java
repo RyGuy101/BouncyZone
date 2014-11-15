@@ -9,7 +9,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 
-public class HollowOval
+public class HollowOval extends Shape
 {
 	private BodyType bt;
 	private float x;
@@ -37,6 +37,7 @@ public class HollowOval
 		create();
 	}
 
+	@Override
 	public void create()
 	{
 		bd = new BodyDef();
@@ -61,5 +62,12 @@ public class HollowOval
 		fd.restitution = restitution;
 		body = WorldManager.world.createBody(bd);
 		fixture = body.createFixture(fd);
+	}
+
+	@Override
+	public void destroy()
+	{
+		body.destroyFixture(fixture);
+		WorldManager.world.destroyBody(body);
 	}
 }

@@ -35,6 +35,7 @@ public class Platform extends Shape
 		create();
 	}
 
+	@Override
 	public void create()
 	{
 		BodyDef bd = new BodyDef();
@@ -64,6 +65,7 @@ public class Platform extends Shape
 		fixture = body.createFixture(fd);
 	}
 
+	@Override
 	public void destroy()
 	{
 		body.destroyFixture(fixture);
