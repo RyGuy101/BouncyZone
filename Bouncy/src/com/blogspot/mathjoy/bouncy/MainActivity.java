@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -33,7 +34,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends BaseGameActivity implements OnTouchListener, ContactListener, SensorEventListener
+public class MainActivity extends BaseGameActivity implements OnTouchListener, ContactListener, SensorEventListener, OnLongClickListener
 {
 	Intent intent;
 	String pickedColor;
@@ -43,13 +44,12 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	public static ImageButton ball;
 	public static ImageButton platform;
 	public static ImageButton settings;
-	//	public static LinearLayout undoLayout;
 	public static ImageButton undo;
 	public static TextView redoText;
 	public ImageButton buttonDown;
 	public static final String GAME_SP = "game";
 	boolean updatedUndoButton = false;
-	boolean undoLongClicked = false;
+	boolean longClicked = false;
 	public static float bounceVolume = (float) 0.6;
 
 	SensorManager sm;
@@ -71,62 +71,17 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		ball = (ImageButton) findViewById(R.id.Ball);
 		platform = (ImageButton) findViewById(R.id.Platform);
 		settings = (ImageButton) findViewById(R.id.Settings);
-		//		undoLayout = (LinearLayout) findViewById(R.id.undoLayout);
 		undo = (ImageButton) findViewById(R.id.Undo);
 		redoText = (TextView) findViewById(R.id.redoText);
 		settings.setBackgroundColor(Color.LTGRAY);
 		undo.setBackgroundColor(Color.LTGRAY);
-		//		final ViewTreeObserver observer = redoText.getViewTreeObserver();
-		//		observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-		//		{
-		//			@Override
-		//			public void onGlobalLayout()
-		//			{
-		//				if (!updatedUndoButton)
-		//				{
-		//					undo.getLayoutParams().height = undo.getHeight() - redoText.getHeight();
-		//					updatedUndoButton = true;
-		//				}
-		//			}
-		//		});
 		ball.setOnTouchListener(this);
+		ball.setOnLongClickListener(this);
 		platform.setOnTouchListener(this);
+		platform.setOnLongClickListener(this);
 		settings.setOnTouchListener(this);
-		//		undoLayout.setOnTouchListener(this);
 		undo.setOnTouchListener(this);
-		//		undoLayout.setOnLongClickListener(new View.OnLongClickListener()
-		//		{
-		//			@Override
-		//			public boolean onLongClick(View v)
-		//			{
-		//				if (MyView.oldPlatforms.size() > 0)
-		//				{
-		//					undo.setImageResource(R.drawable.redo);
-		//					undo.setBackgroundColor(Color.DKGRAY);
-		//					redoText.setBackgroundColor(Color.DKGRAY);
-		//					undoLongClicked = true;
-		//				}
-		//				return false;
-		//			}
-		//		});
-		undo.setOnLongClickListener(new View.OnLongClickListener()
-		{
-			@Override
-			public boolean onLongClick(View v)
-			{
-				if (MyView.oldPlatforms.size() > 0)
-				{
-					undo.setImageResource(R.drawable.redo);
-					undo.setBackgroundColor(Color.DKGRAY);
-					undoLongClicked = true;
-				}
-				return false;
-			}
-		});
-		//		ball.setOnClickListener(this);
-		//		platform.setOnClickListener(this);
-		//		settings.setOnClickListener(this);
-		//		undo.setOnClickListener(this);
+		undo.setOnLongClickListener(this);
 		try
 		{
 			if (getIntent().getExtras().getBoolean("fromLoad") == true)
@@ -149,6 +104,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			sm.registerListener(this, s, SensorManager.SENSOR_DELAY_GAME);
 		}
 		SharedPreferences sp = getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		MyView.accelerometer = sp.getBoolean("useAccelerometer", false);
 		pickedColor = sp.getString("selectedColor", "Red");
 		for (int i = 0; i < possibleColors.length; i++)
 		{
@@ -205,18 +161,9 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		}
 	}
 
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu)
-	// {
-	// // Inflate the menu; this adds items to the action bar if it is present.
-	// getMenuInflater().inflate(R.menu.main, menu);
-	// return true;
-	// }
 	public void goToMenu(View v)
 	{
 		IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
-		//		MyView.makeBounce = false;
-		//		MyView.ball.setPosition(new Vec2(MyView.ballX, MyView.ballY));
 		Intent intent = new Intent(this, SettingsTabs.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
@@ -224,7 +171,10 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 
 	public void modeBall(View view)
 	{
-		if (MyView.mode != MyView.MODE_BALL)
+		if (longClicked)
+		{
+			longClicked = false;
+		} else if (MyView.mode != MyView.MODE_BALL)
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			ball.setBackgroundColor(Color.GRAY);
@@ -235,7 +185,10 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 
 	public void modePlatform(View view)
 	{
-		if (MyView.mode != MyView.MODE_CREATE_PLATFORM)
+		if (longClicked)
+		{
+			longClicked = false;
+		} else if (MyView.mode != MyView.MODE_CREATE_PLATFORM)
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			platform.setBackgroundColor(Color.GRAY);
@@ -244,18 +197,9 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		}
 	}
 
-	// public void modeGrab(View view)
-	// {
-	// MyView.timeBetweenFrames = 20;
-	// }
-	//
-	// public void modeDelete(View view)
-	// {
-	// MyView.timeBetweenFrames = 1000;
-	// }
 	public void undo(View view)
 	{
-		if (!undoLongClicked)
+		if (!longClicked)
 		{
 			if (MyView.platforms != null)
 			{
@@ -274,51 +218,41 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			{
 				redoText.setTextColor(Color.TRANSPARENT);
 			}
-			undoLongClicked = false;
+			longClicked = false;
 		}
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		if (!((v.equals(ball) && MyView.mode == MyView.MODE_BALL) || (v.equals(platform) && MyView.mode == MyView.MODE_CREATE_PLATFORM)))
+		if (event.getAction() == MotionEvent.ACTION_UP)
 		{
-			if (event.getAction() == MotionEvent.ACTION_UP)
+			if (v.equals(undo))
 			{
-				if (v.equals(undo))
-				{
-					undo.setImageResource(R.drawable.undo);
-				}
+				undo.setImageResource(R.drawable.undo);
+			}
+			if (modeMatchesButton(v))
+			{
+				v.setBackgroundColor(Color.GRAY);
+			} else
+			{
 				v.setBackgroundColor(Color.LTGRAY);
-			} else if (event.getAction() == MotionEvent.ACTION_DOWN)
+			}
+		} else if (event.getAction() == MotionEvent.ACTION_DOWN)
+		{
+			longClicked = false;
+			if (!modeMatchesButton(v))
 			{
-				if (v.equals(undo))
-				{
-					undoLongClicked = false;
-				}
 				v.setBackgroundColor(Color.rgb(170, 170, 170));
 			}
 		}
 		return false;
 	}
 
-	//	@Override
-	//	public void onClick(View v)
-	//	{
-	//		if (v.equals(ball))
-	//		{
-	//			modeBall(v);
-	//		} else if (v.equals(platform))
-	//		{
-	//			modePlatform(v);
-	//		} else if (v.equals(settings))
-	//		{
-	//			goToMenu(v);
-	//		} else if (v.equals(undo))
-	//		{
-	//			undo(v);
-	//		}
-	//	}
+	public boolean modeMatchesButton(View v)
+	{
+		return (v.equals(ball) && MyView.mode == MyView.MODE_BALL) || (v.equals(platform) && MyView.mode == MyView.MODE_CREATE_PLATFORM);
+	}
 
 	@Override
 	public void onSignInFailed()
@@ -432,5 +366,28 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			double multiplier = 1.02 * Math.sqrt(2) * (float) (sp.getFloat("gravityValue", 100.0f) / 100.0);
 			WorldManager.setGravity(new Vec2((float) (-xForce * multiplier), (float) (yForce * multiplier)));
 		}
+	}
+
+	@Override
+	public boolean onLongClick(View v)
+	{
+		if (v.getId() == R.id.Undo)
+		{
+			if (MyView.oldPlatforms.size() > 0)
+			{
+				undo.setImageResource(R.drawable.redo);
+				undo.setBackgroundColor(Color.DKGRAY);
+				longClicked = true;
+			}
+		} else if (v.getId() == R.id.Ball)
+		{
+			ball.setBackgroundColor(Color.DKGRAY);
+			longClicked = true;
+		} else if (v.getId() == R.id.Platform)
+		{
+			platform.setBackgroundColor(Color.DKGRAY);
+			longClicked = true;
+		}
+		return false;
 	}
 }

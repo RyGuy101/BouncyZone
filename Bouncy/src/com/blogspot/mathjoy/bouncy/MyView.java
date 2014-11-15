@@ -2,24 +2,13 @@ package com.blogspot.mathjoy.bouncy;
 
 import java.util.ArrayList;
 
-import org.jbox2d.callbacks.ContactImpulse;
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.Manifold;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.contacts.Contact;
 
-import com.google.android.gms.internal.ia;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.media.SoundPool;
-import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,10 +16,6 @@ import android.view.View.OnTouchListener;
 
 public class MyView extends View implements OnTouchListener
 {
-	//	public static float ballX;
-	//	public static float ballY;
-	//	public static float ballXSpeed;
-	//	public static float ballYSpeed;
 	public static float originalStartBallX;
 	public static float originalStartBallY;
 	public static float startBallX;
@@ -39,6 +24,7 @@ public class MyView extends View implements OnTouchListener
 	public static float startBallYSpeed;
 	public static float ballRestitution = 1;
 	public static float ballFriction = 1;
+	public static boolean accelerometer = false;
 	public static ArrayList<Platform> platforms = new ArrayList<Platform>();
 	public static ArrayList<Platform> oldPlatforms = new ArrayList<Platform>();
 	public static boolean alreadyStarted = false;
@@ -98,7 +84,6 @@ public class MyView extends View implements OnTouchListener
 
 	public static void reset()
 	{
-		float ballRadius = 0.1f;
 		startBallX = originalStartBallX;
 		startBallY = originalStartBallY;
 		ball.setPosition(new Vec2(originalStartBallX, originalStartBallY));
@@ -178,7 +163,7 @@ public class MyView extends View implements OnTouchListener
 					WorldManager.undoTemporaryGravitySet();
 				} else if (!touching)
 				{
-					if (ball.getX() - ball.getRadius() > toMeters(this.getWidth()) || ball.getX() + ball.getRadius() < 0 || ball.getY() - ball.getRadius() > toMeters(this.getHeight()) || !ball.isAwake())
+					if (ballIsOffScreen() && !accelerometer)
 					{
 						offScreenCounter++;
 					} else
@@ -187,10 +172,7 @@ public class MyView extends View implements OnTouchListener
 					}
 					if (offScreenCounter >= 60)
 					{
-						ball.setAngle(0);
-						ball.setPosition(new Vec2(startBallX, startBallY));
-						ball.setAngularVelocity(0);
-						ball.setVelocity(new Vec2(startBallXSpeed, startBallYSpeed));
+						resetBallPosition();
 					}
 				}
 			}
@@ -237,6 +219,19 @@ public class MyView extends View implements OnTouchListener
 		}
 		makeBounceOnstart = true;
 		invalidate();
+	}
+
+	private void resetBallPosition()
+	{
+		ball.setAngle(0);
+		ball.setPosition(new Vec2(startBallX, startBallY));
+		ball.setAngularVelocity(0);
+		ball.setVelocity(new Vec2(startBallXSpeed, startBallYSpeed));
+	}
+
+	private boolean ballIsOffScreen()
+	{
+		return ball.getX() - ball.getRadius() > toMeters(this.getWidth()) || ball.getX() + ball.getRadius() < 0 || ball.getY() - ball.getRadius() > toMeters(this.getHeight());
 	}
 
 	@Override
