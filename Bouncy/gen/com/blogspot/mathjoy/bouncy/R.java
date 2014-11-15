@@ -469,6 +469,7 @@ containing a value of this type.
         public static final int introPlay=0x7f090023;
         public static final int introStats=0x7f090024;
         public static final int introView=0x7f090021;
+        public static final int line=0x7f090050;
         public static final int loadConf=0x7f09002a;
         public static final int loadConfText=0x7f090027;
         public static final int match_parent=0x7f09000c;
@@ -477,7 +478,9 @@ containing a value of this type.
         public static final int none=0x7f090000;
         public static final int normal=0x7f090001;
         public static final int numBouncesText=0x7f09001a;
+        public static final int one=0x7f09004b;
         public static final int otdText=0x7f09001b;
+        public static final int oval=0x7f090051;
         public static final int production=0x7f090007;
         public static final int redoText=0x7f09002d;
         public static final int renameConf=0x7f090047;
@@ -491,14 +494,14 @@ containing a value of this type.
         public static final int signInInfo=0x7f09001d;
         public static final int signOutButt=0x7f09001f;
         public static final int sounds=0x7f090025;
-        public static final int soundsOnActionBar=0x7f09004b;
+        public static final int soundsOnActionBar=0x7f09004c;
         public static final int strict_sandbox=0x7f090009;
         public static final int terrain=0x7f090003;
         public static final int textBallColor=0x7f090033;
         public static final int textView1=0x7f09003f;
-        public static final int toGameStats=0x7f09004e;
-        public static final int toGameStatsWithIcon=0x7f09004c;
-        public static final int toIntro=0x7f09004d;
+        public static final int toGameStats=0x7f09004f;
+        public static final int toGameStatsWithIcon=0x7f09004d;
+        public static final int toIntro=0x7f09004e;
         public static final int toggleSounds=0x7f090026;
         public static final int valueOfBounceLevel=0x7f090038;
         public static final int valueOfFriction=0x7f09003a;
@@ -523,7 +526,9 @@ containing a value of this type.
         public static final int fragment_zones=0x7f030009;
     }
     public static final class menu {
-        public static final int menu_items=0x7f0c0000;
+        public static final int ball_popup=0x7f0c0000;
+        public static final int menu_items=0x7f0c0001;
+        public static final int shapes_popup=0x7f0c0002;
     }
     public static final class raw {
         public static final int bounce=0x7f050000;

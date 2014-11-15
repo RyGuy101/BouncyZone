@@ -24,6 +24,7 @@ import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -32,7 +33,9 @@ import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends BaseGameActivity implements OnTouchListener, ContactListener, SensorEventListener, OnLongClickListener
 {
@@ -142,7 +145,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			MainActivity.ball.setBackgroundColor(Color.GRAY);
 			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
-		} else if (MyView.mode == MyView.MODE_CREATE_PLATFORM)
+		} else if (MyView.mode == MyView.MODE_PLATFORM)
 		{
 			MainActivity.platform.setBackgroundColor(Color.GRAY);
 			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
@@ -176,6 +179,17 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		if (longClicked)
 		{
 			longClicked = false;
+			PopupMenu popup = new PopupMenu(MainActivity.this, view);
+			popup.getMenuInflater().inflate(R.menu.ball_popup, popup.getMenu());
+			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+			{
+				public boolean onMenuItemClick(MenuItem item)
+				{
+					MyView.resetBallPosition();
+					return true;
+				}
+			});
+			popup.show();
 		} else if (MyView.mode != MyView.MODE_BALL)
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
@@ -190,12 +204,22 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		if (longClicked)
 		{
 			longClicked = false;
-		} else if (MyView.mode != MyView.MODE_CREATE_PLATFORM)
+			PopupMenu popup = new PopupMenu(MainActivity.this, view);
+			popup.getMenuInflater().inflate(R.menu.shapes_popup, popup.getMenu());
+			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+			{
+				public boolean onMenuItemClick(MenuItem item)
+				{
+					return true;
+				}
+			});
+			popup.show();
+		} else if (MyView.mode != MyView.MODE_PLATFORM)
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			platform.setBackgroundColor(Color.GRAY);
 			ball.setBackgroundColor(Color.LTGRAY);
-			MyView.mode = MyView.MODE_CREATE_PLATFORM;
+			MyView.mode = MyView.MODE_PLATFORM;
 		}
 	}
 
@@ -253,7 +277,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 
 	public boolean modeMatchesButton(View v)
 	{
-		return (v.equals(ball) && MyView.mode == MyView.MODE_BALL) || (v.equals(platform) && MyView.mode == MyView.MODE_CREATE_PLATFORM);
+		return (v.equals(ball) && MyView.mode == MyView.MODE_BALL) || (v.equals(platform) && MyView.mode == MyView.MODE_PLATFORM);
 	}
 
 	@Override

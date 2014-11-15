@@ -9,6 +9,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,7 +32,9 @@ public class MyView extends View implements OnTouchListener
 	public static boolean alreadyStarted = false;
 	public static int mode;
 	public static final int MODE_BALL = 0;
-	public static final int MODE_CREATE_PLATFORM = 1;
+	public static final int MODE_PLATFORM = 1;
+	public static final int MODE_OVAL = 2;
+	public static final int MODE_RECT = 3;
 	public static int ballColor;
 	static float currentTouchX;
 	static float currentTouchY;
@@ -52,6 +56,7 @@ public class MyView extends View implements OnTouchListener
 	//	public static Platform platform;
 	Paint ballPaint = new Paint();
 	Paint platformPaint = new Paint();
+	Paint hollowShapesPaint = new Paint();
 	Paint lineInBallPaint = new Paint();
 	Paint startPosPaint = new Paint();
 	public static boolean showLine;
@@ -83,7 +88,7 @@ public class MyView extends View implements OnTouchListener
 		startBallX = originalStartBallX;
 		startBallY = originalStartBallY;
 		ball = new Circle(BodyType.DYNAMIC, startBallX, startBallY, ballRadius, 1.0f, ballFriction, ballRestitution);
-		new HollowOval(BodyType.STATIC, 2, 2, 1, 2, 0, 1, 0);
+		shapes.add(new HollowOval(BodyType.STATIC, 2, 2, 2, 3, 0, 1, 0));
 	}
 
 	public static void reset()
@@ -200,7 +205,7 @@ public class MyView extends View implements OnTouchListener
 					}
 				}
 			}
-		} else if (mode == MODE_CREATE_PLATFORM)
+		} else if (mode == MODE_PLATFORM)
 		{
 			if (touching)
 			{
@@ -247,7 +252,7 @@ public class MyView extends View implements OnTouchListener
 		invalidate();
 	}
 
-	private void resetBallPosition()
+	public static void resetBallPosition()
 	{
 		ball.setAngle(0);
 		ball.setPosition(new Vec2(startBallX, startBallY));
@@ -345,6 +350,14 @@ public class MyView extends View implements OnTouchListener
 				{
 					Platform platform = (Platform) shape;
 					c.drawLine(toPixels(platform.getStartX()), toPixels(platform.getStartY()), toPixels(platform.getEndX()), toPixels(platform.getEndY()), platformPaint);
+				} else if (shape instanceof HollowOval)
+				{
+					HollowOval oval = (HollowOval) shape;
+					c.drawOval(new RectF(toPixels(oval.getLeft()), toPixels(oval.getTop()), toPixels(oval.getRight()), toPixels(oval.getBottom())), hollowShapesPaint);
+				} else if (shape instanceof HollowRectangle)
+				{
+					HollowRectangle rect = (HollowRectangle) shape;
+					c.drawRect(toPixels(rect.getLeft()), toPixels(rect.getTop()), toPixels(rect.getRight()), toPixels(rect.getBottom()), hollowShapesPaint);
 				}
 			}
 		} else
@@ -412,6 +425,8 @@ public class MyView extends View implements OnTouchListener
 	{
 		platformPaint.setColor(Color.WHITE);
 		platformPaint.setStrokeWidth(toPixels(0.02f));
+		hollowShapesPaint.setColor(Color.WHITE);
+		hollowShapesPaint.setStyle(Style.STROKE);
 		ballPaint.setColor(ballColor);
 		lineInBallPaint.setColor(Color.BLACK);
 		lineInBallPaint.setAlpha(79);
