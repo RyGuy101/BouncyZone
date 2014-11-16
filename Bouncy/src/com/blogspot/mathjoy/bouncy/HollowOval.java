@@ -67,7 +67,7 @@ public class HollowOval extends Shape
 	@Override
 	public void destroy()
 	{
-		fixture.destroy();
+		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
 	}
 

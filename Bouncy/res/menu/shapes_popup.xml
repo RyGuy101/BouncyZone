@@ -3,11 +3,15 @@
 
     <item
         android:id="@+id/line"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/liney"
         android:title=""/>
     <item
         android:id="@+id/oval"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/circle"
+        android:title=""/>
+    <item
+        android:id="@+id/rect"
+        android:icon="@drawable/square"
         android:title=""/>
 
 </menu>

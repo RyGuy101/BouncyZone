@@ -1,5 +1,8 @@
 package com.blogspot.mathjoy.bouncy;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
@@ -179,6 +182,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		if (longClicked)
 		{
 			longClicked = false;
+
 			PopupMenu popup = new PopupMenu(MainActivity.this, view);
 			popup.getMenuInflater().inflate(R.menu.ball_popup, popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
@@ -204,7 +208,26 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		if (longClicked)
 		{
 			longClicked = false;
-			PopupMenu popup = new PopupMenu(MainActivity.this, view);
+			PopupMenu popup = new PopupMenu(this, view);
+			try
+			{
+				Field[] fields = popup.getClass().getDeclaredFields();
+				for (Field field : fields)
+				{
+					if ("mPopup".equals(field.getName()))
+					{
+						field.setAccessible(true);
+						Object menuPopupHelper = field.get(popup);
+						Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+						Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+						setForceIcons.invoke(menuPopupHelper, true);
+						break;
+					}
+				}
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 			popup.getMenuInflater().inflate(R.menu.shapes_popup, popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 			{
@@ -213,6 +236,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 					return true;
 				}
 			});
+
 			popup.show();
 		} else if (MyView.mode != MyView.MODE_PLATFORM)
 		{

@@ -100,10 +100,13 @@ public class IntroActivity extends BaseGameActivity
 	protected void onPause()
 	{
 		super.onPause();
-		IntroView.makeBallUnreal();
-		IntroView.makePlatformsUnreal();
-		MyView.makePlatformsReal();
-		MyView.makeBallReal();
+		if (!firstTime)
+		{
+			IntroView.makeBallUnreal();
+			IntroView.makePlatformsUnreal();
+			MyView.makePlatformsReal();
+			MyView.makeBallReal();
+		}
 	}
 
 	@Override

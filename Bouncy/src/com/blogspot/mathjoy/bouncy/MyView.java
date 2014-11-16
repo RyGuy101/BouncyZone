@@ -88,7 +88,6 @@ public class MyView extends View implements OnTouchListener
 		startBallX = originalStartBallX;
 		startBallY = originalStartBallY;
 		ball = new Circle(BodyType.DYNAMIC, startBallX, startBallY, ballRadius, 1.0f, ballFriction, ballRestitution);
-		shapes.add(new HollowOval(BodyType.STATIC, 2, 2, 2, 3, 0, 1, 0));
 	}
 
 	public static void reset()
@@ -153,8 +152,11 @@ public class MyView extends View implements OnTouchListener
 							MyView.touching = false;
 							MyView.wasTouching = true;
 						}
-						MainActivity.MyTask mt = MainActivity.activity.new MyTask();
-						mt.execute();
+						if (MainActivity.activity != null)
+						{
+							MainActivity.MyTask mt = MainActivity.activity.new MyTask();
+							mt.execute();
+						}
 					}
 				} else
 				{
@@ -218,6 +220,7 @@ public class MyView extends View implements OnTouchListener
 			{
 				wasTouching = false;
 				shapes.add(new Platform(BodyType.STATIC, toMeters(startTouchX), toMeters(startTouchY), toMeters(endTouchX), toMeters(endTouchY), 0, 1, 0));
+//				shapes.add(new HollowOval(BodyType.STATIC, 2, 2, 2, 3, 0, 1, 0));
 			}
 		}
 		Circle theBall;
