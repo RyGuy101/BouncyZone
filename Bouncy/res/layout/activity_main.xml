@@ -52,6 +52,7 @@
                 android:src="@drawable/ic_launcher" />
 
             <TextView
+                android:id="@+id/holdBallText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
@@ -73,12 +74,13 @@
                 android:src="@drawable/liney" />
 
             <TextView
+                android:id="@+id/holdPlatformText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:text="Hold for More"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#80000000" />
+                android:textColor="#00000000" />
         </FrameLayout>
 
         <ImageButton

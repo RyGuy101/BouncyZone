@@ -30,11 +30,12 @@ public class MyView extends View implements OnTouchListener
 	public static ArrayList<Shape> shapes = new ArrayList<Shape>();
 	public static ArrayList<Shape> oldPlatforms = new ArrayList<Shape>();
 	public static boolean alreadyStarted = false;
-	public static int mode;
 	public static final int MODE_BALL = 0;
 	public static final int MODE_PLATFORM = 1;
 	public static final int MODE_OVAL = 2;
 	public static final int MODE_RECT = 3;
+	public static int mode;
+	public static int shapesMode = MODE_PLATFORM;
 	public static int ballColor;
 	static float currentTouchX;
 	static float currentTouchY;
@@ -220,7 +221,34 @@ public class MyView extends View implements OnTouchListener
 			{
 				wasTouching = false;
 				shapes.add(new Platform(BodyType.STATIC, toMeters(startTouchX), toMeters(startTouchY), toMeters(endTouchX), toMeters(endTouchY), 0, 1, 0));
-//				shapes.add(new HollowOval(BodyType.STATIC, 2, 2, 2, 3, 0, 1, 0));
+			}
+		} else if (mode == MODE_OVAL)
+		{
+			if (touching)
+			{
+				if (initialTouch)
+				{
+					initialTouch = false;
+				}
+				c.drawOval(new RectF(Math.min(startTouchX, currentTouchX), Math.min(startTouchY, currentTouchY), Math.max(startTouchX, currentTouchX), Math.max(startTouchY, currentTouchY)), hollowShapesPaint);
+			} else if (wasTouching)
+			{
+				wasTouching = false;
+				shapes.add(new HollowOval(BodyType.STATIC, toMeters((float) ((endTouchX + startTouchX) / 2.0)), toMeters((float) ((endTouchY + startTouchY) / 2.0)), toMeters(Math.abs(endTouchX - startTouchX)), toMeters(Math.abs(endTouchY - startTouchY)), 0, 1, 0));
+			}
+		} else if (mode == MODE_RECT)
+		{
+			if (touching)
+			{
+				if (initialTouch)
+				{
+					initialTouch = false;
+				}
+				c.drawRect(Math.min(startTouchX, currentTouchX), Math.min(startTouchY, currentTouchY), Math.max(startTouchX, currentTouchX), Math.max(startTouchY, currentTouchY), hollowShapesPaint);
+			} else if (wasTouching)
+			{
+				wasTouching = false;
+				shapes.add(new HollowRectangle(BodyType.STATIC, toMeters((float) ((endTouchX + startTouchX) / 2.0)), toMeters((float) ((endTouchY + startTouchY) / 2.0)), toMeters(Math.abs(endTouchX - startTouchX)), toMeters(Math.abs(endTouchY - startTouchY)), 0, 1, 0));
 			}
 		}
 		Circle theBall;

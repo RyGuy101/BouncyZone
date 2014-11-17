@@ -47,12 +47,14 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "White", "Gray" };
 	static boolean justOpened = true;
-	public static ImageButton ball;
-	public static ImageButton platform;
-	public static ImageButton settings;
-	public static ImageButton undo;
-	public static TextView redoText;
-	public ImageButton buttonDown;
+	ImageButton ball;
+	ImageButton platform;
+	ImageButton settings;
+	ImageButton undo;
+	TextView redoText;
+	TextView holdBallText;
+	TextView holdPlatformText;
+	ImageButton buttonDown;
 	public static final String GAME_SP = "game";
 	boolean updatedUndoButton = false;
 	boolean longClicked = false;
@@ -81,6 +83,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		settings = (ImageButton) findViewById(R.id.Settings);
 		undo = (ImageButton) findViewById(R.id.Undo);
 		redoText = (TextView) findViewById(R.id.redoText);
+		holdBallText = (TextView) findViewById(R.id.holdBallText);
+		holdPlatformText = (TextView) findViewById(R.id.holdPlatformText);
 		settings.setBackgroundColor(Color.LTGRAY);
 		undo.setBackgroundColor(Color.LTGRAY);
 		ball.setOnTouchListener(this);
@@ -97,6 +101,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 				ball.setBackgroundColor(Color.GRAY);
 				platform.setBackgroundColor(Color.LTGRAY);
 				MyView.mode = MyView.MODE_BALL;
+				holdBallText.setTextColor(Color.argb(128, 0, 0, 0));
+				holdPlatformText.setTextColor(Color.TRANSPARENT);
 			}
 		} catch (Exception e)
 		{
@@ -146,12 +152,12 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		MyView.intro = false;
 		if (MyView.mode == MyView.MODE_BALL)
 		{
-			MainActivity.ball.setBackgroundColor(Color.GRAY);
-			MainActivity.platform.setBackgroundColor(Color.LTGRAY);
-		} else if (MyView.mode == MyView.MODE_PLATFORM)
+			ball.setBackgroundColor(Color.GRAY);
+			platform.setBackgroundColor(Color.LTGRAY);
+		} else if (MyView.mode != MyView.MODE_BALL)
 		{
-			MainActivity.platform.setBackgroundColor(Color.GRAY);
-			MainActivity.ball.setBackgroundColor(Color.LTGRAY);
+			platform.setBackgroundColor(Color.GRAY);
+			ball.setBackgroundColor(Color.LTGRAY);
 		}
 		if (MyView.oldPlatforms.size() == 0)
 		{
@@ -200,6 +206,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			ball.setBackgroundColor(Color.GRAY);
 			platform.setBackgroundColor(Color.LTGRAY);
 			MyView.mode = MyView.MODE_BALL;
+			holdBallText.setTextColor(Color.argb(128, 0, 0, 0));
+			holdPlatformText.setTextColor(Color.TRANSPARENT);
 		}
 	}
 
@@ -233,17 +241,42 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			{
 				public boolean onMenuItemClick(MenuItem item)
 				{
-					return true;
+					boolean toReturn = false;
+					if (item.getItemId() == R.id.line)
+					{
+						platform.setImageResource(R.drawable.liney);
+						MyView.shapesMode = MyView.MODE_PLATFORM;
+						toReturn = true;
+					} else if (item.getItemId() == R.id.oval)
+					{
+						platform.setImageResource(R.drawable.circle);
+						MyView.shapesMode = MyView.MODE_OVAL;
+						toReturn = true;
+					} else if (item.getItemId() == R.id.rect)
+					{
+						platform.setImageResource(R.drawable.square);
+						MyView.shapesMode = MyView.MODE_RECT;
+						toReturn = true;
+					}
+					if (MyView.mode != MyView.MODE_BALL)
+					{
+						MyView.mode = MyView.shapesMode;
+						holdPlatformText.setTextColor(Color.argb(128, 0, 0, 0));
+						holdBallText.setTextColor(Color.TRANSPARENT);
+					}
+					return toReturn;
 				}
 			});
 
 			popup.show();
-		} else if (MyView.mode != MyView.MODE_PLATFORM)
+		} else if (MyView.mode == MyView.MODE_BALL)
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			platform.setBackgroundColor(Color.GRAY);
 			ball.setBackgroundColor(Color.LTGRAY);
-			MyView.mode = MyView.MODE_PLATFORM;
+			MyView.mode = MyView.shapesMode;
+			holdPlatformText.setTextColor(Color.argb(128, 0, 0, 0));
+			holdBallText.setTextColor(Color.TRANSPARENT);
 		}
 	}
 
@@ -301,7 +334,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 
 	public boolean modeMatchesButton(View v)
 	{
-		return (v.equals(ball) && MyView.mode == MyView.MODE_BALL) || (v.equals(platform) && MyView.mode == MyView.MODE_PLATFORM);
+		return (v.equals(ball) && MyView.mode == MyView.MODE_BALL) || (v.equals(platform) && MyView.mode != MyView.MODE_BALL);
 	}
 
 	@Override
@@ -419,12 +452,18 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			}
 		} else if (v.getId() == R.id.Ball)
 		{
-			ball.setBackgroundColor(Color.DKGRAY);
-			longClicked = true;
+			if (MyView.mode == MyView.MODE_BALL)
+			{
+				ball.setBackgroundColor(Color.DKGRAY);
+				longClicked = true;
+			}
 		} else if (v.getId() == R.id.Platform)
 		{
-			platform.setBackgroundColor(Color.DKGRAY);
-			longClicked = true;
+			if (MyView.mode != MyView.MODE_BALL)
+			{
+				platform.setBackgroundColor(Color.DKGRAY);
+				longClicked = true;
+			}
 		}
 		return false;
 	}
