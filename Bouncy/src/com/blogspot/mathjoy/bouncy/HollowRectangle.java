@@ -22,6 +22,7 @@ public class HollowRectangle extends Shape
 	private FixtureDef fd;
 	private BodyDef bd;
 	private Fixture fixture;
+	private boolean failed = false;
 
 	public HollowRectangle(BodyType bt, float x, float y, float width, float height, float density, float friction, float restitution)
 	{
@@ -44,15 +45,25 @@ public class HollowRectangle extends Shape
 		bd.type = bt;
 		ChainShape cs = new ChainShape();
 		Vec2[] vs = { new Vec2((float) (-width / 2.0), (float) (-height / 2.0)), new Vec2((float) (width / 2.0), (float) (-height / 2.0)), new Vec2((float) (width / 2.0), (float) (height / 2.0)), new Vec2((float) (-width / 2.0), (float) (height / 2.0)) };
-		int i = 0;
-		cs.createLoop(vs, 4);
-		fd = new FixtureDef();
-		fd.shape = cs;
-		fd.density = density;
-		fd.friction = friction;
-		fd.restitution = restitution;
-		body = WorldManager.world.createBody(bd);
-		fixture = body.createFixture(fd);
+		try
+		{
+			cs.createLoop(vs, 4);
+			fd = new FixtureDef();
+			fd.shape = cs;
+			fd.density = density;
+			fd.friction = friction;
+			fd.restitution = restitution;
+			body = WorldManager.world.createBody(bd);
+			fixture = body.createFixture(fd);
+		} catch (Exception e)
+		{
+			failed = true;
+		}
+	}
+
+	public boolean hasFailed()
+	{
+		return failed;
 	}
 
 	@Override

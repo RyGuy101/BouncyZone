@@ -61,8 +61,8 @@ containing a value of this type.
 <tr><td><code>holo_light</code></td><td>1</td><td></td></tr>
 </table>
          */
-        public static final int appTheme=0x7f010011;
-        /**  Appearance of the buy button. Must be one of "classic", "grayscale" and "monochrome" 
+        public static final int appTheme=0x7f010016;
+        /**  The appearance of the buy button 
          <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -74,7 +74,7 @@ containing a value of this type.
 <tr><td><code>monochrome</code></td><td>3</td><td></td></tr>
 </table>
          */
-        public static final int buyButtonAppearance=0x7f010018;
+        public static final int buyButtonAppearance=0x7f01001d;
         /**  Height of the buy button. This includes an 8dp padding (4dp on each side) used for
              pressed and focused states of the button. The value can be a specific height, e.g.
              "48dp", or special values "match_parent" and "wrap_content". 
@@ -96,8 +96,8 @@ containing a value of this type.
 <tr><td><code>wrap_content</code></td><td>-2</td><td></td></tr>
 </table>
          */
-        public static final int buyButtonHeight=0x7f010015;
-        /**  Text on the buy button. Must be one of "buy_with_google", "buy_now" and "book_now" 
+        public static final int buyButtonHeight=0x7f01001a;
+        /**  The text on the buy button 
          <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -107,9 +107,10 @@ containing a value of this type.
 <tr><td><code>buy_with_google</code></td><td>1</td><td></td></tr>
 <tr><td><code>buy_now</code></td><td>2</td><td></td></tr>
 <tr><td><code>book_now</code></td><td>3</td><td></td></tr>
+<tr><td><code>donate_with_google</code></td><td>4</td><td></td></tr>
 </table>
          */
-        public static final int buyButtonText=0x7f010017;
+        public static final int buyButtonText=0x7f01001c;
         /**  Width of the buy button. This includes an 8dp padding (4dp on each side) used for
              pressed and focused states of the button. The value can be a specific width, e.g.
              "300dp", or special values "match_parent" and "wrap_content". 
@@ -131,7 +132,7 @@ containing a value of this type.
 <tr><td><code>wrap_content</code></td><td>-2</td><td></td></tr>
 </table>
          */
-        public static final int buyButtonWidth=0x7f010016;
+        public static final int buyButtonWidth=0x7f01001b;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -139,7 +140,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cameraBearing=0x7f010004;
+        public static final int cameraBearing=0x7f010007;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -147,7 +148,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cameraTargetLat=0x7f010005;
+        public static final int cameraTargetLat=0x7f010008;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -155,7 +156,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cameraTargetLng=0x7f010006;
+        public static final int cameraTargetLng=0x7f010009;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -163,7 +164,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cameraTilt=0x7f010007;
+        public static final int cameraTilt=0x7f01000a;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -171,7 +172,18 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cameraZoom=0x7f010008;
+        public static final int cameraZoom=0x7f01000b;
+        /** 
+        Whether or not this view should have a circular clip applied
+        
+         <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int circleCrop=0x7f010005;
         /**  Google Wallet environment to use 
          <p>Must be one of the following constant values.</p>
 <table>
@@ -184,7 +196,7 @@ containing a value of this type.
 <tr><td><code>strict_sandbox</code></td><td>2</td><td></td></tr>
 </table>
          */
-        public static final int environment=0x7f010012;
+        public static final int environment=0x7f010017;
         /**  Fragment mode 
          <p>Must be one of the following constant values.</p>
 <table>
@@ -196,12 +208,47 @@ containing a value of this type.
 <tr><td><code>selectionDetails</code></td><td>2</td><td></td></tr>
 </table>
          */
-        public static final int fragmentMode=0x7f010014;
+        public static final int fragmentMode=0x7f010019;
         /**  A style resource specifing attributes to customize the look and feel of WalletFragment 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int fragmentStyle=0x7f010013;
+        public static final int fragmentStyle=0x7f010018;
+        /** 
+        The fixed aspect ratio to use in aspect ratio adjustments.
+        
+         <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int imageAspectRatio=0x7f010004;
+        /** 
+        What kind of aspect ratio adjustment to do.  It must be one of "none", "adjust_width",
+        or "adjust_height".
+        
+         <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>none</code></td><td>0</td><td></td></tr>
+<tr><td><code>adjust_width</code></td><td>1</td><td></td></tr>
+<tr><td><code>adjust_height</code></td><td>2</td><td></td></tr>
+</table>
+         */
+        public static final int imageAspectRatioAdjust=0x7f010003;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int liteMode=0x7f01000c;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -215,31 +262,31 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>hybrid</code></td><td>4</td><td></td></tr>
 </table>
          */
-        public static final int mapType=0x7f010003;
+        public static final int mapType=0x7f010006;
         /**  Masked wallet details background 
          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static final int maskedWalletDetailsBackground=0x7f01001b;
+        public static final int maskedWalletDetailsBackground=0x7f010020;
         /**  "Change" button background in masked wallet details view 
          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static final int maskedWalletDetailsButtonBackground=0x7f01001d;
+        public static final int maskedWalletDetailsButtonBackground=0x7f010022;
         /**  TextAppearance for the "Change" button in masked wallet details view 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int maskedWalletDetailsButtonTextAppearance=0x7f01001c;
+        public static final int maskedWalletDetailsButtonTextAppearance=0x7f010021;
         /**  TextAppearance for headers describing masked wallet details 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int maskedWalletDetailsHeaderTextAppearance=0x7f01001a;
+        public static final int maskedWalletDetailsHeaderTextAppearance=0x7f01001f;
         /**  Type of the wallet logo image in masked wallet details view 
          <p>Must be one of the following constant values.</p>
 <table>
@@ -251,7 +298,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>monochrome</code></td><td>2</td><td></td></tr>
 </table>
          */
-        public static final int maskedWalletDetailsLogoImageType=0x7f01001f;
+        public static final int maskedWalletDetailsLogoImageType=0x7f010024;
         /**  Color of the Google Wallet logo text in masked wallet details view 
          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
@@ -261,12 +308,12 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int maskedWalletDetailsLogoTextColor=0x7f01001e;
+        public static final int maskedWalletDetailsLogoTextColor=0x7f010023;
         /**  TextAppearance for masked wallet details 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int maskedWalletDetailsTextAppearance=0x7f010019;
+        public static final int maskedWalletDetailsTextAppearance=0x7f01001e;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -274,7 +321,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int uiCompass=0x7f010009;
+        public static final int uiCompass=0x7f01000d;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -282,7 +329,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int uiRotateGestures=0x7f01000a;
+        public static final int uiMapToolbar=0x7f010015;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -290,7 +337,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int uiScrollGestures=0x7f01000b;
+        public static final int uiRotateGestures=0x7f01000e;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -298,7 +345,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int uiTiltGestures=0x7f01000c;
+        public static final int uiScrollGestures=0x7f01000f;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -306,7 +353,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int uiZoomControls=0x7f01000d;
+        public static final int uiTiltGestures=0x7f010010;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -314,7 +361,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int uiZoomGestures=0x7f01000e;
+        public static final int uiZoomControls=0x7f010011;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -322,7 +369,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int useViewLifecycle=0x7f01000f;
+        public static final int uiZoomGestures=0x7f010012;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -330,7 +377,15 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int zOrderOnTop=0x7f010010;
+        public static final int useViewLifecycle=0x7f010013;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int zOrderOnTop=0x7f010014;
     }
     public static final class color {
         public static final int common_action_bar_splitter=0x7f080009;
@@ -381,8 +436,8 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f0b0000;
-        public static final int activity_vertical_margin=0x7f0b0001;
+        public static final int activity_horizontal_margin=0x7f0a0000;
+        public static final int activity_vertical_margin=0x7f0a0001;
     }
     public static final class drawable {
         public static final int circle=0x7f020000;
@@ -429,94 +484,97 @@ containing a value of this type.
         public static final int undo=0x7f020029;
     }
     public static final class id {
-        public static final int Ball=0x7f09002e;
-        public static final int Platform=0x7f090030;
-        public static final int Settings=0x7f090032;
-        public static final int Undo=0x7f09002c;
-        public static final int accelText=0x7f090045;
-        public static final int accelToggle=0x7f090046;
-        public static final int achievements=0x7f09001c;
-        public static final int ballColor=0x7f090037;
-        public static final int book_now=0x7f090010;
-        public static final int bouceLevel=0x7f09003b;
-        public static final int buyButton=0x7f09000a;
-        public static final int buy_now=0x7f09000f;
-        public static final int buy_with_google=0x7f09000e;
-        public static final int cancelDelConf=0x7f090018;
-        public static final int cancelLoadConf=0x7f09002b;
-        public static final int cancelSave=0x7f090043;
-        public static final int chooseConf=0x7f09004c;
-        public static final int chooseConftext=0x7f090028;
-        public static final int chooseDelConf=0x7f090016;
-        public static final int chooseDelConfText=0x7f090015;
-        public static final int chooseLoadConf=0x7f090029;
-        public static final int classic=0x7f090011;
-        public static final int colorView=0x7f090036;
-        public static final int delConf=0x7f090017;
-        public static final int delConfText=0x7f090014;
-        public static final int editConfName=0x7f090040;
-        public static final int friction=0x7f09003d;
-        public static final int gameReset=0x7f090034;
-        public static final int goToDelConf=0x7f09004a;
-        public static final int goToLoadConf=0x7f090048;
-        public static final int goToSaveConf=0x7f090047;
-        public static final int googleInfo=0x7f09001e;
-        public static final int gravity=0x7f090039;
-        public static final int grayscale=0x7f090012;
-        public static final int helloUser=0x7f090019;
-        public static final int holdBallText=0x7f09002f;
-        public static final int holdPlatformText=0x7f090031;
-        public static final int holo_dark=0x7f090005;
-        public static final int holo_light=0x7f090006;
-        public static final int hybrid=0x7f090004;
-        public static final int introButtons=0x7f090022;
-        public static final int introPlay=0x7f090023;
-        public static final int introStats=0x7f090024;
-        public static final int introView=0x7f090021;
-        public static final int line=0x7f090052;
-        public static final int loadConf=0x7f09002a;
-        public static final int loadConfText=0x7f090027;
-        public static final int match_parent=0x7f09000c;
-        public static final int monochrome=0x7f090013;
-        public static final int myView=0x7f090033;
-        public static final int none=0x7f090000;
-        public static final int normal=0x7f090001;
-        public static final int numBouncesText=0x7f09001a;
-        public static final int one=0x7f09004d;
-        public static final int otdText=0x7f09001b;
-        public static final int oval=0x7f090053;
-        public static final int production=0x7f090007;
-        public static final int rect=0x7f090054;
-        public static final int redoText=0x7f09002d;
-        public static final int renameConf=0x7f090049;
-        public static final int restoreToDefault=0x7f09003e;
-        public static final int sandbox=0x7f090008;
-        public static final int satellite=0x7f090002;
-        public static final int saveConf=0x7f090042;
-        public static final int saveConfHeading=0x7f09003f;
-        public static final int selectionDetails=0x7f09000b;
-        public static final int signInButt=0x7f090020;
-        public static final int signInInfo=0x7f09001d;
-        public static final int signOutButt=0x7f09001f;
-        public static final int sounds=0x7f090025;
-        public static final int soundsOnActionBar=0x7f09004e;
-        public static final int strict_sandbox=0x7f090009;
-        public static final int terrain=0x7f090003;
-        public static final int textBallColor=0x7f090035;
-        public static final int textView1=0x7f090041;
-        public static final int toGameStats=0x7f090051;
-        public static final int toGameStatsWithIcon=0x7f09004f;
-        public static final int toIntro=0x7f090050;
-        public static final int toggleSounds=0x7f090026;
-        public static final int valueOfBounceLevel=0x7f09003a;
-        public static final int valueOfFriction=0x7f09003c;
-        public static final int valueOfGravity=0x7f090038;
-        public static final int view1=0x7f09004b;
-        public static final int viewPager=0x7f090044;
-        public static final int wrap_content=0x7f09000d;
+        public static final int Ball=0x7f0c0031;
+        public static final int Platform=0x7f0c0033;
+        public static final int Settings=0x7f0c0035;
+        public static final int Undo=0x7f0c002f;
+        public static final int accelText=0x7f0c0048;
+        public static final int accelToggle=0x7f0c0049;
+        public static final int achievements=0x7f0c001f;
+        public static final int adjust_height=0x7f0c0000;
+        public static final int adjust_width=0x7f0c0001;
+        public static final int ballColor=0x7f0c003a;
+        public static final int book_now=0x7f0c0010;
+        public static final int bouceLevel=0x7f0c003e;
+        public static final int buyButton=0x7f0c000c;
+        public static final int buy_now=0x7f0c0011;
+        public static final int buy_with_google=0x7f0c0012;
+        public static final int cancelDelConf=0x7f0c001b;
+        public static final int cancelLoadConf=0x7f0c002e;
+        public static final int cancelSave=0x7f0c0046;
+        public static final int chooseConf=0x7f0c004f;
+        public static final int chooseConftext=0x7f0c002b;
+        public static final int chooseDelConf=0x7f0c0019;
+        public static final int chooseDelConfText=0x7f0c0018;
+        public static final int chooseLoadConf=0x7f0c002c;
+        public static final int classic=0x7f0c0014;
+        public static final int colorView=0x7f0c0039;
+        public static final int delConf=0x7f0c001a;
+        public static final int delConfText=0x7f0c0017;
+        public static final int donate_with_google=0x7f0c0013;
+        public static final int editConfName=0x7f0c0043;
+        public static final int friction=0x7f0c0040;
+        public static final int gameReset=0x7f0c0037;
+        public static final int goToDelConf=0x7f0c004d;
+        public static final int goToLoadConf=0x7f0c004b;
+        public static final int goToSaveConf=0x7f0c004a;
+        public static final int googleInfo=0x7f0c0021;
+        public static final int gravity=0x7f0c003c;
+        public static final int grayscale=0x7f0c0015;
+        public static final int helloUser=0x7f0c001c;
+        public static final int holdBallText=0x7f0c0032;
+        public static final int holdPlatformText=0x7f0c0034;
+        public static final int holo_dark=0x7f0c0007;
+        public static final int holo_light=0x7f0c0008;
+        public static final int hybrid=0x7f0c0003;
+        public static final int introButtons=0x7f0c0025;
+        public static final int introPlay=0x7f0c0026;
+        public static final int introStats=0x7f0c0027;
+        public static final int introView=0x7f0c0024;
+        public static final int line=0x7f0c0055;
+        public static final int loadConf=0x7f0c002d;
+        public static final int loadConfText=0x7f0c002a;
+        public static final int match_parent=0x7f0c000e;
+        public static final int monochrome=0x7f0c0016;
+        public static final int myView=0x7f0c0036;
+        public static final int none=0x7f0c0002;
+        public static final int normal=0x7f0c0004;
+        public static final int numBouncesText=0x7f0c001d;
+        public static final int one=0x7f0c0050;
+        public static final int otdText=0x7f0c001e;
+        public static final int oval=0x7f0c0056;
+        public static final int production=0x7f0c0009;
+        public static final int rect=0x7f0c0057;
+        public static final int redoText=0x7f0c0030;
+        public static final int renameConf=0x7f0c004c;
+        public static final int restoreToDefault=0x7f0c0041;
+        public static final int sandbox=0x7f0c000a;
+        public static final int satellite=0x7f0c0005;
+        public static final int saveConf=0x7f0c0045;
+        public static final int saveConfHeading=0x7f0c0042;
+        public static final int selectionDetails=0x7f0c000d;
+        public static final int signInButt=0x7f0c0023;
+        public static final int signInInfo=0x7f0c0020;
+        public static final int signOutButt=0x7f0c0022;
+        public static final int sounds=0x7f0c0028;
+        public static final int soundsOnActionBar=0x7f0c0051;
+        public static final int strict_sandbox=0x7f0c000b;
+        public static final int terrain=0x7f0c0006;
+        public static final int textBallColor=0x7f0c0038;
+        public static final int textView1=0x7f0c0044;
+        public static final int toGameStats=0x7f0c0054;
+        public static final int toGameStatsWithIcon=0x7f0c0052;
+        public static final int toIntro=0x7f0c0053;
+        public static final int toggleSounds=0x7f0c0029;
+        public static final int valueOfBounceLevel=0x7f0c003d;
+        public static final int valueOfFriction=0x7f0c003f;
+        public static final int valueOfGravity=0x7f0c003b;
+        public static final int view1=0x7f0c004e;
+        public static final int viewPager=0x7f0c0047;
+        public static final int wrap_content=0x7f0c000f;
     }
     public static final class integer {
-        public static final int google_play_services_version=0x7f0a0000;
+        public static final int google_play_services_version=0x7f090000;
     }
     public static final class layout {
         public static final int activity_del_conf=0x7f030000;
@@ -531,28 +589,30 @@ containing a value of this type.
         public static final int fragment_zones=0x7f030009;
     }
     public static final class menu {
-        public static final int ball_popup=0x7f0c0000;
-        public static final int menu_items=0x7f0c0001;
-        public static final int shapes_popup=0x7f0c0002;
+        public static final int ball_popup=0x7f0b0000;
+        public static final int menu_items=0x7f0b0001;
+        public static final int shapes_popup=0x7f0b0002;
     }
     public static final class raw {
         public static final int bounce=0x7f050000;
         public static final int button=0x7f050001;
+        public static final int gtm_analytics=0x7f050002;
     }
     public static final class string {
         public static final int accept=0x7f070002;
         /**  TODO: Replace these by your achievement/leaderboard IDs! 
          */
-        public static final int achievement_bouncy=0x7f070028;
-        public static final int achievement_bouncy_king=0x7f07002c;
-        public static final int achievement_hyper_bouncy=0x7f07002b;
-        public static final int achievement_mega_bouncy=0x7f07002a;
-        public static final int achievement_super_bouncy=0x7f070029;
-        public static final int action_settings=0x7f07002e;
+        public static final int achievement_bouncy=0x7f07002c;
+        public static final int achievement_bouncy_king=0x7f070030;
+        public static final int achievement_hyper_bouncy=0x7f07002f;
+        public static final int achievement_mega_bouncy=0x7f07002e;
+        public static final int achievement_super_bouncy=0x7f07002d;
+        public static final int action_settings=0x7f070032;
         /**  TODO: Replace this by your app's app ID! 
          */
-        public static final int app_id=0x7f070027;
-        public static final int app_name=0x7f07002d;
+        public static final int app_id=0x7f07002b;
+        public static final int app_misconfigured=0x7f070028;
+        public static final int app_name=0x7f070031;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
         public static final int common_android_wear_notification_needs_update_text=0x7f070009;
@@ -655,21 +715,23 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f070005;
         public static final int create_calendar_title=0x7f070004;
         public static final int decline=0x7f070003;
-        public static final int down_arrow=0x7f070039;
+        public static final int down_arrow=0x7f07003d;
         public static final int gamehelper_app_misconfigured=0x7f070024;
         public static final int gamehelper_license_failed=0x7f070025;
         public static final int gamehelper_sign_in_failed=0x7f070023;
         public static final int gamehelper_unknown_error=0x7f070026;
-        public static final int hello_world=0x7f070034;
-        public static final int menu_settings=0x7f07002f;
+        public static final int hello_world=0x7f070038;
+        public static final int license_failed=0x7f070029;
+        public static final int menu_settings=0x7f070033;
+        public static final int sign_in_failed=0x7f070027;
         public static final int store_picture_message=0x7f070001;
         public static final int store_picture_title=0x7f070000;
-        public static final int title_activity_del_conf=0x7f070036;
-        public static final int title_activity_game_services=0x7f070037;
-        public static final int title_activity_load_conf=0x7f070035;
-        public static final int title_activity_main=0x7f070032;
-        public static final int title_activity_menu=0x7f070030;
-        public static final int title_activity_my_menu=0x7f070031;
+        public static final int title_activity_del_conf=0x7f07003a;
+        public static final int title_activity_game_services=0x7f07003b;
+        public static final int title_activity_load_conf=0x7f070039;
+        public static final int title_activity_main=0x7f070036;
+        public static final int title_activity_menu=0x7f070034;
+        public static final int title_activity_my_menu=0x7f070035;
         /** 
     <string name="pref_send_report">Send crash reports</string>
     <string name="pref_send_report_summary">Helps to fix bugs</string>
@@ -684,8 +746,9 @@ containing a value of this type.
 
     
          */
-        public static final int title_activity_save_conf=0x7f070033;
-        public static final int up_arrow=0x7f070038;
+        public static final int title_activity_save_conf=0x7f070037;
+        public static final int unknown_error=0x7f07002a;
+        public static final int up_arrow=0x7f07003c;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
@@ -805,6 +868,86 @@ containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:adUnitId
         */
         public static final int AdsAttrs_adUnitId = 2;
+        /**  Attributes for LoadingImageView 
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #LoadingImageView_circleCrop com.blogspot.mathjoy.bouncy:circleCrop}</code></td><td>
+        Whether or not this view should have a circular clip applied
+        </td></tr>
+           <tr><td><code>{@link #LoadingImageView_imageAspectRatio com.blogspot.mathjoy.bouncy:imageAspectRatio}</code></td><td>
+        The fixed aspect ratio to use in aspect ratio adjustments.</td></tr>
+           <tr><td><code>{@link #LoadingImageView_imageAspectRatioAdjust com.blogspot.mathjoy.bouncy:imageAspectRatioAdjust}</code></td><td>
+        What kind of aspect ratio adjustment to do.</td></tr>
+           </table>
+           @see #LoadingImageView_circleCrop
+           @see #LoadingImageView_imageAspectRatio
+           @see #LoadingImageView_imageAspectRatioAdjust
+         */
+        public static final int[] LoadingImageView = {
+            0x7f010003, 0x7f010004, 0x7f010005
+        };
+        /**
+          <p>
+          @attr description
+          
+        Whether or not this view should have a circular clip applied
+        
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.blogspot.mathjoy.bouncy:circleCrop
+        */
+        public static final int LoadingImageView_circleCrop = 2;
+        /**
+          <p>
+          @attr description
+          
+        The fixed aspect ratio to use in aspect ratio adjustments.
+        
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.blogspot.mathjoy.bouncy:imageAspectRatio
+        */
+        public static final int LoadingImageView_imageAspectRatio = 1;
+        /**
+          <p>
+          @attr description
+          
+        What kind of aspect ratio adjustment to do.  It must be one of "none", "adjust_width",
+        or "adjust_height".
+        
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>none</code></td><td>0</td><td></td></tr>
+<tr><td><code>adjust_width</code></td><td>1</td><td></td></tr>
+<tr><td><code>adjust_height</code></td><td>2</td><td></td></tr>
+</table>
+          <p>This is a private symbol.
+          @attr name com.blogspot.mathjoy.bouncy:imageAspectRatioAdjust
+        */
+        public static final int LoadingImageView_imageAspectRatioAdjust = 0;
         /** Attributes that can be used with a MapAttrs.
            <p>Includes the following attributes:</p>
            <table>
@@ -816,8 +959,10 @@ containing a value of this type.
            <tr><td><code>{@link #MapAttrs_cameraTargetLng com.blogspot.mathjoy.bouncy:cameraTargetLng}</code></td><td></td></tr>
            <tr><td><code>{@link #MapAttrs_cameraTilt com.blogspot.mathjoy.bouncy:cameraTilt}</code></td><td></td></tr>
            <tr><td><code>{@link #MapAttrs_cameraZoom com.blogspot.mathjoy.bouncy:cameraZoom}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_liteMode com.blogspot.mathjoy.bouncy:liteMode}</code></td><td></td></tr>
            <tr><td><code>{@link #MapAttrs_mapType com.blogspot.mathjoy.bouncy:mapType}</code></td><td></td></tr>
            <tr><td><code>{@link #MapAttrs_uiCompass com.blogspot.mathjoy.bouncy:uiCompass}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiMapToolbar com.blogspot.mathjoy.bouncy:uiMapToolbar}</code></td><td></td></tr>
            <tr><td><code>{@link #MapAttrs_uiRotateGestures com.blogspot.mathjoy.bouncy:uiRotateGestures}</code></td><td></td></tr>
            <tr><td><code>{@link #MapAttrs_uiScrollGestures com.blogspot.mathjoy.bouncy:uiScrollGestures}</code></td><td></td></tr>
            <tr><td><code>{@link #MapAttrs_uiTiltGestures com.blogspot.mathjoy.bouncy:uiTiltGestures}</code></td><td></td></tr>
@@ -831,8 +976,10 @@ containing a value of this type.
            @see #MapAttrs_cameraTargetLng
            @see #MapAttrs_cameraTilt
            @see #MapAttrs_cameraZoom
+           @see #MapAttrs_liteMode
            @see #MapAttrs_mapType
            @see #MapAttrs_uiCompass
+           @see #MapAttrs_uiMapToolbar
            @see #MapAttrs_uiRotateGestures
            @see #MapAttrs_uiScrollGestures
            @see #MapAttrs_uiTiltGestures
@@ -842,10 +989,10 @@ containing a value of this type.
            @see #MapAttrs_zOrderOnTop
          */
         public static final int[] MapAttrs = {
-            0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006,
-            0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a,
-            0x7f01000b, 0x7f01000c, 0x7f01000d, 0x7f01000e,
-            0x7f01000f, 0x7f010010
+            0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009,
+            0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d,
+            0x7f01000e, 0x7f01000f, 0x7f010010, 0x7f010011,
+            0x7f010012, 0x7f010013, 0x7f010014, 0x7f010015
         };
         /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#cameraBearing}
@@ -918,6 +1065,20 @@ containing a value of this type.
         */
         public static final int MapAttrs_cameraZoom = 5;
         /**
+          <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#liteMode}
+          attribute's value can be found in the {@link #MapAttrs} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.blogspot.mathjoy.bouncy:liteMode
+        */
+        public static final int MapAttrs_liteMode = 6;
+        /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#mapType}
           attribute's value can be found in the {@link #MapAttrs} array.
 
@@ -950,7 +1111,21 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:uiCompass
         */
-        public static final int MapAttrs_uiCompass = 6;
+        public static final int MapAttrs_uiCompass = 7;
+        /**
+          <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#uiMapToolbar}
+          attribute's value can be found in the {@link #MapAttrs} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.blogspot.mathjoy.bouncy:uiMapToolbar
+        */
+        public static final int MapAttrs_uiMapToolbar = 15;
         /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#uiRotateGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
@@ -964,7 +1139,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:uiRotateGestures
         */
-        public static final int MapAttrs_uiRotateGestures = 7;
+        public static final int MapAttrs_uiRotateGestures = 8;
         /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#uiScrollGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
@@ -978,7 +1153,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:uiScrollGestures
         */
-        public static final int MapAttrs_uiScrollGestures = 8;
+        public static final int MapAttrs_uiScrollGestures = 9;
         /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#uiTiltGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
@@ -992,7 +1167,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:uiTiltGestures
         */
-        public static final int MapAttrs_uiTiltGestures = 9;
+        public static final int MapAttrs_uiTiltGestures = 10;
         /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#uiZoomControls}
           attribute's value can be found in the {@link #MapAttrs} array.
@@ -1006,7 +1181,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:uiZoomControls
         */
-        public static final int MapAttrs_uiZoomControls = 10;
+        public static final int MapAttrs_uiZoomControls = 11;
         /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#uiZoomGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
@@ -1020,7 +1195,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:uiZoomGestures
         */
-        public static final int MapAttrs_uiZoomGestures = 11;
+        public static final int MapAttrs_uiZoomGestures = 12;
         /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#useViewLifecycle}
           attribute's value can be found in the {@link #MapAttrs} array.
@@ -1034,7 +1209,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:useViewLifecycle
         */
-        public static final int MapAttrs_useViewLifecycle = 12;
+        public static final int MapAttrs_useViewLifecycle = 13;
         /**
           <p>This symbol is the offset where the {@link com.blogspot.mathjoy.bouncy.R.attr#zOrderOnTop}
           attribute's value can be found in the {@link #MapAttrs} array.
@@ -1048,7 +1223,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.blogspot.mathjoy.bouncy:zOrderOnTop
         */
-        public static final int MapAttrs_zOrderOnTop = 13;
+        public static final int MapAttrs_zOrderOnTop = 14;
         /**  Attributes for the WalletFragment &lt;fragment&gt; tag 
            <p>Includes the following attributes:</p>
            <table>
@@ -1066,7 +1241,7 @@ containing a value of this type.
            @see #WalletFragmentOptions_fragmentStyle
          */
         public static final int[] WalletFragmentOptions = {
-            0x7f010011, 0x7f010012, 0x7f010013, 0x7f010014
+            0x7f010016, 0x7f010017, 0x7f010018, 0x7f010019
         };
         /**
           <p>
@@ -1145,9 +1320,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_buyButtonAppearance com.blogspot.mathjoy.bouncy:buyButtonAppearance}</code></td><td> Appearance of the buy button.</td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_buyButtonAppearance com.blogspot.mathjoy.bouncy:buyButtonAppearance}</code></td><td> The appearance of the buy button </td></tr>
            <tr><td><code>{@link #WalletFragmentStyle_buyButtonHeight com.blogspot.mathjoy.bouncy:buyButtonHeight}</code></td><td> Height of the buy button.</td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_buyButtonText com.blogspot.mathjoy.bouncy:buyButtonText}</code></td><td> Text on the buy button.</td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_buyButtonText com.blogspot.mathjoy.bouncy:buyButtonText}</code></td><td> The text on the buy button </td></tr>
            <tr><td><code>{@link #WalletFragmentStyle_buyButtonWidth com.blogspot.mathjoy.bouncy:buyButtonWidth}</code></td><td> Width of the buy button.</td></tr>
            <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsBackground com.blogspot.mathjoy.bouncy:maskedWalletDetailsBackground}</code></td><td> Masked wallet details background </td></tr>
            <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsButtonBackground com.blogspot.mathjoy.bouncy:maskedWalletDetailsButtonBackground}</code></td><td> "Change" button background in masked wallet details view </td></tr>
@@ -1170,14 +1345,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #WalletFragmentStyle_maskedWalletDetailsTextAppearance
          */
         public static final int[] WalletFragmentStyle = {
-            0x7f010015, 0x7f010016, 0x7f010017, 0x7f010018,
-            0x7f010019, 0x7f01001a, 0x7f01001b, 0x7f01001c,
-            0x7f01001d, 0x7f01001e, 0x7f01001f
+            0x7f01001a, 0x7f01001b, 0x7f01001c, 0x7f01001d,
+            0x7f01001e, 0x7f01001f, 0x7f010020, 0x7f010021,
+            0x7f010022, 0x7f010023, 0x7f010024
         };
         /**
           <p>
           @attr description
-           Appearance of the buy button. Must be one of "classic", "grayscale" and "monochrome" 
+           The appearance of the buy button 
 
 
           <p>Must be one of the following constant values.</p>
@@ -1226,7 +1401,7 @@ containing a value of this type.
         /**
           <p>
           @attr description
-           Text on the buy button. Must be one of "buy_with_google", "buy_now" and "book_now" 
+           The text on the buy button 
 
 
           <p>Must be one of the following constant values.</p>
@@ -1238,6 +1413,7 @@ containing a value of this type.
 <tr><td><code>buy_with_google</code></td><td>1</td><td></td></tr>
 <tr><td><code>buy_now</code></td><td>2</td><td></td></tr>
 <tr><td><code>book_now</code></td><td>3</td><td></td></tr>
+<tr><td><code>donate_with_google</code></td><td>4</td><td></td></tr>
 </table>
           <p>This is a private symbol.
           @attr name com.blogspot.mathjoy.bouncy:buyButtonText

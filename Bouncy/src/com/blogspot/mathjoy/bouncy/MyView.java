@@ -233,8 +233,12 @@ public class MyView extends View implements OnTouchListener
 				c.drawOval(new RectF(Math.min(startTouchX, currentTouchX), Math.min(startTouchY, currentTouchY), Math.max(startTouchX, currentTouchX), Math.max(startTouchY, currentTouchY)), hollowShapesPaint);
 			} else if (wasTouching)
 			{
+				HollowOval oval = new HollowOval(BodyType.STATIC, toMeters((float) ((endTouchX + startTouchX) / 2.0)), toMeters((float) ((endTouchY + startTouchY) / 2.0)), toMeters(Math.abs(endTouchX - startTouchX)), toMeters(Math.abs(endTouchY - startTouchY)), 0, 1, 0);
 				wasTouching = false;
-				shapes.add(new HollowOval(BodyType.STATIC, toMeters((float) ((endTouchX + startTouchX) / 2.0)), toMeters((float) ((endTouchY + startTouchY) / 2.0)), toMeters(Math.abs(endTouchX - startTouchX)), toMeters(Math.abs(endTouchY - startTouchY)), 0, 1, 0));
+				if (!oval.hasFailed())
+				{
+					shapes.add(oval);
+				}
 			}
 		} else if (mode == MODE_RECT)
 		{
@@ -248,7 +252,11 @@ public class MyView extends View implements OnTouchListener
 			} else if (wasTouching)
 			{
 				wasTouching = false;
-				shapes.add(new HollowRectangle(BodyType.STATIC, toMeters((float) ((endTouchX + startTouchX) / 2.0)), toMeters((float) ((endTouchY + startTouchY) / 2.0)), toMeters(Math.abs(endTouchX - startTouchX)), toMeters(Math.abs(endTouchY - startTouchY)), 0, 1, 0));
+				HollowRectangle rect = new HollowRectangle(BodyType.STATIC, toMeters((float) ((endTouchX + startTouchX) / 2.0)), toMeters((float) ((endTouchY + startTouchY) / 2.0)), toMeters(Math.abs(endTouchX - startTouchX)), toMeters(Math.abs(endTouchY - startTouchY)), 0, 1, 0);
+				if (!rect.hasFailed())
+				{
+					shapes.add(rect);
+				}
 			}
 		}
 		Circle theBall;

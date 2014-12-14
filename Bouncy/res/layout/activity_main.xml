@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
-                android:text="Hold for More"
+                android:text="Tap for More"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#80000000" />
         </FrameLayout>
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
-                android:text="Hold for More"
+                android:text="Tap for More"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#00000000" />
         </FrameLayout>

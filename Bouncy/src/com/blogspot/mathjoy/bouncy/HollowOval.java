@@ -23,6 +23,7 @@ public class HollowOval extends Shape
 	private FixtureDef fd;
 	private BodyDef bd;
 	private Fixture fixture;
+	private boolean failed = false;
 
 	public HollowOval(BodyType bt, float x, float y, float xDiameter, float yDiameter, float density, float friction, float restitution)
 	{
@@ -44,24 +45,42 @@ public class HollowOval extends Shape
 		bd.position.set(x, y);
 		bd.type = bt;
 		ChainShape cs = new ChainShape();
-		Vec2[] vs = new Vec2[360];
-		int i = 0;
-		for (double rad = 0; rad < 2 * Math.PI; rad += (2 * Math.PI) / vs.length)
+		Vec2[] vs = new Vec2[(int) (64 * Math.PI * Math.min(xRadius, yRadius))];
+		if (vs.length < 10)
 		{
-			if (i < vs.length)
+			failed = true;
+		}
+		if (!failed)
+		{
+			int i = 0;
+			for (double rad = 0; rad < 2 * Math.PI; rad += (2 * Math.PI) / vs.length)
 			{
-				vs[i] = new Vec2((float) (Math.cos(rad) * xRadius), (float) (Math.sin(rad) * yRadius));
-				i++;
+				if (i < vs.length)
+				{
+					vs[i] = new Vec2((float) (Math.cos(rad) * xRadius), (float) (Math.sin(rad) * yRadius));
+					i++;
+				}
+			}
+			try
+			{
+				cs.createLoop(vs, vs.length);
+				fd = new FixtureDef();
+				fd.shape = cs;
+				fd.density = density;
+				fd.friction = friction;
+				fd.restitution = restitution;
+				body = WorldManager.world.createBody(bd);
+				fixture = body.createFixture(fd);
+			} catch (Exception e)
+			{
+				failed = true;
 			}
 		}
-		cs.createLoop(vs, vs.length);
-		fd = new FixtureDef();
-		fd.shape = cs;
-		fd.density = density;
-		fd.friction = friction;
-		fd.restitution = restitution;
-		body = WorldManager.world.createBody(bd);
-		fixture = body.createFixture(fd);
+	}
+
+	public boolean hasFailed()
+	{
+		return failed;
 	}
 
 	@Override

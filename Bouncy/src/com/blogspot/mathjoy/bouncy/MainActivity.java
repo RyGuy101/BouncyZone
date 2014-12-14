@@ -185,10 +185,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 
 	public void modeBall(View view)
 	{
-		if (longClicked)
+		if (MyView.mode == MyView.MODE_BALL)
 		{
-			longClicked = false;
-
 			PopupMenu popup = new PopupMenu(MainActivity.this, view);
 			popup.getMenuInflater().inflate(R.menu.ball_popup, popup.getMenu());
 			popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
@@ -200,7 +198,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 				}
 			});
 			popup.show();
-		} else if (MyView.mode != MyView.MODE_BALL)
+		} else
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			ball.setBackgroundColor(Color.GRAY);
@@ -213,9 +211,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 
 	public void modePlatform(View view)
 	{
-		if (longClicked)
+		if (MyView.mode != MyView.MODE_BALL)
 		{
-			longClicked = false;
 			PopupMenu popup = new PopupMenu(this, view);
 			try
 			{
@@ -269,7 +266,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			});
 
 			popup.show();
-		} else if (MyView.mode == MyView.MODE_BALL)
+		} else
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			platform.setBackgroundColor(Color.GRAY);
@@ -448,20 +445,6 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			{
 				undo.setImageResource(R.drawable.redo);
 				undo.setBackgroundColor(Color.DKGRAY);
-				longClicked = true;
-			}
-		} else if (v.getId() == R.id.Ball)
-		{
-			if (MyView.mode == MyView.MODE_BALL)
-			{
-				ball.setBackgroundColor(Color.DKGRAY);
-				longClicked = true;
-			}
-		} else if (v.getId() == R.id.Platform)
-		{
-			if (MyView.mode != MyView.MODE_BALL)
-			{
-				platform.setBackgroundColor(Color.DKGRAY);
 				longClicked = true;
 			}
 		}
