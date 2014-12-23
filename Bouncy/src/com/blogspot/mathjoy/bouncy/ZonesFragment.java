@@ -255,6 +255,44 @@ public class ZonesFragment extends Fragment
 					edit.putFloat(n + "platformStartY" + i, platform.getStartY());
 					edit.putFloat(n + "platformEndX" + i, platform.getEndX());
 					edit.putFloat(n + "platformEndY" + i, platform.getEndY());
+					edit.putFloat(n + "ovalX" + i, -1000);
+					edit.putFloat(n + "ovalY" + i, -1000);
+					edit.putFloat(n + "ovalXDiameter" + i, -1000);
+					edit.putFloat(n + "ovalYDiameter" + i, -1000);
+					edit.putFloat(n + "rectX" + i, -1000);
+					edit.putFloat(n + "rectY" + i, -1000);
+					edit.putFloat(n + "rectWidth" + i, -1000);
+					edit.putFloat(n + "rectHeight" + i, -1000);
+				} else if (MyView.shapes.get(i) instanceof HollowOval)
+				{
+					HollowOval oval = (HollowOval) MyView.shapes.get(i);
+					edit.putFloat(n + "ovalX" + i, oval.getX());
+					edit.putFloat(n + "ovalY" + i, oval.getY());
+					edit.putFloat(n + "ovalXDiameter" + i, oval.getXDiameter());
+					edit.putFloat(n + "ovalYDiameter" + i, oval.getYDiameter());
+					edit.putFloat(n + "platformStartX" + i, -1000);
+					edit.putFloat(n + "platformStartY" + i, -1000);
+					edit.putFloat(n + "platformEndX" + i, -1000);
+					edit.putFloat(n + "platformEndY" + i, -1000);
+					edit.putFloat(n + "rectX" + i, -1000);
+					edit.putFloat(n + "rectY" + i, -1000);
+					edit.putFloat(n + "rectWidth" + i, -1000);
+					edit.putFloat(n + "rectHeight" + i, -1000);
+				} else if (MyView.shapes.get(i) instanceof HollowRectangle)
+				{
+					HollowRectangle rect = (HollowRectangle) MyView.shapes.get(i);
+					edit.putFloat(n + "rectX" + i, rect.getX());
+					edit.putFloat(n + "rectY" + i, rect.getY());
+					edit.putFloat(n + "rectWidth" + i, rect.getWidth());
+					edit.putFloat(n + "rectHeight" + i, rect.getHeight());
+					edit.putFloat(n + "platformStartX" + i, -1000);
+					edit.putFloat(n + "platformStartY" + i, -1000);
+					edit.putFloat(n + "platformEndX" + i, -1000);
+					edit.putFloat(n + "platformEndY" + i, -1000);
+					edit.putFloat(n + "ovalX" + i, -1000);
+					edit.putFloat(n + "ovalY" + i, -1000);
+					edit.putFloat(n + "ovalXDiameter" + i, -1000);
+					edit.putFloat(n + "ovalYDiameter" + i, -1000);
 				}
 			}
 			if (!foundAvailableIndex)
@@ -312,7 +350,7 @@ public class ZonesFragment extends Fragment
 	private AlertDialog createAlreadyExistsAlertDialogue(final SharedPreferences sp, final String name, final int n)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabs.activity);
-		builder.setMessage(Html.fromHtml("A zone named <b>" + name + "</b> already exists.\nWould you like to overwrite it?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		builder.setMessage(Html.fromHtml("A zone named <b>" + name + "</b> already exists.\nDo you want to overwrite it?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int which)
@@ -322,7 +360,6 @@ public class ZonesFragment extends Fragment
 			}
 		}).setNegativeButton("No", new DialogInterface.OnClickListener()
 		{
-
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
@@ -575,10 +612,19 @@ public class ZonesFragment extends Fragment
 			SavePrefs("bounceLevelValue", sp.getInt(n + "bounceLevelValue", 100));
 			SavePrefs("frictionValue", sp.getInt(n + "frictionValue", 100));
 
-			MyView.clearPlatforms();
+			MyView.clearShapes();
 			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)
 			{
-				MyView.shapes.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
+				if (sp.getFloat(n + "platformStartX" + i, -1000) != -1000)
+				{
+					MyView.shapes.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
+				} else if (sp.getFloat(n + "ovalX" + i, -1000) != -1000)
+				{
+					MyView.shapes.add(new HollowOval(BodyType.STATIC, sp.getFloat(n + "ovalX" + i, 0), sp.getFloat(n + "ovalY" + i, 0), sp.getFloat(n + "ovalXDiameter" + i, 0), sp.getFloat(n + "ovalYDiameter" + i, 0), 0, 1, 0));
+				} else if (sp.getFloat(n + "rectX" + i, -1000) != -1000)
+				{
+					MyView.shapes.add(new HollowRectangle(BodyType.STATIC, sp.getFloat(n + "rectX" + i, 0), sp.getFloat(n + "rectY" + i, 0), sp.getFloat(n + "rectWidth" + i, 0), sp.getFloat(n + "rectHeight" + i, 0), 0, 1, 0));
+				}
 			}
 			Intent intent = new Intent(SettingsTabs.activity, MainActivity.class);
 			intent.putExtra("fromLoad", true);

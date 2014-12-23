@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="When enabled, the ball will move based on the angle and movement of your device. (It&apos;s really cool!)"
+        android:text="When enabled, the ball will move based on how your device is tilted. (It&apos;s really cool!)"
         android:textColor="#808080" />
 
 </LinearLayout>

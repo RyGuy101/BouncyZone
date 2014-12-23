@@ -52,8 +52,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	ImageButton settings;
 	ImageButton undo;
 	TextView redoText;
-	TextView holdBallText;
-	TextView holdPlatformText;
+	TextView moreBallText;
+	TextView morePlatformText;
 	ImageButton buttonDown;
 	public static final String GAME_SP = "game";
 	boolean updatedUndoButton = false;
@@ -83,8 +83,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		settings = (ImageButton) findViewById(R.id.Settings);
 		undo = (ImageButton) findViewById(R.id.Undo);
 		redoText = (TextView) findViewById(R.id.redoText);
-		holdBallText = (TextView) findViewById(R.id.holdBallText);
-		holdPlatformText = (TextView) findViewById(R.id.holdPlatformText);
+		moreBallText = (TextView) findViewById(R.id.holdBallText);
+		morePlatformText = (TextView) findViewById(R.id.holdPlatformText);
 		settings.setBackgroundColor(Color.LTGRAY);
 		undo.setBackgroundColor(Color.LTGRAY);
 		ball.setOnTouchListener(this);
@@ -101,8 +101,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 				ball.setBackgroundColor(Color.GRAY);
 				platform.setBackgroundColor(Color.LTGRAY);
 				MyView.mode = MyView.MODE_BALL;
-				holdBallText.setTextColor(Color.argb(128, 0, 0, 0));
-				holdPlatformText.setTextColor(Color.TRANSPARENT);
+				moreBallText.setTextColor(Color.argb(128, 0, 0, 0));
+				morePlatformText.setTextColor(Color.TRANSPARENT);
 			}
 		} catch (Exception e)
 		{
@@ -153,13 +153,18 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		if (MyView.mode == MyView.MODE_BALL)
 		{
 			ball.setBackgroundColor(Color.GRAY);
+			moreBallText.setTextColor(Color.argb(128, 0, 0, 0));
 			platform.setBackgroundColor(Color.LTGRAY);
+			morePlatformText.setTextColor(Color.TRANSPARENT);
+
 		} else if (MyView.mode != MyView.MODE_BALL)
 		{
 			platform.setBackgroundColor(Color.GRAY);
+			morePlatformText.setTextColor(Color.argb(128, 0, 0, 0));
 			ball.setBackgroundColor(Color.LTGRAY);
+			moreBallText.setTextColor(Color.TRANSPARENT);
 		}
-		if (MyView.oldPlatforms.size() == 0)
+		if (MyView.oldShapes.size() == 0)
 		{
 			redoText.setTextColor(Color.TRANSPARENT);
 		}
@@ -204,8 +209,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			ball.setBackgroundColor(Color.GRAY);
 			platform.setBackgroundColor(Color.LTGRAY);
 			MyView.mode = MyView.MODE_BALL;
-			holdBallText.setTextColor(Color.argb(128, 0, 0, 0));
-			holdPlatformText.setTextColor(Color.TRANSPARENT);
+			moreBallText.setTextColor(Color.argb(128, 0, 0, 0));
+			morePlatformText.setTextColor(Color.TRANSPARENT);
 		}
 	}
 
@@ -258,8 +263,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 					if (MyView.mode != MyView.MODE_BALL)
 					{
 						MyView.mode = MyView.shapesMode;
-						holdPlatformText.setTextColor(Color.argb(128, 0, 0, 0));
-						holdBallText.setTextColor(Color.TRANSPARENT);
+						morePlatformText.setTextColor(Color.argb(128, 0, 0, 0));
+						moreBallText.setTextColor(Color.TRANSPARENT);
 					}
 					return toReturn;
 				}
@@ -272,8 +277,8 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			platform.setBackgroundColor(Color.GRAY);
 			ball.setBackgroundColor(Color.LTGRAY);
 			MyView.mode = MyView.shapesMode;
-			holdPlatformText.setTextColor(Color.argb(128, 0, 0, 0));
-			holdBallText.setTextColor(Color.TRANSPARENT);
+			morePlatformText.setTextColor(Color.argb(128, 0, 0, 0));
+			moreBallText.setTextColor(Color.TRANSPARENT);
 		}
 	}
 
@@ -294,7 +299,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			MyView.reCreatePlatform();
-			if (MyView.oldPlatforms.size() == 0)
+			if (MyView.oldShapes.size() == 0)
 			{
 				redoText.setTextColor(Color.TRANSPARENT);
 			}
@@ -441,7 +446,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 	{
 		if (v.getId() == R.id.Undo)
 		{
-			if (MyView.oldPlatforms.size() > 0)
+			if (MyView.oldShapes.size() > 0)
 			{
 				undo.setImageResource(R.drawable.redo);
 				undo.setBackgroundColor(Color.DKGRAY);

@@ -16,6 +16,8 @@ public class HollowOval extends Shape
 	private float y;
 	private double xRadius;
 	private double yRadius;
+	private float xDiameter;
+	private float yDiameter;
 	private float density;
 	private float friction;
 	private float restitution;
@@ -30,6 +32,8 @@ public class HollowOval extends Shape
 		this.bt = bt;
 		this.x = x;
 		this.y = y;
+		this.xDiameter = xDiameter;
+		this.yDiameter = yDiameter;
 		this.xRadius = xDiameter / 2.0;
 		this.yRadius = yDiameter / 2.0;
 		this.density = density;
@@ -108,5 +112,25 @@ public class HollowOval extends Shape
 	public float getBottom()
 	{
 		return (float) (y + yRadius);
+	}
+
+	public float getX()
+	{
+		return x;
+	}
+
+	public float getY()
+	{
+		return y;
+	}
+
+	public float getXDiameter()
+	{
+		return xDiameter;
+	}
+
+	public float getYDiameter()
+	{
+		return yDiameter;
 	}
 }

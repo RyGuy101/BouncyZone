@@ -28,7 +28,7 @@ public class MyView extends View implements OnTouchListener
 	public static float ballFriction = 1;
 	public static boolean accelerometer = false;
 	public static ArrayList<Shape> shapes = new ArrayList<Shape>();
-	public static ArrayList<Shape> oldPlatforms = new ArrayList<Shape>();
+	public static ArrayList<Shape> oldShapes = new ArrayList<Shape>();
 	public static boolean alreadyStarted = false;
 	public static final int MODE_BALL = 0;
 	public static final int MODE_PLATFORM = 1;
@@ -408,7 +408,7 @@ public class MyView extends View implements OnTouchListener
 		}
 	}
 
-	public static void clearPlatforms()
+	public static void clearShapes()
 	{
 		for (Shape shape : shapes)
 		{
@@ -420,14 +420,14 @@ public class MyView extends View implements OnTouchListener
 	public static void destroyLastPlatform()
 	{
 		shapes.get(shapes.size() - 1).destroy();
-		oldPlatforms.add(shapes.get(shapes.size() - 1));
+		oldShapes.add(shapes.get(shapes.size() - 1));
 		shapes.remove(shapes.size() - 1);
 	}
 
 	public static void reCreatePlatform()
 	{
-		shapes.add(oldPlatforms.get(oldPlatforms.size() - 1));
-		oldPlatforms.remove(oldPlatforms.size() - 1);
+		shapes.add(oldShapes.get(oldShapes.size() - 1));
+		oldShapes.remove(oldShapes.size() - 1);
 		shapes.get(shapes.size() - 1).create();
 	}
 

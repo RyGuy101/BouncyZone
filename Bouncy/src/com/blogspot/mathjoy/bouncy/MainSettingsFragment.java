@@ -195,9 +195,9 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 		if (!SettingsTabs.gameReset)
 		{
 			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
-			MyView.clearPlatforms();
+			MyView.clearShapes();
 			MyView.reset();
-			MyView.oldPlatforms.clear();
+			MyView.oldShapes.clear();
 			MyView.ball.setVelocity(new Vec2(0, 0));
 			MyView.mode = MyView.MODE_BALL;
 			MyView.startBallXSpeed = 0;
