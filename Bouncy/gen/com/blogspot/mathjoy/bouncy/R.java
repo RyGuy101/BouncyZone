@@ -426,7 +426,8 @@ containing a value of this type.
         public static final int redo=0x7f020026;
         public static final int sounds_on=0x7f020027;
         public static final int square=0x7f020028;
-        public static final int undo=0x7f020029;
+        public static final int squiggle=0x7f020029;
+        public static final int undo=0x7f02002a;
     }
     public static final class id {
         public static final int Ball=0x7f09002e;
@@ -500,6 +501,7 @@ containing a value of this type.
         public static final int signOutButt=0x7f09001f;
         public static final int sounds=0x7f090025;
         public static final int soundsOnActionBar=0x7f09004e;
+        public static final int squiggle=0x7f090055;
         public static final int strict_sandbox=0x7f090009;
         public static final int terrain=0x7f090003;
         public static final int textBallColor=0x7f090035;

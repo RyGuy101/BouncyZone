@@ -34,6 +34,7 @@ public class MyView extends View implements OnTouchListener
 	public static final int MODE_PLATFORM = 1;
 	public static final int MODE_OVAL = 2;
 	public static final int MODE_RECT = 3;
+	public static final int MODE_SQUIGGLE = 4;
 	public static int mode;
 	public static int shapesMode = MODE_PLATFORM;
 	public static int ballColor;
@@ -43,6 +44,9 @@ public class MyView extends View implements OnTouchListener
 	static float startTouchY;
 	static float endTouchX;
 	static float endTouchY;
+	static ArrayList<Vec2> squiggleVerts = new ArrayList<Vec2>();
+	static float squiggleX;
+	static float squiggleY;
 	float[] touchX = { -1000, -1000 };
 	float[] touchY = { -1000, -1000 };
 	static boolean touching = false;
@@ -256,6 +260,35 @@ public class MyView extends View implements OnTouchListener
 				if (!rect.hasFailed())
 				{
 					shapes.add(rect);
+				}
+			}
+		} else if (mode == MODE_SQUIGGLE)
+		{
+			if (touching)
+			{
+				if (initialTouch)
+				{
+					initialTouch = false;
+					squiggleVerts.clear();
+					squiggleX = toMeters(currentTouchX);
+					squiggleY = toMeters(currentTouchY);
+					squiggleVerts.add(new Vec2(0, 0));
+				} else
+				{
+					if ((Math.pow(toMeters(currentTouchY) - (toMeters(squiggleVerts.get(squiggleVerts.size() - 1).y) + squiggleY), 2) + Math.pow(toMeters(currentTouchX) - (toMeters(squiggleVerts.get(squiggleVerts.size() - 1).x) + squiggleX), 2)) > 0.05)
+					{
+						squiggleVerts.add(new Vec2(toMeters(currentTouchX) - squiggleX, toMeters(currentTouchY) - squiggleY));
+					}
+				}
+			} else if (wasTouching)
+			{
+				wasTouching = false;
+				Vec2[] verts = new Vec2[squiggleVerts.size()];
+				verts = squiggleVerts.toArray(verts);
+				Squiggle squiggle = new Squiggle(BodyType.STATIC, squiggleX, squiggleY, verts, 0, 1, 0);
+				if (!squiggle.hasFailed())
+				{
+					shapes.add(squiggle);
 				}
 			}
 		}

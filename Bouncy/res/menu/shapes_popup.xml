@@ -13,5 +13,9 @@
         android:id="@+id/rect"
         android:icon="@drawable/square"
         android:title=""/>
+    <item
+        android:id="@+id/squiggle"
+        android:icon="@drawable/squiggle"
+        android:title=""/>
 
 </menu>

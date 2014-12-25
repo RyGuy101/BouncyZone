@@ -164,6 +164,16 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			ball.setBackgroundColor(Color.LTGRAY);
 			moreBallText.setTextColor(Color.TRANSPARENT);
 		}
+		if (MyView.shapesMode == MyView.MODE_OVAL)
+		{
+			platform.setImageResource(R.drawable.circle);
+		} else if (MyView.shapesMode == MyView.MODE_RECT)
+		{
+			platform.setImageResource(R.drawable.square);
+		} else if (MyView.shapesMode == MyView.MODE_SQUIGGLE)
+		{
+			platform.setImageResource(R.drawable.squiggle);
+		}
 		if (MyView.oldShapes.size() == 0)
 		{
 			redoText.setTextColor(Color.TRANSPARENT);
@@ -259,6 +269,11 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 						platform.setImageResource(R.drawable.square);
 						MyView.shapesMode = MyView.MODE_RECT;
 						toReturn = true;
+					} else if (item.getItemId() == R.id.squiggle)
+					{
+						platform.setImageResource(R.drawable.squiggle);
+						MyView.shapesMode = MyView.MODE_SQUIGGLE;
+						toReturn = true;
 					}
 					if (MyView.mode != MyView.MODE_BALL)
 					{
@@ -269,7 +284,6 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 					return toReturn;
 				}
 			});
-
 			popup.show();
 		} else
 		{
