@@ -275,7 +275,15 @@ public class MyView extends View implements OnTouchListener
 					squiggleVerts.add(new Vec2(0, 0));
 				} else
 				{
-					if ((Math.pow(toMeters(currentTouchY) - (toMeters(squiggleVerts.get(squiggleVerts.size() - 1).y) + squiggleY), 2) + Math.pow(toMeters(currentTouchX) - (toMeters(squiggleVerts.get(squiggleVerts.size() - 1).x) + squiggleX), 2)) > 0.05)
+					boolean validPoint = true;
+					for (int i = 0; i < squiggleVerts.size(); i++)
+					{
+						if (Math.pow(toMeters(currentTouchY) - (toMeters(squiggleVerts.get(i).y) + squiggleY), 2) + Math.pow(toMeters(currentTouchX) - (toMeters(squiggleVerts.get(i).x) + squiggleX), 2) < 0.01)
+						{
+							validPoint = false;
+						}
+					}
+					if (validPoint)
 					{
 						squiggleVerts.add(new Vec2(toMeters(currentTouchX) - squiggleX, toMeters(currentTouchY) - squiggleY));
 					}
