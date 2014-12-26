@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -47,6 +48,7 @@ public class MyView extends View implements OnTouchListener
 	static ArrayList<Vec2> squiggleVerts = new ArrayList<Vec2>();
 	static float squiggleX;
 	static float squiggleY;
+	static Path squigglePath;
 	float[] touchX = { -1000, -1000 };
 	float[] touchY = { -1000, -1000 };
 	static boolean touching = false;
@@ -273,12 +275,14 @@ public class MyView extends View implements OnTouchListener
 					squiggleX = toMeters(currentTouchX);
 					squiggleY = toMeters(currentTouchY);
 					squiggleVerts.add(new Vec2(0, 0));
+					squigglePath = new Path();
+					squigglePath.moveTo(currentTouchX, currentTouchY);
 				} else
 				{
 					boolean validPoint = true;
-					for (int i = 0; i < squiggleVerts.size(); i++)
+					for (Vec2 vert : squiggleVerts)
 					{
-						if (Math.pow(toMeters(currentTouchY) - (toMeters(squiggleVerts.get(i).y) + squiggleY), 2) + Math.pow(toMeters(currentTouchX) - (toMeters(squiggleVerts.get(i).x) + squiggleX), 2) < 0.01)
+						if (Math.pow(toMeters(currentTouchY) - (vert.y + squiggleY), 2) + Math.pow(toMeters(currentTouchX) - (vert.x + squiggleX), 2) < 0.0001)
 						{
 							validPoint = false;
 						}
@@ -286,7 +290,9 @@ public class MyView extends View implements OnTouchListener
 					if (validPoint)
 					{
 						squiggleVerts.add(new Vec2(toMeters(currentTouchX) - squiggleX, toMeters(currentTouchY) - squiggleY));
+						squigglePath.lineTo(currentTouchX, currentTouchY);
 					}
+					c.drawPath(squigglePath, hollowShapesPaint);
 				}
 			} else if (wasTouching)
 			{
@@ -438,6 +444,16 @@ public class MyView extends View implements OnTouchListener
 				{
 					HollowRectangle rect = (HollowRectangle) shape;
 					c.drawRect(toPixels(rect.getLeft()), toPixels(rect.getTop()), toPixels(rect.getRight()), toPixels(rect.getBottom()), hollowShapesPaint);
+				} else if (shape instanceof Squiggle)
+				{
+					Squiggle squiggle = (Squiggle) shape;
+					Path p = new Path();
+					p.moveTo(toPixels(squiggle.getX()), toPixels(squiggle.getY()));
+					for (int i = 0; i < squiggle.getVertsLength(); i++)
+					{
+						p.lineTo(toPixels(squiggle.getVert(i).x + squiggle.getX()), toPixels(squiggle.getVert(i).y + squiggle.getY()));
+					}
+					c.drawPath(p, hollowShapesPaint);
 				}
 			}
 		} else
@@ -507,6 +523,7 @@ public class MyView extends View implements OnTouchListener
 		platformPaint.setStrokeWidth(toPixels(0.02f));
 		hollowShapesPaint.setColor(Color.WHITE);
 		hollowShapesPaint.setStyle(Style.STROKE);
+		hollowShapesPaint.setStrokeWidth(toPixels(0.02f));
 		ballPaint.setColor(ballColor);
 		lineInBallPaint.setColor(Color.BLACK);
 		lineInBallPaint.setAlpha(79);

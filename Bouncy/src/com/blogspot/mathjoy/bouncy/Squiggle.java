@@ -42,14 +42,14 @@ public class Squiggle extends Shape
 		bd.position.set(x, y);
 		bd.type = bt;
 		ChainShape cs = new ChainShape();
-		if (verts.length < 10)
+		if (verts.length < 5)
 		{
 			failed = true;
 		}
 		if (!failed)
 		{
-//			try
-//			{
+			try
+			{
 				cs.createChain(verts, verts.length);
 				fd = new FixtureDef();
 				fd.shape = cs;
@@ -58,10 +58,10 @@ public class Squiggle extends Shape
 				fd.restitution = restitution;
 				body = WorldManager.world.createBody(bd);
 				fixture = body.createFixture(fd);
-//			} catch (Exception e)
-//			{
-//				failed = true;
-//			}
+			} catch (Exception e)
+			{
+				failed = true;
+			}
 		}
 	}
 
@@ -75,5 +75,25 @@ public class Squiggle extends Shape
 	{
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
+	}
+
+	public float getX()
+	{
+		return x;
+	}
+
+	public float getY()
+	{
+		return y;
+	}
+
+	public Vec2 getVert(int index)
+	{
+		return verts[index];
+	}
+
+	public int getVertsLength()
+	{
+		return verts.length;
 	}
 }
