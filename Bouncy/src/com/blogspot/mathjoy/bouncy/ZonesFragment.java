@@ -255,14 +255,10 @@ public class ZonesFragment extends Fragment
 					edit.putFloat(n + "platformStartY" + i, platform.getStartY());
 					edit.putFloat(n + "platformEndX" + i, platform.getEndX());
 					edit.putFloat(n + "platformEndY" + i, platform.getEndY());
+
 					edit.putFloat(n + "ovalX" + i, -1000);
-					edit.putFloat(n + "ovalY" + i, -1000);
-					edit.putFloat(n + "ovalXDiameter" + i, -1000);
-					edit.putFloat(n + "ovalYDiameter" + i, -1000);
 					edit.putFloat(n + "rectX" + i, -1000);
-					edit.putFloat(n + "rectY" + i, -1000);
-					edit.putFloat(n + "rectWidth" + i, -1000);
-					edit.putFloat(n + "rectHeight" + i, -1000);
+					edit.putFloat(n + "squiggleX" + i, -1000);
 				} else if (MyView.shapes.get(i) instanceof HollowOval)
 				{
 					HollowOval oval = (HollowOval) MyView.shapes.get(i);
@@ -270,14 +266,10 @@ public class ZonesFragment extends Fragment
 					edit.putFloat(n + "ovalY" + i, oval.getY());
 					edit.putFloat(n + "ovalXDiameter" + i, oval.getXDiameter());
 					edit.putFloat(n + "ovalYDiameter" + i, oval.getYDiameter());
+
 					edit.putFloat(n + "platformStartX" + i, -1000);
-					edit.putFloat(n + "platformStartY" + i, -1000);
-					edit.putFloat(n + "platformEndX" + i, -1000);
-					edit.putFloat(n + "platformEndY" + i, -1000);
 					edit.putFloat(n + "rectX" + i, -1000);
-					edit.putFloat(n + "rectY" + i, -1000);
-					edit.putFloat(n + "rectWidth" + i, -1000);
-					edit.putFloat(n + "rectHeight" + i, -1000);
+					edit.putFloat(n + "squiggleX" + i, -1000);
 				} else if (MyView.shapes.get(i) instanceof HollowRectangle)
 				{
 					HollowRectangle rect = (HollowRectangle) MyView.shapes.get(i);
@@ -285,14 +277,23 @@ public class ZonesFragment extends Fragment
 					edit.putFloat(n + "rectY" + i, rect.getY());
 					edit.putFloat(n + "rectWidth" + i, rect.getWidth());
 					edit.putFloat(n + "rectHeight" + i, rect.getHeight());
+
 					edit.putFloat(n + "platformStartX" + i, -1000);
-					edit.putFloat(n + "platformStartY" + i, -1000);
-					edit.putFloat(n + "platformEndX" + i, -1000);
-					edit.putFloat(n + "platformEndY" + i, -1000);
 					edit.putFloat(n + "ovalX" + i, -1000);
-					edit.putFloat(n + "ovalY" + i, -1000);
-					edit.putFloat(n + "ovalXDiameter" + i, -1000);
-					edit.putFloat(n + "ovalYDiameter" + i, -1000);
+					edit.putFloat(n + "squiggleX" + i, -1000);
+				} else if (MyView.shapes.get(i) instanceof Squiggle)
+				{
+					Squiggle squiggle = (Squiggle) MyView.shapes.get(i);
+					edit.putFloat(n + "squiggleX" + i, squiggle.getX());
+					edit.putFloat(n + "squiggleY" + i, squiggle.getY());
+					for (int j = 0; j < squiggle.getVertsLength(); j++)
+					{
+						edit.putFloat(n + "squiggleXVert" + i + "#" + j, squiggle.getVert(j).x);
+						edit.putFloat(n + "squiggleYVert" + i + "#" + j, squiggle.getVert(j).y);
+					}
+					edit.putFloat(n + "platformStartX" + i, -1000);
+					edit.putFloat(n + "ovalX" + i, -1000);
+					edit.putFloat(n + "rectX" + i, -1000);
 				}
 			}
 			if (!foundAvailableIndex)
@@ -624,6 +625,9 @@ public class ZonesFragment extends Fragment
 				} else if (sp.getFloat(n + "rectX" + i, -1000) != -1000)
 				{
 					MyView.shapes.add(new HollowRectangle(BodyType.STATIC, sp.getFloat(n + "rectX" + i, 0), sp.getFloat(n + "rectY" + i, 0), sp.getFloat(n + "rectWidth" + i, 0), sp.getFloat(n + "rectHeight" + i, 0), 0, 1, 0));
+				} else if (sp.getFloat(n + "squiggleX" + i, -1000) != -1000)
+				{
+					
 				}
 			}
 			Intent intent = new Intent(SettingsTabs.activity, MainActivity.class);
