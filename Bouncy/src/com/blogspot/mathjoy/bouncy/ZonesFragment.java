@@ -37,6 +37,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ZonesFragment extends Fragment
 {
+	private static final int UNDEFINED = -1000;
 	float buttonVolume = IntroActivity.buttonVolume;
 	boolean saveIsOpen = false;
 	LinearLayout saveLayout;
@@ -258,9 +259,9 @@ public class ZonesFragment extends Fragment
 					edit.putFloat(n + "platformEndX" + i, platform.getEndX());
 					edit.putFloat(n + "platformEndY" + i, platform.getEndY());
 
-					edit.putFloat(n + "ovalX" + i, -1000);
-					edit.putFloat(n + "rectX" + i, -1000);
-					edit.putFloat(n + "squiggleX" + i, -1000);
+					edit.putFloat(n + "ovalX" + i, UNDEFINED);
+					edit.putFloat(n + "rectX" + i, UNDEFINED);
+					edit.putFloat(n + "squiggleX" + i, UNDEFINED);
 				} else if (MyView.shapes.get(i) instanceof HollowOval)
 				{
 					HollowOval oval = (HollowOval) MyView.shapes.get(i);
@@ -269,9 +270,9 @@ public class ZonesFragment extends Fragment
 					edit.putFloat(n + "ovalXDiameter" + i, oval.getXDiameter());
 					edit.putFloat(n + "ovalYDiameter" + i, oval.getYDiameter());
 
-					edit.putFloat(n + "platformStartX" + i, -1000);
-					edit.putFloat(n + "rectX" + i, -1000);
-					edit.putFloat(n + "squiggleX" + i, -1000);
+					edit.putFloat(n + "platformStartX" + i, UNDEFINED);
+					edit.putFloat(n + "rectX" + i, UNDEFINED);
+					edit.putFloat(n + "squiggleX" + i, UNDEFINED);
 				} else if (MyView.shapes.get(i) instanceof HollowRectangle)
 				{
 					HollowRectangle rect = (HollowRectangle) MyView.shapes.get(i);
@@ -280,9 +281,9 @@ public class ZonesFragment extends Fragment
 					edit.putFloat(n + "rectWidth" + i, rect.getWidth());
 					edit.putFloat(n + "rectHeight" + i, rect.getHeight());
 
-					edit.putFloat(n + "platformStartX" + i, -1000);
-					edit.putFloat(n + "ovalX" + i, -1000);
-					edit.putFloat(n + "squiggleX" + i, -1000);
+					edit.putFloat(n + "platformStartX" + i, UNDEFINED);
+					edit.putFloat(n + "ovalX" + i, UNDEFINED);
+					edit.putFloat(n + "squiggleX" + i, UNDEFINED);
 				} else if (MyView.shapes.get(i) instanceof Squiggle)
 				{
 					Squiggle squiggle = (Squiggle) MyView.shapes.get(i);
@@ -295,10 +296,10 @@ public class ZonesFragment extends Fragment
 						edit.putFloat(n + "squiggleYVert" + i + "#" + j, squiggle.getVert(j).y);
 						last = j + 1;
 					}
-					edit.putFloat(n + "squiggleXVert" + i + "#" + last, -1000);
-					edit.putFloat(n + "platformStartX" + i, -1000);
-					edit.putFloat(n + "ovalX" + i, -1000);
-					edit.putFloat(n + "rectX" + i, -1000);
+					edit.putFloat(n + "squiggleXVert" + i + "#" + last, UNDEFINED);
+					edit.putFloat(n + "platformStartX" + i, UNDEFINED);
+					edit.putFloat(n + "ovalX" + i, UNDEFINED);
+					edit.putFloat(n + "rectX" + i, UNDEFINED);
 				}
 			}
 			if (!foundAvailableIndex)
@@ -621,24 +622,27 @@ public class ZonesFragment extends Fragment
 			MyView.clearShapes();
 			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)
 			{
-				if (sp.getFloat(n + "platformStartX" + i, -1000) != -1000)
+				if (sp.getFloat(n + "platformStartX" + i, UNDEFINED) != UNDEFINED)
 				{
 					MyView.shapes.add(new Platform(BodyType.STATIC, sp.getFloat(n + "platformStartX" + i, 0), sp.getFloat(n + "platformStartY" + i, 0), sp.getFloat(n + "platformEndX" + i, 0), sp.getFloat(n + "platformEndY" + i, 0), 0, 1, 0));
-				} else if (sp.getFloat(n + "ovalX" + i, -1000) != -1000)
+				} else if (sp.getFloat(n + "ovalX" + i, UNDEFINED) != UNDEFINED)
 				{
 					MyView.shapes.add(new HollowOval(BodyType.STATIC, sp.getFloat(n + "ovalX" + i, 0), sp.getFloat(n + "ovalY" + i, 0), sp.getFloat(n + "ovalXDiameter" + i, 0), sp.getFloat(n + "ovalYDiameter" + i, 0), 0, 1, 0));
-				} else if (sp.getFloat(n + "rectX" + i, -1000) != -1000)
+				} else if (sp.getFloat(n + "rectX" + i, UNDEFINED) != UNDEFINED)
 				{
 					MyView.shapes.add(new HollowRectangle(BodyType.STATIC, sp.getFloat(n + "rectX" + i, 0), sp.getFloat(n + "rectY" + i, 0), sp.getFloat(n + "rectWidth" + i, 0), sp.getFloat(n + "rectHeight" + i, 0), 0, 1, 0));
-				} else if (sp.getFloat(n + "squiggleX" + i, -1000) != -1000)
+				} else if (sp.getFloat(n + "squiggleX" + i, UNDEFINED) != UNDEFINED)
 				{
-					ArrayList<Vec2> verts = new ArrayList<Vec2>();
+					ArrayList<Vec2> vertList = new ArrayList<Vec2>();
 					int j = 0;
-					while (sp.getFloat(n + "squiggleXVert" + i + "#" + j, -1000) != -1000)
+					while (sp.getFloat(n + "squiggleXVert" + i + "#" + j, UNDEFINED) != UNDEFINED)
 					{
-						verts.add(new Vec2(sp.getFloat(n + "squiggleXVert" + i + "#" + j, 0), sp.getFloat(n + "squiggleYVert" + i + "#" + j, 0)));
+						vertList.add(new Vec2(sp.getFloat(n + "squiggleXVert" + i + "#" + j, 0), sp.getFloat(n + "squiggleYVert" + i + "#" + j, 0)));
 						j++;
 					}
+					Vec2[] vertArr = new Vec2[vertList.size()];
+					vertArr = vertList.toArray(vertArr);
+					MyView.shapes.add(new Squiggle(BodyType.STATIC, sp.getFloat(n + "squiggleX" + i, 0), sp.getFloat(n + "squiggleY" + i, 0), vertArr, 0, 1, 0));
 				}
 			}
 			Intent intent = new Intent(SettingsTabs.activity, MainActivity.class);
