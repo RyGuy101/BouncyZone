@@ -1,5 +1,7 @@
 package com.blogspot.mathjoy.bouncy;
 
+import java.util.ArrayList;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 
@@ -286,11 +288,14 @@ public class ZonesFragment extends Fragment
 					Squiggle squiggle = (Squiggle) MyView.shapes.get(i);
 					edit.putFloat(n + "squiggleX" + i, squiggle.getX());
 					edit.putFloat(n + "squiggleY" + i, squiggle.getY());
+					int last = 0;
 					for (int j = 0; j < squiggle.getVertsLength(); j++)
 					{
 						edit.putFloat(n + "squiggleXVert" + i + "#" + j, squiggle.getVert(j).x);
 						edit.putFloat(n + "squiggleYVert" + i + "#" + j, squiggle.getVert(j).y);
+						last = j + 1;
 					}
+					edit.putFloat(n + "squiggleXVert" + i + "#" + last, -1000);
 					edit.putFloat(n + "platformStartX" + i, -1000);
 					edit.putFloat(n + "ovalX" + i, -1000);
 					edit.putFloat(n + "rectX" + i, -1000);
@@ -627,7 +632,13 @@ public class ZonesFragment extends Fragment
 					MyView.shapes.add(new HollowRectangle(BodyType.STATIC, sp.getFloat(n + "rectX" + i, 0), sp.getFloat(n + "rectY" + i, 0), sp.getFloat(n + "rectWidth" + i, 0), sp.getFloat(n + "rectHeight" + i, 0), 0, 1, 0));
 				} else if (sp.getFloat(n + "squiggleX" + i, -1000) != -1000)
 				{
-					
+					ArrayList<Vec2> verts = new ArrayList<Vec2>();
+					int j = 0;
+					while (sp.getFloat(n + "squiggleXVert" + i + "#" + j, -1000) != -1000)
+					{
+						verts.add(new Vec2(sp.getFloat(n + "squiggleXVert" + i + "#" + j, 0), sp.getFloat(n + "squiggleYVert" + i + "#" + j, 0)));
+						j++;
+					}
 				}
 			}
 			Intent intent = new Intent(SettingsTabs.activity, MainActivity.class);
