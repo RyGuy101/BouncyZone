@@ -447,13 +447,7 @@ public class MyView extends View implements OnTouchListener
 				} else if (shape instanceof Squiggle)
 				{
 					Squiggle squiggle = (Squiggle) shape;
-					Path p = new Path();
-					p.moveTo(toPixels(squiggle.getX()), toPixels(squiggle.getY()));
-					for (int i = 0; i < squiggle.getVertsLength(); i++)
-					{
-						p.lineTo(toPixels(squiggle.getVert(i).x + squiggle.getX()), toPixels(squiggle.getVert(i).y + squiggle.getY()));
-					}
-					c.drawPath(p, hollowShapesPaint);
+					c.drawPath(squiggle.getPath(), hollowShapesPaint);
 				}
 			}
 		} else

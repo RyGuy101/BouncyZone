@@ -249,6 +249,7 @@ public class ZonesFragment extends Fragment
 			edit.putInt(n + "bounceLevelValue", (int) sps.getFloat("bounceLevelValue", 100));
 			edit.putInt(n + "frictionValue", (int) sps.getFloat("frictionValue", 100));
 			edit.putInt(n + "platformsSize", MyView.shapes.size());
+			edit.putBoolean(n + "accelerometer", sps.getBoolean("useAccelerometer", false));
 			for (int i = 0; i < MyView.shapes.size(); i++)
 			{
 				if (MyView.shapes.get(i) instanceof Platform)
@@ -618,6 +619,7 @@ public class ZonesFragment extends Fragment
 			SavePrefs("gravityValue", sp.getInt(n + "gravityValue", 100));
 			SavePrefs("bounceLevelValue", sp.getInt(n + "bounceLevelValue", 100));
 			SavePrefs("frictionValue", sp.getInt(n + "frictionValue", 100));
+			SavePrefs("useAccelerometer", sp.getBoolean(n + "accelerometer", false));
 
 			MyView.clearShapes();
 			for (int i = 0; i < sp.getInt(n + "platformsSize", 0); i++)
@@ -657,6 +659,14 @@ public class ZonesFragment extends Fragment
 		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putFloat(key, value);
+		edit.commit();
+	}
+
+	private void SavePrefs(String key, boolean value)
+	{
+		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		Editor edit = sp.edit();
+		edit.putBoolean(key, value);
 		edit.commit();
 	}
 

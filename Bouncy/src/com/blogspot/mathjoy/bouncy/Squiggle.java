@@ -8,6 +8,8 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 
+import android.graphics.Path;
+
 public class Squiggle extends Shape
 {
 	private BodyType bt;
@@ -22,6 +24,7 @@ public class Squiggle extends Shape
 	private BodyDef bd;
 	private Fixture fixture;
 	private boolean failed = false;
+	private Path path = new Path();
 
 	public Squiggle(BodyType bt, float x, float y, Vec2[] verts, float density, float friction, float restitution)
 	{
@@ -63,6 +66,11 @@ public class Squiggle extends Shape
 				failed = true;
 			}
 		}
+		getPath().moveTo(MyView.toPixels(getX()), MyView.toPixels(getY()));
+		for (int i = 0; i < getVertsLength(); i++)
+		{
+			getPath().lineTo(MyView.toPixels(getVert(i).x + getX()), MyView.toPixels(getVert(i).y + getY()));
+		}
 	}
 
 	public boolean hasFailed()
@@ -95,5 +103,10 @@ public class Squiggle extends Shape
 	public int getVertsLength()
 	{
 		return verts.length;
+	}
+
+	Path getPath()
+	{
+		return path;
 	}
 }
