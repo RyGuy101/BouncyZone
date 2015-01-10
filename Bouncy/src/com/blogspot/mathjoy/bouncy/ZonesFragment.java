@@ -308,7 +308,7 @@ public class ZonesFragment extends Fragment
 				edit.putInt("numOfConfs", n + 1);
 			}
 			edit.commit();
-			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			if (saveConfAlert != null)
 			{
 				saveConfAlert.dismiss();
@@ -351,7 +351,7 @@ public class ZonesFragment extends Fragment
 		edit.putString(thisN + "name", name);
 		edit.commit();
 		alert.dismiss();
-		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+		IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		refreshZoneList();
 	}
 
@@ -609,7 +609,7 @@ public class ZonesFragment extends Fragment
 		}
 		if (!sp.getString(n + "name", " ").equals(" "))
 		{
-			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.ball.setPosition(new Vec2(sp.getFloat(n + "startBallX", 0), sp.getFloat(n + "startBallY", 0)));
 			MyView.ball.setVelocity(new Vec2(sp.getFloat(n + "startBallXSpeed", 0), sp.getFloat(n + "startBallYSpeed", 0)));
 			MyView.startBallX = sp.getFloat(n + "startBallX", 0);
@@ -752,7 +752,7 @@ public class ZonesFragment extends Fragment
 			edit2.putString((sp.getInt("numOfConfs", 0) - 1) + "name", " ");
 			edit2.putInt("numOfConfs", sp.getInt("numOfConfs", 1) - 1);
 			edit2.commit();
-			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			refreshZoneList();
 		}
 	}

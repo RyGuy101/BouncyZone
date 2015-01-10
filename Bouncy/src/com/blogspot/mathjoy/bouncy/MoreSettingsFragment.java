@@ -27,7 +27,7 @@ public class MoreSettingsFragment extends Fragment
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
 				SavePrefs("useAccelerometer", isChecked);
-				IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
+				IntroActivity.spool.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			}
 		});
 		return view;

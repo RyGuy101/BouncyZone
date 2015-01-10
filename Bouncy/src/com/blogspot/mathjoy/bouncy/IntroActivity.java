@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,18 +21,18 @@ import android.widget.ToggleButton;
 
 public class IntroActivity extends BaseGameActivity
 {
-	public static SoundPool spoolBounce = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-	public static SoundPool spoolButton = new SoundPool(5, AudioManager.STREAM_SYSTEM, 0);
+	public static SoundPool spool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 	public static int originalBounce;
 	public static int originalButton;
 	public static int bounce;
 	public static int button;
-	public static float buttonVolume = (float) 0.3;
+	public static float buttonVolume = 1;
 	public static View buttons;
 	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "White", "Gray" };
 	ToggleButton soundsTog;
 	private static boolean firstTime = true;
+	MediaPlayer mp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -39,8 +40,11 @@ public class IntroActivity extends BaseGameActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intro);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		originalBounce = spoolBounce.load(this, R.raw.bounce, 1);
-		originalButton = spoolButton.load(this, R.raw.button, 1);
+		mp = MediaPlayer.create(this, R.raw.background);
+		mp.setLooping(true);
+		mp.start();
+		originalBounce = spool.load(this, R.raw.bounce, 1);
+		originalButton = spool.load(this, R.raw.button, 1);
 		if (firstTime)
 		{
 			bounce = originalBounce;
@@ -74,7 +78,7 @@ public class IntroActivity extends BaseGameActivity
 					bounce = 0;
 					button = 0;
 				}
-				spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
+				spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 			}
 		});
 		soundsTog.setChecked(bounce != 0);

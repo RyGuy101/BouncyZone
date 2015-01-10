@@ -192,7 +192,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 
 	public void goToMenu(View v)
 	{
-		IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
+		IntroActivity.spool.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 		Intent intent = new Intent(this, SettingsTabs.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
@@ -215,7 +215,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			popup.show();
 		} else
 		{
-			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
+			IntroActivity.spool.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			ball.setBackgroundColor(Color.GRAY);
 			platform.setBackgroundColor(Color.LTGRAY);
 			MyView.mode = MyView.MODE_BALL;
@@ -287,7 +287,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			popup.show();
 		} else
 		{
-			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
+			IntroActivity.spool.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			platform.setBackgroundColor(Color.GRAY);
 			ball.setBackgroundColor(Color.LTGRAY);
 			MyView.mode = MyView.shapesMode;
@@ -304,14 +304,14 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 			{
 				if (MyView.shapes.size() > 0)
 				{
-					IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
+					IntroActivity.spool.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 					MyView.destroyLastPlatform();
 					redoText.setTextColor(Color.argb(128, 0, 0, 0));
 				}
 			}
 		} else
 		{
-			IntroActivity.spoolButton.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
+			IntroActivity.spool.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
 			MyView.reCreatePlatform();
 			if (MyView.oldShapes.size() == 0)
 			{

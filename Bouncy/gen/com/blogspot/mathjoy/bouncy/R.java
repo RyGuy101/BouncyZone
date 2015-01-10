@@ -538,8 +538,9 @@ containing a value of this type.
         public static final int shapes_popup=0x7f0c0002;
     }
     public static final class raw {
-        public static final int bounce=0x7f050000;
-        public static final int button=0x7f050001;
+        public static final int background=0x7f050000;
+        public static final int bounce=0x7f050001;
+        public static final int button=0x7f050002;
     }
     public static final class string {
         public static final int accept=0x7f070002;

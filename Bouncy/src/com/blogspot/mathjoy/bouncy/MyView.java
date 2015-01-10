@@ -151,7 +151,7 @@ public class MyView extends View implements OnTouchListener
 			{
 				if (MyView.makeBounceOnstart)
 				{
-					IntroActivity.spoolBounce.play(IntroActivity.bounce, MainActivity.bounceVolume, MainActivity.bounceVolume, 0, 0, 1);
+					IntroActivity.spool.play(IntroActivity.bounce, MainActivity.bounceVolume, MainActivity.bounceVolume, 0, 0, 1);
 					if (!isIntroBall)
 					{
 						if (MyView.touching)

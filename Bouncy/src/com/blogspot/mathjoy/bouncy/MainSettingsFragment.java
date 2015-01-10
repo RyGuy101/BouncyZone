@@ -194,7 +194,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	{
 		if (!SettingsTabs.gameReset)
 		{
-			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.clearShapes();
 			MyView.reset();
 			MyView.oldShapes.clear();
@@ -213,7 +213,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	public void settingsReset(View v)
 	{
-		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+		IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		seekGravity.setProgress(100);
 		seekBounceLevel.setProgress(100);
 		seekFriction.setProgress(100);

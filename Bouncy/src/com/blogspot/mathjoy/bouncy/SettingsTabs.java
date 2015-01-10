@@ -172,7 +172,7 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 
 	//	private void goToGame()
 	//	{
-	//		IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+	//		IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 	//		MainSettingsFragment.pickedColor = (String) MainSettingsFragment.ballColor.getSelectedItem();
 	//		MainSettingsFragment.gravity = MainSettingsFragment.seekGravity.getProgress();
 	//		MainSettingsFragment.bounceLevel = MainSettingsFragment.seekBounceLevel.getProgress();
@@ -241,14 +241,13 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 			IntroActivity.button = IntroActivity.originalButton;
 			item.setIcon(R.drawable.sounds_on);
 			soundsOn = true;
-			IntroActivity.spoolButton.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
+			IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		} else
 		{
 			IntroActivity.bounce = 0;
 			IntroActivity.button = 0;
 			item.setIcon(R.drawable.muted);
 			soundsOn = false;
-
 		}
 	}
 }
