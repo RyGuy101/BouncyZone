@@ -32,9 +32,11 @@ public class IntroActivity extends BaseGameActivity
 	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "White", "Gray" };
 	ImageButton soundsTog;
+	ImageButton musicTog;
 	private static boolean firstTime = true;
 	public static MediaPlayer mp;
 	private boolean soundsOn = true;
+	public static boolean musicOn = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -42,9 +44,20 @@ public class IntroActivity extends BaseGameActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intro);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		mp = MediaPlayer.create(this, R.raw.background);
-		mp.setLooping(true);
-		mp.start();
+		if (mp == null)
+		{
+			if (musicOn)
+			{
+				mp = MediaPlayer.create(this, R.raw.background);
+				mp.setLooping(true);
+				mp.start();
+			}
+		} else if (!mp.isPlaying() && musicOn)
+		{
+			mp = MediaPlayer.create(this, R.raw.background);
+			mp.setLooping(true);
+			mp.start();
+		}
 		originalBounce = spool.load(this, R.raw.bounce, 1);
 		originalButton = spool.load(this, R.raw.button, 1);
 		if (firstTime)
@@ -89,6 +102,31 @@ public class IntroActivity extends BaseGameActivity
 		if (!soundsOn)
 		{
 			soundsTog.setBackgroundResource(R.drawable.muted);
+		}
+		musicTog = (ImageButton) findViewById(R.id.toggleMusic);
+		musicTog.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				if (!musicOn)
+				{
+					mp = MediaPlayer.create(IntroActivity.this, R.raw.background);
+					mp.setLooping(true);
+					mp.start();
+					musicOn = true;
+					musicTog.setBackgroundResource(R.drawable.music_on);
+				} else
+				{
+					mp.stop();
+					musicOn = false;
+					musicTog.setBackgroundResource(R.drawable.music_off);
+				}
+			}
+		});
+		if (!musicOn)
+		{
+			musicTog.setBackgroundResource(R.drawable.music_off);
 		}
 		if (WorldManager.world == null)
 		{
@@ -136,9 +174,9 @@ public class IntroActivity extends BaseGameActivity
 			}
 		}
 		IntroView.intro = true;
-		if (!mp.isPlaying())
+		if (!mp.isPlaying() && musicOn)
 		{
-			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
+			mp = MediaPlayer.create(this, R.raw.background);
 			mp.setLooping(true);
 			mp.start();
 		}

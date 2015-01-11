@@ -96,7 +96,7 @@ public class SettingsTabsActivity extends FragmentActivity implements TabListene
 	protected void onResume()
 	{
 		super.onResume();
-		if (!IntroActivity.mp.isPlaying())
+		if (!IntroActivity.mp.isPlaying() && IntroActivity.musicOn)
 		{
 			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
 			IntroActivity.mp.setLooping(true);
@@ -128,7 +128,11 @@ public class SettingsTabsActivity extends FragmentActivity implements TabListene
 		getMenuInflater().inflate(R.menu.menu_items, menu);
 		if (!soundsOn)
 		{
-			menu.getItem(0).setIcon(R.drawable.muted);
+			menu.getItem(0).setIcon(R.drawable.muted_big);
+		}
+		if (!IntroActivity.musicOn)
+		{
+			menu.getItem(1).setIcon(R.drawable.music_off_big);
 		}
 		return true;
 	}
@@ -258,27 +262,47 @@ public class SettingsTabsActivity extends FragmentActivity implements TabListene
 			goToGameServices();
 			return true;
 		case R.id.soundsOnActionBar:
-			togglesounds(item);
+			toggleSounds(item);
+			return true;
+		case R.id.musicOnActionBar:
+			toggleMusic(item);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void togglesounds(MenuItem item)
+	private void toggleSounds(MenuItem item)
 	{
 		if (!soundsOn)
 		{
 			IntroActivity.bounce = IntroActivity.originalBounce;
 			IntroActivity.button = IntroActivity.originalButton;
-			item.setIcon(R.drawable.sounds_on);
+			item.setIcon(R.drawable.sounds_on_big);
 			soundsOn = true;
 			IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 		} else
 		{
 			IntroActivity.bounce = 0;
 			IntroActivity.button = 0;
-			item.setIcon(R.drawable.muted);
+			item.setIcon(R.drawable.muted_big);
 			soundsOn = false;
+		}
+	}
+
+	private void toggleMusic(MenuItem item)
+	{
+		if (!IntroActivity.musicOn)
+		{
+			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
+			IntroActivity.mp.setLooping(true);
+			IntroActivity.mp.start();
+			item.setIcon(R.drawable.music_on_big);
+			IntroActivity.musicOn = true;
+		} else
+		{
+			IntroActivity.mp.stop();
+			item.setIcon(R.drawable.music_off_big);
+			IntroActivity.musicOn = false;
 		}
 	}
 }

@@ -4,24 +4,30 @@
 
     <item
         android:id="@+id/soundsOnActionBar"
-        android:icon="@drawable/sounds_on"
+        android:icon="@drawable/sounds_on_big"
         android:orderInCategory="0"
         android:showAsAction="always"
         android:title="Sounds On/Off"/>
     <item
+        android:id="@+id/musicOnActionBar"
+        android:icon="@drawable/music_on_big"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:title="Music On/Off"/>
+    <item
         android:id="@+id/toGameStatsWithIcon"
         android:icon="@drawable/game_controller"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:showAsAction="always"
         android:title="Game Stats"/>
     <item
         android:id="@+id/toIntro"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:showAsAction="never"
         android:title="Main Menu"/>
     <item
         android:id="@+id/toGameStats"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:showAsAction="never"
         android:title="Game Stats"/>
 

@@ -179,7 +179,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			redoText.setTextColor(Color.TRANSPARENT);
 		}
-		if (!IntroActivity.mp.isPlaying())
+		if (!IntroActivity.mp.isPlaying() && IntroActivity.musicOn)
 		{
 			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
 			IntroActivity.mp.setLooping(true);

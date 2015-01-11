@@ -68,7 +68,7 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 	protected void onResume()
 	{
 		super.onResume();
-		if (!IntroActivity.mp.isPlaying())
+		if (!IntroActivity.mp.isPlaying() && IntroActivity.musicOn)
 		{
 			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
 			IntroActivity.mp.setLooping(true);
