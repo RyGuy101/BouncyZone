@@ -54,7 +54,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.activity_my_menu, container, false);
-		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_spinner_item, colorNames);
+		ArrayAdapter<String> colorAd = new ArrayAdapter<String>(SettingsTabsActivity.activity, android.R.layout.simple_spinner_item, colorNames);
 		ballColor = (Spinner) view.findViewById(R.id.ballColor);
 		ballColor.setAdapter(colorAd);
 		ballColor.setOnItemSelectedListener(this);
@@ -91,7 +91,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 			}
 		}
 		resetGame = (Button) view.findViewById(R.id.gameReset);
-		if (SettingsTabs.gameReset)
+		if (SettingsTabsActivity.gameReset)
 		{
 			resetGame.setText("Game Cleared!");
 			resetGame.setBackgroundColor(Color.TRANSPARENT);
@@ -192,7 +192,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	public void gameReset(View v)
 	{
-		if (!SettingsTabs.gameReset)
+		if (!SettingsTabsActivity.gameReset)
 		{
 			IntroActivity.spool.play(IntroActivity.button, buttonVolume, buttonVolume, 0, 0, 1);
 			MyView.clearShapes();
@@ -202,7 +202,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 			MyView.mode = MyView.MODE_BALL;
 			MyView.startBallXSpeed = 0;
 			MyView.startBallYSpeed = 0;
-			SettingsTabs.gameReset = true;
+			SettingsTabsActivity.gameReset = true;
 			resetGame = (Button) v;
 			resetGame.setText("Game Cleared!");
 			resetGame.setBackgroundColor(Color.TRANSPARENT);
@@ -224,7 +224,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	private void LoadPrefs()
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(settingsSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(settingsSP, 0);
 		pickedColor = sp.getString("selectedColor", "red");
 		gravity = (int) sp.getFloat("gravityValue", 100);
 		bounceLevel = (int) sp.getFloat("bounceLevelValue", 100);
@@ -233,7 +233,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	private void SavePrefs(String key, float value)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putFloat(key, value);
 		edit.commit();
@@ -241,7 +241,7 @@ public class MainSettingsFragment extends Fragment implements OnItemSelectedList
 
 	private void SavePrefs(String key, String value)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putString(key, value);
 		edit.commit();

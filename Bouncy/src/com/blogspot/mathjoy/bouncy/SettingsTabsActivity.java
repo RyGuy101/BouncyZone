@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class SettingsTabs extends FragmentActivity implements TabListener
+public class SettingsTabsActivity extends FragmentActivity implements TabListener
 {
 	ActionBar actionBar;
 	ViewPager viewPager;
@@ -92,6 +93,36 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 	}
 
 	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (!IntroActivity.mp.isPlaying())
+		{
+			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
+			IntroActivity.mp.setLooping(true);
+			IntroActivity.mp.start();
+		}
+		MyApplication.activityResumed();
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		MyApplication.activityPaused();
+	}
+
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		if (!MyApplication.isActivityVisible())
+		{
+			IntroActivity.mp.stop();
+		}
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.menu_items, menu);
@@ -155,14 +186,14 @@ public class SettingsTabs extends FragmentActivity implements TabListener
 
 	private void goToGameServices()
 	{
-		Intent intent = new Intent(SettingsTabs.activity, GameServicesActivity.class);
-		SettingsTabs.activity.startActivity(intent);
+		Intent intent = new Intent(SettingsTabsActivity.activity, GameServicesActivity.class);
+		SettingsTabsActivity.activity.startActivity(intent);
 	}
 
 	private void goToIntro()
 	{
-		Intent intent = new Intent(SettingsTabs.activity, IntroActivity.class);
-		SettingsTabs.activity.startActivity(intent);
+		Intent intent = new Intent(SettingsTabsActivity.activity, IntroActivity.class);
+		SettingsTabsActivity.activity.startActivity(intent);
 	}
 
 	public void goToMainMenu(View v)

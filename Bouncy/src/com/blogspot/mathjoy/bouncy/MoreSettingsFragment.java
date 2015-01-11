@@ -19,7 +19,7 @@ public class MoreSettingsFragment extends Fragment
 	{
 		View view = inflater.inflate(R.layout.fragment_more_settings, container, false);
 		accel = (ToggleButton) view.findViewById(R.id.accelToggle);
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		accel.setChecked(sp.getBoolean("useAccelerometer", false));
 		accel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 		{
@@ -35,7 +35,7 @@ public class MoreSettingsFragment extends Fragment
 
 	private void SavePrefs(String key, boolean value)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putBoolean(key, value);
 		edit.commit();

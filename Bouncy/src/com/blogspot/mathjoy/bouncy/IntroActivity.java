@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
 public class IntroActivity extends BaseGameActivity
@@ -30,9 +31,10 @@ public class IntroActivity extends BaseGameActivity
 	public static View buttons;
 	int[] possibleColors = { Color.RED, Color.rgb(255, 127, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.rgb(160, 32, 240), Color.rgb(255, 105, 180), Color.rgb(127, 63, 15), Color.WHITE, Color.GRAY };
 	String[] possibleColorNames = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "White", "Gray" };
-	ToggleButton soundsTog;
+	ImageButton soundsTog;
 	private static boolean firstTime = true;
-	MediaPlayer mp;
+	public static MediaPlayer mp;
+	private boolean soundsOn = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -61,37 +63,38 @@ public class IntroActivity extends BaseGameActivity
 				MyView.ballColor = possibleColors[i];
 			}
 		}
-		soundsTog = (ToggleButton) findViewById(R.id.toggleSounds);
-		soundsTog.setChecked(true);
-		soundsTog.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+		soundsTog = (ImageButton) findViewById(R.id.toggleSounds);
+		soundsTog.setOnClickListener(new View.OnClickListener()
 		{
-
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			public void onClick(View v)
 			{
-				if (isChecked)
+				if (!soundsOn)
 				{
+					soundsOn = true;
 					bounce = originalBounce;
 					button = originalButton;
+					soundsTog.setBackgroundResource(R.drawable.sounds_on);
 				} else
 				{
+					soundsOn = false;
 					bounce = 0;
 					button = 0;
+					soundsTog.setBackgroundResource(R.drawable.muted);
 				}
 				spool.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 			}
 		});
-		soundsTog.setChecked(bounce != 0);
+		soundsOn = bounce != 0;
+		if (!soundsOn)
+		{
+			soundsTog.setBackgroundResource(R.drawable.muted);
+		}
 		if (WorldManager.world == null)
 		{
 			WorldManager.setupWorld();
 			WorldManager.world.setContactListener(new MainActivity());
 		}
-	}
-
-	public void playSound(View v)
-	{
-		//		spoolButton.play(button, buttonVolume, buttonVolume, 0, 0, 1);
 	}
 
 	public void goToGame(View v)
@@ -111,6 +114,7 @@ public class IntroActivity extends BaseGameActivity
 			MyView.makePlatformsReal();
 			MyView.makeBallReal();
 		}
+		MyApplication.activityPaused();
 	}
 
 	@Override
@@ -132,6 +136,23 @@ public class IntroActivity extends BaseGameActivity
 			}
 		}
 		IntroView.intro = true;
+		if (!mp.isPlaying())
+		{
+			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
+			mp.setLooping(true);
+			mp.start();
+		}
+		MyApplication.activityResumed();
+	}
+
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		if (!MyApplication.isActivityVisible())
+		{
+			mp.stop();
+		}
 	}
 
 	public void goToGameServices(View v)
@@ -142,7 +163,7 @@ public class IntroActivity extends BaseGameActivity
 
 	public void goToSettings(View v)
 	{
-		Intent intent = new Intent(this, SettingsTabs.class);
+		Intent intent = new Intent(this, SettingsTabsActivity.class);
 		startActivity(intent);
 	}
 

@@ -24,6 +24,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -178,6 +179,13 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			redoText.setTextColor(Color.TRANSPARENT);
 		}
+		if (!IntroActivity.mp.isPlaying())
+		{
+			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
+			IntroActivity.mp.setLooping(true);
+			IntroActivity.mp.start();
+		}
+		MyApplication.activityResumed();
 	}
 
 	@Override
@@ -188,12 +196,23 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			sm.unregisterListener(this);
 		}
+		MyApplication.activityPaused();
+	}
+
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		if (!MyApplication.isActivityVisible())
+		{
+			IntroActivity.mp.stop();
+		}
 	}
 
 	public void goToMenu(View v)
 	{
 		IntroActivity.spool.play(IntroActivity.button, IntroActivity.buttonVolume, IntroActivity.buttonVolume, 0, 0, 1);
-		Intent intent = new Intent(this, SettingsTabs.class);
+		Intent intent = new Intent(this, SettingsTabsActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 	}

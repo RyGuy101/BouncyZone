@@ -3,6 +3,7 @@ package com.blogspot.mathjoy.bouncy;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -61,6 +62,36 @@ public class GameServicesActivity extends BaseGameActivity implements ResultCall
 			otd.setVisibility(View.GONE);
 		}
 
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (!IntroActivity.mp.isPlaying())
+		{
+			IntroActivity.mp = MediaPlayer.create(this, R.raw.background);
+			IntroActivity.mp.setLooping(true);
+			IntroActivity.mp.start();
+		}
+		MyApplication.activityResumed();
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		MyApplication.activityPaused();
+	}
+
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		if (!MyApplication.isActivityVisible())
+		{
+			IntroActivity.mp.stop();
+		}
 	}
 
 	@Override

@@ -76,21 +76,21 @@ public class ZonesFragment extends Fragment
 	{
 		if (chooseConf == null)
 		{
-			chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+			chooseConf = (ListView) SettingsTabsActivity.activity.findViewById(R.id.chooseConf);
 		}
 		if (loadButt == null)
 		{
-			loadButt = (Button) SettingsTabs.activity.findViewById(R.id.goToLoadConf);
+			loadButt = (Button) SettingsTabsActivity.activity.findViewById(R.id.goToLoadConf);
 		}
 		if (renameButt == null)
 		{
-			renameButt = (Button) SettingsTabs.activity.findViewById(R.id.renameConf);
+			renameButt = (Button) SettingsTabsActivity.activity.findViewById(R.id.renameConf);
 		}
 		if (deleteButt == null)
 		{
-			deleteButt = (Button) SettingsTabs.activity.findViewById(R.id.goToDelConf);
+			deleteButt = (Button) SettingsTabsActivity.activity.findViewById(R.id.goToDelConf);
 		}
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		confNames = new String[sp.getInt("numOfConfs", 0)];
 		int i2 = 0;
 		for (int i = sp.getInt("numOfConfs", 0) - 1; i >= 0; i--)
@@ -107,7 +107,7 @@ public class ZonesFragment extends Fragment
 			} catch (Exception e)
 			{
 			}
-			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_list_item_single_choice, confNames);
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabsActivity.activity, android.R.layout.simple_list_item_single_choice, confNames);
 			chooseConf.setAdapter(confNamesAd);
 			chooseConf.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			noZones = false;
@@ -124,7 +124,7 @@ public class ZonesFragment extends Fragment
 			}
 		} else
 		{
-			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabs.activity, android.R.layout.simple_list_item_1, new String[] { "You haven't saved any zones!" });
+			ArrayAdapter<String> confNamesAd = new ArrayAdapter<String>(SettingsTabsActivity.activity, android.R.layout.simple_list_item_1, new String[] { "You haven't saved any zones!" });
 			chooseConf.setAdapter(confNamesAd);
 			noZones = true;
 			loadButt.setEnabled(false);
@@ -161,14 +161,14 @@ public class ZonesFragment extends Fragment
 	//	}
 	public void renameConf(View v)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		int thisN = -1;
 		String name = " ";
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
 			if (chooseConf == null)
 			{
-				chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+				chooseConf = (ListView) SettingsTabsActivity.activity.findViewById(R.id.chooseConf);
 			}
 			if (chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition()).equals(sp.getString(i + "name", " ")))
 			{
@@ -184,7 +184,7 @@ public class ZonesFragment extends Fragment
 
 	private void saveConf(String name)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		int n = sp.getInt("numOfConfs", 0);
 		overwrite = false;
 		boolean foundDuplicate = false;
@@ -215,7 +215,7 @@ public class ZonesFragment extends Fragment
 	{
 		boolean emptySpace = true;
 		boolean foundAvailableIndex = false;
-		SharedPreferences sps = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		SharedPreferences sps = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 
 		for (int i = 0; i < name.length(); i++)
 		{
@@ -327,7 +327,7 @@ public class ZonesFragment extends Fragment
 				{
 					blankT.cancel();
 				}
-				emptySpaceT = Toast.makeText(SettingsTabs.activity, emptySpaceS, Toast.LENGTH_SHORT);
+				emptySpaceT = Toast.makeText(SettingsTabsActivity.activity, emptySpaceS, Toast.LENGTH_SHORT);
 				emptySpaceT.show();
 			} else
 			{
@@ -339,7 +339,7 @@ public class ZonesFragment extends Fragment
 				{
 					blankT.cancel();
 				}
-				blankT = Toast.makeText(SettingsTabs.activity, blankS, Toast.LENGTH_SHORT);
+				blankT = Toast.makeText(SettingsTabsActivity.activity, blankS, Toast.LENGTH_SHORT);
 				blankT.show();
 			}
 		}
@@ -357,7 +357,7 @@ public class ZonesFragment extends Fragment
 
 	private AlertDialog createAlreadyExistsAlertDialogue(final SharedPreferences sp, final String name, final int n)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabs.activity);
+		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabsActivity.activity);
 		builder.setMessage(Html.fromHtml("A zone named <b>" + name + "</b> already exists.\nDo you want to overwrite it?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
 		{
 			@Override
@@ -381,7 +381,7 @@ public class ZonesFragment extends Fragment
 
 	private AlertDialog createRenameConfAlertDialogue(final SharedPreferences sp, final int thisN, final String name)
 	{
-		AlertDialog.Builder b = new AlertDialog.Builder(SettingsTabs.activity);
+		AlertDialog.Builder b = new AlertDialog.Builder(SettingsTabsActivity.activity);
 		b.setMessage(Html.fromHtml("Rename <b>" + name + "</b> to...")).setPositiveButton("Rename!", new DialogInterface.OnClickListener()
 		{
 			@Override
@@ -396,11 +396,11 @@ public class ZonesFragment extends Fragment
 			{
 			}
 		});
-		LinearLayout ll = new LinearLayout(SettingsTabs.activity);
+		LinearLayout ll = new LinearLayout(SettingsTabsActivity.activity);
 		ll.setOrientation(LinearLayout.VERTICAL);
-		final TextView numChars = new TextView(SettingsTabs.activity);
+		final TextView numChars = new TextView(SettingsTabsActivity.activity);
 		numChars.setText("0/30 characters");
-		final EditText et = new EditText(SettingsTabs.activity);
+		final EditText et = new EditText(SettingsTabsActivity.activity);
 		et.setHint("Give your zone a new name!");
 		et.setInputType(InputType.TYPE_CLASS_TEXT);
 		et.addTextChangedListener(new TextWatcher()
@@ -479,7 +479,7 @@ public class ZonesFragment extends Fragment
 								{
 									blankT.cancel();
 								}
-								emptySpaceT = Toast.makeText(SettingsTabs.activity, emptySpaceS, Toast.LENGTH_SHORT);
+								emptySpaceT = Toast.makeText(SettingsTabsActivity.activity, emptySpaceS, Toast.LENGTH_SHORT);
 								emptySpaceT.show();
 							} else
 							{
@@ -491,7 +491,7 @@ public class ZonesFragment extends Fragment
 								{
 									blankT.cancel();
 								}
-								blankT = Toast.makeText(SettingsTabs.activity, blankS, Toast.LENGTH_SHORT);
+								blankT = Toast.makeText(SettingsTabsActivity.activity, blankS, Toast.LENGTH_SHORT);
 								blankT.show();
 							}
 						} else
@@ -513,7 +513,7 @@ public class ZonesFragment extends Fragment
 		{
 			return null;
 		}
-		AlertDialog.Builder b = new AlertDialog.Builder(SettingsTabs.activity);
+		AlertDialog.Builder b = new AlertDialog.Builder(SettingsTabsActivity.activity);
 		b.setMessage("Save the current zone as...").setPositiveButton("Save!", new DialogInterface.OnClickListener()
 		{
 			@Override
@@ -528,11 +528,11 @@ public class ZonesFragment extends Fragment
 			{
 			}
 		});
-		LinearLayout ll = new LinearLayout(SettingsTabs.activity);
+		LinearLayout ll = new LinearLayout(SettingsTabsActivity.activity);
 		ll.setOrientation(LinearLayout.VERTICAL);
-		final TextView numChars = new TextView(SettingsTabs.activity);
+		final TextView numChars = new TextView(SettingsTabsActivity.activity);
 		numChars.setText("0/30 characters");
-		editName = new EditText(SettingsTabs.activity);
+		editName = new EditText(SettingsTabsActivity.activity);
 		editName.setHint("Give your zone a name!");
 		editName.setInputType(InputType.TYPE_CLASS_TEXT);
 		editName.addTextChangedListener(new TextWatcher()
@@ -594,13 +594,13 @@ public class ZonesFragment extends Fragment
 
 	private void loadConf()
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		int n = -1;
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
 			if (chooseConf == null)
 			{
-				chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+				chooseConf = (ListView) SettingsTabsActivity.activity.findViewById(R.id.chooseConf);
 			}
 			if (chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition()).equals(sp.getString(i + "name", " ")))
 			{
@@ -647,16 +647,16 @@ public class ZonesFragment extends Fragment
 					MyView.shapes.add(new Squiggle(BodyType.STATIC, sp.getFloat(n + "squiggleX" + i, 0), sp.getFloat(n + "squiggleY" + i, 0), vertArr, 0, 1, 0));
 				}
 			}
-			Intent intent = new Intent(SettingsTabs.activity, MainActivity.class);
+			Intent intent = new Intent(SettingsTabsActivity.activity, MainActivity.class);
 			intent.putExtra("fromLoad", true);
-			SettingsTabs.activity.startActivity(intent);
-			SettingsTabs.activity.overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
+			SettingsTabsActivity.activity.startActivity(intent);
+			SettingsTabsActivity.activity.overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
 		}
 	}
 
 	private void SavePrefs(String key, float value)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putFloat(key, value);
 		edit.commit();
@@ -664,7 +664,7 @@ public class ZonesFragment extends Fragment
 
 	private void SavePrefs(String key, boolean value)
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		Editor edit = sp.edit();
 		edit.putBoolean(key, value);
 		edit.commit();
@@ -672,14 +672,14 @@ public class ZonesFragment extends Fragment
 
 	private AlertDialog createOverwriteAlertDialogue()
 	{
-		final SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
+		final SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		final int n = sp.getInt("numOfConfs", 0);
 		if (chooseConf == null)
 		{
-			chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+			chooseConf = (ListView) SettingsTabsActivity.activity.findViewById(R.id.chooseConf);
 		}
 		final String name = (String) chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition());
-		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabs.activity);
+		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabsActivity.activity);
 		builder.setMessage(Html.fromHtml("Overwrite <b>" + name + "</b> with the current zone?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
 		{
 			@Override
@@ -702,14 +702,14 @@ public class ZonesFragment extends Fragment
 
 	public void delConf()
 	{
-		SharedPreferences sp = SettingsTabs.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
+		SharedPreferences sp = SettingsTabsActivity.activity.getSharedPreferences(MainSettingsFragment.dataSP, 0);
 		int thisN = -1;
 		String name = " ";
 		for (int i = 0; i < sp.getInt("numOfConfs", 0); i++)
 		{
 			if (chooseConf == null)
 			{
-				chooseConf = (ListView) SettingsTabs.activity.findViewById(R.id.chooseConf);
+				chooseConf = (ListView) SettingsTabsActivity.activity.findViewById(R.id.chooseConf);
 			}
 			if (chooseConf.getItemAtPosition(chooseConf.getCheckedItemPosition()).equals(sp.getString(i + "name", " ")))
 			{
@@ -759,7 +759,7 @@ public class ZonesFragment extends Fragment
 
 	private AlertDialog createDeleteAlertDialogue(final String name, final SharedPreferences sp, final int thisN)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabs.activity);
+		AlertDialog.Builder builder = new AlertDialog.Builder(SettingsTabsActivity.activity);
 		builder.setMessage(Html.fromHtml("Permanently delete <b>" + name + "</b>?")).setPositiveButton("Yes", new DialogInterface.OnClickListener()
 		{
 			@Override

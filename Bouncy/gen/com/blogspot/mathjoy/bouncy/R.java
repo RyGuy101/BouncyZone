@@ -420,14 +420,16 @@ containing a value of this type.
         public static final int ic_plusone_standard_off_client=0x7f020020;
         public static final int ic_plusone_tall_off_client=0x7f020021;
         public static final int liney=0x7f020022;
-        public static final int muted=0x7f020023;
-        public static final int powered_by_google_dark=0x7f020024;
-        public static final int powered_by_google_light=0x7f020025;
-        public static final int redo=0x7f020026;
-        public static final int sounds_on=0x7f020027;
-        public static final int square=0x7f020028;
-        public static final int squiggle=0x7f020029;
-        public static final int undo=0x7f02002a;
+        public static final int music_off=0x7f020023;
+        public static final int music_on=0x7f020024;
+        public static final int muted=0x7f020025;
+        public static final int powered_by_google_dark=0x7f020026;
+        public static final int powered_by_google_light=0x7f020027;
+        public static final int redo=0x7f020028;
+        public static final int sounds_on=0x7f020029;
+        public static final int square=0x7f02002a;
+        public static final int squiggle=0x7f02002b;
+        public static final int undo=0x7f02002c;
     }
     public static final class id {
         public static final int Ball=0x7f09002e;
@@ -499,7 +501,6 @@ containing a value of this type.
         public static final int signInButt=0x7f090020;
         public static final int signInInfo=0x7f09001d;
         public static final int signOutButt=0x7f09001f;
-        public static final int sounds=0x7f090025;
         public static final int soundsOnActionBar=0x7f09004e;
         public static final int squiggle=0x7f090055;
         public static final int strict_sandbox=0x7f090009;
@@ -509,7 +510,8 @@ containing a value of this type.
         public static final int toGameStats=0x7f090051;
         public static final int toGameStatsWithIcon=0x7f09004f;
         public static final int toIntro=0x7f090050;
-        public static final int toggleSounds=0x7f090026;
+        public static final int toggleMusic=0x7f090026;
+        public static final int toggleSounds=0x7f090025;
         public static final int valueOfBounceLevel=0x7f09003a;
         public static final int valueOfFriction=0x7f09003c;
         public static final int valueOfGravity=0x7f090038;

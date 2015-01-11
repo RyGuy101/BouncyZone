@@ -41,21 +41,41 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/sounds"
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="Sounds:"
-                    android:textColor="#FFFFFF" />
+                    android:layout_weight="1" >
 
-                <ToggleButton
-                    android:id="@+id/toggleSounds"
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal" />
+
+                    <ImageButton
+                        android:id="@+id/toggleSounds"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/sounds_on" />
+                </FrameLayout>
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="playSound"
-                    android:textColor="#FFFFFF" />
+                    android:layout_weight="1" >
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal" />
+
+                    <ImageButton
+                        android:id="@+id/toggleMusic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/music_on" />
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -10,6 +10,7 @@
 
     <application
         android:allowBackup="true"
+        android:name="com.blogspot.mathjoy.bouncy.MyApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -36,8 +37,8 @@
                 android:value=".MyMenu" />
         </activity>
         <activity
-            android:name=".SettingsTabs"
-            android:label="Back to Game"
+            android:name=".SettingsTabsActivity"
+            android:label="Back"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
