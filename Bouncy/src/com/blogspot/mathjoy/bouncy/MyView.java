@@ -60,12 +60,11 @@ public class MyView extends View implements OnTouchListener
 
 	public static Circle ball = null;
 
-	//	public static Platform platform;
-	Paint ballPaint = new Paint();
-	Paint platformPaint = new Paint();
-	Paint hollowShapesPaint = new Paint();
-	Paint lineInBallPaint = new Paint();
-	Paint startPosPaint = new Paint();
+	private static Paint ballPaint = new Paint();
+	private static Paint platformPaint = new Paint();
+	private static Paint hollowShapesPaint = new Paint();
+	private static Paint lineInBallPaint = new Paint();
+	private static Paint startPosPaint = new Paint();
 	public static boolean showLine;
 
 	private int offScreenCounter = 0;
@@ -89,6 +88,7 @@ public class MyView extends View implements OnTouchListener
 	{
 		ia = new IntroActivity();
 		PPM = (float) (getResources().getDisplayMetrics().ydpi / 2.0);
+		setupColors();
 		float ballRadius = 0.1f;
 		originalStartBallX = toMeters((float) (this.getWidth() / 2.0));
 		originalStartBallY = ballRadius;
@@ -137,13 +137,12 @@ public class MyView extends View implements OnTouchListener
 	{
 		long startTime = System.currentTimeMillis();
 		super.onDraw(c);
-		updateColors();
-		drawBackground(c);
 		if (alreadyStarted == false)
 		{
 			setup();
 			alreadyStarted = true;
 		}
+		drawBackground(c);
 		if (mode == MODE_BALL || intro)
 		{
 			WorldManager.step();
@@ -321,6 +320,9 @@ public class MyView extends View implements OnTouchListener
 			c.drawLine(toPixels((float) (theBall.getX() - theBall.getRadius() * Math.cos(theBall.getAngle()))), toPixels((float) (theBall.getY() - theBall.getRadius() * Math.sin(theBall.getAngle()))), toPixels((float) (theBall.getX() + theBall.getRadius() * Math.cos(theBall.getAngle()))), toPixels((float) (theBall.getY() + theBall.getRadius() * Math.sin(theBall.getAngle()))), lineInBallPaint);
 		}
 		drawPlatforms(c);
+		makeBounceOnstart = true;
+		beginContact = false;
+		endContact = false;
 		long timeTook = System.currentTimeMillis() - startTime;
 		if (timeTook < 1000.0 / 60.0)
 		{
@@ -332,9 +334,6 @@ public class MyView extends View implements OnTouchListener
 				e.printStackTrace();
 			}
 		}
-		makeBounceOnstart = true;
-		beginContact = false;
-		endContact = false;
 		invalidate();
 	}
 
@@ -508,10 +507,18 @@ public class MyView extends View implements OnTouchListener
 
 	public static void makeBallReal()
 	{
-		ball.reCreate();
+		if (!ball.isReal())
+		{
+			ball.reCreate();
+		}
 	}
 
-	private void updateColors()
+	public static void updateBallColor()
+	{
+		ballPaint.setColor(ballColor);
+	}
+
+	private void setupColors()
 	{
 		platformPaint.setColor(Color.WHITE);
 		platformPaint.setStrokeWidth(toPixels(0.02f));

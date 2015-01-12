@@ -118,6 +118,18 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		{
 			sm.registerListener(this, s, SensorManager.SENSOR_DELAY_GAME);
 		}
+		try
+		{
+			if (getIntent().getExtras().getBoolean("fromIntro") == true)
+			{
+				IntroView.makeBallUnreal();
+				IntroView.makePlatformsUnreal();
+				MyView.makePlatformsReal();
+				MyView.makeBallReal();
+			}
+		} catch (Exception e)
+		{
+		}
 		SharedPreferences sp = getSharedPreferences(MainSettingsFragment.settingsSP, 0);
 		MyView.accelerometer = sp.getBoolean("useAccelerometer", false);
 		pickedColor = sp.getString("selectedColor", "Red");
@@ -128,6 +140,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 				MyView.ballColor = possibleColors[i];
 			}
 		}
+		MyView.updateBallColor();
 		int frictionPower = 7;
 		double restitutionPower = 0.5;
 		MyView.ballRestitution = (float) (Math.pow(sp.getFloat("bounceLevelValue", 100.0f), restitutionPower) / Math.pow(100, restitutionPower));

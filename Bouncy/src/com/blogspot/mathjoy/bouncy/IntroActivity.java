@@ -138,6 +138,7 @@ public class IntroActivity extends BaseGameActivity
 	public void goToGame(View v)
 	{
 		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra("fromIntro", true);
 		startActivity(intent);
 	}
 
@@ -145,13 +146,6 @@ public class IntroActivity extends BaseGameActivity
 	protected void onPause()
 	{
 		super.onPause();
-		if (!firstTime)
-		{
-			IntroView.makeBallUnreal();
-			IntroView.makePlatformsUnreal();
-			MyView.makePlatformsReal();
-			MyView.makeBallReal();
-		}
 		MyApplication.activityPaused();
 	}
 
@@ -159,9 +153,9 @@ public class IntroActivity extends BaseGameActivity
 	protected void onResume()
 	{
 		super.onResume();
-		WorldManager.setGravity(new Vec2(0, 10));
 		MyView.makeBallUnreal();
 		MyView.makePlatformsUnreal();
+		WorldManager.setGravity(new Vec2(0, 10));
 		IntroView.makePlatformsReal();
 		IntroView.makeBallReal();
 		SharedPreferences sp = getSharedPreferences("settings", 0);

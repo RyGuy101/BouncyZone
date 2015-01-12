@@ -25,6 +25,7 @@ public class Circle
 	private Vec2 lastVel;
 	private float lastAngle;
 	private float lastAVel;
+	private boolean real = false;
 
 	public Circle(BodyType bt, float x, float y, float radius, float density, float friction, float restitution)
 	{
@@ -47,6 +48,7 @@ public class Circle
 		body = WorldManager.world.createBody(bd);
 		fixture = body.createFixture(fd);
 		MyView.makeBounceOnstart = false;
+		real = true;
 	}
 
 	public void initialCreate()
@@ -63,6 +65,7 @@ public class Circle
 		fd.restitution = restitution;
 		body = WorldManager.world.createBody(bd);
 		fixture = body.createFixture(fd);
+		real = true;
 	}
 
 	public void destroy()
@@ -73,6 +76,7 @@ public class Circle
 		lastAVel = body.getAngularVelocity();
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);
+		real = false;
 	}
 
 	public float getX()
@@ -177,5 +181,10 @@ public class Circle
 	public Body getBody()
 	{
 		return body;
+	}
+
+	public boolean isReal()
+	{
+		return real;
 	}
 }

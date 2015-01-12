@@ -32,7 +32,7 @@ public class IntroView extends MyView
 		h = this.getHeight();
 		introBall.setPosition(new Vec2(originalStartBallX, toMeters(h * 0.1f)));
 		introBall.setFriction(0f);
-		introBall.setVelocity(new Vec2(toMeters(w * 0.5f), 0));
+		introBall.setVelocity(new Vec2(toMeters(w * 0.625f), 0));
 
 		makePlatform(1, 1, w - 1, 1);
 		makePlatform(1, 1, 1, h - 1);
@@ -77,12 +77,12 @@ public class IntroView extends MyView
 
 	public static void makeBallReal()
 	{
-		if (introBall != null)
+		if (introBall != null && !introBall.isReal())
 		{
 			introBall.reCreate();
 			introBall.setPosition(new Vec2(originalStartBallX, toMeters(h * 0.1f)));
 			introBall.setFriction(0f);
-			introBall.setVelocity(new Vec2(toMeters(w * 0.5f), 0));
+			introBall.setVelocity(new Vec2(toMeters(w * 0.625f), 0));
 		}
 	}
 }
