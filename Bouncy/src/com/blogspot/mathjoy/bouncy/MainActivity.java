@@ -116,7 +116,7 @@ public class MainActivity extends BaseGameActivity implements OnTouchListener, C
 		super.onResume();
 		if (thereIsSensor)
 		{
-			sm.registerListener(this, s, SensorManager.SENSOR_DELAY_GAME);
+			sm.registerListener(this, s, SensorManager.SENSOR_DELAY_FASTEST);
 		}
 		try
 		{

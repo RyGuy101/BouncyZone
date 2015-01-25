@@ -148,15 +148,15 @@ public class MyView extends View implements OnTouchListener
 			WorldManager.step();
 			if (beginContact && !endContact)
 			{
-				if (MyView.makeBounceOnstart)
+				if (makeBounceOnstart)
 				{
 					IntroActivity.spool.play(IntroActivity.bounce, MainActivity.bounceVolume, MainActivity.bounceVolume, 0, 0, 1);
 					if (!isIntroBall)
 					{
-						if (MyView.touching)
+						if (touching)
 						{
-							MyView.touching = false;
-							MyView.wasTouching = true;
+							touching = false;
+							wasTouching = true;
 						}
 						if (MainActivity.activity != null)
 						{
@@ -166,7 +166,7 @@ public class MyView extends View implements OnTouchListener
 					}
 				} else
 				{
-					MyView.makeBounceOnstart = true;
+					makeBounceOnstart = true;
 				}
 			}
 			if (!intro)
@@ -507,10 +507,7 @@ public class MyView extends View implements OnTouchListener
 
 	public static void makeBallReal()
 	{
-		if (!ball.isReal())
-		{
-			ball.reCreate();
-		}
+		ball.reCreate();
 	}
 
 	public static void updateBallColor()

@@ -39,19 +39,24 @@ public class Circle
 		initialCreate();
 	}
 
-	public void reCreate()
+	public boolean reCreate()
 	{
-		bd.position.set(lastPos);
-		bd.linearVelocity.set(lastVel);
-		bd.angle = lastAngle;
-		bd.angularVelocity = lastAVel;
-		body = WorldManager.world.createBody(bd);
-		fixture = body.createFixture(fd);
-		MyView.makeBounceOnstart = false;
-		real = true;
+		if (!real)
+		{
+			bd.position.set(lastPos);
+			bd.linearVelocity.set(lastVel);
+			bd.angle = lastAngle;
+			bd.angularVelocity = lastAVel;
+			body = WorldManager.world.createBody(bd);
+			fixture = body.createFixture(fd);
+			MyView.makeBounceOnstart = false;
+			real = true;
+			return true;
+		}
+		return false;
 	}
 
-	public void initialCreate()
+	private void initialCreate()
 	{
 		bd = new BodyDef();
 		bd.position.set(x, y);
@@ -181,10 +186,5 @@ public class Circle
 	public Body getBody()
 	{
 		return body;
-	}
-
-	public boolean isReal()
-	{
-		return real;
 	}
 }

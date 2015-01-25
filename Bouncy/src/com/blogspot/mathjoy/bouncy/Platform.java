@@ -36,7 +36,7 @@ public class Platform extends Shape
 	}
 
 	@Override
-	public void create()
+	protected void doCreate()
 	{
 		BodyDef bd = new BodyDef();
 		float x = endX - startX / 2.0f;
@@ -66,7 +66,7 @@ public class Platform extends Shape
 	}
 
 	@Override
-	public void destroy()
+	protected void doDestroy()
 	{
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);

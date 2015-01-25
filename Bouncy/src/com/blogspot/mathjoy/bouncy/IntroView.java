@@ -77,12 +77,14 @@ public class IntroView extends MyView
 
 	public static void makeBallReal()
 	{
-		if (introBall != null && !introBall.isReal())
+		if (introBall != null)
 		{
-			introBall.reCreate();
-			introBall.setPosition(new Vec2(originalStartBallX, toMeters(h * 0.1f)));
-			introBall.setFriction(0f);
-			introBall.setVelocity(new Vec2(toMeters(w * 0.625f), 0));
+			if (introBall.reCreate())
+			{
+				introBall.setPosition(new Vec2(originalStartBallX, toMeters(h * 0.1f)));
+				introBall.setFriction(0f);
+				introBall.setVelocity(new Vec2(toMeters(w * 0.625f), 0));
+			}
 		}
 	}
 }

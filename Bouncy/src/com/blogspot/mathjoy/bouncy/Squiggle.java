@@ -39,7 +39,7 @@ public class Squiggle extends Shape
 	}
 
 	@Override
-	public void create()
+	protected void doCreate()
 	{
 		bd = new BodyDef();
 		bd.position.set(x, y);
@@ -79,7 +79,7 @@ public class Squiggle extends Shape
 	}
 
 	@Override
-	public void destroy()
+	protected void doDestroy()
 	{
 		body.destroyFixture(fixture);
 		WorldManager.world.destroyBody(body);

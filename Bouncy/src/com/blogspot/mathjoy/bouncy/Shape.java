@@ -2,7 +2,24 @@ package com.blogspot.mathjoy.bouncy;
 
 public abstract class Shape
 {
-	public abstract void create();
+	private boolean real = false;
 
-	public abstract void destroy();
+	public void create()
+	{
+		if (!real)
+		{
+			doCreate();
+			real = true;
+		}
+	}
+
+	public void destroy()
+	{
+		doDestroy();
+		real = false;
+	}
+
+	protected abstract void doCreate();
+
+	protected abstract void doDestroy();
 }
